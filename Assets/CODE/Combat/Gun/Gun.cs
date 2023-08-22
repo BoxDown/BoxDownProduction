@@ -41,6 +41,7 @@ namespace Gun
 
 
         [Rename("Muzzle Transform")] public Transform C_muzzle;
+        [Rename("Debug Gun")] public bool b_debugGun = false;
 
         private Vector3 S_muzzlePosition
         {
@@ -64,12 +65,12 @@ namespace Gun
         BulletObjectPool C_bulletPool;
 
 
-        public Material bulletBaseMaterial;
-        public Color standardColour = new Color(0.75f, 0.5f, 0.2f, 1);
-        public Color fireColour = new Color(1f, 0.2f, 0f, 1);
-        public Color iceColour = new Color(0.35f, 0.8f, 0.7f, 1);
-        public Color lightningColour = new Color(1f, 1f, 0.25f, 1);
-        public Color vampireColour = new Color(0.5f, 0.8f, 0.1f, 1);
+        [Rename(" Colour")]public float f_emissiveValue = 20.0f;
+        [Rename("Standard Colour")]public Color S_standardColour = new Color(0.75f, 0.5f, 0.2f, 1);
+        [Rename("Fire Colour")]public Color S_fireColour = new Color(1f, 0.2f, 0f, 1);
+        [Rename("Ice Colour")]public Color S_iceColour = new Color(0.35f, 0.8f, 0.7f, 1);
+        [Rename("Lightning Colour")]public Color S_lightningColour = new Color(1f, 1f, 0.25f, 1);
+        [Rename("Vampire Colour")]public Color S_vampireColour = new Color(0.5f, 0.8f, 0.1f, 1);
 
         GameObject C_bulletPrefab;
         GameObject C_standardPrefab;
@@ -102,6 +103,16 @@ namespace Gun
                 f_timeUntilNextFire -= Time.deltaTime;
                 f_fireHoldTime += Time.deltaTime;
                 Fire();
+            }
+        }
+        private void FixedUpdate()
+        {
+            if (b_debugGun)
+            {
+                for (int i = 0; i < aC_moduleArray.Count(); i++)
+                {
+                    UpdateGunStats(aC_moduleArray[i]);
+                }
             }
         }
 

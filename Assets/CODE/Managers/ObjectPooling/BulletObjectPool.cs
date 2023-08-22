@@ -26,7 +26,7 @@ namespace Gun
             C_bulletMaterial.name = C_gun.C_gunHolder.name + ": Bullet Material";
             C_bulletMaterial.SetInt("_UseEmissiveIntensity", 1);
             C_bulletMaterial.SetInt("_EmissiveIntensityUnit", 0);
-            //C_bulletMaterial.EnableKeyword("_EmissiveIntensity");
+            C_bulletMaterial.SetFloat("_EmissiveIntensity", Mathf.Pow(2, C_gun.f_emissiveValue) * (4 * Mathf.PI) * 0.01f);
             
 
             for (int i = 0; i < i_totalBullets; i++)
@@ -52,7 +52,7 @@ namespace Gun
             int bulletAmount = (int)(gun.aC_moduleArray[1].i_clipSize * shotCount * gun.aC_moduleArray[0].f_fireRate);
 
             int countDifference = bulletAmount - i_totalBullets;
-
+            UpdateBulletColour();
             if (countDifference == 0)
             {
                 return;
@@ -91,7 +91,6 @@ namespace Gun
                     obj.GetComponent<Renderer>().sharedMaterial = C_bulletMaterial;
                 }
             }
-            UpdateBulletColour();
             i_totalBullets = lC_allBullets.Count;
         }
         public Bullet GetFirstOpen()
@@ -116,24 +115,24 @@ namespace Gun
             switch (C_gun.aC_moduleArray[1].S_bulletEffectInformation.e_bulletEffect)
             {
                 case GunModule.BulletEffect.None:
-                    materialColour = C_gun.standardColour;
+                    materialColour = C_gun.S_standardColour;
                     break;
                 case GunModule.BulletEffect.Fire:
-                    materialColour = C_gun.fireColour;
+                    materialColour = C_gun.S_fireColour;
                     break;
                 case GunModule.BulletEffect.Ice:
-                    materialColour = C_gun.iceColour;
+                    materialColour = C_gun.S_iceColour;
                     break;
                 case GunModule.BulletEffect.Lightning:
-                    materialColour = C_gun.lightningColour;
+                    materialColour = C_gun.S_lightningColour;
                     break;
                 case GunModule.BulletEffect.Vampire:
-                    materialColour = C_gun.vampireColour;
+                    materialColour = C_gun.S_vampireColour;
                     break;
             }
 
-            C_bulletMaterial.SetColor("_EmissiveColorLDR", materialColour * Mathf.Pow(18, 3) * (4 * Mathf.PI));
-            C_bulletMaterial.SetColor("_EmissiveColor", materialColour * Mathf.Pow(18, 3) * (4 * Mathf.PI));
+            C_bulletMaterial.SetColor("_EmissiveColorLDR", materialColour * Mathf.Pow(2, C_gun.f_emissiveValue) * (4 * Mathf.PI) * 0.01f);
+            C_bulletMaterial.SetColor("_EmissiveColor", materialColour * Mathf.Pow(2, C_gun.f_emissiveValue) * (4 * Mathf.PI) * 0.01f);
         }
     }
 }

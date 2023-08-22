@@ -67,7 +67,6 @@ namespace Gun
         private float f_distanceTravelled;
         private int i_bulletPiercedCount = 0;
         private int i_ricochetCount = 0;
-        private int i_targetsChained = 0;
         private Transform C_homingTarget;
 
 
@@ -136,7 +135,6 @@ namespace Gun
             f_distanceTravelled = 0;
             i_bulletPiercedCount = 0;
             i_ricochetCount = 0;
-            i_targetsChained = 0;
 
             //bullet effect colour/ particles bullet trait mesh **stubbed**
             //UpdateBulletGraphics()
@@ -255,7 +253,7 @@ namespace Gun
         //stub need bullet stuff in
         public void UpdateBulletGraphics()
         {
-            Vector4 colour;
+            Vector3 colour;
             GameObject meshPrefab;
             GameObject particlePrefab;
         }

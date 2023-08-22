@@ -299,6 +299,8 @@ public class Combatant : MonoBehaviour
         gameObject.SetActive(false);
         b_isDead = true;
         ChangeState(CombatState.Normal);
+
+        //TO DO, ACTUALLY RESPAWN ONLY IF NEEDED
         Invoke("Respawn", 10);
     }
 
@@ -315,16 +317,19 @@ public class Combatant : MonoBehaviour
 
     public void FireGun()
     {
-        if (e_combatState != CombatState.Dodge && e_combatState != CombatState.NoAttack && e_combatState != CombatState.NoControl)
+        if (e_combatState != CombatState.Dodge && e_combatState != CombatState.NoAttack && e_combatState != CombatState.NoControl && !C_ownedGun.b_isFiring)
             C_ownedGun.StartFire();
     }
 
     public void CancelGun()
     {
-        C_ownedGun.CancelFire();
-        if (e_combatState == CombatState.Dodge)
+        if (C_ownedGun.b_isFiring)
         {
-            b_fireCancelWhileDodging = true;
+            C_ownedGun.CancelFire();
+            if (e_combatState == CombatState.Dodge)
+            {
+                b_fireCancelWhileDodging = true;
+            }
         }
     }
 

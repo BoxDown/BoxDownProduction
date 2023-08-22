@@ -12,26 +12,34 @@ public class RoomManager : MonoBehaviour
 
     private void Start()
     {
-        C_manager.ResetGoo();
+        if (C_manager)
+        {
+            C_manager.ResetGoo();
+
+        }
     }
 
     private void Update()
     {
-        foreach (EnemyBase e in lC_enemylist)
+        if (C_manager)
         {
-            if (!e.b_isDead)
+
+            foreach (EnemyBase e in lC_enemylist)
             {
-                b_endTriggered = false;
-                C_manager.ResetGoo();
-                break;
+                if (!e.b_isDead)
+                {
+                    b_endTriggered = false;
+                    C_manager.ResetGoo();
+                    break;
+                }
+                b_endTriggered = true;
             }
-            b_endTriggered = true;
+            if (b_endTriggered && !b_endTriggeredLastFrame)
+            {
+                C_manager.RemoveSpaceGoo();
+            }
+            b_endTriggeredLastFrame = b_endTriggered;
         }
-        if (b_endTriggered && !b_endTriggeredLastFrame)
-        {
-            C_manager.RemoveSpaceGoo();
-        }
-        b_endTriggeredLastFrame = b_endTriggered;
     }
 }
 

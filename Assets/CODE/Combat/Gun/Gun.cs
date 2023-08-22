@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Utility;
@@ -62,7 +63,20 @@ namespace Gun
         bool b_reloading = false;
         BulletObjectPool C_bulletPool;
 
+
+        public Material bulletBaseMaterial;
+        public Color standardColour = new Color(0.75f, 0.5f, 0.2f, 1);
+        public Color fireColour = new Color(1f, 0.2f, 0f, 1);
+        public Color iceColour = new Color(0.35f, 0.8f, 0.7f, 1);
+        public Color lightningColour = new Color(1f, 1f, 0.25f, 1);
+        public Color vampireColour = new Color(0.5f, 0.8f, 0.1f, 1);
+
         GameObject C_bulletPrefab;
+        GameObject C_standardPrefab;
+        GameObject C_piercePrefab;
+        GameObject C_ricochetPrefab;
+        GameObject C_explosivePrefab;
+        GameObject C_homingPrefab;
         Bullet.BulletBaseInfo S_bulletInfo { get { return new Bullet.BulletBaseInfo(C_gunHolder, S_muzzlePosition, C_gunHolder.transform.forward, f_bulletRange, f_baseDamage, f_bulletSpeed, f_bulletSize, f_knockBack); } }
 
         private void Awake()
@@ -232,9 +246,6 @@ namespace Gun
             f_bulletSize = gunModule.f_bulletSize;
             f_bulletRange = gunModule.f_bulletRange;
             f_recoil = gunModule.f_recoil;
-            b_burstTrue = gunModule.b_burstTrue;
-            f_burstInterval = gunModule.f_burstInterval;
-            i_burstCount = gunModule.i_burstCount;
 
             S_shotPatternInfo = gunModule.S_shotPatternInformation;
         }
@@ -317,23 +328,12 @@ namespace Gun
         
         public void ResetToBaseStats()
         {
-            GunModule baseBarrel = (GunModule)Resources.Load($"GunModules\\..\\BaseBarrel");
-            GunModule baseClip = (GunModule)Resources.Load($"GunModules\\..\\BaseClip");
-            GunModule baseTrigger = (GunModule)Resources.Load($"GunModules\\..\\BaseTrigger");
+            GunModule baseBarrel = (GunModule)Resources.Load($"GunModules\\Barrel\\BaseBarrel");
+            GunModule baseClip = (GunModule)Resources.Load($"GunModules\\Clip\\BaseClip");
+            GunModule baseTrigger = (GunModule)Resources.Load($"GunModules\\Trigger\\BaseTrigger");
             UpdateGunStats(baseBarrel);
             UpdateGunStats(baseClip);
             UpdateGunStats(baseTrigger);
-        }
-
-        //stub BURST STUFF
-        private IEnumerator FireVolley(int volleyCount, float waitTime)
-        {
-            int amountOfBulletsFired = 0;
-            while (amountOfBulletsFired < volleyCount)
-            {
-
-                yield return null;
-            }
         }
         //reload all at once
         private IEnumerator ReloadAfterTime()

@@ -1,17 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Utility;
-using Managers;
 using Gun;
-using UnityEngine.InputSystem;
-using static PlayerController;
-using Microsoft.Win32.SafeHandles;
-using UnityEditor;
 
 public class Combatant : MonoBehaviour
 {
-    
+
     public enum CombatState
     {
         Normal,
@@ -111,9 +105,9 @@ public class Combatant : MonoBehaviour
     {
         get { return (-Mathf.Atan2(S_rotationVec2Direction.y, S_rotationVec2Direction.x) * Mathf.Rad2Deg) + 90; }
     }
-    #endregion    
     #endregion
-    
+    #endregion
+
 
 
     #region UnityOverrides
@@ -374,14 +368,8 @@ public class Combatant : MonoBehaviour
             case GunModule.BulletEffect.Lightning:
                 if (baseInfo.b_playerOwned)
                 {
-                    LightningChainCheck(bulletEffectInfo.i_chainCount, bulletEffectInfo.f_chainLength, bulletEffectInfo.f_chainDamagePercent * baseInfo.f_damage);
+                    LightningChainCheck(bulletEffectInfo.f_chainLength, bulletEffectInfo.f_chainDamagePercent * baseInfo.f_damage);
                 }
-
-                //sphere cast in range if nothing in range early out,
-                //hit list, 
-                //order list in closest to shortest, recursively for the chain count create a chain between enemies,
-                //dont repeat enemies
-                //do chain stuff
                 break;
             case GunModule.BulletEffect.Vampire:
                 baseInfo.C_bulletOwner.Heal(baseInfo.f_damage * bulletEffectInfo.f_vampirePercent);
@@ -394,12 +382,19 @@ public class Combatant : MonoBehaviour
         e_combatState = state;
     }
 
-    public void LightningChainCheck(int remainingChainCount, float chainRange, float chainDamage)
+    public void LightningChainCheck(float chainRange, float chainDamage)
     {
-
-        Physics.OverlapSphere(transform.position, chainRange);
-
-        
+        Collider[] overlaps = Physics.OverlapSphere(transform.position, chainRange);
+        for (int i = 0; i < overlaps.Length; i++)
+        {
+            Combatant combatant = overlaps[i].GetComponent<Combatant>();
+            if (combatant != null && !combatant.CompareTag("Player"))
+            {
+                combatant.Damage(chainDamage);
+                //TO DO
+                //SPAWN LIGHNING EFFECT
+            }
+        }
     }
 
 

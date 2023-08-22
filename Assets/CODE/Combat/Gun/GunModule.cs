@@ -78,7 +78,6 @@ namespace Gun
             [Rename("Damage Over Time - Damage Per Tick")] public float f_tickDamage;
             [Rename("Damage Over Time - Tick Count")] public int i_amountOfTicks;
             [Rename("Slow Percentage"), Range(0, 1)] public float f_slowPercent;
-            [Rename("Enemy Chain Count")] public int i_chainCount;
             [Rename("Max Chain Length")] public float f_chainLength;
             [Rename("Chain Damage Percentage"), Range(0, 1)] public float f_chainDamagePercent; 
             [Rename("Health Steal Percentage"), Range(0, 1)] public float f_vampirePercent;
@@ -246,8 +245,8 @@ namespace Guns.CustomEditor
 
                         //do variables for Lightning
                         case 3:
-                            EditorGUILayout.PropertyField(serializedObject.FindProperty("S_bulletEffectInformation").FindPropertyRelative("i_chainCount"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("S_bulletEffectInformation").FindPropertyRelative("f_chainLength"));
+                            EditorGUILayout.PropertyField(serializedObject.FindProperty("S_bulletEffectInformation").FindPropertyRelative("f_chainDamagePercent"));
                             break;
                         //do variables for Vampire
                         case 4:

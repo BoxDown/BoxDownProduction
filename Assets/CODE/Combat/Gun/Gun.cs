@@ -92,7 +92,6 @@ namespace Gun
         }
 
 
-
         public void StartFire()
         {
             f_timeUntilNextFire = 0;
@@ -206,7 +205,7 @@ namespace Gun
             f_bulletSpeed = gunModule.f_bulletSpeed;
             f_knockBack = gunModule.f_knockBack;
 
-            S_bulletEffectInfo = gunModule.S_bulletEffectInformation;
+            S_bulletTraitInfo = gunModule.S_bulletTraitInformation;
 
         }
         private void UpdateClipStats(GunModule gunModule)
@@ -220,7 +219,7 @@ namespace Gun
             f_movementPenalty = gunModule.f_movementPenalty;
             i_clipSize = gunModule.i_clipSize;
 
-            S_bulletTraitInfo = gunModule.S_bulletTraitInformation;
+            S_bulletEffectInfo = gunModule.S_bulletEffectInformation;
 
         }
         private void UpdateBarrelStats(GunModule gunModule)

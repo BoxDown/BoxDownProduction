@@ -10,7 +10,7 @@ namespace Gun
     {
         public struct BulletBaseInfo
         {
-            [HideInInspector] public bool b_playerOwned;
+            [HideInInspector] public Combatant C_bulletOwner;
             [HideInInspector] public Vector3 S_firingOrigin;
             [HideInInspector] public Vector3 S_firingDirection;
             [HideInInspector] public float f_range;
@@ -18,10 +18,11 @@ namespace Gun
             [HideInInspector] public float f_speed;
             [HideInInspector] public float f_size;
             [HideInInspector] public float f_knockBack;
+            [HideInInspector] public bool b_playerOwned;
 
-            public BulletBaseInfo(bool playerOwned, Vector3 origin, Vector3 direction, float range, float damage, float speed, float size, float knockBack)
+            public BulletBaseInfo(Combatant bulletOnwer, Vector3 origin, Vector3 direction, float range, float damage, float speed, float size, float knockBack)
             {
-                b_playerOwned = playerOwned;
+                C_bulletOwner = bulletOnwer;
                 S_firingOrigin = origin;
                 S_firingDirection = direction;
                 f_range = range;
@@ -29,6 +30,7 @@ namespace Gun
                 f_speed = speed;
                 f_size = size;
                 f_knockBack = knockBack;
+                b_playerOwned = C_bulletOwner.CompareTag("Player");
             }
         }
 
@@ -262,7 +264,7 @@ namespace Gun
         {
             combatant.Damage(S_baseInformation.f_damage);
             combatant.AddVelocity(S_hitDirection * S_baseInformation.f_knockBack);
-            combatant.ApplyBulletElement(S_bulletEffect, S_baseInformation.f_damage);
+            combatant.ApplyBulletElement(S_bulletEffect, S_baseInformation);
         }
 
         // bool returned early outs of update, if a bullet is destroyed return true else false
@@ -278,14 +280,11 @@ namespace Gun
         // bool returned early outs of update, if a bullet is destroyed return true else false
         public bool OnHit(Transform objectHit)
         {
-
-
-
             Combatant combatant = objectHit.GetComponent<Combatant>();
 
             if (combatant == null)
             {
-                if (S_bulletEffect.e_bulletEffect == BulletEffect.Chain && S_bulletEffect.i_ricochetCount >= i_ricochetCount)
+                if (S_bulletTrait.e_bulletTrait == BulletTrait.Ricochet && S_bulletTrait.i_ricochetCount >= i_ricochetCount)
                 {
                     if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, S_baseInformation.f_size, ~LayerMask.GetMask("Bullet")))
                     {
@@ -334,28 +333,31 @@ namespace Gun
                         {
                             C_poolOwner.MoveToOpen(this);
                             return true;
-                        }
-
-                        if (S_bulletEffect.e_bulletEffect == BulletEffect.Chain && S_bulletEffect.i_ricochetCount >= i_ricochetCount)
-                        {
-                            if (isPlayer)
-                            {
-                                i_ricochetCount += 1;
-                                transform.rotation = Quaternion.Euler(new Vector3(0, ExtraMaths.FloatRandom(0, 360), 0));
-                            }
-                            else
-                            {
-                                i_ricochetCount += 1;
-                                Transform newTarget = FindRicochetTarget(combatant.transform);
-                                if (newTarget != null)
-                                {
-                                    transform.LookAt(newTarget);
-                                    transform.forward = new Vector3(transform.forward.x, 0, transform.forward.z);
-                                }
-                            }
-                        }
+                        }                        
                     }
                     return false;
+                case BulletTrait.Ricochet:
+                    if (S_bulletTrait.e_bulletTrait == BulletTrait.Ricochet && S_bulletTrait.i_ricochetCount >= i_ricochetCount)
+                    {
+                        if (isPlayer)
+                        {
+                            i_ricochetCount += 1;
+                            transform.rotation = Quaternion.Euler(new Vector3(0, ExtraMaths.FloatRandom(0, 360), 0));
+                        }
+                        else
+                        {
+                            i_ricochetCount += 1;
+                            Transform newTarget = FindRicochetTarget(combatant.transform);
+                            if (newTarget != null)
+                            {
+                                transform.LookAt(newTarget);
+                                transform.forward = new Vector3(transform.forward.x, 0, transform.forward.z);
+                            }
+                        }
+                        return false;
+                    }
+                    C_poolOwner.MoveToOpen(this);
+                    return true;
                 case BulletTrait.Explosive:
                     if (shouldHit)
                     {

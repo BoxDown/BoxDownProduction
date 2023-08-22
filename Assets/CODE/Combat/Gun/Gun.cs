@@ -46,7 +46,7 @@ namespace Gun
             get { return C_muzzle == null ? transform.position : C_muzzle.position; }
         }
 
-        [Rename("Gun Holder")] public Transform C_gunHolder;
+        [Rename("Gun Holder")] public Combatant C_gunHolder;
         [Rename("Gun Modules")]public GunModule[] aC_moduleArray = new GunModule[3];
 
         float f_lastFireTime = 0;
@@ -63,7 +63,7 @@ namespace Gun
         BulletObjectPool C_bulletPool;
 
         GameObject C_bulletPrefab;
-        Bullet.BulletBaseInfo S_bulletInfo { get { return new Bullet.BulletBaseInfo(C_gunHolder.tag.ToLower().Contains("player"), S_muzzlePosition, C_gunHolder.forward, f_bulletRange, f_baseDamage, f_bulletSpeed, f_bulletSize, f_knockBack); } }
+        Bullet.BulletBaseInfo S_bulletInfo { get { return new Bullet.BulletBaseInfo(C_gunHolder, S_muzzlePosition, C_gunHolder.transform.forward, f_bulletRange, f_baseDamage, f_bulletSpeed, f_bulletSize, f_knockBack); } }
 
         private void Awake()
         {
@@ -139,7 +139,7 @@ namespace Gun
                     }
                 }
                 timesFiredThisFrame += 1;
-                Vector3 recoil = -C_gunHolder.forward * f_recoil;
+                Vector3 recoil = -C_gunHolder.transform.forward * f_recoil;
 
                 C_gunHolder.GetComponent<Combatant>().AddVelocity(recoil);
                 

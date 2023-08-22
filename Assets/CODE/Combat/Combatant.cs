@@ -6,6 +6,8 @@ using Managers;
 using Gun;
 using UnityEngine.InputSystem;
 using static PlayerController;
+using Microsoft.Win32.SafeHandles;
+using UnityEditor;
 
 public class Combatant : MonoBehaviour
 {
@@ -337,19 +339,19 @@ public class Combatant : MonoBehaviour
         C_ownedGun.Reload();
     }
 
-    public void ApplyBulletElement(GunModule.BulletEffectInfo bulletEffectInfo, float damage)
+    public void ApplyBulletElement(GunModule.BulletEffectInfo bulletEffectInfo, Bullet.BulletBaseInfo baseInfo)
     {
         switch (bulletEffectInfo.e_bulletEffect)
         {
             case GunModule.BulletEffect.None:
                 break;
-            case GunModule.BulletEffect.DamageOverTime:
+            case GunModule.BulletEffect.Fire:
                 if (e_combatState != CombatState.Burn)
                 {
                     StartCoroutine(DamageTicksForSecond(bulletEffectInfo.i_amountOfTicks, bulletEffectInfo.f_effectTime, bulletEffectInfo.f_tickDamage));
                 }
                 break;
-            case GunModule.BulletEffect.Slow:
+            case GunModule.BulletEffect.Ice:
                 if (e_combatState == CombatState.Frozen)
                 {
                     break;
@@ -369,11 +371,20 @@ public class Combatant : MonoBehaviour
                     break;
                 }
                 break;
-            case GunModule.BulletEffect.Chain:
+            case GunModule.BulletEffect.Lightning:
+                if (baseInfo.b_playerOwned)
+                {
+                    LightningChainCheck(bulletEffectInfo.i_chainCount, bulletEffectInfo.f_chainLength, bulletEffectInfo.f_chainDamagePercent * baseInfo.f_damage);
+                }
 
+                //sphere cast in range if nothing in range early out,
+                //hit list, 
+                //order list in closest to shortest, recursively for the chain count create a chain between enemies,
+                //dont repeat enemies
+                //do chain stuff
                 break;
             case GunModule.BulletEffect.Vampire:
-
+                baseInfo.C_bulletOwner.Heal(baseInfo.f_damage * bulletEffectInfo.f_vampirePercent);
                 break;
         }
     }
@@ -381,6 +392,14 @@ public class Combatant : MonoBehaviour
     public void ChangeState(CombatState state)
     {
         e_combatState = state;
+    }
+
+    public void LightningChainCheck(int remainingChainCount, float chainRange, float chainDamage)
+    {
+
+        Physics.OverlapSphere(transform.position, chainRange);
+
+        
     }
 
 

@@ -25,10 +25,9 @@ namespace Enemy
         private void Update()
         {
             base.Update();
-            Vector3 fromToPlayer = transform.position - C_player.transform.position;
+            Vector3 fromToPlayer =  C_player.transform.position - transform.position;
             SetRotationDirection(new Vector2(fromToPlayer.x, fromToPlayer.z));
 
-            gameObject.transform.LookAt(C_player.transform.position);
             if (b_testFiring)
             {
                 FireGun();

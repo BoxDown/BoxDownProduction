@@ -60,7 +60,21 @@ public class PlayerController : Combatant
         actionMap.FindAction("Reload").performed += Reload;
         actionMap.FindAction("Pause").performed += Pause;
     }
-
+    private void OnEnable()
+    {
+        C_playerInput.SwitchCurrentActionMap("PlayerControl");
+        InputActionMap actionMap = C_playerInput.currentActionMap;
+        actionMap.Enable();
+        actionMap.FindAction("Movement").performed += MoveInput;
+        actionMap.FindAction("Movement").canceled += StopMove;
+        actionMap.FindAction("Rotate").performed += RotationSet;
+        actionMap.FindAction("Dodge").performed += Dodge;
+        actionMap.FindAction("Interact").performed += Interact;
+        actionMap.FindAction("Fire").performed += Fire;
+        actionMap.FindAction("Fire").canceled += CancelFire;
+        actionMap.FindAction("Reload").performed += Reload;
+        actionMap.FindAction("Pause").performed += Pause;
+    }
 
     private void Update()
     {

@@ -55,6 +55,7 @@ public class Combatant : MonoBehaviour
     [Rename("Max Health")] public float f_maxHealth = 100;
     [Rename("Invincibility On Hit Time")] public float f_invincibleTime = 0.15f;
     [Rename("Owned Gun")] public Gun.Gun C_ownedGun = null;
+    [Rename("Debug Respawn Time")] public float f_respawnTime = 5.0f;
     [Space(4)]
 
     [Header("Materials")]
@@ -299,7 +300,9 @@ public class Combatant : MonoBehaviour
         gameObject.SetActive(false);
         b_isDead = true;
         ChangeState(CombatState.Normal);
-        Invoke("Respawn", 10);
+
+        //TO DO, ACTUALLY RESPAWN ONLY IF NEEDED
+        Invoke("Respawn", f_respawnTime);
     }
 
     public void Respawn()
@@ -315,16 +318,19 @@ public class Combatant : MonoBehaviour
 
     public void FireGun()
     {
-        if (e_combatState != CombatState.Dodge && e_combatState != CombatState.NoAttack && e_combatState != CombatState.NoControl)
+        if (e_combatState != CombatState.Dodge && e_combatState != CombatState.NoAttack && e_combatState != CombatState.NoControl && !C_ownedGun.b_isFiring)
             C_ownedGun.StartFire();
     }
 
     public void CancelGun()
     {
-        C_ownedGun.CancelFire();
-        if (e_combatState == CombatState.Dodge)
+        if (C_ownedGun.b_isFiring)
         {
-            b_fireCancelWhileDodging = true;
+            C_ownedGun.CancelFire();
+            if (e_combatState == CombatState.Dodge)
+            {
+                b_fireCancelWhileDodging = true;
+            }
         }
     }
 
@@ -489,7 +495,7 @@ public class Combatant : MonoBehaviour
         while (Time.time - startTime < seconds)
         {
             Damage(damage);
-            yield return timeToWaitForTicks;
+            yield return new WaitForSeconds(timeToWaitForTicks);
         }
 
         yield return null;

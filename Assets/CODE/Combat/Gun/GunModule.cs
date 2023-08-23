@@ -122,9 +122,6 @@ namespace Gun
         [Rename("Bullet Size")] public float f_bulletSize;
         [Rename("Bullet Range")] public float f_bulletRange;
         [Rename("Recoil Distance")] public float f_recoil;
-        [Rename("Burst Shot")] public bool b_burstTrue;
-        [Rename("Burst Count")] public int i_burstCount;
-        [Rename("Burst Interval")] public float f_burstInterval;
         public ShotPatternInfo S_shotPatternInformation;
         #endregion
 
@@ -170,12 +167,6 @@ namespace Guns.CustomEditor
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("f_fireRate"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("f_bulletSpeed"));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("f_knockBack"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("b_burstTrue"));
-                    if (serializedObject.FindProperty("b_burstTrue").boolValue)
-                    {
-                        EditorGUILayout.PropertyField(serializedObject.FindProperty("i_burstCount"));
-                        EditorGUILayout.PropertyField(serializedObject.FindProperty("f_burstInterval"));
-                    }
                     EditorGUILayout.Space(10);
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("S_bulletTraitInformation").FindPropertyRelative("e_bulletTrait"));
 

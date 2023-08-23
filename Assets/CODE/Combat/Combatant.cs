@@ -495,7 +495,7 @@ public class Combatant : MonoBehaviour
         while (Time.time - startTime < seconds)
         {
             Damage(damage);
-            yield return timeToWaitForTicks;
+            yield return new WaitForSeconds(timeToWaitForTicks);
         }
 
         yield return null;

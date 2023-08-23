@@ -55,6 +55,7 @@ public class Combatant : MonoBehaviour
     [Rename("Max Health")] public float f_maxHealth = 100;
     [Rename("Invincibility On Hit Time")] public float f_invincibleTime = 0.15f;
     [Rename("Owned Gun")] public Gun.Gun C_ownedGun = null;
+    [Rename("Debug Respawn Time")] public float f_respawnTime = 5.0f;
     [Space(4)]
 
     [Header("Materials")]
@@ -301,7 +302,7 @@ public class Combatant : MonoBehaviour
         ChangeState(CombatState.Normal);
 
         //TO DO, ACTUALLY RESPAWN ONLY IF NEEDED
-        Invoke("Respawn", 10);
+        Invoke("Respawn", f_respawnTime);
     }
 
     public void Respawn()

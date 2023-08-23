@@ -20,9 +20,9 @@ namespace Gun
             [HideInInspector] public float f_knockBack;
             [HideInInspector] public bool b_playerOwned;
 
-            public BulletBaseInfo(Combatant bulletOnwer, Vector3 origin, Vector3 direction, float range, float damage, float speed, float size, float knockBack)
+            public BulletBaseInfo(Combatant bulletOwner, Vector3 origin, Vector3 direction, float range, float damage, float speed, float size, float knockBack)
             {
-                C_bulletOwner = bulletOnwer;
+                C_bulletOwner = bulletOwner;
                 S_firingOrigin = origin;
                 S_firingDirection = direction;
                 f_range = range;
@@ -136,9 +136,6 @@ namespace Gun
             i_bulletPiercedCount = 0;
             i_ricochetCount = 0;
 
-            //bullet effect colour/ particles bullet trait mesh **stubbed**
-            //UpdateBulletGraphics()
-
             //move bullet to closed list
             C_poolOwner.MoveToClosed(this);
 
@@ -250,14 +247,6 @@ namespace Gun
             S_baseInformation.S_firingOrigin = origin;
         }
 
-        //stub need bullet stuff in
-        public void UpdateBulletGraphics()
-        {
-            Vector3 colour;
-            GameObject meshPrefab;
-            GameObject particlePrefab;
-        }
-
         private void DoBaseHit(Combatant combatant)
         {
             combatant.Damage(S_baseInformation.f_damage);
@@ -305,8 +294,12 @@ namespace Gun
             bool isPlayer = combatant.CompareTag("Player");
             bool isDodging = (combatant.e_combatState == Combatant.CombatState.Dodge);
             bool isInvincible = (combatant.e_combatState == Combatant.CombatState.Invincible);
-            bool shouldHit = (!(isPlayer && !S_baseInformation.b_playerOwned) && (!isDodging && !isInvincible)) ||
-                (!(!isPlayer && S_baseInformation.b_playerOwned) && (isDodging && !isInvincible));
+
+            bool playerHit = isPlayer && !S_baseInformation.b_playerOwned;
+            bool enemyHit = !isPlayer && S_baseInformation.b_playerOwned;
+
+            bool shouldHit = (playerHit && (!isDodging && !isInvincible)) ||
+                (enemyHit && (!isDodging && !isInvincible));
 
 
             switch (S_bulletTrait.e_bulletTrait)

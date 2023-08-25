@@ -72,12 +72,12 @@ namespace Gun
         [Rename("Lightning Colour")]public Color S_lightningColour = new Color(1f, 1f, 0.25f, 1);
         [Rename("Vampire Colour")]public Color S_vampireColour = new Color(0.5f, 0.8f, 0.1f, 1);
 
-        GameObject C_bulletPrefab;
-        GameObject C_standardPrefab;
-        GameObject C_piercePrefab;
-        GameObject C_ricochetPrefab;
-        GameObject C_explosivePrefab;
-        GameObject C_homingPrefab;
+        Mesh C_bulletPrefab;
+        Mesh C_standardPrefab;
+        Mesh C_piercePrefab;
+        Mesh C_ricochetPrefab;
+        Mesh C_explosivePrefab;
+        Mesh C_homingPrefab;
         Bullet.BulletBaseInfo S_bulletInfo { get { return new Bullet.BulletBaseInfo(C_gunHolder, S_muzzlePosition, C_gunHolder.transform.forward, f_bulletRange, f_baseDamage, f_bulletSpeed, f_bulletSize, f_knockBack); } }
 
         private void Awake()

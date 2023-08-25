@@ -15,22 +15,15 @@ public class GameManager : MonoBehaviour
         private set;
     }
 
-    //TO DO MOVE THIS TO THE DOOR SCRIPT
-    public enum RewardType
-    {
-        Trigger,
-        Clip,
-        Barrel,
-        RandomModule,
-    }
-
-
-
     [Rename("Rewards Per Room"), SerializeField] private int i_rewardsPerRoom = 1;
+    [Rename("Amount Of Easy Rooms"), SerializeField] private int i_easyRooms = 3;
+    [Rename("Amount Of Medium Rooms"), SerializeField] private int i_mediumRooms = 3;
+    [Rename("Amount Of Hard Rooms"), SerializeField] private int i_hardRooms = 5;
+    [Rename("Endless Mode"), SerializeField] private bool b_endlessMode = false;
 
 
 
-    private RewardType e_currentRewardType;
+    private Door.RoomType e_currentRewardType;
     private Vector3 S_rewardPoint;
     private List<string> ls_allGunModules = new List<string>();
     private List<string> ls_triggerGunModules = new List<string>();
@@ -38,7 +31,7 @@ public class GameManager : MonoBehaviour
     private List<string> ls_barrelGunModules = new List<string>();
     private int i_currentRoom = 0;
 
-    private List<string> ls_allLevels = new List<string>();
+    private List<string> ls_allLevels = new List<string>(); // all levels should not be used to load any scenes
     private List<string> ls_easyLevels = new List<string>();
     private List<string> ls_mediumLevels = new List<string>();
     private List<string> ls_hardLevels = new List<string>();
@@ -68,25 +61,26 @@ public class GameManager : MonoBehaviour
         GrabAllGunModules();
         GroupGunModules();
         GrabAllLevels();
+        GroupLevels(ls_allLevels);
 
     }
 
-    private void SpawnNextReward()
+    public void SpawnNextReward()
     {
         for (int i = 0; i < i_rewardsPerRoom; i++)
         {
             switch (e_currentRewardType)
             {
-                case RewardType.Trigger:
+                case Door.RoomType.Trigger:
                     GunModuleSpawner.SpawnGunModule(ls_triggerGunModules[Random.Range(0, ls_triggerGunModules.Count)], S_rewardPoint);
                     break;
-                case RewardType.Clip:
+                case Door.RoomType.Clip:
                     GunModuleSpawner.SpawnGunModule(ls_clipGunModules[Random.Range(0, ls_clipGunModules.Count)], S_rewardPoint);
                     break;
-                case RewardType.Barrel:
+                case Door.RoomType.Barrel:
                     GunModuleSpawner.SpawnGunModule(ls_barrelGunModules[Random.Range(0, ls_barrelGunModules.Count)], S_rewardPoint);
                     break;
-                case RewardType.RandomModule:
+                case Door.RoomType.RandomModule:
                     GunModuleSpawner.SpawnGunModule(ls_allGunModules[Random.Range(0, ls_allGunModules.Count)], S_rewardPoint);
                     break;
             }
@@ -96,6 +90,10 @@ public class GameManager : MonoBehaviour
     public void UpdateRewardPoint(Vector3 point)
     {
         S_rewardPoint = point;
+    }
+    public void UpdateRewardType(Door.RoomType type)
+    {
+        e_currentRewardType = type;
     }
 
     public void GrabAllGunModules()
@@ -122,22 +120,56 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void IncrementRoom()
+    private void IncrementRoom()
     {
         i_currentRoom++;
     }
 
-    public void LoadNextRoom()
+    //what doors call
+    public void MoveToNextRoom()
     {
-
+        IncrementRoom();
+        LoadNextRoom();
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private void LoadNextRoom()
     {
-
+        int roomNumberToLoad = 0;
+        if (i_currentRoom < i_easyRooms)
+        {
+            while (ls_easyLevels[roomNumberToLoad] != SceneManager.GetActiveScene().name)
+            {
+                roomNumberToLoad = Random.Range(0, ls_easyLevels.Count());
+            }
+            SceneManager.LoadScene(ls_easyLevels[roomNumberToLoad]);
+            return;
+        }
+        else if (i_currentRoom < i_mediumRooms)
+        {
+            while (ls_mediumLevels[roomNumberToLoad] != SceneManager.GetActiveScene().name)
+            {
+                roomNumberToLoad = Random.Range(0, ls_mediumLevels.Count());
+            }
+            SceneManager.LoadScene(ls_mediumLevels[roomNumberToLoad]);
+            return;
+        }
+        else if (b_endlessMode || i_currentRoom < i_hardRooms)
+        {
+            while (ls_hardLevels[roomNumberToLoad] != SceneManager.GetActiveScene().name)
+            {
+                roomNumberToLoad = Random.Range(0, ls_hardLevels.Count());
+            }
+            SceneManager.LoadScene(ls_hardLevels[roomNumberToLoad]);
+            return;
+        }
+        else
+        {
+            //TO DO ACTUALLY REPLACE THIS WITH THE SCENE NAME WITH THE BOSS
+            //load boss scene after reaching the specified end
+            SceneManager.LoadScene("BossSceneOrWhatever");
+        }
     }
-
     private void DeclareAllLevels()
     {
         List<string> allLevelsInProject = new List<string>();
@@ -164,11 +196,7 @@ public class GameManager : MonoBehaviour
                 allLevelsInProject.Add(levelName);
             }
         }
-        GroupLevels(allLevelsInProject);
-        for (int i = 0; i < allLevelsInProject.Count(); i++)
-        {
-            allLevelsInProject[i] = allLevelsInProject[i].Split("\\")[1];
-        }
+        
         TextDocumentReadWrite.FileWrite(levelFileDirectory + "\\allLevels.txt", allLevelsInProject.ToArray());
     }
 
@@ -178,19 +206,18 @@ public class GameManager : MonoBehaviour
         {
             if (levelsList[i].Contains("Easy"))
             {
-                ls_easyLevels.Add(levelsList[i].Split("Easy\\")[1]);
+                ls_easyLevels.Add(levelsList[i].Split("\\")[1]);
             }
             if (levelsList[i].Contains("Medium"))
             {
-                ls_mediumLevels.Add(levelsList[i].Split("Medium\\")[1]);
+                ls_mediumLevels.Add(levelsList[i].Split("\\")[1]);
             }
             if (levelsList[i].Contains("Hard"))
             {
-                ls_hardLevels.Add(levelsList[i].Split("Hard\\")[1]);
+                ls_hardLevels.Add(levelsList[i].Split("\\")[1]);
             }
         }
     }
-
     private void GrabAllLevels()
     {
         string filePath = Directory.GetCurrentDirectory() + "\\Assets\\Resources\\Levels\\allLevels.txt";

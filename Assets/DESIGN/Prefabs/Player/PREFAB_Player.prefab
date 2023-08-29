@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 635995768042981309}
   m_Layer: 0
   m_Name: PREFAB_Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,7 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: 0}
+  m_Actions: {fileID: -944628639613478452, guid: e103200b17f5f4443aa247eb4c1e2305,
+    type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -62,7 +63,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: 
+  m_DefaultActionMap: UI
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &635995768042981309
@@ -155,9 +156,11 @@ MonoBehaviour:
   f_collisionBounciness: 0.285
   f_maxHealth: 100
   f_invincibleTime: 0.15
-  C_ownedGun: {fileID: 0}
-  C_defaultMaterial: {fileID: 0}
-  C_dodgeMaterial: {fileID: 0}
+  C_ownedGun: {fileID: 5266124872177242341}
+  f_respawnTime: 2
+  C_defaultMaterial: {fileID: 7337075097129357981, guid: 389a8e48ad131624cbf9a9ee8a7ef542,
+    type: 3}
+  C_dodgeMaterial: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   e_combatState: 0
   b_isDead: 0
   f_controllerDeadZone: 0.15
@@ -173,7 +176,7 @@ GameObject:
   - component: {fileID: 6135018286826627255}
   - component: {fileID: 5266124872177242341}
   m_Layer: 0
-  m_Name: Gun
+  m_Name: Player_Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -207,12 +210,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   C_muzzle: {fileID: 0}
-  C_gunHolder: {fileID: 0}
+  b_debugGun: 0
+  C_gunHolder: {fileID: 635995768042981309}
   aC_moduleArray:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 18a7b0a0bac98514c98fda1730277a30, type: 2}
+  - {fileID: 11400000, guid: e4443edb1d97709438229dd1050e40ca, type: 2}
+  - {fileID: 11400000, guid: 59f7e0cf094c73648a296845d1aa42e7, type: 2}
   b_isFiring: 0
+  f_emissiveValue: 20
+  S_standardColour: {r: 0.75, g: 0.5, b: 0.2, a: 1}
+  S_fireColour: {r: 1, g: 0.08064831, b: 0, a: 1}
+  S_iceColour: {r: 0.35, g: 0.8, b: 0.7, a: 1}
+  S_lightningColour: {r: 1, g: 1, b: 0.25, a: 1}
+  S_vampireColour: {r: 0.5, g: 0.8, b: 0.1, a: 1}
 --- !u!1001 &25882376087711782
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -288,40 +298,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 25882376087711782}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &908207821599509879 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e944428663cb5de41a5bcc4233bdcc4f,
-    type: 3}
-  m_PrefabInstance: {fileID: 25882376087711782}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2544458345193100630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 908207821599509879}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: e103200b17f5f4443aa247eb4c1e2305,
-    type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: UI
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}

@@ -67,20 +67,31 @@ public class GameManager : MonoBehaviour
 
     public void SpawnNextReward()
     {
+
+
         for (int i = 0; i < i_rewardsPerRoom; i++)
         {
             switch (e_currentRewardType)
             {
+                // For Debug without weapon modules in project COMMENT THESE OUT
                 case Door.RoomType.Trigger:
+                    Debug.Log($"REWARD SPAWNED TRIGGER");
+                    return;
                     GunModuleSpawner.SpawnGunModule(ls_triggerGunModules[Random.Range(0, ls_triggerGunModules.Count)], S_rewardPoint);
                     break;
                 case Door.RoomType.Clip:
+                    Debug.Log($"REWARD SPAWNED CLIP");
+                    return;
                     GunModuleSpawner.SpawnGunModule(ls_clipGunModules[Random.Range(0, ls_clipGunModules.Count)], S_rewardPoint);
                     break;
                 case Door.RoomType.Barrel:
+                    Debug.Log($"REWARD SPAWNED BARREL");
+                    return;
                     GunModuleSpawner.SpawnGunModule(ls_barrelGunModules[Random.Range(0, ls_barrelGunModules.Count)], S_rewardPoint);
                     break;
                 case Door.RoomType.RandomModule:
+                    Debug.Log($"REWARD SPAWNED RANDOM");
+                    return;
                     GunModuleSpawner.SpawnGunModule(ls_allGunModules[Random.Range(0, ls_allGunModules.Count)], S_rewardPoint);
                     break;
             }
@@ -138,28 +149,41 @@ public class GameManager : MonoBehaviour
         int roomNumberToLoad = 0;
         if (i_currentRoom < i_easyRooms)
         {
-            while (ls_easyLevels[roomNumberToLoad] != SceneManager.GetActiveScene().name)
+            while (ls_easyLevels[roomNumberToLoad] == SceneManager.GetActiveScene().name)
             {
                 roomNumberToLoad = Random.Range(0, ls_easyLevels.Count());
             }
+            Debug.Log("Moved To Easy Room");
             SceneManager.LoadScene(ls_easyLevels[roomNumberToLoad]);
             return;
         }
-        else if (i_currentRoom < i_mediumRooms)
+        else if (i_currentRoom < i_easyRooms + 1 + i_mediumRooms)
         {
-            while (ls_mediumLevels[roomNumberToLoad] != SceneManager.GetActiveScene().name)
+            if (i_currentRoom == i_easyRooms + 1)
+            {
+                SceneManager.LoadScene("EasyBreakRoom");
+                return;
+            }
+            while (ls_mediumLevels[roomNumberToLoad] == SceneManager.GetActiveScene().name)
             {
                 roomNumberToLoad = Random.Range(0, ls_mediumLevels.Count());
             }
+            Debug.Log("Moved To Medium Room");
             SceneManager.LoadScene(ls_mediumLevels[roomNumberToLoad]);
             return;
         }
-        else if (b_endlessMode || i_currentRoom < i_hardRooms)
+        else if (b_endlessMode || i_currentRoom < i_easyRooms + 1 + i_mediumRooms + 1 + i_hardRooms)
         {
-            while (ls_hardLevels[roomNumberToLoad] != SceneManager.GetActiveScene().name)
+            if (i_currentRoom == i_easyRooms + 1 + i_mediumRooms + 1)
+            {
+                SceneManager.LoadScene("MediumBreakRoom");
+                return;
+            }
+            while (ls_hardLevels[roomNumberToLoad] == SceneManager.GetActiveScene().name)
             {
                 roomNumberToLoad = Random.Range(0, ls_hardLevels.Count());
             }
+            Debug.Log("Moved To Hard Room");
             SceneManager.LoadScene(ls_hardLevels[roomNumberToLoad]);
             return;
         }
@@ -196,7 +220,7 @@ public class GameManager : MonoBehaviour
                 allLevelsInProject.Add(levelName);
             }
         }
-        
+
         TextDocumentReadWrite.FileWrite(levelFileDirectory + "\\allLevels.txt", allLevelsInProject.ToArray());
     }
 

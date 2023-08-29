@@ -187,7 +187,7 @@ namespace Guns.CustomEditor
                             break;
 
                         case 2:
-                            EditorGUILayout.PropertyField(serializedObject.FindProperty("S_bulletEffectInformation").FindPropertyRelative("i_ricochetCount"));
+                            EditorGUILayout.PropertyField(serializedObject.FindProperty("S_bulletTraitInformation").FindPropertyRelative("i_ricochetCount"));
                             break;
                         //do variables for Explosive
                         case 3:

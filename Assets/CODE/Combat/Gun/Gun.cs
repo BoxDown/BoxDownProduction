@@ -84,6 +84,10 @@ namespace Gun
         {
 
             GameObject bulletPool = new GameObject();
+            if (C_gunHolder.CompareTag("Player"))
+            {
+                DontDestroyOnLoad(bulletPool);
+            }
             bulletPool.name = "Bullet Pool";
             C_bulletPool = bulletPool.AddComponent<BulletObjectPool>();
             bulletPool.GetComponent<BulletObjectPool>().CreatePool(this);

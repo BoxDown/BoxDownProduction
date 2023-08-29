@@ -10,7 +10,7 @@ namespace Managers
     [Serializable]
     public class EnemyWave
     {
-        [Rename("Enemy")] public EnemyBase[] aC_enemies;
+        public EnemyBase[] aC_enemies;
     }
     public class RoomManager : MonoBehaviour
     {
@@ -111,31 +111,3 @@ namespace Managers
 
     }
 }
-//namespace Managers.CustomEditors
-//{
-//#if UNITY_EDITOR
-//    using UnityEditor;
-
-//    [CustomEditor(typeof(RoomManager))]
-//    class RoomManagerEditor : Editor
-//    {
-//        public override void OnInspectorGUI()
-//        {
-//            serializedObject.Update();
-
-//            RoomManager roomManager = (RoomManager)serializedObject.targetObject;
-
-//            EditorGUILayout.LabelField("Enemy Waves", EditorStyles.boldLabel);
-
-//            SerializedProperty listProperty = serializedObject.FindProperty("aC_enemyWaveList");
-
-//            EditorGUILayout.PropertyField(serializedObject.FindProperty("S_rewardPosition"));
-//            EditorGUILayout.PropertyField(serializedObject.FindProperty("S_spawnPosition"));
-//            EditorGUILayout.PropertyField(serializedObject.FindProperty("C_manager"));
-//            EditorGUILayout.PropertyField(listProperty, new GUIContent("Enemy Wave List"));
-
-//            serializedObject.ApplyModifiedProperties();
-//        }
-//    }
-//#endif
-//}

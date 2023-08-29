@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   C_meshPrefab: {fileID: 0}
   e_moduleType: 0
-  f_baseDamage: 9
-  f_fireRate: 5
-  f_bulletSpeed: 15
+  f_moduleStrength: 0
+  f_baseDamage: 55
+  f_fireRate: 0.5
+  f_bulletSpeed: 20
   f_knockBack: 0
   S_bulletEffectInformation:
     e_bulletEffect: 0
@@ -31,9 +32,9 @@ MonoBehaviour:
   f_movementPenalty: 0
   i_clipSize: 0
   S_bulletTraitInformation:
-    e_bulletTrait: 0
+    e_bulletTrait: 2
     i_pierceCount: 0
-    i_ricochetCount: 0
+    i_ricochetCount: 4
     C_explosionPrefab: {fileID: 0}
     f_explosionSize: 0
     f_explosionDamage: 0
@@ -44,9 +45,6 @@ MonoBehaviour:
   f_bulletSize: 0
   f_bulletRange: 0
   f_recoil: 0
-  b_burstTrue: 0
-  i_burstCount: 0
-  f_burstInterval: 0
   S_shotPatternInformation:
     e_shotPattern: 0
     b_randomSpread: 0

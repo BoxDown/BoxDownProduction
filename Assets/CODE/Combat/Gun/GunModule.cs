@@ -100,6 +100,7 @@ namespace Gun
         //Global
         [Rename("Module Prefab")] public GameObject C_meshPrefab;
         [Rename("Module Type")] public ModuleSection e_moduleType;
+        [Rename("Module Strength")] public float f_moduleStrength;
 
         //public Gun.FireType e_fireType;
 
@@ -152,6 +153,7 @@ namespace Guns.CustomEditor
 
             EditorGUILayout.PropertyField(serializedObject.FindProperty("C_meshPrefab"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("e_moduleType"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("f_moduleStrength"));
 
             Assert.IsFalse(serializedObject.FindProperty("e_moduleType").enumValueIndex == (int)GunModule.ModuleSection.Count, "A Gun Module cannot have the type 'Count' this is for programming use");
             serializedObject.ApplyModifiedProperties();
@@ -185,7 +187,7 @@ namespace Guns.CustomEditor
                             break;
 
                         case 2:
-                            EditorGUILayout.PropertyField(serializedObject.FindProperty("S_bulletEffectInformation").FindPropertyRelative("i_ricochetCount"));
+                            EditorGUILayout.PropertyField(serializedObject.FindProperty("S_bulletTraitInformation").FindPropertyRelative("i_ricochetCount"));
                             break;
                         //do variables for Explosive
                         case 3:

@@ -164,11 +164,11 @@ public class Combatant : MonoBehaviour
         //find our desired velocity and our maximum speed change
         if (C_ownedGun != null)
         {
-            effectiveSpeed = Mathf.Clamp((f_maxSpeed - C_ownedGun.aC_moduleArray[1].f_movementPenalty), 0, f_maxSpeed);
+            effectiveSpeed = Mathf.Clamp((f_maxSpeed - C_ownedGun.aC_moduleArray[1].f_movementPenalty), 0, f_maxSpeed) * f_slowMultiplier;
         }
         else
         {
-            effectiveSpeed = Mathf.Clamp((f_maxSpeed), 0, f_maxSpeed);
+            effectiveSpeed = Mathf.Clamp((f_maxSpeed), 0, f_maxSpeed) * f_slowMultiplier;
         }
 
         Vector3 desiredVelocity = S_movementInputDirection * effectiveSpeed * C_accelerationCurve.Evaluate(f_currentAccelerationStep);
@@ -399,6 +399,7 @@ public class Combatant : MonoBehaviour
                 combatant.Damage(chainDamage);
                 //TO DO
                 //SPAWN LIGHNING EFFECT
+                Gizmos.DrawLine(transform.position, combatant.transform.position);
             }
         }
     }
@@ -429,7 +430,7 @@ public class Combatant : MonoBehaviour
 
 
         ChangeState(CombatState.Dodge);
-        GetComponent<Renderer>().material = C_dodgeMaterial;
+        GetComponentInChildren<Renderer>().material = C_dodgeMaterial;
 
         Vector3 startPosition = transform.localPosition;
         float dodgeDistance = f_dodgeLength;
@@ -458,7 +459,7 @@ public class Combatant : MonoBehaviour
         transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 0);
 
         ChangeState(CombatState.Normal);
-        GetComponent<Renderer>().material = C_defaultMaterial;
+        GetComponentInChildren<Renderer>().material = C_defaultMaterial;
         if (!b_fireCancelWhileDodging && firingAtStartOfDodge)
         {
             C_ownedGun.StartFire();

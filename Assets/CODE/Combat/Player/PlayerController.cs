@@ -11,7 +11,6 @@ using static Gun.GunModule;
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerController : Combatant
 {
-
     /// <summary>
     /// Variables for player controller, divided into sections noted by headers
     /// </summary>
@@ -38,6 +37,7 @@ public class PlayerController : Combatant
     protected void Start()
     {
         base.Start();
+        DontDestroyOnLoad(this);
     }
 
     private void Awake()
@@ -124,11 +124,11 @@ public class PlayerController : Combatant
     private void Dodge(InputAction.CallbackContext context)
     {
         Dodge();
-        
+
     }
     private void Interact(InputAction.CallbackContext context)
     {
-        ItemPickup();
+        Interact();
     }
     private void Reload(InputAction.CallbackContext context)
     {
@@ -142,16 +142,13 @@ public class PlayerController : Combatant
     }
 
 
-    private void SetPlayerPosition()
+    public void SetPlayerPosition(Vector3 position)
     {
-
+        transform.position = position;
     }
-    private void ItemPickup()
-    {
 
-        //check for interactables in radius, if none early out
-        //find distance of all in radius
-        //interact with shortest range
+    private void Interact()
+    {
         float closestDistance = float.MaxValue;
         int closestCollisionReference = 0;
         Collider[] collisions = Physics.OverlapSphere(transform.position, f_interactRange);
@@ -168,12 +165,36 @@ public class PlayerController : Combatant
                 closestCollisionReference = i;
             }
         }
-        if (collisions[closestCollisionReference].transform.tag == "Gun Module")
-        {
-            GunModule gunModuleToSwap = (GunModule)Resources.Load(GunModuleSpawner.GetGunModuleResourcesPath(collisions[closestCollisionReference].name));
+        Transform closestTransform = collisions[closestCollisionReference].transform;
 
-            C_ownedGun.SwapGunPiece(gunModuleToSwap);
-            Destroy(collisions[closestCollisionReference].gameObject);
+        if (closestTransform.tag == "Gun Module")
+        {
+            SwapModule(closestTransform);
+        }
+        else if (closestTransform.tag == "Door")
+        {
+            if (!closestTransform.GetComponent<Door>().IsLocked())
+            {
+                TriggerDoor(closestTransform);
+            }
         }
     }
+
+    private void SwapModule(Transform newGunModule)
+    {
+        //check for interactables in radius, if none early out
+        //find distance of all in radius
+        //interact with shortest range
+
+        GunModule gunModuleToSwap = (GunModule)Resources.Load(GunModuleSpawner.GetGunModuleResourcesPath(newGunModule.name));
+
+        C_ownedGun.SwapGunPiece(gunModuleToSwap);
+        Destroy(newGunModule.gameObject);
+    }
+
+    private void TriggerDoor(Transform doorGoingThrough)
+    {
+        doorGoingThrough.GetComponent<Door>().OnEnterDoor();
+    }
+
 }

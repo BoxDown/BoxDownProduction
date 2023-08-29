@@ -78,8 +78,8 @@ namespace Gun
             [Rename("Damage Over Time - Damage Per Tick")] public float f_tickDamage;
             [Rename("Damage Over Time - Tick Count")] public int i_amountOfTicks;
             [Rename("Slow Percentage"), Range(0, 1)] public float f_slowPercent;
-            [Rename("Max Chain Length")] public float f_chainLength;
-            [Rename("Chain Damage Percentage"), Range(0, 1)] public float f_chainDamagePercent; 
+            [Rename("Electric Radius")] public float f_chainLength;
+            [Rename("Electric Damage Percentage"), Range(0, 1)] public float f_chainDamagePercent; 
             [Rename("Health Steal Percentage"), Range(0, 1)] public float f_vampirePercent;
         }
 

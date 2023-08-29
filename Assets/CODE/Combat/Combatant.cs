@@ -429,7 +429,7 @@ public class Combatant : MonoBehaviour
 
 
         ChangeState(CombatState.Dodge);
-        GetComponent<Renderer>().material = C_dodgeMaterial;
+        GetComponentInChildren<Renderer>().material = C_dodgeMaterial;
 
         Vector3 startPosition = transform.localPosition;
         float dodgeDistance = f_dodgeLength;
@@ -458,7 +458,7 @@ public class Combatant : MonoBehaviour
         transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 0);
 
         ChangeState(CombatState.Normal);
-        GetComponent<Renderer>().material = C_defaultMaterial;
+        GetComponentInChildren<Renderer>().material = C_defaultMaterial;
         if (!b_fireCancelWhileDodging && firingAtStartOfDodge)
         {
             C_ownedGun.StartFire();

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5601549827048869362}
   - component: {fileID: 1037159730517647003}
   - component: {fileID: 635995768042981309}
+  - component: {fileID: 2007548048}
   m_Layer: 0
   m_Name: PREFAB_Player
   m_TagString: Player
@@ -165,6 +166,20 @@ MonoBehaviour:
   b_isDead: 0
   f_controllerDeadZone: 0.15
   f_interactRange: 3
+--- !u!136 &2007548048
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6313259657333278374}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.35
+  m_Height: 1.19
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.59, z: 0}
 --- !u!1 &6328219642500864020
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,12 +225,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   C_muzzle: {fileID: 0}
-  b_debugGun: 0
+  b_debugGun: 1
   C_gunHolder: {fileID: 635995768042981309}
   aC_moduleArray:
-  - {fileID: 11400000, guid: 18a7b0a0bac98514c98fda1730277a30, type: 2}
-  - {fileID: 11400000, guid: e4443edb1d97709438229dd1050e40ca, type: 2}
-  - {fileID: 11400000, guid: 59f7e0cf094c73648a296845d1aa42e7, type: 2}
+  - {fileID: 11400000, guid: 469e5568dba274e4bb151d38715f08e8, type: 2}
+  - {fileID: 11400000, guid: 85878b46e02337749af50e038a8e3dd5, type: 2}
+  - {fileID: 11400000, guid: d3291301b67e3154b904fc25b616b37e, type: 2}
   b_isFiring: 0
   f_emissiveValue: 20
   S_standardColour: {r: 0.75, g: 0.5, b: 0.2, a: 1}

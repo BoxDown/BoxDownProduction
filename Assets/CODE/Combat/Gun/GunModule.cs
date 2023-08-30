@@ -238,6 +238,7 @@ namespace Guns.CustomEditor
 
                         //do variables for Lightning
                         case 3:
+                            EditorGUILayout.PropertyField(serializedObject.FindProperty("S_bulletEffectInformation").FindPropertyRelative("f_effectTime"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("S_bulletEffectInformation").FindPropertyRelative("f_chainLength"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("S_bulletEffectInformation").FindPropertyRelative("f_chainDamagePercent"));
                             break;

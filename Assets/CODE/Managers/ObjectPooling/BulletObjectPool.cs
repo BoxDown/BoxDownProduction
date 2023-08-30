@@ -10,6 +10,7 @@ namespace Gun
     public class BulletObjectPool : MonoBehaviour
     {
         Material C_bulletMaterial;
+        Mesh C_bulletMesh;
         List<Bullet> lC_allBullets = new List<Bullet>();
         List<Bullet> lC_freeBullets = new List<Bullet>();
         List<Bullet> lC_inUseBullets = new List<Bullet>();
@@ -18,16 +19,18 @@ namespace Gun
 
         public void CreatePool(Gun gun)
         {
+            C_gun = gun;
             int shotCount = gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount == 0 ? 1 : gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount;
             int bulletAmount = gun.aC_moduleArray[1].i_clipSize * shotCount * (int)gun.aC_moduleArray[0].f_fireRate;
             i_totalBullets = (int)(bulletAmount);
             C_bulletMaterial = new Material(Shader.Find("HDRP/Lit"));
-            C_gun = gun;
+            C_bulletMesh = new Mesh();
+            C_bulletMesh.name = C_gun.C_gunHolder.name + ": Bullet Mesh";
             C_bulletMaterial.name = C_gun.C_gunHolder.name + ": Bullet Material";
             C_bulletMaterial.SetInt("_UseEmissiveIntensity", 1);
             C_bulletMaterial.SetInt("_EmissiveIntensityUnit", 0);
             C_bulletMaterial.SetFloat("_EmissiveIntensity", Mathf.Pow(2, C_gun.f_emissiveValue) * (4 * Mathf.PI) * 0.01f);
-            
+
 
             for (int i = 0; i < i_totalBullets; i++)
             {
@@ -39,11 +42,13 @@ namespace Gun
                 bulletRef.C_poolOwner = this;
                 lC_freeBullets.Add(bulletRef);
                 lC_allBullets.Add(bulletRef);
+
                 obj.SetActive(false);
+                UpdateBulletColour();
                 obj.GetComponent<Renderer>().sharedMaterial = C_bulletMaterial;
+                obj.GetComponent<MeshFilter>().mesh = C_bulletMesh;
             }
 
-            UpdateBulletColour();
         }
 
         public void ResizePool(Gun gun)
@@ -88,6 +93,7 @@ namespace Gun
                     lC_allBullets.Add(bulletRef);
                     lC_freeBullets.Add(bulletRef);
                     obj.SetActive(false);
+                    obj.GetComponent<MeshFilter>().sharedMesh = C_bulletMesh;
                     obj.GetComponent<Renderer>().sharedMaterial = C_bulletMaterial;
                 }
             }
@@ -130,9 +136,33 @@ namespace Gun
                     materialColour = C_gun.S_vampireColour;
                     break;
             }
+            Mesh bulletMesh = null;
+            switch (C_gun.aC_moduleArray[0].S_bulletTraitInformation.e_bulletTrait)
+            {
+                case GunModule.BulletTrait.Standard:
+                    bulletMesh = C_gun.C_standardMesh;
+                    break;
+                case GunModule.BulletTrait.Pierce:
+                    bulletMesh = C_gun.C_pierceMesh;
+                    break;
+                case GunModule.BulletTrait.Ricochet:
+                    bulletMesh = C_gun.C_ricochetMesh;
+                    break;
+                case GunModule.BulletTrait.Explosive:
+                    bulletMesh = C_gun.C_explosiveMesh;
+                    break;
+                case GunModule.BulletTrait.Homing:
+                    bulletMesh = C_gun.C_homingMesh;
+                    break;
+            }
 
             C_bulletMaterial.SetColor("_EmissiveColorLDR", materialColour * Mathf.Pow(2, C_gun.f_emissiveValue) * (4 * Mathf.PI) * 0.01f);
             C_bulletMaterial.SetColor("_EmissiveColor", materialColour * Mathf.Pow(2, C_gun.f_emissiveValue) * (4 * Mathf.PI) * 0.01f);
+            C_bulletMesh.vertices = bulletMesh.vertices;
+            C_bulletMesh.normals = bulletMesh.normals;
+            C_bulletMesh.triangles = bulletMesh.triangles;
+
+
         }
     }
 }

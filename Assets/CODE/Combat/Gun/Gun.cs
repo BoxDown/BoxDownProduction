@@ -64,20 +64,22 @@ namespace Gun
         bool b_reloading = false;
         BulletObjectPool C_bulletPool;
 
-
-        [Rename(" Colour")]public float f_emissiveValue = 20.0f;
+        [Header("Bullet Colours")]
+        [Rename("Emission Value")]public float f_emissiveValue = 20.0f;
         [Rename("Standard Colour")]public Color S_standardColour = new Color(0.75f, 0.5f, 0.2f, 1);
         [Rename("Fire Colour")]public Color S_fireColour = new Color(1f, 0.2f, 0f, 1);
         [Rename("Ice Colour")]public Color S_iceColour = new Color(0.35f, 0.8f, 0.7f, 1);
         [Rename("Lightning Colour")]public Color S_lightningColour = new Color(1f, 1f, 0.25f, 1);
         [Rename("Vampire Colour")]public Color S_vampireColour = new Color(0.5f, 0.8f, 0.1f, 1);
 
-        Mesh C_bulletPrefab;
-        Mesh C_standardPrefab;
-        Mesh C_piercePrefab;
-        Mesh C_ricochetPrefab;
-        Mesh C_explosivePrefab;
-        Mesh C_homingPrefab;
+
+        [Space(15)]
+        [Header("Bullet Shapes")]
+        [Rename("Standard Bullet Mesh")] public Mesh C_standardMesh;
+        [Rename("Pierce Bullet Mesh")] public Mesh C_pierceMesh;
+        [Rename("Ricochet Bullet Mesh")] public Mesh C_ricochetMesh;
+        [Rename("Explosive Bullet Mesh")] public Mesh C_explosiveMesh;
+        [Rename("Homing Bullet Mesh")] public Mesh C_homingMesh;
         Bullet.BulletBaseInfo S_bulletInfo { get { return new Bullet.BulletBaseInfo(C_gunHolder, S_muzzlePosition, C_gunHolder.transform.forward, f_bulletRange, f_baseDamage, f_bulletSpeed, f_bulletSize, f_knockBack); } }
 
         private void Awake()

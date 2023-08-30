@@ -336,6 +336,7 @@ namespace Gun
                 case BulletTrait.Ricochet:
                     if (S_bulletTrait.e_bulletTrait == BulletTrait.Ricochet && S_bulletTrait.i_ricochetCount >= i_ricochetCount)
                     {
+                        DoBaseHit(combatant);
                         if (isPlayer)
                         {
                             i_ricochetCount += 1;

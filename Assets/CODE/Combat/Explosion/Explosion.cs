@@ -36,7 +36,7 @@ namespace Explosion
 
         private void CheckCollisions()
         {
-            Collider[] collisions = Physics.OverlapSphere(transform.position, f_explosionSize * transform.localScale.x) ;
+            Collider[] collisions = Physics.OverlapSphere(transform.position, transform.localScale.x);
             if (collisions.Length == 0)
             {
                 return;

@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Utility;
 using Gun;
+using System.Collections.Generic;
 
 public class Combatant : MonoBehaviour
 {
@@ -72,16 +73,16 @@ public class Combatant : MonoBehaviour
     protected float f_currentHealth;
     [HideInInspector] public CombatState e_combatState = CombatState.Normal;
 
-    protected Vector3 S_acceleration;
-    protected Vector3 S_velocity = Vector3.zero;
     protected float f_rotationalAcceleration;
     protected float f_rotationalVelocity;
     [HideInInspector] public bool b_isDead = false;
     protected int i_bulletLayerMask;
     protected bool b_fireCancelWhileDodging;
-    [Range(0, 1)] protected float f_slowMultiplier = 1;
     protected float f_currentAccelerationStep = 0;
     protected int i_currentDodgeCount;
+    protected bool b_lightingEffected = false;
+
+    protected List<Transform> lC_lightningHits = new List<Transform>();
 
 
 
@@ -93,6 +94,9 @@ public class Combatant : MonoBehaviour
     {
         get { return new Vector3(S_movementVec2Direction.x, 0, S_movementVec2Direction.y); }
     }
+    protected Vector3 S_acceleration;
+    protected Vector3 S_velocity = Vector3.zero;
+    [Range(0, 1)] protected float f_slowMultiplier = 1;
     #endregion
 
     #region RuntimeRotation
@@ -109,7 +113,11 @@ public class Combatant : MonoBehaviour
     #endregion
     #endregion
 
+    #region DebugVariable
 
+    private float f_debugLightningSize = 0;
+
+    #endregion
 
     #region UnityOverrides
 
@@ -164,14 +172,14 @@ public class Combatant : MonoBehaviour
         //find our desired velocity and our maximum speed change
         if (C_ownedGun != null)
         {
-            effectiveSpeed = Mathf.Clamp((f_maxSpeed - C_ownedGun.aC_moduleArray[1].f_movementPenalty), 0, f_maxSpeed) * f_slowMultiplier;
+            effectiveSpeed = Mathf.Clamp((f_maxSpeed - C_ownedGun.aC_moduleArray[1].f_movementPenalty), 0, f_maxSpeed);
         }
         else
         {
-            effectiveSpeed = Mathf.Clamp((f_maxSpeed), 0, f_maxSpeed) * f_slowMultiplier;
+            effectiveSpeed = Mathf.Clamp((f_maxSpeed), 0, f_maxSpeed);
         }
 
-        Vector3 desiredVelocity = S_movementInputDirection * effectiveSpeed * C_accelerationCurve.Evaluate(f_currentAccelerationStep);
+        Vector3 desiredVelocity = S_movementInputDirection * effectiveSpeed * C_accelerationCurve.Evaluate(f_currentAccelerationStep) * f_slowMultiplier;
         float maxSpeedChange = f_maxAcceleration * Time.deltaTime;
 
         //move smoothly towards our desired velocity from our current veolicty
@@ -339,6 +347,12 @@ public class Combatant : MonoBehaviour
         C_ownedGun.Reload();
     }
 
+    public void SetLightningEffected(bool effected)
+    {
+        b_lightingEffected = effected;
+    }
+
+
     public void ApplyBulletElement(GunModule.BulletEffectInfo bulletEffectInfo, Bullet.BulletBaseInfo baseInfo)
     {
         switch (bulletEffectInfo.e_bulletEffect)
@@ -375,6 +389,11 @@ public class Combatant : MonoBehaviour
                 if (baseInfo.b_playerOwned)
                 {
                     LightningChainCheck(bulletEffectInfo.f_chainLength, bulletEffectInfo.f_chainDamagePercent * baseInfo.f_damage);
+                    f_debugLightningSize = bulletEffectInfo.f_chainLength;
+                    if (!b_isDead)
+                    {
+                        StartCoroutine(ClearLightningChainAfterSeconds(bulletEffectInfo.f_effectTime));
+                    }
                 }
                 break;
             case GunModule.BulletEffect.Vampire:
@@ -397,17 +416,30 @@ public class Combatant : MonoBehaviour
             if (combatant != null && !combatant.CompareTag("Player"))
             {
                 combatant.Damage(chainDamage);
+                SetLightningEffected(true);
+                lC_lightningHits.Add(combatant.transform);
                 //TO DO
                 //SPAWN LIGHNING EFFECT
-                Gizmos.DrawLine(transform.position, combatant.transform.position);
             }
         }
+    }
+
+    public void ClearLightningHits()
+    {
+        SetLightningEffected(false);
+        lC_lightningHits.Clear();
     }
 
 
     #endregion
 
     #region Coroutines
+
+    private IEnumerator ClearLightningChainAfterSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        ClearLightningHits();
+    }
 
     private IEnumerator ChangeStateForSeconds(CombatState state, float seconds)
     {
@@ -503,5 +535,21 @@ public class Combatant : MonoBehaviour
     }
 
     #endregion
+
+    private void OnDrawGizmos()
+    {
+        //lightning gizmo
+        Gizmos.color = Color.red;
+        foreach (Transform t in lC_lightningHits)
+        {
+            Gizmos.DrawLine(transform.position, t.position);
+        }
+        if (b_lightingEffected)
+        {
+            Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, new Vector3(1, 0.01f, 1));
+            Gizmos.color = new Color(1, 0.92f, 0.016f, 0.5f);
+            Gizmos.DrawSphere(Vector3.zero, f_debugLightningSize);
+        }
+    }
 
 }

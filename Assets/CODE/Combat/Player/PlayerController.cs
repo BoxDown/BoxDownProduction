@@ -158,6 +158,10 @@ public class PlayerController : Combatant
         }
         for (int i = 0; i < collisions.Length; i++)
         {
+            if (collisions[i].transform == transform)
+            {
+                continue;
+            }
             float distance = (collisions[i].transform.position - transform.position).magnitude;
             if (distance < closestDistance)
             {

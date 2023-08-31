@@ -5,6 +5,11 @@ namespace Managers
 {
     public class ControlManager : MonoBehaviour
     {
+        public static ControlManager controlManager
+        {
+            get;
+            private set;
+        }
         public enum CurrentControllerType
         {
             KeyboardMouse,
@@ -21,10 +26,13 @@ namespace Managers
         private void OnEnable()
         {
             C_playerInputs = FindObjectOfType<PlayerInput>();
-            ControlManager control = FindObjectOfType<ControlManager>();
-            if (control != this)
+            if (controlManager != null && controlManager != this)
             {
-                Destroy(control.transform);
+                Destroy(this);
+            }
+            else
+            {
+                controlManager = this;
             }
         }
 

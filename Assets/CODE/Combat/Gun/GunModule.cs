@@ -79,7 +79,7 @@ namespace Gun
             [Rename("Damage Over Time - Tick Count")] public int i_amountOfTicks;
             [Rename("Slow Percentage"), Range(0, 1)] public float f_slowPercent;
             [Rename("Electric Radius")] public float f_chainLength;
-            [Rename("Electric Damage Percentage"), Range(0, 1)] public float f_chainDamagePercent; 
+            [Rename("Electric Damage Percentage"), Range(0, 1)] public float f_chainDamagePercent;
             [Rename("Health Steal Percentage"), Range(0, 1)] public float f_vampirePercent;
         }
 
@@ -100,7 +100,7 @@ namespace Gun
         //Global
         [Rename("Module Prefab")] public GameObject C_meshPrefab;
         [Rename("Module Type")] public ModuleSection e_moduleType;
-        [Rename("Module Strength")] public float f_moduleStrength;
+        [Rename("Module Strength"), Range(1,100)] public float f_moduleStrength;
 
         //public Gun.FireType e_fireType;
 
@@ -128,10 +128,13 @@ namespace Gun
 
         public void Spawn(Vector3 worldPos)
         {
-            GameObject newGunModule = Instantiate(C_meshPrefab, worldPos, Quaternion.identity);
-            newGunModule.name = name;
-            newGunModule.tag = "Gun Module";
-            newGunModule.layer = 6;
+            if (C_meshPrefab != null)
+            {
+                GameObject newGunModule = Instantiate(C_meshPrefab, worldPos, Quaternion.identity);
+                newGunModule.name = name;
+                newGunModule.tag = "Gun Module";
+                newGunModule.layer = 6;
+            }
         }
 
     }
@@ -248,7 +251,7 @@ namespace Guns.CustomEditor
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("S_bulletEffectInformation").FindPropertyRelative("f_vampirePercent"));
                             break;
                     }
-                    
+
                     break;
                 case 2:
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("f_bulletSize"));

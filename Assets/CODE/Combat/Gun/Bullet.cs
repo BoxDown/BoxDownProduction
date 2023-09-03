@@ -97,6 +97,9 @@ namespace Gun
                     // move in direction by speed, 
                     transform.position += transform.forward * S_baseInformation.f_speed * Time.deltaTime;
                     break;
+                case BulletTrait.Ricochet:
+                    transform.position += transform.forward * S_baseInformation.f_speed * Time.deltaTime;
+                    break;
                 case BulletTrait.Pierce:
                     transform.position += transform.forward * S_baseInformation.f_speed * Time.deltaTime;
                     break;
@@ -251,7 +254,10 @@ namespace Gun
         {
             combatant.Damage(S_baseInformation.f_damage);
             combatant.AddVelocity(S_hitDirection * S_baseInformation.f_knockBack);
-            combatant.ApplyBulletElement(S_bulletEffect, S_baseInformation);
+            if (!combatant.b_isDead)
+            {
+                combatant.ApplyBulletElement(S_bulletEffect, S_baseInformation);
+            }
         }
 
         // bool returned early outs of update, if a bullet is destroyed return true else false
@@ -330,6 +336,7 @@ namespace Gun
                 case BulletTrait.Ricochet:
                     if (S_bulletTrait.e_bulletTrait == BulletTrait.Ricochet && S_bulletTrait.i_ricochetCount >= i_ricochetCount)
                     {
+                        DoBaseHit(combatant);
                         if (isPlayer)
                         {
                             i_ricochetCount += 1;

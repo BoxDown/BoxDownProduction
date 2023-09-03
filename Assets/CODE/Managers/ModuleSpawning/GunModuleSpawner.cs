@@ -66,7 +66,7 @@ namespace Gun
             // resources.load is templated and wants to be overloaded with the type of the asset, it doesn't read the file extension in the string
 
             string currentDirectory = Directory.GetCurrentDirectory();
-            currentDirectory += "\\Assets\\Resources\\GunModules";
+            currentDirectory += "\\Assets\\Resources\\GunModules\\";
 
             string filePath = currentDirectory + gunModuleName;
 

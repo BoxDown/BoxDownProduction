@@ -308,6 +308,8 @@ public class Combatant : MonoBehaviour
         gameObject.SetActive(false);
         b_isDead = true;
         ChangeState(CombatState.Normal);
+        SetLightningEffected(false);
+        ClearLightningHits();
 
         //TO DO, ACTUALLY RESPAWN ONLY IF NEEDED
         Invoke("Respawn", f_respawnTime);

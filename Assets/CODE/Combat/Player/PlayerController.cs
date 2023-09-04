@@ -48,19 +48,14 @@ public class PlayerController : Combatant
         // action map control setup
         C_playerInput = GetComponent<PlayerInput>();
         C_playerInput.SwitchCurrentActionMap("PlayerControl");
-        InputActionMap actionMap = C_playerInput.currentActionMap;
-        actionMap.Enable();
-        actionMap.FindAction("Movement").performed += MoveInput;
-        actionMap.FindAction("Movement").canceled += StopMove;
-        actionMap.FindAction("Rotate").performed += RotationSet;
-        actionMap.FindAction("Dodge").performed += Dodge;
-        actionMap.FindAction("Interact").performed += Interact;
-        actionMap.FindAction("Fire").performed += Fire;
-        actionMap.FindAction("Fire").canceled += CancelFire;
-        actionMap.FindAction("Reload").performed += Reload;
-        actionMap.FindAction("Pause").performed += Pause;
+        EnableInGameActions();
     }
     private void OnEnable()
+    {
+        EnableInGameActions();
+    }
+
+    private void EnableInGameActions()
     {
         C_playerInput.SwitchCurrentActionMap("PlayerControl");
         InputActionMap actionMap = C_playerInput.currentActionMap;
@@ -138,6 +133,17 @@ public class PlayerController : Combatant
     private void Pause(InputAction.CallbackContext context)
     {
         //bring up a menu
+        if (!b_isDead)
+        {
+            if (PauseMenu.pauseMenu.b_gamePaused)
+            {
+                PauseMenu.UnpauseGame();
+            }
+            else
+            {
+                PauseMenu.PauseGame();
+            }
+        }
         //swap action map
     }
 

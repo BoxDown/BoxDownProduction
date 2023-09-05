@@ -5,6 +5,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.PlayerLoop;
 using Utility;
 using static Gun.GunModule;
 
@@ -37,6 +38,9 @@ public class PlayerController : Combatant
     protected void Start()
     {
         base.Start();
+        InGameUI.gameUI.SetMaxHealth(f_maxHealth);
+        InGameUI.gameUI.SetCurrentHealth(f_maxHealth);
+        InGameUI.gameUI.UpdateHealthSlider();
         DontDestroyOnLoad(this);
     }
 
@@ -75,10 +79,13 @@ public class PlayerController : Combatant
     {
         base.Update();
         C_controlManagerReference.ChangeInputDevice(C_playerInput.currentControlScheme);
+        InGameUI.gameUI.UpdateHealthSlider();
     }
     private void LateUpdate()
     {
         base.LateUpdate();
+        HealthUI();
+        C_ownedGun.UpdateUI();
     }
 
     // input callbacks
@@ -205,6 +212,13 @@ public class PlayerController : Combatant
     private void TriggerDoor(Transform doorGoingThrough)
     {
         doorGoingThrough.GetComponent<Door>().OnEnterDoor();
+    }
+    
+    private void HealthUI()
+    {
+        InGameUI.gameUI.SetMaxHealth(f_maxHealth);
+        InGameUI.gameUI.SetCurrentHealth(f_currentHealth);
+        InGameUI.gameUI.UpdateHealthSlider();
     }
 
 }

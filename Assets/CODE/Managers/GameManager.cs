@@ -5,6 +5,7 @@ using System.Linq;
 using Utility;
 using System.IO;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 namespace Managers
 {
@@ -395,8 +396,18 @@ namespace Managers
         {
             OptionsMenu.Activate();
         }
+        public static void OpenCreditsMenu()
+        {
+            CreditsMenu.Activate();
+        }
+        public static void RestartGame()
+        {
+            gameManager.RemovePlayer();
+        }
         public static void BackToMainMenu()
         {
+            OptionsMenu.Deactivate();
+            CreditsMenu.Deactivate();
             SceneManager.LoadScene("MainMenu");
         }
 
@@ -405,5 +416,11 @@ namespace Managers
             Application.Quit();
         }
         #endregion
+
+
+        public void RemovePlayer()
+        {
+            DestroyImmediate(FindObjectOfType<PlayerController>());
+        }
     }
 }

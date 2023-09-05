@@ -16,16 +16,19 @@ namespace Managers
             private set;
         }
 
-        private int i_currentAmmo;
-        private int i_maxAmmo;
+        [Rename("Health Colour Gradient"),SerializeField] private Gradient C_healthGradient;
 
-        private float f_maxHealth;
-        private float f_currentHealth;
+        private int i_currentAmmo = 1;
+        private int i_maxAmmo = 1;
 
-        [Rename("Health Slider"), SerializeField] Slider C_healthSlider;
-        [Rename("Ammo Slider"), SerializeField] Slider C_ammoSlider;
+        private float f_maxHealth = 1;
+        private float f_currentHealth = 1;
 
-        [Rename("Ammo Text"), SerializeField] TextMeshPro C_ammoText;
+        [Rename("Health Slider"), SerializeField] Image C_healthSlider;
+        [Rename("Ammo Slider"), SerializeField] Image C_ammoSlider;
+
+        [Rename("Ammo Text"), SerializeField] TextMeshProUGUI C_ammoText;
+        [Rename("Reload Text"), SerializeField] TextMeshProUGUI C_reloadText;
 
 
 
@@ -41,9 +44,6 @@ namespace Managers
             {
                 gameUI = this;
             }
-            C_healthSlider.wholeNumbers = false;
-            C_ammoSlider.wholeNumbers = true;
-
         }
 
         public void SetMaxHealth(float maxHealth)
@@ -63,8 +63,6 @@ namespace Managers
         public void SetCurrentAmmo(int ammo)
         {
             i_currentAmmo = ammo;
-            UpdateAmmoText();
-            UpdateAmmoSlider();
         }
         public void UpdateAmmoText()
         {
@@ -72,13 +70,22 @@ namespace Managers
         }
         public void UpdateHealthSlider()
         {
-            C_healthSlider.maxValue = f_maxHealth;
-            C_healthSlider.value = f_currentHealth;
+            float percentageHealth = f_currentHealth / f_maxHealth;
+            C_healthSlider.rectTransform.localScale = new Vector3(percentageHealth, 1, 1);
+            C_healthSlider.color = C_healthGradient.Evaluate(percentageHealth);
         }
         public void UpdateAmmoSlider()
         {
-            C_ammoSlider.maxValue = i_maxAmmo;
-            C_ammoSlider.value = i_currentAmmo;
+            C_ammoSlider.rectTransform.localScale = new Vector3(i_currentAmmo / (float)i_maxAmmo, 1, 1);
+        }
+
+        public void TurnOnReloadingText()
+        {
+            C_reloadText.gameObject.SetActive(true);
+        }
+        public void TurnOffReloadingText()
+        {
+            C_reloadText.gameObject.SetActive(false);
         }
     }
 }

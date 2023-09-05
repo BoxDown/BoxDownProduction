@@ -1,6 +1,8 @@
+using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using Utility;
 
@@ -49,7 +51,7 @@ namespace Gun
         }
 
         [Rename("Gun Holder")] public Combatant C_gunHolder;
-        [Rename("Gun Modules")]public GunModule[] aC_moduleArray = new GunModule[3];
+        [Rename("Gun Modules")] public GunModule[] aC_moduleArray = new GunModule[3];
 
         float f_lastFireTime = 0;
         float f_timeSinceLastFire { get { return Time.time - f_lastFireTime; } }
@@ -65,12 +67,12 @@ namespace Gun
         BulletObjectPool C_bulletPool;
 
         [Header("Bullet Colours")]
-        [Rename("Emission Value")]public float f_emissiveValue = 20.0f;
-        [Rename("Standard Colour")]public Color S_standardColour = new Color(0.75f, 0.5f, 0.2f, 1);
-        [Rename("Fire Colour")]public Color S_fireColour = new Color(1f, 0.2f, 0f, 1);
-        [Rename("Ice Colour")]public Color S_iceColour = new Color(0.35f, 0.8f, 0.7f, 1);
-        [Rename("Lightning Colour")]public Color S_lightningColour = new Color(1f, 1f, 0.25f, 1);
-        [Rename("Vampire Colour")]public Color S_vampireColour = new Color(0.5f, 0.8f, 0.1f, 1);
+        [Rename("Emission Value")] public float f_emissiveValue = 20.0f;
+        [Rename("Standard Colour")] public Color S_standardColour = new Color(0.75f, 0.5f, 0.2f, 1);
+        [Rename("Fire Colour")] public Color S_fireColour = new Color(1f, 0.2f, 0f, 1);
+        [Rename("Ice Colour")] public Color S_iceColour = new Color(0.35f, 0.8f, 0.7f, 1);
+        [Rename("Lightning Colour")] public Color S_lightningColour = new Color(1f, 1f, 0.25f, 1);
+        [Rename("Vampire Colour")] public Color S_vampireColour = new Color(0.5f, 0.8f, 0.1f, 1);
 
 
         [Space(15)]
@@ -122,7 +124,6 @@ namespace Gun
             }
         }
 
-
         public void StartFire()
         {
             f_timeUntilNextFire = 0;
@@ -172,16 +173,13 @@ namespace Gun
                 Vector3 recoil = -C_gunHolder.transform.forward * f_recoil;
 
                 C_gunHolder.GetComponent<Combatant>().AddVelocity(recoil);
-                
+
 
                 f_timeUntilNextFire += f_timeBetweenBulletShots;
             }
 
-            
-
             f_lastFireTime = Time.time;
             i_currentAmmo -= timesFiredThisFrame;
-
         }
 
         public void CancelFire()
@@ -191,13 +189,17 @@ namespace Gun
             b_isFiring = false;
         }
 
-        //stub
         public void Reload()
         {
             // read clip size and current bullet count and reload time
             // reload 1 at a time,
             //optional cancelleable reload
             StartCoroutine(ReloadAfterTime());
+        }
+
+        public void HardReload()
+        {
+            i_currentAmmo = i_clipSize;
         }
 
         /// <summary>
@@ -223,7 +225,11 @@ namespace Gun
                     break;
             }
             C_bulletPool.ResizePool(this);
-        }        
+            if (!b_debugGun)
+            {
+                HardReload();
+            }
+        }
         private void UpdateTriggerStats(GunModule gunModule)
         {
             if (gunModule.e_moduleType != GunModule.ModuleSection.Trigger)
@@ -251,7 +257,6 @@ namespace Gun
             i_clipSize = gunModule.i_clipSize;
 
             S_bulletEffectInfo = gunModule.S_bulletEffectInformation;
-
         }
         private void UpdateBarrelStats(GunModule gunModule)
         {
@@ -266,7 +271,6 @@ namespace Gun
 
             S_shotPatternInfo = gunModule.S_shotPatternInformation;
         }
-
 
         /// <summary>
         /// Firing Support Functions
@@ -320,21 +324,20 @@ namespace Gun
 
         }
 
-        
         public void SwapGunPiece(GunModule newModule)
         {
             GunModule oldModule = null;
             switch (newModule.e_moduleType)
             {
-                case GunModule.ModuleSection.Trigger:                    
+                case GunModule.ModuleSection.Trigger:
                     oldModule = aC_moduleArray[0];
                     aC_moduleArray[0] = newModule;
                     break;
-                case GunModule.ModuleSection.Clip:                    
+                case GunModule.ModuleSection.Clip:
                     oldModule = aC_moduleArray[1];
                     aC_moduleArray[1] = newModule;
                     break;
-                case GunModule.ModuleSection.Barrel:                    
+                case GunModule.ModuleSection.Barrel:
                     oldModule = aC_moduleArray[2];
                     aC_moduleArray[2] = newModule;
                     break;
@@ -342,7 +345,7 @@ namespace Gun
             GunModuleSpawner.SpawnGunModule(oldModule.name, new Vector3(transform.position.x, 0, transform.position.z));
             UpdateGunStats(newModule);
         }
-        
+
         public void ResetToBaseStats()
         {
             GunModule baseBarrel = (GunModule)Resources.Load($"GunModules\\Barrel\\BaseBarrel");
@@ -352,25 +355,49 @@ namespace Gun
             UpdateGunStats(baseClip);
             UpdateGunStats(baseTrigger);
         }
+
+        public void UpdateUI()
+        {
+            InGameUI.gameUI.SetMaxAmmo(i_clipSize);
+            InGameUI.gameUI.SetCurrentAmmo(i_currentAmmo);
+            InGameUI.gameUI.UpdateAmmoSlider();
+            InGameUI.gameUI.UpdateAmmoText();
+        }
         //reload all at once
         private IEnumerator ReloadAfterTime()
         {
+            if (C_gunHolder.CompareTag("Player"))
+            {
+                InGameUI.gameUI.TurnOnReloadingText();
+            }
             b_reloading = true;
             yield return new WaitForSeconds(f_reloadSpeed);
             i_currentAmmo = i_clipSize;
             b_reloading = false;
+            if (C_gunHolder.CompareTag("Player"))
+            {
+                InGameUI.gameUI.TurnOffReloadingText();
+            }
         }
         //reload one bullet at a time
         private IEnumerator ReloadOverTime()
         {
+            if (C_gunHolder.CompareTag("Player"))
+            {
+                InGameUI.gameUI.TurnOnReloadingText();
+            }
             b_reloading = true;
             float reloadRate = i_clipSize / f_reloadSpeed;
-            while(i_currentAmmo != i_clipSize)
+            while (i_currentAmmo != i_clipSize)
             {
                 yield return new WaitForSeconds(reloadRate);
                 i_currentAmmo++;
             }
             b_reloading = false;
+            if (C_gunHolder.CompareTag("Player"))
+            {
+                InGameUI.gameUI.TurnOffReloadingText();
+            }
         }
     }
 }

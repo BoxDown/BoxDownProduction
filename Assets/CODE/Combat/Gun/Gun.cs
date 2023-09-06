@@ -64,7 +64,7 @@ namespace Gun
         float f_fireHoldTime = 0;
         bool b_reloadCancel = false;
         bool b_reloading = false;
-        BulletObjectPool C_bulletPool;
+        [HideInInspector] public BulletObjectPool C_bulletPool;
 
         [Header("Bullet Colours")]
         [Rename("Emission Value")] public float f_emissiveValue = 20.0f;

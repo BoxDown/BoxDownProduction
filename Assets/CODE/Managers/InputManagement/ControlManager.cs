@@ -10,7 +10,7 @@ namespace Managers
             get;
             private set;
         }
-        public enum CurrentControllerType
+        public enum ControllerType
         {
             KeyboardMouse,
             Xbox,
@@ -21,7 +21,7 @@ namespace Managers
 
 
         PlayerInput C_playerInputs;
-        CurrentControllerType e_currentControlDevice = CurrentControllerType.KeyboardMouse;
+        ControllerType e_currentControlDevice = ControllerType.KeyboardMouse;
 
         private void OnEnable()
         {
@@ -36,9 +36,9 @@ namespace Managers
             }
         }
 
-        private void EnableListeners()
+        private static void EnableListeners()
         {
-            InputSystem.onDeviceChange += InputDeviceChanged;
+            InputSystem.onDeviceChange += controlManager.InputDeviceChanged;
         }
 
         private void InputDeviceChanged(InputDevice device, InputDeviceChange change)
@@ -51,21 +51,21 @@ namespace Managers
                     {
                         //correct name
                         case "Sony Interactive Entertainement":
-                            e_currentControlDevice = CurrentControllerType.Playstation;
+                            e_currentControlDevice = ControllerType.Playstation;
                             return;
                         //correct name
                         case "Nintendo Co., Ltd.":
-                            e_currentControlDevice = CurrentControllerType.Switch;
+                            e_currentControlDevice = ControllerType.Switch;
                             return;
                         default:
                             //xbox manufacturer returns empty but so do keyboard and mice
                             if (InputSystem.devices[0].description.product.Contains("XBox"))
                             {
-                                e_currentControlDevice = CurrentControllerType.Xbox;
+                                e_currentControlDevice = ControllerType.Xbox;
                             }
                             else
                             {
-                                e_currentControlDevice = CurrentControllerType.KeyboardMouse;
+                                e_currentControlDevice = ControllerType.KeyboardMouse;
                             }
                             return;
                     }
@@ -97,53 +97,53 @@ namespace Managers
             {
                 //correct name
                 case "Sony Interactive Entertainement":
-                    e_currentControlDevice = CurrentControllerType.Playstation;
+                    e_currentControlDevice = ControllerType.Playstation;
                     return;
                 //correct name
                 case "Nintendo Co., Ltd.":
-                    e_currentControlDevice = CurrentControllerType.Switch;
+                    e_currentControlDevice = ControllerType.Switch;
                     return;
                 default:
                     //xbox manufacturer returns empty but so do keyboard and mice
                     if (InputSystem.devices[0].description.product.Contains("XBox"))
                     {
-                        e_currentControlDevice = CurrentControllerType.Xbox;
+                        e_currentControlDevice = ControllerType.Xbox;
                     }
                     else
                     {
-                        e_currentControlDevice = CurrentControllerType.KeyboardMouse;
+                        e_currentControlDevice = ControllerType.KeyboardMouse;
                     }
                     return;
             }
         }
-        public CurrentControllerType GetCurrentControllerType()
+        public static ControllerType GetControllerType()
         {
-            return e_currentControlDevice;
+            return controlManager.e_currentControlDevice;
         }
 
-        public void ChangeInputDevice(string controlScheme)
+        public static void ChangeInputDevice(string controlScheme)
         {
 
             switch (controlScheme)
             {
                 //correct name
                 case "Playstation":
-                    e_currentControlDevice = CurrentControllerType.Playstation;
+                    controlManager.e_currentControlDevice = ControllerType.Playstation;
                     return;
                 //correct name
                 case "Nintendo":
-                    e_currentControlDevice = CurrentControllerType.Switch;
+                    controlManager.e_currentControlDevice = ControllerType.Switch;
                     return;
                 case "Xbox":
-                    e_currentControlDevice = CurrentControllerType.Xbox;
+                    controlManager.e_currentControlDevice = ControllerType.Xbox;
                     return;
                 case "KeyboardMouse":
-                    e_currentControlDevice = CurrentControllerType.KeyboardMouse;
+                    controlManager.e_currentControlDevice = ControllerType.KeyboardMouse;
                     return;
             }
         }
 
-        private void ChangeControlImages(CurrentControllerType type)
+        private void ChangeControlImages(ControllerType type)
         {
 
         }

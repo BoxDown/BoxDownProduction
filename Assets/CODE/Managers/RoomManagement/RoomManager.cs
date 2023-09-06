@@ -3,7 +3,6 @@ using Utility;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Linq;
 
 namespace Managers
 {
@@ -84,7 +83,7 @@ namespace Managers
             }
             if (aC_enemyWaveList[i_currentWave].aC_enemies.Length != 0)
             {
-                for (int i = 0; i < aC_enemyWaveList[i_currentWave].aC_enemies.Length - 1; i++)
+                for (int i = 0; i < aC_enemyWaveList[i_currentWave].aC_enemies.Length; i++)
                 {
                     if (!aC_enemyWaveList[i_currentWave].aC_enemies[i].b_isDead)
                     {
@@ -99,9 +98,12 @@ namespace Managers
         {
             //enable all enemy objects in next list,
             //on enable spawn them in
-            for (int i = 0; i < aC_enemyWaveList[i_currentWave].aC_enemies.Length; i++)
+            if (aC_enemyWaveList.Length != 0)
             {
-                aC_enemyWaveList[i_currentWave].aC_enemies[i].gameObject.SetActive(true);
+                for (int i = 0; i < aC_enemyWaveList[i_currentWave].aC_enemies.Length; i++)
+                {
+                    aC_enemyWaveList[i_currentWave].aC_enemies[i].gameObject.SetActive(true);
+                }
             }
         }
 

@@ -5,26 +5,14 @@ using System.Linq;
 using Utility;
 using System.IO;
 using UnityEngine.SceneManagement;
-using UnityEditor;
+using UnityEngine.InputSystem;
 
 namespace Managers
 {
+    [RequireComponent(typeof(PlayerInput))]
     public class GameManager : MonoBehaviour
     {
-        public enum UIState
-        {
-            Main,
-            Pause,
-            Swap,
-            InGame,
-            Options,
-            Credits
-        }
-        public static UIState e_currentUIState
-        {
-            get;
-            private set;
-        }
+        [Rename("Main Menu Holder")]Transform C_mainMenu;
 
         public static GameManager gameManager
         {
@@ -38,6 +26,7 @@ namespace Managers
         [Rename("Amount Of Hard Rooms"), SerializeField] private int i_hardRooms = 5;
         [Rename("Endless Mode"), SerializeField] private bool b_endlessMode = false;
 
+        [Rename("Player Input")] private PlayerInput C_playerInput;
 
 
         private Door.RoomType e_currentRewardType;
@@ -57,6 +46,13 @@ namespace Managers
         private List<string> ls_easyLevels = new List<string>();
         private List<string> ls_mediumLevels = new List<string>();
         private List<string> ls_hardLevels = new List<string>();
+
+        private PlayerController C_player;
+
+        private void FixedUpdate()
+        {
+            ControlManager.ChangeInputDevice(C_playerInput.currentControlScheme);
+        }
 
 
         #region GamePlayFunctons
@@ -86,6 +82,7 @@ namespace Managers
             GrabAllLevels();
             GroupLevels(ls_allLevels);
 
+            C_playerInput = GetComponent<PlayerInput>();
         }
 
         public void SpawnNextReward()
@@ -391,24 +388,36 @@ namespace Managers
             gameManager.b_endlessMode = true;
             SceneManager.LoadScene("StartBreakRoom");
         }
-
         public static void OpenOptionsMenu()
         {
             OptionsMenu.Activate();
+            DeactivateMainMenu();
         }
         public static void OpenCreditsMenu()
         {
             CreditsMenu.Activate();
+            DeactivateMainMenu();
+        }
+        public static void ActivateMainMenu()
+        {
+            gameManager.C_mainMenu.gameObject.SetActive(true);
+        }
+        public static void DeactivateMainMenu()
+        {
+            gameManager.C_mainMenu.gameObject.SetActive(false);
         }
         public static void RestartGame()
         {
             gameManager.RemovePlayer();
         }
+        //deactivate all menus then back to main menu scene to have an empty scene with nothing but the menu
         public static void BackToMainMenu()
         {
+            
             OptionsMenu.Deactivate();
             CreditsMenu.Deactivate();
             SceneManager.LoadScene("MainMenu");
+            ActivateMainMenu();            
         }
 
         public static void ExitGame()
@@ -417,10 +426,39 @@ namespace Managers
         }
         #endregion
 
+        #region PlayerFunctions
+
+        public static void SwitchToUIActions()
+        {
+            gameManager.C_playerInput.SwitchCurrentActionMap("UI");
+            InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
+        }
+
+        public static void SwitchToInGameActions()
+        {
+            gameManager.C_playerInput.SwitchCurrentActionMap("PlayerControl");
+            InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
+            actionMap.Enable();
+            actionMap.FindAction("Movement").performed += gameManager.C_player.MoveInput;
+            actionMap.FindAction("Movement").canceled += gameManager.C_player.StopMove;
+            actionMap.FindAction("Rotate").performed += gameManager.C_player.RotationSet;
+            actionMap.FindAction("Dodge").performed += gameManager.C_player.Dodge;
+            actionMap.FindAction("Interact").performed += gameManager.C_player.Interact;
+            actionMap.FindAction("Fire").performed += gameManager.C_player.Fire;
+            actionMap.FindAction("Fire").canceled += gameManager.C_player.CancelFire;
+            actionMap.FindAction("Reload").performed += gameManager.C_player.Reload;
+            actionMap.FindAction("Pause").performed += gameManager.C_player.Pause;
+        }
+
+        public static void SetPlayer(PlayerController newPlayer)
+        {
+            gameManager.C_player = newPlayer;
+        }
 
         public void RemovePlayer()
         {
             DestroyImmediate(FindObjectOfType<PlayerController>());
         }
+        #endregion
     }
 }

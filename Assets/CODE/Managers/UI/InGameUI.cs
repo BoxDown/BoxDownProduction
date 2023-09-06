@@ -7,7 +7,6 @@ using Utility;
 
 namespace Managers
 {
-
     public class InGameUI : MonoBehaviour
     {
         public static InGameUI gameUI

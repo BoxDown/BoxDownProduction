@@ -56,6 +56,7 @@ public class Combatant : MonoBehaviour
     [Rename("Max Health")] public float f_maxHealth = 100;
     [Rename("Invincibility On Hit Time")] public float f_invincibleTime = 0.15f;
     [Rename("Owned Gun")] public Gun.Gun C_ownedGun = null;
+    [Rename("Debug Respawn")] public bool b_debugRespawn = false;
     [Rename("Debug Respawn Time")] public float f_respawnTime = 5.0f;
     [Space(4)]
 
@@ -311,8 +312,10 @@ public class Combatant : MonoBehaviour
         SetLightningEffected(false);
         ClearLightningHits();
 
-        //TO DO, ACTUALLY RESPAWN ONLY IF NEEDED
-        Invoke("Respawn", f_respawnTime);
+        if (b_debugRespawn)
+        {
+            Invoke("Respawn", f_respawnTime);
+        }
     }
 
     public void Respawn()

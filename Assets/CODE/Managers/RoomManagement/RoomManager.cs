@@ -32,6 +32,15 @@ namespace Managers
             {
                 C_manager.ResetGoo();
             }
+
+            for (int i = 0; i < aC_enemyWaveList.Length; i++)
+            {
+                for (int j = 0; j < aC_enemyWaveList[i].aC_enemies.Length; j++)
+                {
+                    aC_enemyWaveList[i].aC_enemies[j].gameObject.SetActive(false);
+                }
+            }
+            SpawnNextWave();
         }
 
         private void FixedUpdate()
@@ -90,6 +99,10 @@ namespace Managers
         {
             //enable all enemy objects in next list,
             //on enable spawn them in
+            for (int i = 0; i < aC_enemyWaveList[i_currentWave].aC_enemies.Length; i++)
+            {
+                aC_enemyWaveList[i_currentWave].aC_enemies[i].gameObject.SetActive(true);
+            }
         }
 
         private void SpawnReward()

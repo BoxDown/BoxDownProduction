@@ -134,6 +134,11 @@ public class PlayerController : Combatant
         transform.position = position;
     }
 
+    public void SetPlayerRotation(float angle)
+    {
+        transform.rotation = Quaternion.Euler(0, angle, 0);
+    }
+
     private void Interact()
     {
         float closestDistance = float.MaxValue;
@@ -198,7 +203,7 @@ public class PlayerController : Combatant
     //needed because we want to clean up the object pool as well
     private void OnDestroy()
     {
-        DestroyImmediate(C_ownedGun.C_bulletPool.gameObject);
+        //Destroy(C_ownedGun.C_bulletPool.gameObject);
     }
 
 }

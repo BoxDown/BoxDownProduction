@@ -55,7 +55,7 @@ namespace Gun
 
         float f_lastFireTime = 0;
         float f_timeSinceLastFire { get { return Time.time - f_lastFireTime; } }
-        float f_timeBetweenBulletShots { get { return 1.0f / f_fireRate; } }
+        [HideInInspector]public float f_timeBetweenBulletShots { get { return 1.0f / f_fireRate; } }
         float f_timeUntilNextFire = 0;
 
         int i_currentAmmo;
@@ -111,6 +111,7 @@ namespace Gun
                 f_timeUntilNextFire -= Time.deltaTime;
                 f_fireHoldTime += Time.deltaTime;
                 Fire();
+                C_gunHolder.ShotFired();
             }
         }
         private void FixedUpdate()

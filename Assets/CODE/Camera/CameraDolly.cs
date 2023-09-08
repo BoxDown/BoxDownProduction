@@ -23,6 +23,7 @@ public class CameraDolly : MonoBehaviour
     {
         C_camera = GetComponent<Camera>();
         C_targetPlayer = FindObjectOfType<PlayerController>();
+        DontDestroyOnLoad(this);
     }
 
     // Update is called once per frame

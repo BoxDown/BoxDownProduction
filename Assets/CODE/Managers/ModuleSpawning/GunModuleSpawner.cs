@@ -3,6 +3,7 @@ using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
 using Utility;
+using Unity.VisualScripting;
 
 namespace Gun
 {
@@ -49,7 +50,10 @@ namespace Gun
                     string[] stringSplit = filesInDirectory[j].Split("GunModules\\");
                     //remove ".asset"
                     string moduleName = stringSplit[1].Remove(stringSplit[1].Length - 6);
-
+                    if (moduleName.Contains("E_"))
+                    {
+                        continue;
+                    }
                     //add name to list
                     allGunModulesInProject.Add(moduleName);
                 }

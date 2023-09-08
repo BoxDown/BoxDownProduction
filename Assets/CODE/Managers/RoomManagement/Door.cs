@@ -29,7 +29,7 @@ public class Door : MonoBehaviour
         GetComponent<BoxCollider>().isTrigger = true;
         C_doorMat = new Material(Shader.Find("HDRP/Lit"));
         RandomiseRoomType();
-        GetComponent<Renderer>().material = C_doorMat;
+        GetComponentInChildren<Renderer>().material = C_doorMat;
         UpdateDoorVisuals();
     }
 

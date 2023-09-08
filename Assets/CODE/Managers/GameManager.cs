@@ -40,7 +40,11 @@ namespace Managers
         private List<GunModule> lC_triggerGunModules = new List<GunModule>();
         private List<GunModule> lC_clipGunModules = new List<GunModule>();
         private List<GunModule> lC_barrelGunModules = new List<GunModule>();
-        private int i_currentRoom = 0;
+        public int i_currentRoom
+        {
+            get;
+            private set;
+        }
 
         private List<string> ls_allLevels = new List<string>(); // all levels should not be used to load any scenes
         private List<string> ls_easyLevels = new List<string>();
@@ -63,6 +67,7 @@ namespace Managers
             if (gameManager != null && gameManager != this)
             {
                 Destroy(this);
+                return;
             }
             else
             {
@@ -83,6 +88,7 @@ namespace Managers
             GroupLevels(ls_allLevels);
 
             C_playerInput = GetComponent<PlayerInput>();
+            i_currentRoom = 0;
         }
 
         public void SpawnNextReward()
@@ -381,11 +387,13 @@ namespace Managers
         public static void StartGame()
         {
             gameManager.b_endlessMode = false;
+            gameManager.i_currentRoom = 0;
             SceneManager.LoadScene("StartBreakRoom");
         }
         public static void StartGameEndless()
         {
             gameManager.b_endlessMode = true;
+            gameManager.i_currentRoom = 0;
             SceneManager.LoadScene("StartBreakRoom");
         }
         public static void OpenOptionsMenu()
@@ -409,6 +417,8 @@ namespace Managers
         public static void RestartGame()
         {
             gameManager.RemovePlayer();
+            gameManager.i_currentRoom = 0;
+            SceneManager.LoadScene("StartBreakRoom");
         }
         //deactivate all menus then back to main menu scene to have an empty scene with nothing but the menu
         public static void BackToMainMenu()
@@ -458,6 +468,10 @@ namespace Managers
         public void RemovePlayer()
         {
             DestroyImmediate(FindObjectOfType<PlayerController>());
+        }
+        public void RemoveCamera()
+        {
+            DestroyImmediate(FindObjectOfType<CameraDolly>());
         }
         #endregion
     }

@@ -3,7 +3,6 @@ using UnityEngine;
 using Utility;
 using Gun;
 using System.Collections.Generic;
-using Palmmedia.ReportGenerator.Core;
 
 public class Combatant : MonoBehaviour
 {

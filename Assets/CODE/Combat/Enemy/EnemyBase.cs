@@ -9,6 +9,7 @@ namespace Enemy
 
         [Rename("Lock Enemy Position")] public bool b_lockEnemyPosition;
         [Rename("Enemy Fire Testing")] public bool b_testFiring;
+        [Rename("Enemy Fire Distancfe")] public float f_attackDistance = 20;
 
 
         //runtime variables
@@ -25,17 +26,20 @@ namespace Enemy
         private void Update()
         {
             base.Update();
-            Vector3 fromToPlayer =  C_player.transform.position - transform.position;
-            SetRotationDirection(new Vector2(fromToPlayer.x, fromToPlayer.z));
+            if(C_player != null)
+            {
+                Vector3 fromToPlayer =  C_player.transform.position - transform.position;
+                SetRotationDirection(new Vector2(fromToPlayer.x, fromToPlayer.z));
 
-            if (b_testFiring)
-            {
-                FireGun();
-            }
-            else
-            {
-                CancelGun();
-            }
+                if (b_testFiring && fromToPlayer.magnitude < f_attackDistance)
+                {
+                    FireGun();
+                }
+                else
+                {
+                    CancelGun();
+                }
+            }            
         }
 
         protected override void Move()

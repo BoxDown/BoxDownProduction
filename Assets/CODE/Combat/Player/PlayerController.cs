@@ -128,6 +128,12 @@ public class PlayerController : Combatant
         //swap action map
     }
 
+    public override void Die()
+    {
+        base.Die();
+        ResultsUI.ActivateLose();
+    }
+
 
     public void SetPlayerPosition(Vector3 position)
     {

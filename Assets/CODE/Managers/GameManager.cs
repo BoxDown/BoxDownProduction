@@ -5,12 +5,27 @@ using System.Linq;
 using Utility;
 using System.IO;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 namespace Managers
 {
-
     public class GameManager : MonoBehaviour
     {
+        public enum UIState
+        {
+            Main,
+            Pause,
+            Swap,
+            InGame,
+            Options,
+            Credits
+        }
+        public static UIState e_currentUIState
+        {
+            get;
+            private set;
+        }
+
         public static GameManager gameManager
         {
             get;
@@ -43,6 +58,8 @@ namespace Managers
         private List<string> ls_mediumLevels = new List<string>();
         private List<string> ls_hardLevels = new List<string>();
 
+
+        #region GamePlayFunctons
         // Start is called before the first frame update
         void Awake()
         {
@@ -135,7 +152,6 @@ namespace Managers
         //what doors call
         public void MoveToNextRoom()
         {
-            IncrementRoom();
             LoadNextRoom();
         }
 
@@ -150,44 +166,51 @@ namespace Managers
                     roomNumberToLoad = Random.Range(0, ls_easyLevels.Count());
                 }
                 Debug.Log("Moved To Easy Room");
+                IncrementRoom();
                 SceneManager.LoadScene(ls_easyLevels[roomNumberToLoad]);
                 return;
             }
             else if (i_currentRoom < i_easyRooms + 1 + i_mediumRooms)
             {
-                //if (i_currentRoom == i_easyRooms + 1)
-                //{
-                //    SceneManager.LoadScene("EasyBreakRoom");
-                //    return;
-                //}
+                if (i_currentRoom == i_easyRooms + 1)
+                {
+                    SceneManager.LoadScene("EasyBreakRoom");
+                    return;
+                }
                 while (ls_mediumLevels[roomNumberToLoad] == SceneManager.GetActiveScene().name)
                 {
                     roomNumberToLoad = Random.Range(0, ls_mediumLevels.Count());
                 }
                 Debug.Log("Moved To Medium Room");
+                IncrementRoom();
                 SceneManager.LoadScene(ls_mediumLevels[roomNumberToLoad]);
                 return;
             }
-            else if (b_endlessMode || i_currentRoom < i_easyRooms + 1 + i_mediumRooms + 1 + i_hardRooms)
+            else if (b_endlessMode || i_currentRoom < i_easyRooms + 1 + i_mediumRooms + 1 + i_hardRooms + 1)
             {
-                //if (i_currentRoom == i_easyRooms + 1 + i_mediumRooms + 1)
-                //{
-                //    SceneManager.LoadScene("MediumBreakRoom");
-                //    return;
-                //}
+                if (i_currentRoom == i_easyRooms + 1 + i_mediumRooms + 1)
+                {
+                    SceneManager.LoadScene("MediumBreakRoom");
+                    return;
+                }
                 while (ls_hardLevels[roomNumberToLoad] == SceneManager.GetActiveScene().name)
                 {
                     roomNumberToLoad = Random.Range(0, ls_hardLevels.Count());
                 }
                 Debug.Log("Moved To Hard Room");
+                IncrementRoom();
                 SceneManager.LoadScene(ls_hardLevels[roomNumberToLoad]);
+                return;
+            }
+            else if (i_currentRoom == i_easyRooms + 1 + i_mediumRooms + 1 + i_hardRooms)
+            {
+                SceneManager.LoadScene("HardBreakRoom");
                 return;
             }
             else
             {
-                //TO DO ACTUALLY REPLACE THIS WITH THE SCENE NAME WITH THE BOSS
                 //load boss scene after reaching the specified end
-                SceneManager.LoadScene("BossSceneOrWhatever");
+                SceneManager.LoadScene("BossRoom");
             }
         }
         private void DeclareAllLevels()
@@ -355,25 +378,37 @@ namespace Managers
                     break;
             }
         }
-
+        #endregion
 
         #region UIFunctions
         public static void StartGame()
         {
             gameManager.b_endlessMode = false;
-            //TO DO REPLACE WITH NAME OF OPENING SCENE
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene("StartBreakRoom");
         }
         public static void StartGameEndless()
         {
             gameManager.b_endlessMode = true;
-            //TO DO REPLACE WITH NAME OF OPENING SCENE
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene("StartBreakRoom");
         }
 
         public static void OpenOptionsMenu()
         {
             OptionsMenu.Activate();
+        }
+        public static void OpenCreditsMenu()
+        {
+            CreditsMenu.Activate();
+        }
+        public static void RestartGame()
+        {
+            gameManager.RemovePlayer();
+        }
+        public static void BackToMainMenu()
+        {
+            OptionsMenu.Deactivate();
+            CreditsMenu.Deactivate();
+            SceneManager.LoadScene("MainMenu");
         }
 
         public static void ExitGame()
@@ -381,5 +416,11 @@ namespace Managers
             Application.Quit();
         }
         #endregion
+
+
+        public void RemovePlayer()
+        {
+            DestroyImmediate(FindObjectOfType<PlayerController>());
+        }
     }
 }

@@ -9,9 +9,8 @@ public class CreditsMenu : MonoBehaviour
         get;
         private set;
     }
-    void Awake()
+    public void Awake()
     {
-        DontDestroyOnLoad(gameObject);
         if (creditsUI != null && creditsUI != this)
         {
             Destroy(this);

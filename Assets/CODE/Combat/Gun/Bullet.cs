@@ -185,7 +185,13 @@ namespace Gun
             }
             else
             {
-                C_homingTarget = FindObjectOfType<PlayerController>().transform;
+                PlayerController target = FindObjectOfType<PlayerController>();
+                if (target != null)
+                {
+                    C_homingTarget = target.transform;
+                    return;
+                }
+                C_homingTarget = null;
             }
         }
 
@@ -220,7 +226,12 @@ namespace Gun
             }
             else
             {
-                return FindObjectOfType<PlayerController>().transform;
+                PlayerController target = FindObjectOfType<PlayerController>();
+                if (target != null)
+                {
+                    return target.transform;
+                }
+                return null;
             }
         }
 
@@ -318,7 +329,7 @@ namespace Gun
                         C_poolOwner.MoveToOpen(this);
                         return true;
                     }
-                    return false;                    
+                    return false;
                 case BulletTrait.Pierce:
                     if (shouldHit)
                     {
@@ -330,29 +341,32 @@ namespace Gun
                         {
                             C_poolOwner.MoveToOpen(this);
                             return true;
-                        }                        
+                        }
                     }
                     return false;
                 case BulletTrait.Ricochet:
-                    if (S_bulletTrait.e_bulletTrait == BulletTrait.Ricochet && S_bulletTrait.i_ricochetCount >= i_ricochetCount)
+                    if (shouldHit)
                     {
-                        DoBaseHit(combatant);
-                        if (isPlayer)
+                        if (S_bulletTrait.e_bulletTrait == BulletTrait.Ricochet && S_bulletTrait.i_ricochetCount >= i_ricochetCount)
                         {
-                            i_ricochetCount += 1;
-                            transform.rotation = Quaternion.Euler(new Vector3(0, ExtraMaths.FloatRandom(0, 360), 0));
-                        }
-                        else
-                        {
-                            i_ricochetCount += 1;
-                            Transform newTarget = FindRicochetTarget(combatant.transform);
-                            if (newTarget != null)
+                            DoBaseHit(combatant);
+                            if (isPlayer)
                             {
-                                transform.LookAt(newTarget);
-                                transform.forward = new Vector3(transform.forward.x, 0, transform.forward.z);
+                                i_ricochetCount += 1;
+                                transform.rotation = Quaternion.Euler(new Vector3(0, ExtraMaths.FloatRandom(0, 360), 0));
                             }
+                            else
+                            {
+                                i_ricochetCount += 1;
+                                Transform newTarget = FindRicochetTarget(combatant.transform);
+                                if (newTarget != null)
+                                {
+                                    transform.LookAt(newTarget);
+                                    transform.forward = new Vector3(transform.forward.x, 0, transform.forward.z);
+                                }
+                            }
+                            return false;
                         }
-                        return false;
                     }
                     C_poolOwner.MoveToOpen(this);
                     return true;

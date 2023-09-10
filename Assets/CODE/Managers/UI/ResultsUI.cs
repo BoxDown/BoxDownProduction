@@ -1,59 +1,63 @@
-using Managers;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.WSA;
+using Utility;
 
-public class ResultsUI : MonoBehaviour
+namespace Managers
 {
-
-    Transform C_winResult;
-    Transform C_loseResult;
-
-    public static ResultsUI resultsUI
+    public class ResultsUI : MonoBehaviour
     {
-        get;
-        private set;
-    }
-    void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-        if (resultsUI != null && resultsUI != this)
+
+        [Rename("Win Screen")] public Transform C_winResult;
+        [Rename("Lose Screen")] public Transform C_loseResult;
+        [Rename("Lose Text")] public TextMeshProUGUI C_loseText;
+
+
+        public static ResultsUI resultsUI
         {
-            Destroy(this);
+            get;
+            private set;
         }
-        else
+        void Awake()
         {
-            resultsUI = this;
+            if (resultsUI != null && resultsUI != this)
+            {
+                Destroy(this);
+            }
+            else
+            {
+                resultsUI = this;
+            }
         }
-    }
 
-    public void ActivateWin()
-    {
-        C_winResult.gameObject.SetActive(true);
-    }
+        public static void ActivateWin()
+        {
+            resultsUI.C_winResult.gameObject.SetActive(true);
+        }
 
-    public void ActivateLose()
-    {
-        C_loseResult.gameObject.SetActive(true);
-    }
+        public static void ActivateLose()
+        {
+            resultsUI.C_loseResult.gameObject.SetActive(true);
+            resultsUI.C_loseText.text = $"You Made It Through {GameManager.gameManager.i_currentRoom - 1} rooms!";
+        }
 
-    public void DeactivateWin()
-    {
-        C_winResult.gameObject.SetActive(false);
-    }
+        public static void DeactivateWin()
+        {
+            resultsUI.C_winResult.gameObject.SetActive(false);
+        }
 
-    public void DeactivateLose()
-    {
-        C_loseResult.gameObject.SetActive(false);
-    }
-
-    public void RestartGame()
-    {
-        GameManager.RestartGame();
-    }
-    public void ReturnToMain()
-    {
-        GameManager.BackToMainMenu();
+        public static void DeactivateLose()
+        {
+            resultsUI.C_loseResult.gameObject.SetActive(false);
+        }
+        public static void RestartGame()
+        {
+            GameManager.RestartGame();
+        }
+        public static void ReturnToMain()
+        {
+            GameManager.BackToMainMenu();
+        }
     }
 }

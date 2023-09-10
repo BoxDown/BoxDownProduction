@@ -1,9 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Gun
 {
@@ -158,9 +154,10 @@ namespace Gun
 
             C_bulletMaterial.SetColor("_EmissiveColorLDR", materialColour * Mathf.Pow(2, C_gun.f_emissiveValue) * (4 * Mathf.PI) * 0.01f);
             C_bulletMaterial.SetColor("_EmissiveColor", materialColour * Mathf.Pow(2, C_gun.f_emissiveValue) * (4 * Mathf.PI) * 0.01f);
-            C_bulletMesh.vertices = bulletMesh.vertices;
-            C_bulletMesh.normals = bulletMesh.normals;
-            C_bulletMesh.triangles = bulletMesh.triangles;
+            C_bulletMesh.SetVertexBufferParams(bulletMesh.vertexCount);
+            C_bulletMesh.SetVertices(bulletMesh.vertices);
+            C_bulletMesh.SetNormals(bulletMesh.normals);
+            C_bulletMesh.SetTriangles(bulletMesh.triangles, 0);
 
 
         }

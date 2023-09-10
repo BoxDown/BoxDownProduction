@@ -39,7 +39,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2066372186101962198}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 653628d1cf0567646824d186733096e4, type: 3}
   m_Name: 
@@ -48,10 +48,11 @@ MonoBehaviour:
   b_debugGun: 0
   C_gunHolder: {fileID: 2066372186568422510}
   aC_moduleArray:
-  - {fileID: 11400000, guid: 469e5568dba274e4bb151d38715f08e8, type: 2}
-  - {fileID: 11400000, guid: 4f31d8ac00103c74e8bb14a61e5be5e6, type: 2}
-  - {fileID: 11400000, guid: 5b187bdf3af346c45b33a337b2e9d0c6, type: 2}
+  - {fileID: 11400000, guid: e862558b03c3c4b40b2527dfac05267e, type: 2}
+  - {fileID: 11400000, guid: 1e040c60de2b95c4ba7620603d5d4d39, type: 2}
+  - {fileID: 11400000, guid: 1fed098e5ebe2784ead79126aadce1ff, type: 2}
   b_isFiring: 0
+  C_bulletPool: {fileID: 0}
   f_emissiveValue: 20
   S_standardColour: {r: 0.39560327, g: 0, b: 0.5471698, a: 1}
   S_fireColour: {r: 1, g: 0, b: 0.20019102, a: 1}
@@ -176,6 +177,7 @@ MonoBehaviour:
   f_maxHealth: 200
   f_invincibleTime: 0.1
   C_ownedGun: {fileID: 2066372186101962196}
+  b_debugRespawn: 0
   f_respawnTime: 5
   C_defaultMaterial: {fileID: 0}
   C_dodgeMaterial: {fileID: 0}
@@ -183,6 +185,7 @@ MonoBehaviour:
   b_isDead: 0
   b_lockEnemyPosition: 1
   b_testFiring: 1
+  f_attackDistance: 20
 --- !u!135 &2066372186568422511
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -258,6 +261,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c561d1a74019d4747a6d1966d2352254,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 46511ec6800ea7249a7f6c0a1db7ef77, type: 2}
     - target: {fileID: 919132149155446097, guid: c561d1a74019d4747a6d1966d2352254,
         type: 3}
       propertyPath: m_Name

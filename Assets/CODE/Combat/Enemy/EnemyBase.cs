@@ -14,28 +14,29 @@ namespace Enemy
         //runtime variables
         private PlayerController C_player;
 
-        private void Start()
+        private void Awake()
         {
             base.Start();
-            //Kyles
-            GameObject[] playerObject = GameObject.FindGameObjectsWithTag("Player");
             C_player = FindObjectOfType<PlayerController>();
         }
 
         private void Update()
         {
             base.Update();
-            Vector3 fromToPlayer =  C_player.transform.position - transform.position;
-            SetRotationDirection(new Vector2(fromToPlayer.x, fromToPlayer.z));
+            if(C_player != null)
+            {
+                Vector3 fromToPlayer =  C_player.transform.position - transform.position;
+                SetRotationDirection(new Vector2(fromToPlayer.x, fromToPlayer.z));
 
-            if (b_testFiring)
-            {
-                FireGun();
-            }
-            else
-            {
-                CancelGun();
-            }
+                if (fromToPlayer.magnitude < C_ownedGun.aC_moduleArray[2].f_bulletRange)
+                {
+                    FireGun();
+                }
+                else
+                {
+                    CancelGun();
+                }
+            }            
         }
 
         protected override void Move()

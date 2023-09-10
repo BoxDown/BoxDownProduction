@@ -3,6 +3,7 @@ using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
 using Utility;
+using Unity.VisualScripting;
 
 namespace Gun
 {
@@ -19,13 +20,13 @@ namespace Gun
             moduleToLoad.Spawn(worldPos);
         }
 
-        public static string[] GetAllGunModules()
-        {
-            List<string> allModuleNames = new List<string>();
-            string filePath = Directory.GetCurrentDirectory() + "\\Assets\\Resources\\GunModules\\allGunModules.txt";
+        //public static string[] GetAllGunModules()
+        //{
+        //    List<string> allModuleNames = new List<string>();
+        //    string filePath = Directory.GetCurrentDirectory() + "\\Assets\\Resources\\GunModules\\allGunModules.txt";
 
-            return TextDocumentReadWrite.FileRead(filePath);
-        }
+        //    return TextDocumentReadWrite.FileRead(filePath);
+        //}
 
         public static void DeclareAllGunModules()
         {
@@ -49,13 +50,16 @@ namespace Gun
                     string[] stringSplit = filesInDirectory[j].Split("GunModules\\");
                     //remove ".asset"
                     string moduleName = stringSplit[1].Remove(stringSplit[1].Length - 6);
-
+                    if (moduleName.Contains("E_"))
+                    {
+                        continue;
+                    }
                     //add name to list
                     allGunModulesInProject.Add(moduleName);
                 }
             }
 
-            TextDocumentReadWrite.FileWrite(gunModuleFolderDirectory + "\\allGunModules.txt", allGunModulesInProject.ToArray());
+            TextDocumentReadWrite.FileWrite(Directory.GetCurrentDirectory() + "\\Assets" + "\\allGunModules.txt", allGunModulesInProject.ToArray());
         }
         
 

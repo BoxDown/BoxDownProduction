@@ -2,13 +2,11 @@ using Gun;
 using Managers;
 using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utility;
 using static Gun.GunModule;
 
-[RequireComponent(typeof(PlayerInput))]
 public class PlayerController : Combatant
 {
     /// <summary>
@@ -20,15 +18,12 @@ public class PlayerController : Combatant
     [Space(1)]
     [Header("Control")]
     [Rename("Controller Dead Zone Percentage"), Range(0, 1), SerializeField] private float f_controllerDeadZone = 0.15f;
-    private PlayerInput C_playerInput;
 
 
     [Header("Game Variables")]
     [Rename("Interact Range")] public float f_interactRange = 3.0f;
     [Rename("Spawn Location")] Vector3 S_spawnLocation; // player set to this on start and before loading into new scene
 
-    //run time
-    private ControlManager C_controlManagerReference = null;
 
     ///<summary>
     /// Player methods, the method name should be self explanitory if not there is reference 
@@ -37,71 +32,50 @@ public class PlayerController : Combatant
     protected void Start()
     {
         base.Start();
+        InGameUI.gameUI.SetMaxHealth(f_maxHealth);
+        InGameUI.gameUI.SetCurrentHealth(f_maxHealth);
+        InGameUI.gameUI.UpdateHealthSlider();
         DontDestroyOnLoad(this);
     }
 
     private void Awake()
     {
         // reference control manager
-        C_controlManagerReference = FindObjectOfType<ControlManager>();
-
-        // action map control setup
-        C_playerInput = GetComponent<PlayerInput>();
-        C_playerInput.SwitchCurrentActionMap("PlayerControl");
-        InputActionMap actionMap = C_playerInput.currentActionMap;
-        actionMap.Enable();
-        actionMap.FindAction("Movement").performed += MoveInput;
-        actionMap.FindAction("Movement").canceled += StopMove;
-        actionMap.FindAction("Rotate").performed += RotationSet;
-        actionMap.FindAction("Dodge").performed += Dodge;
-        actionMap.FindAction("Interact").performed += Interact;
-        actionMap.FindAction("Fire").performed += Fire;
-        actionMap.FindAction("Fire").canceled += CancelFire;
-        actionMap.FindAction("Reload").performed += Reload;
-        actionMap.FindAction("Pause").performed += Pause;
+        GameManager.SetPlayer(this);
     }
     private void OnEnable()
     {
-        C_playerInput.SwitchCurrentActionMap("PlayerControl");
-        InputActionMap actionMap = C_playerInput.currentActionMap;
-        actionMap.Enable();
-        actionMap.FindAction("Movement").performed += MoveInput;
-        actionMap.FindAction("Movement").canceled += StopMove;
-        actionMap.FindAction("Rotate").performed += RotationSet;
-        actionMap.FindAction("Dodge").performed += Dodge;
-        actionMap.FindAction("Interact").performed += Interact;
-        actionMap.FindAction("Fire").performed += Fire;
-        actionMap.FindAction("Fire").canceled += CancelFire;
-        actionMap.FindAction("Reload").performed += Reload;
-        actionMap.FindAction("Pause").performed += Pause;
+        GameManager.SwitchToInGameActions();
     }
 
     private void Update()
     {
         base.Update();
-        C_controlManagerReference.ChangeInputDevice(C_playerInput.currentControlScheme);
+        InGameUI.gameUI.UpdateHealthSlider();
     }
     private void LateUpdate()
     {
         base.LateUpdate();
+        HealthUI();
+        C_ownedGun.UpdateUI();
     }
 
     // input callbacks
-    private void MoveInput(InputAction.CallbackContext context)
+    public void MoveInput(InputAction.CallbackContext context)
     {
         Vector2 inputValue = context.ReadValue<Vector2>();
         if (inputValue.magnitude > f_controllerDeadZone)
             ChangeMovementDirection(inputValue);
     }
-    private void StopMove(InputAction.CallbackContext context)
+    public void StopMove(InputAction.CallbackContext context)
     {
         StopMovementDirection();
     }
-    private void RotationSet(InputAction.CallbackContext context)
+    public void RotationSet(InputAction.CallbackContext context)
     {
         Vector2 inputValue = context.ReadValue<Vector2>();
         //if control scheme mouse/keyb because player will need to rotate to mouse pos
-        if (C_controlManagerReference.GetCurrentControllerType() == ControlManager.CurrentControllerType.KeyboardMouse)
+        if (ControlManager.GetControllerType() == ControlManager.ControllerType.KeyboardMouse)
         {
             Vector3 dir = new Vector3(inputValue.x, inputValue.y, 0) - Camera.main.WorldToScreenPoint(transform.position);
             inputValue = Vector2.ClampMagnitude(new Vector2(dir.x, dir.y) / Screen.height, 1.0f);
@@ -113,38 +87,60 @@ public class PlayerController : Combatant
                 SetRotationDirection(inputValue);
         }
     }
-    private void Fire(InputAction.CallbackContext context)
+    public void Fire(InputAction.CallbackContext context)
     {
         FireGun();
     }
-    private void CancelFire(InputAction.CallbackContext context)
+    public void CancelFire(InputAction.CallbackContext context)
     {
         CancelGun();
     }
-    private void Dodge(InputAction.CallbackContext context)
+    public void Dodge(InputAction.CallbackContext context)
     {
         Dodge();
-
     }
-    private void Interact(InputAction.CallbackContext context)
+    public void Interact(InputAction.CallbackContext context)
     {
         Interact();
     }
-    private void Reload(InputAction.CallbackContext context)
+    public void Reload(InputAction.CallbackContext context)
     {
         // reload clip of bullets to max
         ReloadGun();
     }
-    private void Pause(InputAction.CallbackContext context)
+    public void Pause(InputAction.CallbackContext context)
     {
         //bring up a menu
+        if (!b_isDead)
+        {
+            if (PauseMenu.pauseMenu.b_gamePaused)
+            {
+                PauseMenu.UnpauseGame();
+            }
+            else
+            {
+                PauseMenu.PauseGame();
+            }
+        }
         //swap action map
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        GameManager.SwitchToUIActions();
+        ResultsUI.ActivateLose();
     }
 
 
     public void SetPlayerPosition(Vector3 position)
     {
         transform.position = position;
+    }
+
+    public void SetPlayerRotation(float angle)
+    {
+        transform.rotation = Quaternion.Euler(0, angle, 0);
     }
 
     private void Interact()
@@ -159,6 +155,10 @@ public class PlayerController : Combatant
         for (int i = 0; i < collisions.Length; i++)
         {
             if (collisions[i].transform == transform)
+            {
+                continue;
+            }
+            if (!collisions[i].isTrigger)
             {
                 continue;
             }
@@ -199,6 +199,19 @@ public class PlayerController : Combatant
     private void TriggerDoor(Transform doorGoingThrough)
     {
         doorGoingThrough.GetComponent<Door>().OnEnterDoor();
+    }
+    
+    private void HealthUI()
+    {
+        InGameUI.gameUI.SetMaxHealth(f_maxHealth);
+        InGameUI.gameUI.SetCurrentHealth(f_currentHealth);
+        InGameUI.gameUI.UpdateHealthSlider();
+    }
+
+    //needed because we want to clean up the object pool as well
+    private void OnDestroy()
+    {        
+        //Destroy(C_ownedGun.C_bulletPool.gameObject);
     }
 
 }

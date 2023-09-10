@@ -29,7 +29,7 @@ public class Door : MonoBehaviour
         GetComponent<BoxCollider>().isTrigger = true;
         C_doorMat = new Material(Shader.Find("HDRP/Lit"));
         RandomiseRoomType();
-        GetComponent<Renderer>().material = C_doorMat;
+        GetComponentInChildren<Renderer>().material = C_doorMat;
         UpdateDoorVisuals();
     }
 
@@ -53,10 +53,10 @@ public class Door : MonoBehaviour
                 C_doorMat.SetColor("_BaseColor", Color.green);
                 break;
             case RoomType.Barrel:
-                C_doorMat.SetColor("_BaseColor", Color.yellow);
+                C_doorMat.SetColor("_BaseColor", Color.red);
                 break;
             case RoomType.RandomModule:
-                C_doorMat.SetColor("_BaseColor", Color.red);
+                C_doorMat.SetColor("_BaseColor", Color.yellow);
                 break;
         }
     }

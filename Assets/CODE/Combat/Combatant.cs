@@ -56,6 +56,7 @@ public class Combatant : MonoBehaviour
     [Rename("Max Health")] public float f_maxHealth = 100;
     [Rename("Invincibility On Hit Time")] public float f_invincibleTime = 0.15f;
     [Rename("Owned Gun")] public Gun.Gun C_ownedGun = null;
+    [Rename("Debug Respawn")] public bool b_debugRespawn = false;
     [Rename("Debug Respawn Time")] public float f_respawnTime = 5.0f;
     [Space(4)]
 
@@ -83,6 +84,8 @@ public class Combatant : MonoBehaviour
     protected bool b_lightingEffected = false;
 
     protected List<Transform> lC_lightningHits = new List<Transform>();
+    protected bool b_hasAnimator = false;
+    protected Animator C_animator = null;
 
 
 
@@ -125,6 +128,11 @@ public class Combatant : MonoBehaviour
     {
         i_bulletLayerMask = ~(LayerMask.GetMask("Bullet") + LayerMask.GetMask("Ignore Raycast"));
         f_currentHealth = f_maxHealth;
+        C_animator = GetComponentInChildren<Animator>();
+        if(C_animator != null)
+        {
+            b_hasAnimator = true;
+        }
     }
 
     protected void Update()
@@ -136,6 +144,10 @@ public class Combatant : MonoBehaviour
         if (e_combatState != CombatState.NoControl)
         {
             RotateToTarget();
+        }
+        if (b_hasAnimator && C_ownedGun.b_isFiring)
+        {
+            MoveTowardAimAnimation();
         }
     }
 
@@ -185,6 +197,32 @@ public class Combatant : MonoBehaviour
         //move smoothly towards our desired velocity from our current veolicty
         S_velocity.x = Mathf.MoveTowards(S_velocity.x, desiredVelocity.x, maxSpeedChange);
         S_velocity.z = Mathf.MoveTowards(S_velocity.z, desiredVelocity.z, maxSpeedChange);
+
+        //animator stuff
+        if (b_hasAnimator)
+        {
+            float strafeToSet = 0;
+            float runToSet = 0;
+
+            float angle = Vector3.Angle(Vector3.forward, transform.forward);
+            if(Vector3.Dot(transform.forward, f_desiredRotationAngle * Vector3.forward) > 0)
+            {
+                angle = -angle;
+            }
+
+            Vector3 rotatedVelocity = Quaternion.AngleAxis(angle, Vector3.up) * S_velocity;
+
+            strafeToSet = rotatedVelocity.x / effectiveSpeed;
+            runToSet = rotatedVelocity.z / effectiveSpeed;
+
+            C_animator.SetFloat("Strafe", strafeToSet);
+            C_animator.SetFloat("Run", runToSet);
+            if(S_velocity != Vector3.zero)
+            {
+                C_animator.SetBool("Movement", true);
+            }
+        }
+
         CheckCollisions();
     }
 
@@ -200,13 +238,16 @@ public class Combatant : MonoBehaviour
     {
         S_movementVec2Direction = Vector2.zero;
         f_currentAccelerationStep = 0;
+        if (b_hasAnimator)
+        {
+            C_animator.SetBool("Movement", false);
+        }
     }
 
     protected void Dodge()
     {
         StartCoroutine(DodgeRoutine());
     }
-
 
     public void ZeroVelocity()
     {
@@ -311,8 +352,10 @@ public class Combatant : MonoBehaviour
         SetLightningEffected(false);
         ClearLightningHits();
 
-        //TO DO, ACTUALLY RESPAWN ONLY IF NEEDED
-        Invoke("Respawn", f_respawnTime);
+        if (b_debugRespawn)
+        {
+            Invoke("Respawn", f_respawnTime);
+        }
     }
 
     public void Respawn()
@@ -329,7 +372,32 @@ public class Combatant : MonoBehaviour
     public void FireGun()
     {
         if (e_combatState != CombatState.Dodge && e_combatState != CombatState.NoAttack && e_combatState != CombatState.NoControl && !C_ownedGun.b_isFiring)
+        {
             C_ownedGun.StartFire();
+            if (b_hasAnimator)
+            {
+                C_animator.SetFloat("Recoil", 1);
+            }
+        }
+    }
+
+    //animation trigger
+    public void ShotFired()
+    {
+        if (b_hasAnimator)
+        {
+            C_animator.SetFloat("Recoil", 2);
+        }
+    }
+    public void MoveTowardAimAnimation()
+    {
+        if (b_hasAnimator )
+        {
+            if(C_animator.GetFloat("Recoil") > 1)
+            {
+                C_animator.SetFloat("Recoil", (C_animator.GetFloat("Recoil") - 25 * Time.deltaTime));
+            }
+        }
     }
 
     public void CancelGun()
@@ -340,6 +408,10 @@ public class Combatant : MonoBehaviour
             if (e_combatState == CombatState.Dodge)
             {
                 b_fireCancelWhileDodging = true;
+            }
+            if (b_hasAnimator)
+            {
+                C_animator.SetFloat("Recoil", 0);
             }
         }
     }

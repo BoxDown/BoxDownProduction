@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
 
 namespace Utility
 {
@@ -20,6 +21,23 @@ namespace Utility
             streamReader.Close();
             return document.ToArray();
         }
+
+        static public string[] ReadTextAsset(TextAsset textAsset)
+        {
+            string allText = textAsset.text;
+            string[] allSplitText = allText.Split("\n");
+            List<string> splitTextList = new List<string>();
+            for (int i = 0; i < allSplitText.Length; i++)
+            {
+                allSplitText[i] = allSplitText[i].Trim();
+                if(allSplitText[i].Length != 0)
+                {
+                    splitTextList.Add(allSplitText[i]);
+                }
+            }
+            return splitTextList.ToArray();
+        }
+
         static public bool FileWrite(string fileLocation, string[] newTextDoc)
         {
             StreamWriter streamWriter = new StreamWriter(fileLocation);

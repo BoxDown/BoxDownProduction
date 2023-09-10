@@ -20,13 +20,13 @@ namespace Gun
             moduleToLoad.Spawn(worldPos);
         }
 
-        public static string[] GetAllGunModules()
-        {
-            List<string> allModuleNames = new List<string>();
-            string filePath = Directory.GetCurrentDirectory() + "\\Assets\\Resources\\GunModules\\allGunModules.txt";
+        //public static string[] GetAllGunModules()
+        //{
+        //    List<string> allModuleNames = new List<string>();
+        //    string filePath = Directory.GetCurrentDirectory() + "\\Assets\\Resources\\GunModules\\allGunModules.txt";
 
-            return TextDocumentReadWrite.FileRead(filePath);
-        }
+        //    return TextDocumentReadWrite.FileRead(filePath);
+        //}
 
         public static void DeclareAllGunModules()
         {
@@ -59,7 +59,7 @@ namespace Gun
                 }
             }
 
-            TextDocumentReadWrite.FileWrite(gunModuleFolderDirectory + "\\allGunModules.txt", allGunModulesInProject.ToArray());
+            TextDocumentReadWrite.FileWrite(Directory.GetCurrentDirectory() + "\\Assets" + "\\allGunModules.txt", allGunModulesInProject.ToArray());
         }
         
 

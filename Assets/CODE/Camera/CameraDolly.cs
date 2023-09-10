@@ -1,5 +1,6 @@
 using UnityEngine;
 using Utility;
+using Managers;
 
 [RequireComponent(typeof(Camera))]
 public class CameraDolly : MonoBehaviour
@@ -23,7 +24,8 @@ public class CameraDolly : MonoBehaviour
     {
         C_camera = GetComponent<Camera>();
         C_targetPlayer = FindObjectOfType<PlayerController>();
-        DontDestroyOnLoad(this);
+        GameManager.SetCamera(this);
+        DontDestroyOnLoad(transform.parent);
     }
 
     // Update is called once per frame

@@ -9,17 +9,14 @@ namespace Enemy
 
         [Rename("Lock Enemy Position")] public bool b_lockEnemyPosition;
         [Rename("Enemy Fire Testing")] public bool b_testFiring;
-        [Rename("Enemy Fire Distancfe")] public float f_attackDistance = 20;
 
 
         //runtime variables
         private PlayerController C_player;
 
-        private void Start()
+        private void Awake()
         {
             base.Start();
-            //Kyles
-            GameObject[] playerObject = GameObject.FindGameObjectsWithTag("Player");
             C_player = FindObjectOfType<PlayerController>();
         }
 
@@ -31,7 +28,7 @@ namespace Enemy
                 Vector3 fromToPlayer =  C_player.transform.position - transform.position;
                 SetRotationDirection(new Vector2(fromToPlayer.x, fromToPlayer.z));
 
-                if (b_testFiring && fromToPlayer.magnitude < f_attackDistance)
+                if (fromToPlayer.magnitude < C_ownedGun.aC_moduleArray[2].f_bulletRange)
                 {
                     FireGun();
                 }

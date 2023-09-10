@@ -19,7 +19,6 @@ namespace Managers
         }
         private void Awake()
         {
-            DontDestroyOnLoad(gameObject);
             if (pauseMenu != null && pauseMenu != this)
             {
                 Destroy(this);
@@ -28,6 +27,15 @@ namespace Managers
             {
                 pauseMenu = this;
             }
+        }
+
+        public static void ActivatePause()
+        {
+            pauseMenu.gameObject.SetActive(true);
+        }
+        public static void DeactivatePause()
+        {
+            pauseMenu.gameObject.SetActive(false);
         }
 
         static public void PauseGame()

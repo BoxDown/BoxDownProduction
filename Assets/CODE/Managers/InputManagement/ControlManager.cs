@@ -23,7 +23,7 @@ namespace Managers
         PlayerInput C_playerInputs;
         ControllerType e_currentControlDevice = ControllerType.KeyboardMouse;
 
-        private void OnEnable()
+        private void Awake()
         {
             C_playerInputs = FindObjectOfType<PlayerInput>();
             if (controlManager != null && controlManager != this)

@@ -2,17 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponsSwapUI : MonoBehaviour
+namespace Managers
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public class WeaponsSwapUI : MonoBehaviour
     {
-        
+        static public WeaponsSwapUI swapUI
+        {
+            get;
+            private set;
+        }
+
+        private void Awake()
+        {
+            if (swapUI != null && swapUI != this)
+            {
+                Destroy(this);
+            }
+            else
+            {
+                swapUI = this;
+            }
+        }
+        public static void Activate()
+        {
+            swapUI.gameObject.SetActive(true);
+        }
+        public static void Deactivate()
+        {
+            swapUI.gameObject.SetActive(false);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -21,7 +21,6 @@ namespace Managers
         }
         void Awake()
         {
-            DontDestroyOnLoad(gameObject);
             if (resultsUI != null && resultsUI != this)
             {
                 Destroy(this);
@@ -35,7 +34,6 @@ namespace Managers
         public static void ActivateWin()
         {
             resultsUI.C_winResult.gameObject.SetActive(true);
-
         }
 
         public static void ActivateLose()

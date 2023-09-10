@@ -68,6 +68,7 @@ namespace Managers
                     aC_enemyWaveList[i].aC_enemies[j].gameObject.SetActive(false);
                 }
             }
+            i_currentWave = 0;
             SpawnNextWave();
         }
 
@@ -77,7 +78,7 @@ namespace Managers
             {
                 return;
             }
-            if (i_currentWave > aC_enemyWaveList.Length)
+            if (i_currentWave >= aC_enemyWaveList.Length - 1)
             {
                 if (!b_endTriggered)
                 {
@@ -108,7 +109,7 @@ namespace Managers
             }
             if (i_currentWave >= aC_enemyWaveList.Length)
             {
-                return false;
+                return true;
             }
             if (aC_enemyWaveList[i_currentWave].aC_enemies.Length != 0)
             {
@@ -127,7 +128,7 @@ namespace Managers
         {
             //enable all enemy objects in next list,
             //on enable spawn them in
-            if (aC_enemyWaveList.Length != 0)
+            if (aC_enemyWaveList.Length != 0 && i_currentWave < aC_enemyWaveList.Length)
             {
                 for (int i = 0; i < aC_enemyWaveList[i_currentWave].aC_enemies.Length; i++)
                 {

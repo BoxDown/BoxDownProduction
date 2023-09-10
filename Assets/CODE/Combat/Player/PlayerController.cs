@@ -42,8 +42,6 @@ public class PlayerController : Combatant
     {
         // reference control manager
         GameManager.SetPlayer(this);
-        // action map control setup
-        GameManager.SwitchToInGameActions();
     }
     private void OnEnable()
     {
@@ -100,7 +98,6 @@ public class PlayerController : Combatant
     public void Dodge(InputAction.CallbackContext context)
     {
         Dodge();
-
     }
     public void Interact(InputAction.CallbackContext context)
     {
@@ -131,6 +128,7 @@ public class PlayerController : Combatant
     public override void Die()
     {
         base.Die();
+        GameManager.SwitchToUIActions();
         ResultsUI.ActivateLose();
     }
 
@@ -157,6 +155,10 @@ public class PlayerController : Combatant
         for (int i = 0; i < collisions.Length; i++)
         {
             if (collisions[i].transform == transform)
+            {
+                continue;
+            }
+            if (!collisions[i].isTrigger)
             {
                 continue;
             }
@@ -208,7 +210,7 @@ public class PlayerController : Combatant
 
     //needed because we want to clean up the object pool as well
     private void OnDestroy()
-    {
+    {        
         //Destroy(C_ownedGun.C_bulletPool.gameObject);
     }
 

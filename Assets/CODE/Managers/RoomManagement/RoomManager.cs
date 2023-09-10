@@ -3,7 +3,6 @@ using Utility;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Linq;
 
 namespace Managers
 {
@@ -14,8 +13,17 @@ namespace Managers
     }
     public class RoomManager : MonoBehaviour
     {
+        public enum EntranceDirection
+        {
+            North,
+            South,
+            East,
+            West
+        }
+
         [SerializeField] public EnemyWave[] aC_enemyWaveList;
         [Rename("Reward Position")] public Vector3 S_rewardPosition;
+        [Rename("Entrance Direction")] public EntranceDirection e_entranceDirection;
         [Rename("Spawn Position")] public Vector3 S_spawnPosition;
         [HideInInspector] public PolyBrushManager C_manager;
         private bool b_endTriggered = false;
@@ -26,7 +34,27 @@ namespace Managers
         private void Start()
         {
             GameManager.gameManager.UpdateRewardPoint(S_rewardPosition);
-            FindObjectOfType<PlayerController>().SetPlayerPosition(S_spawnPosition);
+            PlayerController player = FindObjectOfType<PlayerController>();
+            player.SetPlayerPosition(S_spawnPosition);
+            switch (e_entranceDirection)
+            {
+                case EntranceDirection.North:
+                    player.SetPlayerRotation(180);
+
+                    break;
+                case EntranceDirection.South:
+                    player.SetPlayerRotation(0);
+
+                    break;
+                case EntranceDirection.East:
+                    player.SetPlayerRotation(90);
+
+                    break;
+                case EntranceDirection.West:
+                    player.SetPlayerRotation(270);
+
+                    break;
+            }
             aC_doorsInLevel = FindObjectsOfType<Door>();
             if (C_manager)
             {
@@ -40,6 +68,7 @@ namespace Managers
                     aC_enemyWaveList[i].aC_enemies[j].gameObject.SetActive(false);
                 }
             }
+            i_currentWave = 0;
             SpawnNextWave();
         }
 
@@ -49,7 +78,7 @@ namespace Managers
             {
                 return;
             }
-            if (i_currentWave > aC_enemyWaveList.Length)
+            if (i_currentWave >= aC_enemyWaveList.Length - 1)
             {
                 if (!b_endTriggered)
                 {
@@ -80,11 +109,11 @@ namespace Managers
             }
             if (i_currentWave >= aC_enemyWaveList.Length)
             {
-                return false;
+                return true;
             }
             if (aC_enemyWaveList[i_currentWave].aC_enemies.Length != 0)
             {
-                for (int i = 0; i < aC_enemyWaveList[i_currentWave].aC_enemies.Length - 1; i++)
+                for (int i = 0; i < aC_enemyWaveList[i_currentWave].aC_enemies.Length; i++)
                 {
                     if (!aC_enemyWaveList[i_currentWave].aC_enemies[i].b_isDead)
                     {
@@ -99,9 +128,12 @@ namespace Managers
         {
             //enable all enemy objects in next list,
             //on enable spawn them in
-            for (int i = 0; i < aC_enemyWaveList[i_currentWave].aC_enemies.Length; i++)
+            if (aC_enemyWaveList.Length != 0 && i_currentWave < aC_enemyWaveList.Length)
             {
-                aC_enemyWaveList[i_currentWave].aC_enemies[i].gameObject.SetActive(true);
+                for (int i = 0; i < aC_enemyWaveList[i_currentWave].aC_enemies.Length; i++)
+                {
+                    aC_enemyWaveList[i_currentWave].aC_enemies[i].gameObject.SetActive(true);
+                }
             }
         }
 

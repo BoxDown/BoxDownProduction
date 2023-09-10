@@ -7,7 +7,6 @@ using Utility;
 
 namespace Managers
 {
-
     public class InGameUI : MonoBehaviour
     {
         public static InGameUI gameUI
@@ -35,7 +34,6 @@ namespace Managers
         // Start is called before the first frame update
         void Awake()
         {
-            DontDestroyOnLoad(gameObject);
             if (gameUI != null && gameUI != this)
             {
                 Destroy(this);
@@ -44,6 +42,15 @@ namespace Managers
             {
                 gameUI = this;
             }
+        }
+
+        public static void ActivateInGameUI()
+        {
+            gameUI.gameObject.SetActive(true);
+        }
+        public static void DeactivateInGameUI()
+        {
+            gameUI.gameObject.SetActive(false);
         }
 
         public void SetMaxHealth(float maxHealth)

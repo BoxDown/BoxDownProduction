@@ -108,6 +108,7 @@ MonoBehaviour:
   f_maxHealth: 50
   f_invincibleTime: 0.1
   C_ownedGun: {fileID: 6616373417050219146}
+  b_debugRespawn: 0
   f_respawnTime: 5
   C_defaultMaterial: {fileID: 0}
   C_dodgeMaterial: {fileID: 0}
@@ -115,6 +116,7 @@ MonoBehaviour:
   b_isDead: 0
   b_lockEnemyPosition: 1
   b_testFiring: 1
+  f_attackDistance: 20
 --- !u!135 &6616373416615973902
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -167,7 +169,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6616373417050219144}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 653628d1cf0567646824d186733096e4, type: 3}
   m_Name: 
@@ -180,6 +182,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 376073378f495424f93238d830cb6339, type: 2}
   - {fileID: 11400000, guid: 3b949c5c7141b9c4899d142076ba3344, type: 2}
   b_isFiring: 0
+  C_bulletPool: {fileID: 0}
   f_emissiveValue: 20
   S_standardColour: {r: 0.39560327, g: 0, b: 0.5471698, a: 1}
   S_fireColour: {r: 1, g: 0, b: 0.20019102, a: 1}

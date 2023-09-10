@@ -5,26 +5,14 @@ using System.Linq;
 using Utility;
 using System.IO;
 using UnityEngine.SceneManagement;
-using UnityEditor;
+using UnityEngine.InputSystem;
 
 namespace Managers
 {
+    [RequireComponent(typeof(PlayerInput))]
     public class GameManager : MonoBehaviour
     {
-        public enum UIState
-        {
-            Main,
-            Pause,
-            Swap,
-            InGame,
-            Options,
-            Credits
-        }
-        public static UIState e_currentUIState
-        {
-            get;
-            private set;
-        }
+        [Rename("Main Menu Holder"), SerializeField] Transform C_mainMenu;
 
         public static GameManager gameManager
         {
@@ -38,7 +26,11 @@ namespace Managers
         [Rename("Amount Of Hard Rooms"), SerializeField] private int i_hardRooms = 5;
         [Rename("Endless Mode"), SerializeField] private bool b_endlessMode = false;
 
+        [Rename("Player Input")] private PlayerInput C_playerInput;
 
+
+        [Rename("All Levels Document")] public TextAsset C_allLevels;
+        [Rename("All Modules Document")] public TextAsset C_allGunModules;
 
         private Door.RoomType e_currentRewardType;
         private Vector3 S_rewardPoint;
@@ -51,41 +43,34 @@ namespace Managers
         private List<GunModule> lC_triggerGunModules = new List<GunModule>();
         private List<GunModule> lC_clipGunModules = new List<GunModule>();
         private List<GunModule> lC_barrelGunModules = new List<GunModule>();
-        private int i_currentRoom = 0;
+        public int i_currentRoom
+        {
+            get;
+            private set;
+        }
 
         private List<string> ls_allLevels = new List<string>(); // all levels should not be used to load any scenes
         private List<string> ls_easyLevels = new List<string>();
         private List<string> ls_mediumLevels = new List<string>();
         private List<string> ls_hardLevels = new List<string>();
 
+        private PlayerController C_player;
+        private CameraDolly C_camera;
+
+        private void FixedUpdate()
+        {
+            if(C_playerInput != null)
+            {
+                ControlManager.ChangeInputDevice(C_playerInput.currentControlScheme);
+            }
+        }
+
 
         #region GamePlayFunctons
         // Start is called before the first frame update
         void Awake()
         {
-            DontDestroyOnLoad(this);
-            if (gameManager != null && gameManager != this)
-            {
-                Destroy(this);
-            }
-            else
-            {
-                gameManager = this;
-            }
-
-            // make module lists
-#if UNITY_EDITOR
-            GunModuleSpawner.DeclareAllGunModules();
-            DeclareAllLevels();
-#endif
-
-
-            GrabAllGunModules();
-            GroupGunModules();
-            LoadGunModuleStringsAsModules();
-            GrabAllLevels();
-            GroupLevels(ls_allLevels);
-
+            StartCoroutine(StartUp());
         }
 
         public void SpawnNextReward()
@@ -122,7 +107,7 @@ namespace Managers
 
         public void GrabAllGunModules()
         {
-            ls_allGunModulesNames = GunModuleSpawner.GetAllGunModules().ToList();
+            ls_allGunModulesNames = TextDocumentReadWrite.ReadTextAsset(C_allGunModules).ToList();
         }
 
         private void GroupGunModules()
@@ -161,6 +146,7 @@ namespace Managers
             int roomNumberToLoad = 0;
             if (i_currentRoom < i_easyRooms)
             {
+                roomNumberToLoad = Random.Range(0, ls_easyLevels.Count());
                 while (ls_easyLevels[roomNumberToLoad] == SceneManager.GetActiveScene().name)
                 {
                     roomNumberToLoad = Random.Range(0, ls_easyLevels.Count());
@@ -172,11 +158,13 @@ namespace Managers
             }
             else if (i_currentRoom < i_easyRooms + 1 + i_mediumRooms)
             {
-                if (i_currentRoom == i_easyRooms + 1)
+                if (i_currentRoom == i_easyRooms)
                 {
                     SceneManager.LoadScene("EasyBreakRoom");
+                    IncrementRoom();
                     return;
                 }
+                roomNumberToLoad = Random.Range(0, ls_easyLevels.Count());
                 while (ls_mediumLevels[roomNumberToLoad] == SceneManager.GetActiveScene().name)
                 {
                     roomNumberToLoad = Random.Range(0, ls_mediumLevels.Count());
@@ -188,11 +176,13 @@ namespace Managers
             }
             else if (b_endlessMode || i_currentRoom < i_easyRooms + 1 + i_mediumRooms + 1 + i_hardRooms + 1)
             {
-                if (i_currentRoom == i_easyRooms + 1 + i_mediumRooms + 1)
+                if (i_currentRoom == i_easyRooms + 1 + i_mediumRooms)
                 {
                     SceneManager.LoadScene("MediumBreakRoom");
+                    IncrementRoom();
                     return;
                 }
+                roomNumberToLoad = Random.Range(0, ls_easyLevels.Count());
                 while (ls_hardLevels[roomNumberToLoad] == SceneManager.GetActiveScene().name)
                 {
                     roomNumberToLoad = Random.Range(0, ls_hardLevels.Count());
@@ -205,6 +195,7 @@ namespace Managers
             else if (i_currentRoom == i_easyRooms + 1 + i_mediumRooms + 1 + i_hardRooms)
             {
                 SceneManager.LoadScene("HardBreakRoom");
+                IncrementRoom();
                 return;
             }
             else
@@ -240,7 +231,7 @@ namespace Managers
                 }
             }
 
-            TextDocumentReadWrite.FileWrite(levelFileDirectory + "\\allLevels.txt", allLevelsInProject.ToArray());
+            TextDocumentReadWrite.FileWrite(Directory.GetCurrentDirectory() + "\\Assets" + "\\allLevels.txt", allLevelsInProject.ToArray());
         }
 
         private void GroupLevels(List<string> levelsList)
@@ -263,8 +254,7 @@ namespace Managers
         }
         private void GrabAllLevels()
         {
-            string filePath = Directory.GetCurrentDirectory() + "\\Assets\\Resources\\Levels\\allLevels.txt";
-            ls_allLevels = TextDocumentReadWrite.FileRead(filePath).ToList();
+            ls_allLevels = TextDocumentReadWrite.ReadTextAsset(C_allLevels).ToList();
         }
 
         private void LoadGunModuleStringsAsModules()
@@ -384,43 +374,172 @@ namespace Managers
         public static void StartGame()
         {
             gameManager.b_endlessMode = false;
+            gameManager.i_currentRoom = 0;
+            gameManager.e_currentRewardType = Door.RoomType.None;
+            DeactivateMainMenu();
+            InGameUI.ActivateInGameUI();
             SceneManager.LoadScene("StartBreakRoom");
         }
         public static void StartGameEndless()
         {
             gameManager.b_endlessMode = true;
+            gameManager.i_currentRoom = 0;
+            gameManager.e_currentRewardType = Door.RoomType.None;
+            DeactivateMainMenu();
+            InGameUI.ActivateInGameUI();
             SceneManager.LoadScene("StartBreakRoom");
         }
-
         public static void OpenOptionsMenu()
         {
             OptionsMenu.Activate();
+            DeactivateMainMenu();
         }
         public static void OpenCreditsMenu()
         {
             CreditsMenu.Activate();
+            DeactivateMainMenu();
+        }
+        public static void ActivateMainMenu()
+        {
+            gameManager.C_mainMenu.gameObject.SetActive(true);
+        }
+        public static void DeactivateMainMenu()
+        {
+            gameManager.C_mainMenu.gameObject.SetActive(false);
         }
         public static void RestartGame()
         {
             gameManager.RemovePlayer();
+            gameManager.RemoveCamera();
+            ResultsUI.DeactivateLose();
+            ResultsUI.DeactivateWin();
+            gameManager.i_currentRoom = 0;
+            gameManager.e_currentRewardType = Door.RoomType.None;
+            SceneManager.LoadScene("StartBreakRoom");
         }
+        //deactivate all menus then back to main menu scene to have an empty scene with nothing but the menu
         public static void BackToMainMenu()
         {
-            OptionsMenu.Deactivate();
+
+            //OptionsMenu.Deactivate();
+            SwitchToUIActions();
+            gameManager.RemoveCamera();
+            gameManager.RemovePlayer();
+            ResultsUI.DeactivateLose();
+            ResultsUI.DeactivateWin();
+            InGameUI.DeactivateInGameUI();
             CreditsMenu.Deactivate();
             SceneManager.LoadScene("MainMenu");
+            ActivateMainMenu();            
         }
 
         public static void ExitGame()
         {
             Application.Quit();
         }
+
+        private System.Collections.IEnumerator StartUp()
+        {
+            yield return 0;
+
+            DontDestroyOnLoad(this);
+            if (gameManager != null && gameManager != this)
+            {
+                Destroy(gameObject);
+                yield return null;
+            }
+            else
+            {
+                gameManager = this;
+            }
+
+            PauseMenu.DeactivatePause();
+            CreditsMenu.Deactivate();
+            WeaponsSwapUI.Deactivate();
+            InGameUI.DeactivateInGameUI();
+
+            // make module lists
+#if UNITY_EDITOR
+            GunModuleSpawner.DeclareAllGunModules();
+            DeclareAllLevels();
+#endif
+
+
+            GrabAllGunModules();
+            GroupGunModules();
+            LoadGunModuleStringsAsModules();
+            GrabAllLevels();
+            GroupLevels(ls_allLevels);
+
+            C_playerInput = GetComponent<PlayerInput>();
+            i_currentRoom = 0;
+        }
+
         #endregion
 
+        #region PlayerFunctions
+
+        public static void SwitchToUIActions()
+        {
+            gameManager.C_playerInput.SwitchCurrentActionMap("UI");
+            InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
+        }
+
+        public static void SwitchToInGameActions()
+        {
+            gameManager.C_playerInput.SwitchCurrentActionMap("PlayerControl");
+            InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
+            actionMap.Enable();
+            actionMap.FindAction("Movement").performed += gameManager.C_player.MoveInput;
+            actionMap.FindAction("Movement").canceled += gameManager.C_player.StopMove;
+            actionMap.FindAction("Rotate").performed += gameManager.C_player.RotationSet;
+            actionMap.FindAction("Dodge").performed += gameManager.C_player.Dodge;
+            actionMap.FindAction("Interact").performed += gameManager.C_player.Interact;
+            actionMap.FindAction("Fire").performed += gameManager.C_player.Fire;
+            actionMap.FindAction("Fire").canceled += gameManager.C_player.CancelFire;
+            actionMap.FindAction("Reload").performed += gameManager.C_player.Reload;
+            actionMap.FindAction("Pause").performed += gameManager.C_player.Pause;
+        }
+        public static void SwitchOffInGameActions()
+        {
+            gameManager.C_playerInput.SwitchCurrentActionMap("PlayerControl");
+            InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
+            actionMap.Disable();
+            actionMap.FindAction("Movement").performed -= gameManager.C_player.MoveInput;
+            actionMap.FindAction("Movement").canceled -= gameManager.C_player.StopMove;
+            actionMap.FindAction("Rotate").performed -= gameManager.C_player.RotationSet;
+            actionMap.FindAction("Dodge").performed -= gameManager.C_player.Dodge;
+            actionMap.FindAction("Interact").performed -= gameManager.C_player.Interact;
+            actionMap.FindAction("Fire").performed -= gameManager.C_player.Fire;
+            actionMap.FindAction("Fire").canceled -= gameManager.C_player.CancelFire;
+            actionMap.FindAction("Reload").performed -= gameManager.C_player.Reload;
+            actionMap.FindAction("Pause").performed -= gameManager.C_player.Pause;
+        }
+
+        public static void SetPlayer(PlayerController newPlayer)
+        {
+            gameManager.C_player = newPlayer;
+            SwitchToInGameActions();
+        }
+        public static void SetCamera(CameraDolly camera)
+        {
+            gameManager.C_camera = camera;
+        }
 
         public void RemovePlayer()
         {
-            DestroyImmediate(FindObjectOfType<PlayerController>());
+            if(C_player != null)
+            {
+                DestroyImmediate(C_player.gameObject);
+            }
         }
+        public void RemoveCamera()
+        {
+            if(C_camera != null)
+            {
+                DestroyImmediate(C_camera.gameObject);
+            }
+        }
+        #endregion
     }
 }

@@ -28,6 +28,8 @@ namespace Managers
 
         [Rename("Player Input")] private PlayerInput C_playerInput;
 
+        [Space(10)]
+        [Rename("Debug Game"), SerializeField] private bool b_debugMode;
 
         [Rename("All Levels Document")] public TextAsset C_allLevels;
         [Rename("All Modules Document")] public TextAsset C_allGunModules;
@@ -59,7 +61,7 @@ namespace Managers
 
         private void FixedUpdate()
         {
-            if(C_playerInput != null)
+            if (C_playerInput != null)
             {
                 ControlManager.ChangeInputDevice(C_playerInput.currentControlScheme);
             }
@@ -70,7 +72,14 @@ namespace Managers
         // Start is called before the first frame update
         void Awake()
         {
-            StartCoroutine(StartUp());
+            if (!b_debugMode)
+            {
+                StartCoroutine(StartUp());
+            }
+            else
+            {
+                Initialise();
+            }
         }
 
         public void SpawnNextReward()
@@ -430,7 +439,7 @@ namespace Managers
             InGameUI.DeactivateInGameUI();
             CreditsMenu.Deactivate();
             SceneManager.LoadScene("MainMenu");
-            ActivateMainMenu();            
+            ActivateMainMenu();
         }
 
         public static void ExitGame()
@@ -441,22 +450,36 @@ namespace Managers
         private System.Collections.IEnumerator StartUp()
         {
             yield return 0;
+            Initialise();
+        }
 
+        private void Initialise()
+        {
             DontDestroyOnLoad(this);
             if (gameManager != null && gameManager != this)
             {
                 Destroy(gameObject);
-                yield return null;
             }
             else
             {
                 gameManager = this;
             }
-
-            PauseMenu.DeactivatePause();
-            CreditsMenu.Deactivate();
-            WeaponsSwapUI.Deactivate();
-            InGameUI.DeactivateInGameUI();
+            C_playerInput = GetComponent<PlayerInput>();
+            if (b_debugMode)
+            {
+                FindObjectOfType<PlayerController>().Initialise();
+                PauseMenu.DeactivatePause();
+                CreditsMenu.Deactivate();
+                WeaponsSwapUI.Deactivate();
+                DeactivateMainMenu();
+            }
+            else
+            {
+                CreditsMenu.Deactivate();
+                PauseMenu.DeactivatePause();
+                InGameUI.DeactivateInGameUI();
+                WeaponsSwapUI.Deactivate();
+            }
 
             // make module lists
 #if UNITY_EDITOR
@@ -471,8 +494,11 @@ namespace Managers
             GrabAllLevels();
             GroupLevels(ls_allLevels);
 
-            C_playerInput = GetComponent<PlayerInput>();
+            
+            
+
             i_currentRoom = 0;
+            
         }
 
         #endregion
@@ -528,14 +554,14 @@ namespace Managers
 
         public void RemovePlayer()
         {
-            if(C_player != null)
+            if (C_player != null)
             {
                 DestroyImmediate(C_player.gameObject);
             }
         }
         public void RemoveCamera()
         {
-            if(C_camera != null)
+            if (C_camera != null)
             {
                 DestroyImmediate(C_camera.gameObject);
             }

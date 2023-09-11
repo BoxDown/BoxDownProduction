@@ -38,13 +38,10 @@ public class PlayerController : Combatant
         DontDestroyOnLoad(this);
     }
 
-    private void Awake()
+    public void Initialise()
     {
         // reference control manager
         GameManager.SetPlayer(this);
-    }
-    private void OnEnable()
-    {
         GameManager.SwitchToInGameActions();
     }
 

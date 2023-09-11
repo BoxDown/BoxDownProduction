@@ -55,7 +55,7 @@ namespace Gun
 
         float f_lastFireTime = 0;
         float f_timeSinceLastFire { get { return Time.time - f_lastFireTime; } }
-        float f_timeBetweenBulletShots { get { return 1.0f / f_fireRate; } }
+        [HideInInspector]public float f_timeBetweenBulletShots { get { return 1.0f / f_fireRate; } }
         float f_timeUntilNextFire = 0;
 
         int i_currentAmmo;
@@ -64,7 +64,7 @@ namespace Gun
         float f_fireHoldTime = 0;
         bool b_reloadCancel = false;
         bool b_reloading = false;
-        BulletObjectPool C_bulletPool;
+        [HideInInspector] public BulletObjectPool C_bulletPool;
 
         [Header("Bullet Colours")]
         [Rename("Emission Value")] public float f_emissiveValue = 20.0f;
@@ -111,6 +111,7 @@ namespace Gun
                 f_timeUntilNextFire -= Time.deltaTime;
                 f_fireHoldTime += Time.deltaTime;
                 Fire();
+                C_gunHolder.ShotFired();
             }
         }
         private void FixedUpdate()
@@ -327,22 +328,26 @@ namespace Gun
         public void SwapGunPiece(GunModule newModule)
         {
             GunModule oldModule = null;
+            string oldModuleToSpawn = "";
             switch (newModule.e_moduleType)
             {
                 case GunModule.ModuleSection.Trigger:
                     oldModule = aC_moduleArray[0];
+                    oldModuleToSpawn = $"Trigger\\{oldModule.name}";
                     aC_moduleArray[0] = newModule;
                     break;
                 case GunModule.ModuleSection.Clip:
                     oldModule = aC_moduleArray[1];
+                    oldModuleToSpawn = $"Clip\\{oldModule.name}";
                     aC_moduleArray[1] = newModule;
                     break;
                 case GunModule.ModuleSection.Barrel:
                     oldModule = aC_moduleArray[2];
+                    oldModuleToSpawn = $"Barrel\\{oldModule.name}";
                     aC_moduleArray[2] = newModule;
                     break;
             }
-            GunModuleSpawner.SpawnGunModule(oldModule.name, new Vector3(transform.position.x, 0, transform.position.z));
+            GunModuleSpawner.SpawnGunModule(oldModuleToSpawn, new Vector3(transform.position.x, 0, transform.position.z));
             UpdateGunStats(newModule);
         }
 

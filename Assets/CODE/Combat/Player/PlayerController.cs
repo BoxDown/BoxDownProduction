@@ -35,6 +35,10 @@ public class PlayerController : Combatant
         InGameUI.gameUI.SetMaxHealth(f_maxHealth);
         InGameUI.gameUI.SetCurrentHealth(f_maxHealth);
         InGameUI.gameUI.UpdateHealthSlider();
+        if (!GameManager.gameManager.b_debugMode)
+        {
+            Initialise();
+        }
         DontDestroyOnLoad(this);
     }
 

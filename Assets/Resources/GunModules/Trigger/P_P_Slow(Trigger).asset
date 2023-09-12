@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8945659a36ce7a43a8defef3334e1ff, type: 3}
-  m_Name: P_S_Exploding(Trigger)
+  m_Name: P_P_Slow(Trigger)
   m_EditorClassIdentifier: 
   C_meshPrefab: {fileID: 0}
   e_moduleType: 0
   f_moduleStrength: 0
-  f_baseDamage: 2
-  f_fireRate: 7
-  f_bulletSpeed: 12
-  f_knockBack: 0
+  f_baseDamage: 35
+  f_fireRate: 1
+  f_bulletSpeed: 15
+  f_knockBack: 1
   S_bulletEffectInformation:
     e_bulletEffect: 0
     f_effectTime: 0
@@ -32,13 +32,13 @@ MonoBehaviour:
   f_movementPenalty: 0
   i_clipSize: 0
   S_bulletTraitInformation:
-    e_bulletTrait: 3
-    i_pierceCount: 1
+    e_bulletTrait: 1
+    i_pierceCount: 5
     i_ricochetCount: 0
     C_explosionPrefab: {fileID: 9198468734860294505, guid: e0bdd7450572f6c4b8b8b35f5228405a,
       type: 3}
     f_explosionSize: 4
-    f_explosionDamage: 6
+    f_explosionDamage: 10
     f_explosionKnockbackDistance: 1
     f_explosionLifeTime: 0.2
     f_homingStrength: 0.2

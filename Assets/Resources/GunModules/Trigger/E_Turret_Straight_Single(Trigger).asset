@@ -10,28 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8945659a36ce7a43a8defef3334e1ff, type: 3}
-  m_Name: P_Ice(Clip)
+  m_Name: E_Turret_Straight_Single(Trigger)
   m_EditorClassIdentifier: 
-  C_meshPrefab: {fileID: 4474457179138410964, guid: ae16ff1c83209be43bd5310b6a4ef240,
-    type: 3}
-  e_moduleType: 1
+  C_meshPrefab: {fileID: 0}
+  e_moduleType: 0
   f_moduleStrength: 0
-  f_baseDamage: 0
-  f_fireRate: 0
-  f_bulletSpeed: 0
-  f_knockBack: 0
+  f_baseDamage: 4
+  f_fireRate: 0.85
+  f_bulletSpeed: 6
+  f_knockBack: 1
   S_bulletEffectInformation:
-    e_bulletEffect: 2
-    f_effectTime: 1.35
-    f_tickDamage: 2
-    i_amountOfTicks: 3
-    f_slowPercent: 0.85
+    e_bulletEffect: 0
+    f_effectTime: 0
+    f_tickDamage: 0
+    i_amountOfTicks: 0
+    f_slowPercent: 0
     f_chainLength: 0
     f_chainDamagePercent: 0
-    f_vampirePercent: 0.15
-  f_reloadSpeed: 1.25
-  f_movementPenalty: 2
-  i_clipSize: 20
+    f_vampirePercent: 0
+  f_reloadSpeed: 0
+  f_movementPenalty: 0
+  i_clipSize: 0
   S_bulletTraitInformation:
     e_bulletTrait: 0
     i_pierceCount: 0

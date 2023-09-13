@@ -10,29 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8945659a36ce7a43a8defef3334e1ff, type: 3}
-  m_Name: P_Fire(Clip)
+  m_Name: P_H_Slow(Trigger)
   m_EditorClassIdentifier: 
   C_meshPrefab: {fileID: 0}
-  e_moduleType: 1
+  e_moduleType: 0
   f_moduleStrength: 0
-  f_baseDamage: 0
-  f_fireRate: 0
-  f_bulletSpeed: 0
+  f_baseDamage: 15
+  f_fireRate: 4.5
+  f_bulletSpeed: 15
   f_knockBack: 0
   S_bulletEffectInformation:
-    e_bulletEffect: 1
-    f_effectTime: 3
-    f_tickDamage: 0.75
-    i_amountOfTicks: 3
+    e_bulletEffect: 0
+    f_effectTime: 0
+    f_tickDamage: 0
+    i_amountOfTicks: 0
     f_slowPercent: 0
     f_chainLength: 0
     f_chainDamagePercent: 0
     f_vampirePercent: 0
-  f_reloadSpeed: 2
-  f_movementPenalty: 1.25
-  i_clipSize: 22
+  f_reloadSpeed: 0
+  f_movementPenalty: 0
+  i_clipSize: 0
   S_bulletTraitInformation:
-    e_bulletTrait: 0
+    e_bulletTrait: 4
     i_pierceCount: 0
     i_ricochetCount: 0
     C_explosionPrefab: {fileID: 0}
@@ -40,8 +40,8 @@ MonoBehaviour:
     f_explosionDamage: 0
     f_explosionKnockbackDistance: 0
     f_explosionLifeTime: 0
-    f_homingStrength: 0
-    f_homingDelayTime: 0
+    f_homingStrength: 0.1
+    f_homingDelayTime: 0.25
   f_bulletSize: 0
   f_bulletRange: 0
   f_recoil: 0

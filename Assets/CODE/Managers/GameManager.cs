@@ -29,7 +29,7 @@ namespace Managers
         [Rename("Player Input")] private PlayerInput C_playerInput;
 
         [Space(10)]
-        [Rename("Debug Game"), SerializeField] private bool b_debugMode;
+        [Rename("Debug Game"), SerializeField] public bool b_debugMode;
 
         [Rename("All Levels Document")] public TextAsset C_allLevels;
         [Rename("All Modules Document")] public TextAsset C_allGunModules;

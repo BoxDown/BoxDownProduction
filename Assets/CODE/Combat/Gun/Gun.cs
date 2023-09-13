@@ -55,7 +55,7 @@ namespace Gun
 
         float f_lastFireTime = 0;
         float f_timeSinceLastFire { get { return Time.time - f_lastFireTime; } }
-        [HideInInspector]public float f_timeBetweenBulletShots { get { return 1.0f / f_fireRate; } }
+        [HideInInspector] public float f_timeBetweenBulletShots { get { return 1.0f / f_fireRate; } }
         float f_timeUntilNextFire = 0;
 
         int i_currentAmmo;
@@ -111,7 +111,6 @@ namespace Gun
                 f_timeUntilNextFire -= Time.deltaTime;
                 f_fireHoldTime += Time.deltaTime;
                 Fire();
-                C_gunHolder.ShotFired();
             }
         }
         private void FixedUpdate()
@@ -154,19 +153,24 @@ namespace Gun
                     {
                         case GunModule.ShotPattern.Straight:
                             FireStraight(timeIntoNextFrame);
+                            C_gunHolder.ShotFired();
                             break;
                         case GunModule.ShotPattern.Multishot:
                             //will need coroutine if you don't do something clever. Think.
                             FireMultiShot(timeIntoNextFrame);
+                            C_gunHolder.ShotFired();
                             break;
                         case GunModule.ShotPattern.Buckshot:
                             FireBuckShot(timeIntoNextFrame);
+                            C_gunHolder.ShotFired();
                             break;
                         case GunModule.ShotPattern.Spray:
                             FireSpray(timeIntoNextFrame);
+                            C_gunHolder.ShotFired();
                             break;
                         case GunModule.ShotPattern.Wave:
                             FireWave(timeIntoNextFrame);
+                            C_gunHolder.ShotFired();
                             break;
                     }
                 }

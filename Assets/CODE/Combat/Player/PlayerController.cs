@@ -5,7 +5,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utility;
-using static Gun.GunModule;
 
 public class PlayerController : Combatant
 {

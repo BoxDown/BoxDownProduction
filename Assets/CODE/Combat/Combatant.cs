@@ -3,7 +3,6 @@ using UnityEngine;
 using Utility;
 using Gun;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 public class Combatant : MonoBehaviour
 {
@@ -322,7 +321,7 @@ public class Combatant : MonoBehaviour
         return new Vector3(S_rotationVec2Direction.x, 0, S_rotationVec2Direction.y);
     }
 
-    private void CheckCollisions()
+    protected virtual void CheckCollisions()
     {
         RaycastHit hit;
         if (Physics.SphereCast(transform.localPosition, f_size, Vector3.right, out hit, f_size, i_bulletLayerMask) && S_velocity.x > 0)
@@ -393,6 +392,10 @@ public class Combatant : MonoBehaviour
     {
         if (e_combatState != CombatState.Dodge && e_combatState != CombatState.NoAttack && e_combatState != CombatState.NoControl && !C_ownedGun.b_isFiring)
         {
+            if (C_ownedGun.b_isFiring)
+            {
+                return;
+            }
             C_ownedGun.StartFire();
             if (b_hasAnimator)
             {
@@ -643,9 +646,6 @@ public class Combatant : MonoBehaviour
 
     #endregion
 
-    Vector3 debugRotatatedVelocity;
-    Vector3 debugRotatatedVelocity2;
-
     private void OnDrawGizmos()
     {
         //lightning gizmo
@@ -660,15 +660,6 @@ public class Combatant : MonoBehaviour
             Gizmos.color = new Color(1, 0.92f, 0.016f, 0.5f);
             Gizmos.DrawSphere(Vector3.zero, f_debugLightningSize);
         }
-
-        Gizmos.DrawLine(transform.position, transform.position + S_velocity.normalized * 2);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.position + GetRotationDirection().normalized * 2);
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere(transform.position + debugRotatatedVelocity.normalized * 2, 0.15f);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(transform.position + debugRotatatedVelocity2.normalized * 2, 0.15f);
-
 
     }
 

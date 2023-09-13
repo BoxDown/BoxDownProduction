@@ -38,7 +38,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Base_Colour:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 6c613c502fbf7e44db4d26150665e194, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BentNormalMap:
@@ -61,12 +61,16 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Emissive:
+        m_Texture: {fileID: 2800000, guid: b83ddd530410f2a41aea9059e6db4429, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissiveColorMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Gunk_Map:
-        m_Texture: {fileID: 2800000, guid: 60a102ea350802d40a339e70533a6c84, type: 3}
+        m_Texture: {fileID: 2800000, guid: c96a9a81222d384428b57afe9be2ea12, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Gunk_Surface_Normal:
@@ -90,7 +94,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 943d1380d6391d2408bc83568602d19f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
@@ -102,7 +106,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: e70b58bc95bc79f499348ad9e8e137e4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
@@ -114,7 +118,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Overlay_Texture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: c96a9a81222d384428b57afe9be2ea12, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Secondary_Edge_Texture:
@@ -222,6 +226,7 @@ Material:
     - _EmissiveExposureWeight: 1
     - _EmissiveIntensity: 1
     - _EmissiveIntensityUnit: 0
+    - _Emissive_multiplier: 1
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _EnableGeometricSpecularAA: 0
@@ -231,8 +236,8 @@ Material:
     - _Float1: 0.99
     - _Float2: 0.72
     - _Float223: 0.16
-    - _Gunk_Amount: 0.62
-    - _Gunk_Map_scale: 0.13
+    - _Gunk_Amount: 0.7
+    - _Gunk_Map_scale: 0.08
     - _Gunk_Metallic: 0
     - _Gunk_Outness: 1
     - _Gunk_Smoothness: 0
@@ -260,7 +265,7 @@ Material:
     - _NormalMapSpace: 0
     - _NormalScale: 1
     - _OpaqueCullMode: 2
-    - _Overlay_Texture_size: 1.4
+    - _Overlay_Texture_size: 2.08
     - _Overlay_var_speed: 0.2
     - _PPDLodThreshold: 5
     - _PPDMaxSamples: 15
@@ -315,7 +320,7 @@ Material:
     - _UVEmissive: 0
     - _UseEmissiveIntensity: 0
     - _UseShadowThreshold: 0
-    - _Use_Flat_Colour: 1
+    - _Use_Flat_Colour: 0
     - _Wiggle_amount: 1.8
     - _ZTestDepthEqualForOpaque: 3
     - _ZTestGBuffer: 4

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8176362471661757100}
   - component: {fileID: 8176362471661757099}
-  - component: {fileID: 3758781590131107164}
   - component: {fileID: 2484904911647075690}
   m_Layer: 0
   m_Name: PREFAB_Wasp
@@ -49,22 +48,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.4
   m_Center: {x: 0, y: 0.5, z: -0.1}
---- !u!54 &3758781590131107164
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8176362471661757103}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &2484904911647075690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,7 +116,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   i_maxDodges: 3
   f_dodgeRecoveryTime: 0
-  f_size: 0.35
+  f_size: 0.2
   f_collisionBounciness: 0.285
   f_maxHealth: 115
   f_invincibleTime: 0.1
@@ -148,6 +131,7 @@ MonoBehaviour:
   f_aimRange: 6
   f_fireRange: 4
   f_meleeDamage: 8
+  f_meleeKnockback: 3
   b_aimAtPlayer: 1
   b_debugFire: 1
 --- !u!1 &8176362473282986587

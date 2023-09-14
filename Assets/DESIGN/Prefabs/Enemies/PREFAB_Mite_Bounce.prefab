@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6616373416615973901}
-  - component: {fileID: 6616373416615973903}
   - component: {fileID: 6616373416615973902}
+  - component: {fileID: 2825287412866642495}
   m_Layer: 0
-  m_Name: PREFAB_Mite_Turret
+  m_Name: PREFAB_Mite_Bounce
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,8 +25,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6616373416615973898}
-  m_LocalRotation: {x: 0, y: 0.9905885, z: -0, w: -0.13687393}
-  m_LocalPosition: {x: 5.25, y: 0, z: 9.98}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -34,8 +34,21 @@ Transform:
   - {fileID: 6616373417050219147}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 195.734, z: 0}
---- !u!114 &6616373416615973903
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &6616373416615973902
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6616373416615973898}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.34
+  m_Center: {x: 0, y: 0.4, z: 0}
+--- !u!114 &2825287412866642495
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,11 +57,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6616373416615973898}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bd06bdb352e73947b7e03141ec87adc, type: 3}
+  m_Script: {fileID: 11500000, guid: de2c38c22bcf6884b975e48114bf160f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  f_maxSpeed: 5.5
-  f_maxAcceleration: 40
+  f_maxSpeed: 4.8
+  f_maxAcceleration: 35
   C_accelerationCurve:
     serializedVersion: 2
     m_Curve:
@@ -73,7 +86,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  f_rotationTime: 0.08
+  f_rotationTime: 0.02
   f_dodgeStartDelay: 0.12
   f_dodgeLength: 2.5
   f_dodgeTime: 0.3
@@ -103,7 +116,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   i_maxDodges: 3
   f_dodgeRecoveryTime: 0
-  f_size: 0.35
+  f_size: 0.17
   f_collisionBounciness: 0.285
   f_maxHealth: 50
   f_invincibleTime: 0.1
@@ -114,22 +127,15 @@ MonoBehaviour:
   C_dodgeMaterial: {fileID: 0}
   e_combatState: 0
   b_isDead: 0
-  b_lockEnemyPosition: 1
-  b_testFiring: 1
-  f_attackDistance: 20
---- !u!135 &6616373416615973902
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6616373416615973898}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0.4, z: 0}
+  b_lockEnemyPosition: 0
+  f_aimRange: 0
+  f_fireRange: 0
+  f_meleeDamage: 18
+  f_meleeKnockback: 15
+  b_chasePlayer: 0
+  b_lookAtPlayer: 0
+  f_chaseDistance: 0
+  f_stopChaseDistance: 0
 --- !u!1 &6616373417050219144
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,7 +161,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6616373417050219144}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.299, z: 0.351}
+  m_LocalPosition: {x: 0, y: 0.411, z: 0.351}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -169,14 +175,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6616373417050219144}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 653628d1cf0567646824d186733096e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   C_muzzle: {fileID: 0}
   b_debugGun: 0
-  C_gunHolder: {fileID: 6616373416615973903}
+  C_gunHolder: {fileID: 2825287412866642495}
   aC_moduleArray:
   - {fileID: 11400000, guid: 717101efd17aeea43a1b1a9030b88824, type: 2}
   - {fileID: 11400000, guid: 376073378f495424f93238d830cb6339, type: 2}

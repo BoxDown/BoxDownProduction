@@ -135,7 +135,7 @@ public class Combatant : MonoBehaviour
         }
     }
 
-    protected void Update()
+    protected virtual void Update()
     {
         if (e_combatState != CombatState.NoControl || e_combatState != CombatState.Dodge)
         {

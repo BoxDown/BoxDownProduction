@@ -16,7 +16,8 @@ namespace Enemy
             base.Start();
             if (!b_chasePlayer)
             {
-                ChangeMovementDirection(new Vector2(-transform.forward.x, -transform.forward.z));
+                ChangeMovementDirection(new Vector2(transform.forward.x, transform.forward.z));
+                SetRotationDirection(S_movementVec2Direction);
             }
         }
 
@@ -24,13 +25,14 @@ namespace Enemy
         private void Update()
         {
             base.Update();
-            if(f_distanceToPlayer < f_aimRange && b_lookAtPlayer)
+            MeleeDamage();
+            if (f_distanceToPlayer < f_aimRange && b_lookAtPlayer)
             {
                 LookAtPlayer();
             }
             if (!b_chasePlayer)
             {
-                if(Physics.SphereCast(transform.position, f_size, transform.forward, out RaycastHit hit, f_size * 1.1f, i_bulletLayerMask))
+                if(Physics.SphereCast(transform.position, f_size, transform.forward, out RaycastHit hit, f_size * 2, i_bulletLayerMask))
                 {
                     ReflectMovementDirection(new Vector2(hit.normal.x, hit.normal.z));
                     SetRotationDirection(S_movementVec2Direction);

@@ -23,6 +23,7 @@ namespace Enemy
         private void Update()
         {
             base.Update();
+            MeleeDamage();
             if (b_aimAtPlayer && f_distanceToPlayer < f_aimRange)
             {
                 LookAtPlayer();

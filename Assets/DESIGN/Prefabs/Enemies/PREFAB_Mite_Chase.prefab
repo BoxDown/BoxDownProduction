@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6616373416615973902}
   - component: {fileID: 2825287412866642495}
   m_Layer: 0
-  m_Name: PREFAB_Mite
+  m_Name: PREFAB_Mite_Chase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2c38c22bcf6884b975e48114bf160f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  f_maxSpeed: 4.8
+  f_maxSpeed: 4
   f_maxAcceleration: 35
   C_accelerationCurve:
     serializedVersion: 2
@@ -127,15 +127,15 @@ MonoBehaviour:
   C_dodgeMaterial: {fileID: 0}
   e_combatState: 0
   b_isDead: 0
-  b_lockEnemyPosition: 1
-  f_aimRange: 3
-  f_fireRange: 2
-  f_meleeDamage: 8
-  f_meleeKnockback: 3
-  b_chasePlayer: 0
-  b_lookAtPlayer: 0
-  f_chaseDistance: 3.5
-  f_stopChaseDistance: 4.5
+  b_lockEnemyPosition: 0
+  f_aimRange: 0
+  f_fireRange: 0
+  f_meleeDamage: 18
+  f_meleeKnockback: 15
+  b_chasePlayer: 1
+  b_lookAtPlayer: 1
+  f_chaseDistance: 6
+  f_stopChaseDistance: 8
 --- !u!1 &6616373417050219144
 GameObject:
   m_ObjectHideFlags: 0

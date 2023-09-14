@@ -34,6 +34,10 @@ namespace Enemy
             {
                 if(Physics.SphereCast(transform.position, f_size, transform.forward, out RaycastHit hit, f_size * 2, i_bulletLayerMask))
                 {
+                    if(hit.transform.GetComponent<Combatant>() != null)
+                    {
+                        return;
+                    }
                     ReflectMovementDirection(new Vector2(hit.normal.x, hit.normal.z));
                     SetRotationDirection(S_movementVec2Direction);
                 }

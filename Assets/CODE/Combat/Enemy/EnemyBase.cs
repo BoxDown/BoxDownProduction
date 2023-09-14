@@ -41,7 +41,8 @@ namespace Enemy
         {
             get
             {
-                return (C_player.transform.position - transform.position).magnitude;
+                if (C_player != null) { return (C_player.transform.position - transform.position).magnitude; }
+                else { return 0; }                
             }
         }
         public Vector2 DirectionOfPlayer()

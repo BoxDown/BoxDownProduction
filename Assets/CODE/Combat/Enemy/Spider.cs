@@ -22,30 +22,29 @@ namespace Enemy
         private void Update()
         {
             base.Update();
+            MeleeDamage();
 
-            if (b_flee)
+            if (!b_flee)
             {
+                if (f_distanceToPlayer < f_aimRange)
+                {
+                    LookAtPlayer();
+                }
+
                 if (f_distanceToPlayer < f_chaseDistance)
                 {
                     ChangeMovementDirection(DirectionOfPlayer());
-                    LookAtPlayer();
-                    //melee shit
+                    CancelGun();
+                    return;
                 }
+                else if(f_distanceToPlayer < f_fireRange)
+                {
+                    FireGun();
+                }
+
                 if (f_distanceToPlayer > f_stopChaseDistance)
                 {
                     ChangeMovementDirection(Vector2.zero);
-                    if (f_distanceToPlayer < f_aimRange)
-                    {
-                        LookAtPlayer();
-                        if (f_distanceToPlayer < f_fireRange)
-                        {
-                            FireGun();
-                        }
-                        else
-                        {
-                            CancelGun();
-                        }
-                    }
                 }
                 return;
             }

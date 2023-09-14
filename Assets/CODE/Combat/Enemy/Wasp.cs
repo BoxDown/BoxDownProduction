@@ -19,6 +19,7 @@ namespace Enemy
         private void Update()
         {
             base.Update();
+            MeleeDamage();
             if (!b_debugFire)
             {
                 return;

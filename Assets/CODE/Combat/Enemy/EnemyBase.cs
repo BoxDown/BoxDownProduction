@@ -42,13 +42,20 @@ namespace Enemy
             get
             {
                 if (C_player != null) { return (C_player.transform.position - transform.position).magnitude; }
-                else { return 0; }                
+                else { return 0; }
             }
         }
         public Vector2 DirectionOfPlayer()
         {
-            Vector3 fromToPlayer = C_player.transform.position - transform.position;
-            return new Vector2(fromToPlayer.x, fromToPlayer.z);
+            if (C_player != null)
+            {
+                Vector3 fromToPlayer = C_player.transform.position - transform.position;
+                return new Vector2(fromToPlayer.x, fromToPlayer.z);
+            }
+            else
+            {
+                return Vector2.zero;
+            }
         }
 
         public void ReflectMovementDirection(Vector2 normal)

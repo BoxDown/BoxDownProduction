@@ -81,9 +81,11 @@ public class Combatant : MonoBehaviour
     protected bool b_fireCancelWhileDodging;
     protected float f_currentAccelerationStep = 0;
     protected int i_currentDodgeCount;
+    protected bool b_dodgeCanceled = false;
     protected bool b_lightingEffected = false;
 
     protected List<Transform> lC_lightningHits = new List<Transform>();
+
     protected bool b_hasAnimator = false;
     protected Animator C_animator = null;
 
@@ -148,6 +150,10 @@ public class Combatant : MonoBehaviour
         if (b_hasAnimator && C_ownedGun.b_isFiring)
         {
             MoveTowardAimAnimation();
+        }
+        else if(b_hasAnimator)
+        {
+            C_animator.SetFloat("Recoil", S_movementVec2Direction.magnitude);
         }
     }
 
@@ -266,6 +272,10 @@ public class Combatant : MonoBehaviour
     protected void Dodge()
     {
         StartCoroutine(DodgeRoutine());
+    }
+    protected void CancelDodge()
+    {
+        b_dodgeCanceled = true;
     }
 
     public void ZeroVelocity()
@@ -591,14 +601,12 @@ public class Combatant : MonoBehaviour
         Vector3 goalPosition = transform.position + (S_movementInputDirection.normalized * dodgeDistance);
 
 
-        while (dodgeTime > timeSinceStart)
+        while (dodgeTime > timeSinceStart && !b_dodgeCanceled)
         {
             transform.position = Vector3.Lerp(startPosition, goalPosition, C_dodgeCurve.Evaluate(timeSinceStart / dodgeTime));
             yield return 0;
             timeSinceStart += Time.deltaTime;
         }
-
-        transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 0);
 
         ChangeState(CombatState.Normal);
         GetComponentInChildren<Renderer>().material = C_defaultMaterial;
@@ -607,6 +615,7 @@ public class Combatant : MonoBehaviour
             C_ownedGun.StartFire();
         }
         b_fireCancelWhileDodging = false;
+        b_dodgeCanceled = false;
     }
 
     protected IEnumerator SpeedUpAfterTime(float effectTime, float increaseAmount)

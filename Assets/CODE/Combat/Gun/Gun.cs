@@ -67,6 +67,9 @@ namespace Gun
         [HideInInspector] public BulletObjectPool C_bulletPool;
 
         [Header("Bullet Colours")]
+        [Rename("Base Material")] public Material C_bulletBaseMaterial;
+
+        [Header("Bullet Colours")]
         [Rename("Emission Value")] public float f_emissiveValue = 20.0f;
         [Rename("Standard Colour")] public Color S_standardColour = new Color(0.75f, 0.5f, 0.2f, 1);
         [Rename("Fire Colour")] public Color S_fireColour = new Color(1f, 0.2f, 0f, 1);
@@ -175,7 +178,7 @@ namespace Gun
                     }
                 }
                 timesFiredThisFrame += 1;
-                Vector3 recoil = -C_gunHolder.transform.forward * f_recoil;
+                Vector3 recoil = -C_gunHolder.transform.forward * Mathf.Clamp(f_recoil - f_movementPenalty, 0, f_recoil);
 
                 C_gunHolder.GetComponent<Combatant>().AddVelocity(recoil);
 

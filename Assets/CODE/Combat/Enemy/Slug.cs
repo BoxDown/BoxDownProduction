@@ -15,7 +15,7 @@ namespace Enemy
 
         private void OnValidate()
         {
-            if(C_ownedGun == null)
+            if (C_ownedGun == null)
             {
                 throw new System.Exception("Slug Gun Is Null And Should Not Be");
             }
@@ -23,9 +23,13 @@ namespace Enemy
         private void Update()
         {
             base.Update();
-            if (b_aimAtPlayer && f_distanceToPlayer < f_aimRange)
+            MeleeDamage();
+            if (b_aimAtPlayer)
             {
-                LookAtPlayer();
+                if (f_distanceToPlayer < f_aimRange)
+                {
+                    LookAtPlayer();
+                }
                 if (f_distanceToPlayer < f_fireRange)
                 {
                     FireGun();

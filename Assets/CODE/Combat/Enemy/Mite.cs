@@ -45,6 +45,7 @@ namespace Enemy
             }
             if (f_distanceToPlayer < f_chaseDistance)
             {
+                LookAtPlayer();
                 ChangeMovementDirection(DirectionOfPlayer());
             }
             if (f_distanceToPlayer > f_stopChaseDistance)
@@ -57,28 +58,28 @@ namespace Enemy
             RaycastHit hit;
             if (Physics.SphereCast(transform.localPosition, f_size, Vector3.right, out hit, f_size, i_bulletLayerMask) && S_velocity.x > 0)
             {
-                if (hit.transform.GetComponent<Mite>() == null)
+                if (hit.transform.GetComponent<Combatant>() == null)
                 {
                     S_velocity.x = -S_velocity.x * f_collisionBounciness;
                 }
             }
             else if (Physics.SphereCast(transform.localPosition, f_size, -Vector3.right, out hit, f_size, i_bulletLayerMask) && S_velocity.x < 0)
             {
-                if (hit.transform.GetComponent<Mite>() == null)
+                if (hit.transform.GetComponent<Combatant>() == null)
                 {
                     S_velocity.x = -S_velocity.x * f_collisionBounciness;
                 }
             }
             if (Physics.SphereCast(transform.localPosition, f_size, Vector3.forward, out hit, f_size, i_bulletLayerMask) && S_velocity.z > 0)
             {
-                if (hit.transform.GetComponent<Mite>() == null)
+                if (hit.transform.GetComponent<Combatant>() == null)
                 {
                     S_velocity.z = -S_velocity.z * f_collisionBounciness;
                 }
             }
             else if (Physics.SphereCast(transform.localPosition, f_size, -Vector3.forward, out hit, f_size, i_bulletLayerMask) && S_velocity.z < 0)
             {
-                if (hit.transform.GetComponent<Mite>() == null)
+                if (hit.transform.GetComponent<Combatant>() == null)
                 {
                     S_velocity.z = -S_velocity.z * f_collisionBounciness;
                 }

@@ -629,6 +629,7 @@ public class Combatant : MonoBehaviour
         {
             f_slowMultiplier = 0;
         }
+        Mathf.Clamp01(f_slowMultiplier);
     }
 
     protected IEnumerator ResetAfterFrozen(float effectTime)

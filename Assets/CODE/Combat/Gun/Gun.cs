@@ -70,6 +70,7 @@ namespace Gun
         [Rename("Base Material")] public Material C_bulletBaseMaterial;
 
         [Header("Bullet Colours")]
+        [Rename("Bullet Material")] public Material C_bulletMaterial;
         [Rename("Emission Value")] public float f_emissiveValue = 20.0f;
         [Rename("Standard Colour")] public Color S_standardColour = new Color(0.75f, 0.5f, 0.2f, 1);
         [Rename("Fire Colour")] public Color S_fireColour = new Color(1f, 0.2f, 0f, 1);
@@ -85,6 +86,10 @@ namespace Gun
         [Rename("Ricochet Bullet Mesh")] public Mesh C_ricochetMesh;
         [Rename("Explosive Bullet Mesh")] public Mesh C_explosiveMesh;
         [Rename("Homing Bullet Mesh")] public Mesh C_homingMesh;
+
+        [Space(15)]
+        [Header("Shells")]
+        [Rename("Bullet Shells")] public GameObject C_bulletShells;
         Bullet.BulletBaseInfo S_bulletInfo { get { return new Bullet.BulletBaseInfo(C_gunHolder, S_muzzlePosition, C_gunHolder.transform.forward, f_bulletRange, f_baseDamage, f_bulletSpeed, f_bulletSize, f_knockBack); } }
 
         private void Awake()

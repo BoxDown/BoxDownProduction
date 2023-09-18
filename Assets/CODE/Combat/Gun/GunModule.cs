@@ -137,15 +137,12 @@ namespace Gun
             switch (e_moduleType)
             {
                 case ModuleSection.Trigger:
-                    newGunModule.GetComponentInChildren<Renderer>().material.color = Color.blue;
                     newGunModule.name = $"Trigger\\{name}";
                     break;
                 case ModuleSection.Clip:
-                    newGunModule.GetComponentInChildren<Renderer>().material.color = Color.green;
                     newGunModule.name = $"Clip\\{name}";
                     break;
                 case ModuleSection.Barrel:
-                    newGunModule.GetComponentInChildren<Renderer>().material.color = Color.red;
                     newGunModule.name = $"Barrel\\{name}";
                     break;
             }

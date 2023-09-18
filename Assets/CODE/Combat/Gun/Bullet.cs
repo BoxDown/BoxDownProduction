@@ -347,7 +347,7 @@ namespace Gun
                 case BulletTrait.Ricochet:
                     if (shouldHit)
                     {
-                        if (S_bulletTrait.e_bulletTrait == BulletTrait.Ricochet && S_bulletTrait.i_ricochetCount >= i_ricochetCount)
+                        if (S_bulletTrait.i_ricochetCount >= i_ricochetCount)
                         {
                             DoBaseHit(combatant);
                             if (isPlayer)
@@ -367,9 +367,14 @@ namespace Gun
                             }
                             return false;
                         }
-                    }
-                    C_poolOwner.MoveToOpen(this);
-                    return true;
+                        else
+                        {
+                            DoBaseHit(combatant);
+                            C_poolOwner.MoveToOpen(this);
+                            return true;
+                        }
+                    }                    
+                    return false;
                 case BulletTrait.Explosive:
                     if (shouldHit)
                     {

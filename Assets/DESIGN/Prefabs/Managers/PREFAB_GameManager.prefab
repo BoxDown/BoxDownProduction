@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 5951326700866749670}
+  m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!114 &2855244226098366614
@@ -1443,6 +1443,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2764976912095929090}
     m_Modifications:
+    - target: {fileID: 1016750499669999347, guid: 4a7766f3c50c72d44aa1449ba620e2fc,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3270678607891845959}
+    - target: {fileID: 1016750499669999347, guid: 4a7766f3c50c72d44aa1449ba620e2fc,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartGame
+      objectReference: {fileID: 0}
     - target: {fileID: 2704795881992418465, guid: 4a7766f3c50c72d44aa1449ba620e2fc,
         type: 3}
       propertyPath: m_Enabled
@@ -1568,12 +1578,6 @@ PrefabInstance:
 --- !u!4 &5951326700620526298 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2704795883254146069, guid: 4a7766f3c50c72d44aa1449ba620e2fc,
-    type: 3}
-  m_PrefabInstance: {fileID: 8583299710407005903}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5951326700866749670 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2704795883013149225, guid: 4a7766f3c50c72d44aa1449ba620e2fc,
     type: 3}
   m_PrefabInstance: {fileID: 8583299710407005903}
   m_PrefabAsset: {fileID: 0}

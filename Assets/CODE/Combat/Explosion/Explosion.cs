@@ -1,7 +1,7 @@
-using Enemy;
 using Gun;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 using Utility;
 
 namespace Explosion
@@ -9,7 +9,6 @@ namespace Explosion
 
     public class Explosion : MonoBehaviour
     {
-        public GameObject C_prefab;
         public GunModule C_gunModuleCreator;
         public float f_explosionSize;
         public float f_explosionDamage;
@@ -17,10 +16,25 @@ namespace Explosion
         public float f_explosionLifeTime;
         private float f_lifeTime;
         List<Transform> lC_alreadyCollided = new List<Transform>();
+        VisualEffect C_explosionEffect;
 
         public void InitialiseExplosion()
         {
             f_lifeTime = 0;
+            C_explosionEffect = GetComponentInChildren<VisualEffect>();
+            if(C_explosionEffect != null)
+            {
+                C_explosionEffect.Play();
+                C_explosionEffect.playRate = 1 / f_explosionLifeTime;
+            }
+
+            ParticleSystem smokeParticle = transform.Find("PREFAB_VFX_Smoke").GetComponent<ParticleSystem>();
+            ParticleSystem shockwaveParticle = transform.Find("PREFAB_VFX_Shockwave").GetComponent<ParticleSystem>();
+            //smoke start speed needs to be radius
+            smokeParticle.startSpeed = f_explosionSize;
+            shockwaveParticle.startSize = f_explosionSize * 1.2f;
+
+            //shockwave start size radius * 1.2f
         }
 
         private void Update()

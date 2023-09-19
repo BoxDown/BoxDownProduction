@@ -9,7 +9,7 @@ public class Destructable : MonoBehaviour
     [Rename("Destructable Grab Bag")] GameObject C_grabBag;
 
     
-    private void DamageObject(float damage)
+    public void DamageObject(float damage)
     {
         f_health -= damage;
         //art shit here

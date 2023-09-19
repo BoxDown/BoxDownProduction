@@ -347,6 +347,10 @@ namespace Gun
 
             if (combatant == null)
             {
+                if (objectHit.GetComponent<Destructable>() != null)
+                {
+                    objectHit.GetComponent<Destructable>().DamageObject(S_baseInformation.f_damage);
+                }
                 if (S_bulletTrait.e_bulletTrait == BulletTrait.Ricochet && S_bulletTrait.i_ricochetCount >= i_ricochetCount)
                 {
                     if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, S_baseInformation.f_size, ~LayerMask.GetMask("Bullet")))

@@ -60,9 +60,10 @@ public class Combatant : MonoBehaviour
     [Rename("Debug Respawn Time")] public float f_respawnTime = 5.0f;
     [Space(4)]
 
-    [Header("Materials")]
+    [Header("Visuals")]
     [Rename("Default Material")] public Material C_defaultMaterial;
     [Rename("Dodge Material")] public Material C_dodgeMaterial;
+    [Rename("Hit VFX")] public GameObject C_onHitEffects;
 
 
 

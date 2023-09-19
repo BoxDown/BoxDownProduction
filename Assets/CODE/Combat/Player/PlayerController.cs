@@ -163,7 +163,7 @@ public class PlayerController : Combatant
             {
                 continue;
             }
-            float distance = (collisions[i].transform.position - transform.position).magnitude;
+            float distance = (collisions[i].ClosestPoint(transform.position) - transform.position).magnitude;
             if (distance < closestDistance)
             {
                 closestDistance = distance;

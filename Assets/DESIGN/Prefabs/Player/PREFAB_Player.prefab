@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   C_muzzle: {fileID: 3289634681133711337}
-  b_debugGun: 1
+  b_debugGun: 0
   C_gunHolder: {fileID: 635995768042981309}
   aC_moduleArray:
   - {fileID: 11400000, guid: 469e5568dba274e4bb151d38715f08e8, type: 2}
@@ -203,7 +203,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5b187bdf3af346c45b33a337b2e9d0c6, type: 2}
   b_isFiring: 0
   C_bulletPool: {fileID: 0}
-  C_bulletMaterial: {fileID: 0}
   f_emissiveValue: 15.5
   S_standardColour: {r: 0.745283, g: 0.40938082, b: 0, a: 1}
   S_fireColour: {r: 1, g: 0.08064831, b: 0, a: 1}
@@ -220,9 +219,11 @@ MonoBehaviour:
     type: 3}
   C_homingMesh: {fileID: -470265600441265283, guid: cb51c5f522f05da4abbad99b7e357990,
     type: 3}
-  C_bulletShells: {fileID: 3252292603439053836, guid: a5277560417809d4cae073dd5e0aade9,
+  C_bulletTrail: {fileID: 1828411177140869346, guid: 50cb4ac4d2efe7d4fbe23047e73f41f4,
     type: 3}
-  C_bulletShellSpawn: {fileID: 670686387446083556}
+  C_bulletShells: {fileID: 4126584836406311970, guid: abaaa186ee4af934aada0e15c72b397f,
+    type: 3}
+  C_bulletShellSpawn: {fileID: 1982059006280737478}
   C_bulletHitFX: {fileID: 0}
 --- !u!1001 &346620672123973733
 PrefabInstance:
@@ -309,9 +310,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 346620672123973733}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &670686387446083556 stripped
+--- !u!4 &1982059006280737478 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -8250119401774751871, guid: 450a66e8f1ea4404b9867df4cb2deea6,
+  m_CorrespondingSourceObject: {fileID: -6967418817979116893, guid: 450a66e8f1ea4404b9867df4cb2deea6,
     type: 3}
   m_PrefabInstance: {fileID: 346620672123973733}
   m_PrefabAsset: {fileID: 0}

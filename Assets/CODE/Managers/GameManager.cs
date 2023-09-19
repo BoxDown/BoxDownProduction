@@ -306,7 +306,6 @@ namespace Managers
                         if (randomNumber <= 0)
                         {
                             GunModuleSpawner.SpawnGunModule(ls_triggerGunModulesNames[i], S_rewardPoint);
-                            Debug.Log($"{ls_triggerGunModulesNames[i]} module spawned, this module had a {(Mathf.Clamp(lC_triggerGunModules[i].f_moduleStrength, 1, 100) / totalChance) * 100}% chance to spawn");
                             break;
                         }
                     }
@@ -327,7 +326,6 @@ namespace Managers
                         if (randomNumber <= 0)
                         {
                             GunModuleSpawner.SpawnGunModule(ls_clipGunModulesNames[i], S_rewardPoint);
-                            Debug.Log($"{ls_clipGunModulesNames[i]} module spawned, this module had a {(Mathf.Clamp(lC_clipGunModules[i].f_moduleStrength, 1, 100) / totalChance) * 100}% chance to spawn");
                             break;
                         }
                     }
@@ -347,7 +345,6 @@ namespace Managers
                         if (randomNumber <= 0)
                         {
                             GunModuleSpawner.SpawnGunModule(ls_barrelGunModulesNames[i], S_rewardPoint);
-                            Debug.Log($"{ls_barrelGunModulesNames[i]} module spawned, this module had a {(Mathf.Clamp(lC_barrelGunModules[i].f_moduleStrength, 1, 100) / totalChance) * 100}% chance to spawn");
                             break;
                         }
                     }
@@ -367,7 +364,6 @@ namespace Managers
                         if (randomNumber <= 0)
                         {
                             GunModuleSpawner.SpawnGunModule(ls_allGunModulesNames[i], S_rewardPoint);
-                            Debug.Log($"{ls_allGunModulesNames[i]} module spawned, this module had a {(Mathf.Clamp(lC_allGunModules[i].f_moduleStrength, 1, 100) / totalChance) * 100}% chance to spawn");
                             break;
                         }
                     }
@@ -491,11 +487,11 @@ namespace Managers
             GrabAllLevels();
             GroupLevels(ls_allLevels);
 
-            
-            
+
+
 
             i_currentRoom = 0;
-            
+
         }
 
         #endregion

@@ -5,7 +5,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utility;
-using static Gun.GunModule;
 
 public class PlayerController : Combatant
 {
@@ -35,6 +34,10 @@ public class PlayerController : Combatant
         InGameUI.gameUI.SetMaxHealth(f_maxHealth);
         InGameUI.gameUI.SetCurrentHealth(f_maxHealth);
         InGameUI.gameUI.UpdateHealthSlider();
+        if (!GameManager.gameManager.b_debugMode)
+        {
+            Initialise();
+        }
         DontDestroyOnLoad(this);
     }
 
@@ -142,6 +145,7 @@ public class PlayerController : Combatant
 
     private void Interact()
     {
+        CancelDodge();
         float closestDistance = float.MaxValue;
         int closestCollisionReference = 0;
         Collider[] collisions = Physics.OverlapSphere(transform.position, f_interactRange);

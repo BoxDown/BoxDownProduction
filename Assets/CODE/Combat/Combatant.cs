@@ -81,9 +81,11 @@ public class Combatant : MonoBehaviour
     protected bool b_fireCancelWhileDodging;
     protected float f_currentAccelerationStep = 0;
     protected int i_currentDodgeCount;
+    protected bool b_dodgeCanceled = false;
     protected bool b_lightingEffected = false;
 
     protected List<Transform> lC_lightningHits = new List<Transform>();
+
     protected bool b_hasAnimator = false;
     protected Animator C_animator = null;
 
@@ -129,13 +131,13 @@ public class Combatant : MonoBehaviour
         i_bulletLayerMask = ~(LayerMask.GetMask("Bullet") + LayerMask.GetMask("Ignore Raycast"));
         f_currentHealth = f_maxHealth;
         C_animator = GetComponentInChildren<Animator>();
-        if(C_animator != null)
+        if (C_animator != null)
         {
             b_hasAnimator = true;
         }
     }
 
-    protected void Update()
+    protected virtual void Update()
     {
         if (e_combatState != CombatState.NoControl || e_combatState != CombatState.Dodge)
         {
@@ -148,6 +150,10 @@ public class Combatant : MonoBehaviour
         if (b_hasAnimator && C_ownedGun.b_isFiring)
         {
             MoveTowardAimAnimation();
+        }
+        else if(b_hasAnimator)
+        {
+            C_animator.SetFloat("Recoil", S_movementVec2Direction.magnitude);
         }
     }
 
@@ -204,20 +210,39 @@ public class Combatant : MonoBehaviour
             float strafeToSet = 0;
             float runToSet = 0;
 
-            float angle = Vector3.Angle(Vector3.forward, transform.forward);
-            if(Vector3.Dot(transform.forward, f_desiredRotationAngle * Vector3.forward) > 0)
+
+
+            Vector2 aimVector = new Vector2(transform.forward.x, transform.forward.z);
+
+            float aimBearing = 0;
+            if (aimVector != Vector2.zero)
             {
-                angle = -angle;
+                aimBearing = Mathf.Atan2(aimVector.y, aimVector.x) * Mathf.Rad2Deg;
             }
 
-            Vector3 rotatedVelocity = Quaternion.AngleAxis(angle, Vector3.up) * S_velocity;
+            Vector2 moveVector = new Vector2(S_velocity.x, S_velocity.z);
 
-            strafeToSet = rotatedVelocity.x / effectiveSpeed;
-            runToSet = rotatedVelocity.z / effectiveSpeed;
+            float moveBearing = 0;
+            if (moveVector != Vector2.zero)
+            {
+                moveBearing = Mathf.Atan2(moveVector.y, moveVector.x) * Mathf.Rad2Deg;
+            }
+
+            float angleDifference = aimBearing - moveBearing;
+
+            if (angleDifference < -180) angleDifference += 360;
+            if (angleDifference > 180) angleDifference -= 360;
+
+            //angleDifference should be used to play the right animation based on quadrants
+
+            Vector3 rotatatedVelocity = Quaternion.AngleAxis(angleDifference, Vector3.up) * Vector3.forward;
+
+            strafeToSet = rotatatedVelocity.x * S_velocity.magnitude;
+            runToSet = rotatatedVelocity.z * S_velocity.magnitude;
 
             C_animator.SetFloat("Strafe", strafeToSet);
             C_animator.SetFloat("Run", runToSet);
-            if(S_velocity != Vector3.zero)
+            if (S_velocity != Vector3.zero)
             {
                 C_animator.SetBool("Movement", true);
             }
@@ -247,6 +272,10 @@ public class Combatant : MonoBehaviour
     protected void Dodge()
     {
         StartCoroutine(DodgeRoutine());
+    }
+    protected void CancelDodge()
+    {
+        b_dodgeCanceled = true;
     }
 
     public void ZeroVelocity()
@@ -302,7 +331,7 @@ public class Combatant : MonoBehaviour
         return new Vector3(S_rotationVec2Direction.x, 0, S_rotationVec2Direction.y);
     }
 
-    private void CheckCollisions()
+    protected virtual void CheckCollisions()
     {
         RaycastHit hit;
         if (Physics.SphereCast(transform.localPosition, f_size, Vector3.right, out hit, f_size, i_bulletLayerMask) && S_velocity.x > 0)
@@ -373,6 +402,10 @@ public class Combatant : MonoBehaviour
     {
         if (e_combatState != CombatState.Dodge && e_combatState != CombatState.NoAttack && e_combatState != CombatState.NoControl && !C_ownedGun.b_isFiring)
         {
+            if (C_ownedGun.b_isFiring)
+            {
+                return;
+            }
             C_ownedGun.StartFire();
             if (b_hasAnimator)
             {
@@ -391,11 +424,11 @@ public class Combatant : MonoBehaviour
     }
     public void MoveTowardAimAnimation()
     {
-        if (b_hasAnimator )
+        if (b_hasAnimator)
         {
-            if(C_animator.GetFloat("Recoil") > 1)
+            if (C_animator.GetFloat("Recoil") > 1)
             {
-                C_animator.SetFloat("Recoil", (C_animator.GetFloat("Recoil") - 25 * Time.deltaTime));
+                C_animator.SetFloat("Recoil", Mathf.MoveTowards(C_animator.GetFloat("Recoil"), 1, (1 / C_ownedGun.f_timeBetweenBulletShots) * Time.deltaTime));
             }
         }
     }
@@ -419,6 +452,19 @@ public class Combatant : MonoBehaviour
     public void ReloadGun()
     {
         C_ownedGun.Reload();
+        if (b_hasAnimator)
+        {
+            C_animator.SetFloat("Reload", 1);
+            C_animator.speed = 1 / C_ownedGun.aC_moduleArray[1].f_reloadSpeed;
+            StartCoroutine(StopReloadAnimationAfterSeconds(C_ownedGun.aC_moduleArray[1].f_reloadSpeed));
+        }
+    }
+
+    public IEnumerator StopReloadAnimationAfterSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        C_animator.speed = 1;
+        C_animator.SetFloat("Reload", 0);
     }
 
     public void SetLightningEffected(bool effected)
@@ -555,14 +601,12 @@ public class Combatant : MonoBehaviour
         Vector3 goalPosition = transform.position + (S_movementInputDirection.normalized * dodgeDistance);
 
 
-        while (dodgeTime > timeSinceStart)
+        while (dodgeTime > timeSinceStart && !b_dodgeCanceled)
         {
             transform.position = Vector3.Lerp(startPosition, goalPosition, C_dodgeCurve.Evaluate(timeSinceStart / dodgeTime));
             yield return 0;
             timeSinceStart += Time.deltaTime;
         }
-
-        transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 0);
 
         ChangeState(CombatState.Normal);
         GetComponentInChildren<Renderer>().material = C_defaultMaterial;
@@ -571,6 +615,7 @@ public class Combatant : MonoBehaviour
             C_ownedGun.StartFire();
         }
         b_fireCancelWhileDodging = false;
+        b_dodgeCanceled = false;
     }
 
     protected IEnumerator SpeedUpAfterTime(float effectTime, float increaseAmount)
@@ -584,6 +629,7 @@ public class Combatant : MonoBehaviour
         {
             f_slowMultiplier = 0;
         }
+        Mathf.Clamp01(f_slowMultiplier);
     }
 
     protected IEnumerator ResetAfterFrozen(float effectTime)
@@ -624,6 +670,7 @@ public class Combatant : MonoBehaviour
             Gizmos.color = new Color(1, 0.92f, 0.016f, 0.5f);
             Gizmos.DrawSphere(Vector3.zero, f_debugLightningSize);
         }
+
     }
 
 }

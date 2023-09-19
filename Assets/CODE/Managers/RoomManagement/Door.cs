@@ -2,12 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Managers;
+using Utility;
 
 [RequireComponent(typeof(BoxCollider))]
 public class Door : MonoBehaviour
 {
     private bool b_locked = true;
-    Material C_doorMat;
+    [Rename("Cone Transform"), SerializeField] private Transform C_coneTransform;
+    [Rename("Projection Transform"), SerializeField] private Transform C_projectionTransform;
+    [Rename("Trigger Cone Material"), SerializeField] private Material C_triggerConeMat;
+    [Rename("Trigger Projection Material"), SerializeField] private Material C_triggerProjectionMat;    
+    [Rename("Clip Cone Material"), SerializeField] private Material C_clipConeMat;
+    [Rename("Clip Projection Material"), SerializeField] private Material C_clipProjectionMat;
+    [Rename("Barrel Cone Material"), SerializeField] private Material C_barrelConeMat;
+    [Rename("Barrel Projection Material"), SerializeField] private Material C_barrelProjectionMat;
+    [Rename("Random Cone Material"), SerializeField] private Material C_randomConeMat;
+    [Rename("Random Projection Material"), SerializeField] private Material C_randomProjectionMat;
+    private List<Door> lC_doors = new List<Door>();
 
     public enum RoomType
     {
@@ -27,36 +38,64 @@ public class Door : MonoBehaviour
     {
         b_locked = true;
         GetComponent<BoxCollider>().isTrigger = true;
-        C_doorMat = new Material(Shader.Find("HDRP/Lit"));
+        GetAllDoors();
         RandomiseRoomType();
-        GetComponentInChildren<Renderer>().material = C_doorMat;
         UpdateDoorVisuals();
+    }
+
+    public void GetAllDoors()
+    {
+        Door[] doors = FindObjectsOfType<Door>();
+        for (int i = 0; i < doors.Length; i++)
+        {
+            if (doors[i].transform == transform)
+            {
+                continue;
+            }
+            lC_doors.Add(doors[i]);
+        }
     }
 
     private void RandomiseRoomType()
     {
-        //TO DO FIX SO THAT THERE IS NOT AN IMPOSSIBILITY THAT THERE ARE ROOMS WITH NO REWARDS
-        e_roomType = (RoomType)Random.Range(1, (int)RoomType.Count);        
+        bool doorDifferentToOthers = false;
+        while (!doorDifferentToOthers)
+        {
+            e_roomType = (RoomType)Random.Range(1, (int)RoomType.Count);
+            foreach(Door d in lC_doors)
+            {
+                if(d.e_roomType == e_roomType)
+                {
+                    doorDifferentToOthers = false;
+                    break;
+                }
+                doorDifferentToOthers = true;
+            }            
+        }
     }
 
     private void UpdateDoorVisuals()
     {
+        //do new stuff
         switch (e_roomType)
         {
             case RoomType.None:
-                C_doorMat.SetColor("_BaseColor", Color.white);
                 break;
             case RoomType.Trigger:
-                C_doorMat.SetColor("_BaseColor", Color.blue);
+                C_coneTransform.GetComponent<MeshRenderer>().material = C_triggerConeMat;
+                C_projectionTransform.GetComponent<MeshRenderer>().material = C_triggerProjectionMat;
                 break;
             case RoomType.Clip:
-                C_doorMat.SetColor("_BaseColor", Color.green);
+                C_coneTransform.GetComponent<MeshRenderer>().material = C_clipConeMat;
+                C_projectionTransform.GetComponent<MeshRenderer>().material = C_clipProjectionMat;
                 break;
             case RoomType.Barrel:
-                C_doorMat.SetColor("_BaseColor", Color.red);
+                C_coneTransform.GetComponent<MeshRenderer>().material = C_barrelConeMat;
+                C_projectionTransform.GetComponent<MeshRenderer>().material = C_barrelProjectionMat;
                 break;
             case RoomType.RandomModule:
-                C_doorMat.SetColor("_BaseColor", Color.yellow);
+                C_coneTransform.GetComponent<MeshRenderer>().material = C_randomConeMat;
+                C_projectionTransform.GetComponent<MeshRenderer>().material = C_randomProjectionMat;
                 break;
         }
     }

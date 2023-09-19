@@ -128,23 +128,21 @@ namespace Gun
 
         public void Spawn(Vector3 worldPos)
         {
-
-            GameObject newGunModule = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            GameObject newGunModule = Instantiate(C_meshPrefab);
             newGunModule.transform.position = worldPos;
-            newGunModule.transform.localScale = new Vector3(0.5f,0.5f,0.5f);
+            newGunModule.transform.rotation = Quaternion.Euler(new Vector3(45,0,0));
+            newGunModule.transform.localScale = new Vector3(2.5f,2.5f,2.5f);
             newGunModule.GetComponent<Collider>().isTrigger = true;
+            newGunModule.AddComponent<Pickup>();
             switch (e_moduleType)
             {
                 case ModuleSection.Trigger:
-                    newGunModule.GetComponent<Renderer>().material.color = Color.blue;
                     newGunModule.name = $"Trigger\\{name}";
                     break;
                 case ModuleSection.Clip:
-                    newGunModule.GetComponent<Renderer>().material.color = Color.green;
                     newGunModule.name = $"Clip\\{name}";
                     break;
                 case ModuleSection.Barrel:
-                    newGunModule.GetComponent<Renderer>().material.color = Color.red;
                     newGunModule.name = $"Barrel\\{name}";
                     break;
             }

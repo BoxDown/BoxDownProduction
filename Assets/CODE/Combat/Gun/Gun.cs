@@ -55,7 +55,7 @@ namespace Gun
 
         float f_lastFireTime = 0;
         float f_timeSinceLastFire { get { return Time.time - f_lastFireTime; } }
-        [HideInInspector]public float f_timeBetweenBulletShots { get { return 1.0f / f_fireRate; } }
+        [HideInInspector] public float f_timeBetweenBulletShots { get { return 1.0f / f_fireRate; } }
         float f_timeUntilNextFire = 0;
 
         int i_currentAmmo;
@@ -67,6 +67,7 @@ namespace Gun
         [HideInInspector] public BulletObjectPool C_bulletPool;
 
         [Header("Bullet Colours")]
+        [Rename("Bullet Material")] public Material C_bulletMaterial;
         [Rename("Emission Value")] public float f_emissiveValue = 20.0f;
         [Rename("Standard Colour")] public Color S_standardColour = new Color(0.75f, 0.5f, 0.2f, 1);
         [Rename("Fire Colour")] public Color S_fireColour = new Color(1f, 0.2f, 0f, 1);
@@ -82,6 +83,10 @@ namespace Gun
         [Rename("Ricochet Bullet Mesh")] public Mesh C_ricochetMesh;
         [Rename("Explosive Bullet Mesh")] public Mesh C_explosiveMesh;
         [Rename("Homing Bullet Mesh")] public Mesh C_homingMesh;
+
+        [Space(15)]
+        [Header("Shells")]
+        [Rename("Bullet Shells")] public GameObject C_bulletShells;
         Bullet.BulletBaseInfo S_bulletInfo { get { return new Bullet.BulletBaseInfo(C_gunHolder, S_muzzlePosition, C_gunHolder.transform.forward, f_bulletRange, f_baseDamage, f_bulletSpeed, f_bulletSize, f_knockBack); } }
 
         private void Awake()
@@ -111,7 +116,6 @@ namespace Gun
                 f_timeUntilNextFire -= Time.deltaTime;
                 f_fireHoldTime += Time.deltaTime;
                 Fire();
-                C_gunHolder.ShotFired();
             }
         }
         private void FixedUpdate()
@@ -154,24 +158,29 @@ namespace Gun
                     {
                         case GunModule.ShotPattern.Straight:
                             FireStraight(timeIntoNextFrame);
+                            C_gunHolder.ShotFired();
                             break;
                         case GunModule.ShotPattern.Multishot:
                             //will need coroutine if you don't do something clever. Think.
                             FireMultiShot(timeIntoNextFrame);
+                            C_gunHolder.ShotFired();
                             break;
                         case GunModule.ShotPattern.Buckshot:
                             FireBuckShot(timeIntoNextFrame);
+                            C_gunHolder.ShotFired();
                             break;
                         case GunModule.ShotPattern.Spray:
                             FireSpray(timeIntoNextFrame);
+                            C_gunHolder.ShotFired();
                             break;
                         case GunModule.ShotPattern.Wave:
                             FireWave(timeIntoNextFrame);
+                            C_gunHolder.ShotFired();
                             break;
                     }
                 }
                 timesFiredThisFrame += 1;
-                Vector3 recoil = -C_gunHolder.transform.forward * f_recoil;
+                Vector3 recoil = -C_gunHolder.transform.forward * Mathf.Clamp(f_recoil - f_movementPenalty, 0, f_recoil);
 
                 C_gunHolder.GetComponent<Combatant>().AddVelocity(recoil);
 

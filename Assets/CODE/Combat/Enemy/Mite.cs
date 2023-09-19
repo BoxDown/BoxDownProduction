@@ -55,6 +55,11 @@ namespace Enemy
         }
         protected override void CheckCollisions()
         {
+            if (b_chasePlayer)
+            {
+                base.CheckCollisions();
+                return;
+            }
             RaycastHit hit;
             if (Physics.SphereCast(transform.localPosition, f_size, Vector3.right, out hit, f_size, i_bulletLayerMask) && S_velocity.x > 0)
             {

@@ -160,7 +160,6 @@ namespace Managers
                 {
                     roomNumberToLoad = Random.Range(0, ls_easyLevels.Count());
                 }
-                Debug.Log("Moved To Easy Room");
                 IncrementRoom();
                 SceneManager.LoadScene(ls_easyLevels[roomNumberToLoad]);
                 return;
@@ -178,7 +177,6 @@ namespace Managers
                 {
                     roomNumberToLoad = Random.Range(0, ls_mediumLevels.Count());
                 }
-                Debug.Log("Moved To Medium Room");
                 IncrementRoom();
                 SceneManager.LoadScene(ls_mediumLevels[roomNumberToLoad]);
                 return;
@@ -196,7 +194,6 @@ namespace Managers
                 {
                     roomNumberToLoad = Random.Range(0, ls_hardLevels.Count());
                 }
-                Debug.Log("Moved To Hard Room");
                 IncrementRoom();
                 SceneManager.LoadScene(ls_hardLevels[roomNumberToLoad]);
                 return;

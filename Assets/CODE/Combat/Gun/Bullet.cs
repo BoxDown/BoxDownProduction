@@ -3,6 +3,7 @@ using UnityEngine;
 using Explosion;
 using static Gun.GunModule;
 using Utility;
+using UnityEngine.VFX;
 
 namespace Gun
 {
@@ -35,7 +36,8 @@ namespace Gun
         }
 
 
-        [HideInInspector] public GameObject C_prefab;
+
+
         [HideInInspector] public BulletObjectPool C_poolOwner;
         [HideInInspector] private BulletBaseInfo S_baseInformation;
         private Vector3 S_previousPosition;
@@ -73,6 +75,10 @@ namespace Gun
         BulletEffectInfo S_bulletEffect;
         BulletTraitInfo S_bulletTrait;
 
+        //Visuals
+        public GameObject C_hitEffect = null;
+        [HideInInspector] public VisualEffect C_visualEffect;
+        private BulletEffect e_lastFiredBulletEffect = BulletEffect.None;
 
 
         void Update()
@@ -149,12 +155,19 @@ namespace Gun
             S_previousPosition = transform.position = bulletInfo.S_firingOrigin + originOffset;
             transform.rotation = Quaternion.Euler(new Vector3(0, Mathf.Atan2(-bulletInfo.S_firingDirection.z, bulletInfo.S_firingDirection.x) * Mathf.Rad2Deg + 90, 0) + directionOffset);
 
+
             S_bulletEffect = bulletEffect;
             S_bulletTrait = bulletTrait;
+            if (C_visualEffect != null)
+            {
+                UpdateBulletTrail();
+                C_visualEffect.Play();
+            }
             if (S_bulletTrait.e_bulletTrait == BulletTrait.Homing)
             {
                 FindHomingTarget();
             }
+            e_lastFiredBulletEffect = S_bulletEffect.e_bulletEffect;
         }
         void FindHomingTarget()
         {
@@ -261,6 +274,52 @@ namespace Gun
             S_baseInformation.S_firingOrigin = origin;
         }
 
+        private void UpdateBulletTrail()
+        {
+            if (e_lastFiredBulletEffect == S_bulletEffect.e_bulletEffect)
+            {
+                return;
+            }
+
+            // remove unwanted trails by setting all durations to 0
+            RemoveAllTrails();
+            //do update on VFX
+            switch (S_bulletEffect.e_bulletEffect)
+            {
+                case BulletEffect.None:
+                    break;
+                case BulletEffect.Fire:
+                    //Set duration on current effect to be alive time of bullet
+                    C_visualEffect.SetFloat("FireDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                    break;
+                case BulletEffect.Ice:
+                    //Set duration on current effect to be alive time of bullet
+                    C_visualEffect.SetFloat("FrostDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                    break;
+                case BulletEffect.Lightning:
+                    //Set duration on current effect to be alive time of bullet
+                    C_visualEffect.SetFloat("ElectricDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                    break;
+                case BulletEffect.Vampire:
+                    //Set duration on current effect to be alive time of bullet
+                    C_visualEffect.SetFloat("LeachDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                    break;
+            }
+
+        }
+
+        private void RemoveAllTrails()
+        {
+            if (C_visualEffect == null)
+            {
+                return;
+            }
+            C_visualEffect.SetFloat("ElectricDuration", 0);
+            C_visualEffect.SetFloat("FireDuration", 0);
+            C_visualEffect.SetFloat("LeachDuration", 0);
+            C_visualEffect.SetFloat("FrostDuration", 0);
+        }
+
         private void DoBaseHit(Combatant combatant)
         {
             combatant.Damage(S_baseInformation.f_damage);
@@ -288,6 +347,10 @@ namespace Gun
 
             if (combatant == null)
             {
+                if (objectHit.GetComponent<Destructable>() != null)
+                {
+                    objectHit.GetComponent<Destructable>().DamageObject(S_baseInformation.f_damage);
+                }
                 if (S_bulletTrait.e_bulletTrait == BulletTrait.Ricochet && S_bulletTrait.i_ricochetCount >= i_ricochetCount)
                 {
                     if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, S_baseInformation.f_size, ~LayerMask.GetMask("Bullet")))
@@ -373,7 +436,7 @@ namespace Gun
                             C_poolOwner.MoveToOpen(this);
                             return true;
                         }
-                    }                    
+                    }
                     return false;
                 case BulletTrait.Explosive:
                     if (shouldHit)

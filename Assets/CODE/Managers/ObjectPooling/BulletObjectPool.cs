@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 namespace Gun
 {
@@ -39,8 +40,13 @@ namespace Gun
                 lC_freeBullets.Add(bulletRef);
                 lC_allBullets.Add(bulletRef);
 
+                if (C_gun.C_bulletTrail != null)
+                {
+                    bulletRef.C_visualEffect = Instantiate(C_gun.C_bulletTrail, obj.transform).GetComponentInChildren<VisualEffect>();
+                }
+
                 obj.SetActive(false);
-                UpdateBulletColour();
+                UpdateBulletGraphics();
                 obj.GetComponent<Renderer>().sharedMaterial = C_bulletMaterial;
                 obj.GetComponent<MeshFilter>().mesh = C_bulletMesh;
             }
@@ -53,7 +59,7 @@ namespace Gun
             int bulletAmount = (int)(gun.aC_moduleArray[1].i_clipSize * shotCount * gun.aC_moduleArray[0].f_fireRate);
 
             int countDifference = bulletAmount - i_totalBullets;
-            UpdateBulletColour();
+            UpdateBulletGraphics();
             if (countDifference == 0)
             {
                 return;
@@ -86,6 +92,10 @@ namespace Gun
                     obj.layer = 6;
                     Bullet bulletRef = obj.AddComponent<Bullet>();
                     bulletRef.C_poolOwner = this;
+                    if (C_gun.C_bulletTrail != null)
+                    {
+                        bulletRef.C_visualEffect = Instantiate(C_gun.C_bulletTrail, obj.transform).GetComponentInChildren<VisualEffect>();
+                    }
                     lC_allBullets.Add(bulletRef);
                     lC_freeBullets.Add(bulletRef);
                     obj.SetActive(false);
@@ -111,7 +121,7 @@ namespace Gun
             lC_inUseBullets.Add(bullet);
             lC_freeBullets.Remove(bullet);
         }
-        public void UpdateBulletColour()
+        public void UpdateBulletGraphics()
         {
             Color materialColour = Color.white;
             switch (C_gun.aC_moduleArray[1].S_bulletEffectInformation.e_bulletEffect)
@@ -158,8 +168,6 @@ namespace Gun
             C_bulletMesh.SetVertices(bulletMesh.vertices);
             C_bulletMesh.SetNormals(bulletMesh.normals);
             C_bulletMesh.SetTriangles(bulletMesh.triangles, 0);
-
-
         }
     }
 }

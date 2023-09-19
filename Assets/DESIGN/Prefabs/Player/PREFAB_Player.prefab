@@ -131,6 +131,7 @@ MonoBehaviour:
   C_defaultMaterial: {fileID: 7337075097129357981, guid: 389a8e48ad131624cbf9a9ee8a7ef542,
     type: 3}
   C_dodgeMaterial: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  C_onHitEffects: {fileID: 0}
   e_combatState: 0
   b_isDead: 0
   f_controllerDeadZone: 0.15
@@ -174,7 +175,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6328219642500864020}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.15, y: 0.622, z: 0.51}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -202,7 +203,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5b187bdf3af346c45b33a337b2e9d0c6, type: 2}
   b_isFiring: 0
   C_bulletPool: {fileID: 0}
-  C_bulletBaseMaterial: {fileID: 0}
   C_bulletMaterial: {fileID: 0}
   f_emissiveValue: 15.5
   S_standardColour: {r: 0.745283, g: 0.40938082, b: 0, a: 1}
@@ -220,7 +220,10 @@ MonoBehaviour:
     type: 3}
   C_homingMesh: {fileID: -470265600441265283, guid: cb51c5f522f05da4abbad99b7e357990,
     type: 3}
-  C_bulletShells: {fileID: 0}
+  C_bulletShells: {fileID: 3252292603439053836, guid: a5277560417809d4cae073dd5e0aade9,
+    type: 3}
+  C_bulletShellSpawn: {fileID: 670686387446083556}
+  C_bulletHitFX: {fileID: 0}
 --- !u!1001 &346620672123973733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -303,6 +306,12 @@ PrefabInstance:
 --- !u!4 &235815382583924622 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 450a66e8f1ea4404b9867df4cb2deea6,
+    type: 3}
+  m_PrefabInstance: {fileID: 346620672123973733}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &670686387446083556 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8250119401774751871, guid: 450a66e8f1ea4404b9867df4cb2deea6,
     type: 3}
   m_PrefabInstance: {fileID: 346620672123973733}
   m_PrefabAsset: {fileID: 0}

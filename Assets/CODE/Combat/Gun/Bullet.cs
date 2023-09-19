@@ -73,6 +73,7 @@ namespace Gun
         BulletEffectInfo S_bulletEffect;
         BulletTraitInfo S_bulletTrait;
 
+        public GameObject C_hitEffect = null;
 
 
         void Update()

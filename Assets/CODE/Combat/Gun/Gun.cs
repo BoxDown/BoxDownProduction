@@ -85,8 +85,10 @@ namespace Gun
         [Rename("Homing Bullet Mesh")] public Mesh C_homingMesh;
 
         [Space(15)]
-        [Header("Shells")]
+        [Header("VFX")]
         [Rename("Bullet Shells")] public GameObject C_bulletShells;
+        [Rename("Bullet Shell Spawn Location")] public Transform C_bulletShellSpawn;
+        [Rename("Bullet Hit Effect")] public GameObject C_bulletHitFX;
         Bullet.BulletBaseInfo S_bulletInfo { get { return new Bullet.BulletBaseInfo(C_gunHolder, S_muzzlePosition, C_gunHolder.transform.forward, f_bulletRange, f_baseDamage, f_bulletSpeed, f_bulletSize, f_knockBack); } }
 
         private void Awake()
@@ -107,6 +109,7 @@ namespace Gun
             }
 
             i_currentAmmo = i_clipSize;
+            CreateBulletShellSpawner();
         }
 
         private void Update()
@@ -117,6 +120,7 @@ namespace Gun
                 f_fireHoldTime += Time.deltaTime;
                 Fire();
             }
+            SpawnBulletShells();
         }
         private void FixedUpdate()
         {
@@ -368,6 +372,36 @@ namespace Gun
             UpdateGunStats(baseBarrel);
             UpdateGunStats(baseClip);
             UpdateGunStats(baseTrigger);
+        }
+
+        public void CreateBulletShellSpawner()
+        {
+            if(C_bulletShells != null)
+            {
+                C_bulletShells = Instantiate(C_bulletShells, C_bulletShellSpawn);
+            }
+        }
+
+        public void SpawnBulletShells()
+        {
+            if (C_bulletShells != null)
+            {
+                if (b_isFiring)
+                {
+                    C_bulletShells.gameObject.SetActive(true);
+                }
+                else
+                {
+                    StopBulletShells();
+                }
+            }
+        }
+        public void StopBulletShells()
+        {
+            if (C_bulletShells != null)
+            {
+                C_bulletShells.gameObject.SetActive(false);
+            }
         }
 
         public void UpdateUI()

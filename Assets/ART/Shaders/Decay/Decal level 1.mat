@@ -23,7 +23,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_DecalDecay 1
+  m_Name: Decal level 1
   m_Shader: {fileID: -6465566751694194690, guid: 00e1a19afd2416d41b36429951056dfc,
     type: 3}
   m_ValidKeywords:
@@ -55,7 +55,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Gunk_Map:
-        m_Texture: {fileID: 2800000, guid: 60a102ea350802d40a339e70533a6c84, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2f88d0432133f6b40a9b213ef7ed766e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Gunk_Surface_Normal:
@@ -122,20 +122,24 @@ Material:
     - _DecalMeshViewBias: 0
     - _DecalStencilRef: 16
     - _DecalStencilWriteMask: 16
+    - _Decay_Amount: 0
     - _Decay_edge_size: 2.5
     - _Displacement: 0
     - _Displacement_Scale: 0.54
     - _DrawOrder: 0
-    - _Edge_speed: 1
+    - _Edge_scale: 0.45
+    - _Edge_speed: 0.5
     - _Edge_texture_size: 0.25
+    - _Edge_wiggle: 252.49
     - _Emissive_multiplier: 0
     - _FadeSize_Careful: 1
-    - _Float: 1
-    - _Gunk_Amount: 2.05
-    - _Gunk_Map_scale: 0.17
+    - _Float: 0.68
+    - _Float_1: 0.61
+    - _Gunk_Amount: 1.88
+    - _Gunk_Map_scale: 0.12
     - _Gunk_Metallic: 0
-    - _Gunk_Outness: 0.668
-    - _Gunk_Smoothness: 0.5
+    - _Gunk_Outness: 0.137
+    - _Gunk_Smoothness: 0.491
     - _Gunk_Surface_normal_size: 0.07
     - _Gunk_surface_normal_strength: 0.02
     - _Metallic_Multiplier: 0
@@ -147,15 +151,20 @@ Material:
     - _USE_GRADIENT_FOR_SECONDARY: 1
     - _USE_VORONOI_FOR_TEXTURE: 0
     - _Use_Flat_Colour: 0
+    - _Use_voronoi_for_edge: 0.326
     - _Wiggle_amount: 3.13
     - _norm_strength: 0.08
     m_Colors:
-    - _Center: {r: 0.5, g: 0.5, b: 0, a: 0}
-    - _Corruption_Base_2: {r: 0.09433961, g: 0.030704873, b: 0.0913094, a: 0}
-    - _Corruption_base: {r: 0.23474096, g: 0.10711107, b: 0.2735849, a: 0}
+    - _Center: {r: 45, g: 25, b: 0, a: 0}
+    - _Corruption_Base_2: {r: 0.1981132, g: 0.03457636, b: 0.1855334, a: 0}
+    - _Corruption_base: {r: 0.22980429, g: 0.18164827, b: 0.24528301, a: 0}
+    - _Decay_Remap: {r: 0, g: 1, b: 0, a: 0}
+    - _Decay_Where_From: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _Edge_scale: {r: 0.45, g: 0.3, b: 0, a: 0}
     - _Flat_Color: {r: 0.39288208, g: 0.43396226, b: 0.23131007, a: 0}
-    - _Gunk_Where: {r: 16.96, g: 20.3, b: 0, a: 0}
-    - _Gunk_remap: {r: -9.33, g: 113.66, b: 0, a: 0}
-    - _Overlay_Colour_Var: {r: 0.3207547, g: 0.122552514, b: 0.31974193, a: 0}
-    - _Overlay_colour: {r: 0.19053712, g: 0.071466714, b: 0.20754719, a: 0}
+    - _Gunk_Where: {r: 48.6, g: 26.5, b: 0, a: 0}
+    - _Gunk_map_scale: {r: 0.12, g: 0.12, b: 0, a: 0}
+    - _Gunk_remap: {r: 0, g: 10.7, b: 0, a: 0}
+    - _Overlay_Colour_Var: {r: 0.24528301, g: 0.1214845, b: 0.24528301, a: 0}
+    - _Overlay_colour: {r: 0.115699545, g: 0.061899252, b: 0.122641504, a: 0}
   m_BuildTextureStacks: []

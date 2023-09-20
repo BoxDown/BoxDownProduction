@@ -24,9 +24,6 @@ namespace Gun
             C_bulletMesh = new Mesh();
             C_bulletMesh.name = C_gun.C_gunHolder.name + ": Bullet Mesh";
             C_bulletMaterial.name = C_gun.C_gunHolder.name + ": Bullet Material";
-            C_bulletMaterial.SetInt("_UseEmissiveIntensity", 1);
-            C_bulletMaterial.SetInt("_EmissiveIntensityUnit", 0);
-            C_bulletMaterial.SetFloat("_EmissiveIntensity", Mathf.Pow(2, C_gun.f_emissiveValue) * (4 * Mathf.PI) * 0.01f);
 
 
             for (int i = 0; i < i_totalBullets; i++)
@@ -162,8 +159,7 @@ namespace Gun
                     break;
             }
 
-            C_bulletMaterial.SetColor("_EmissiveColorLDR", materialColour * Mathf.Pow(2, C_gun.f_emissiveValue) * (4 * Mathf.PI) * 0.01f);
-            C_bulletMaterial.SetColor("_EmissiveColor", materialColour * Mathf.Pow(2, C_gun.f_emissiveValue) * (4 * Mathf.PI) * 0.01f);
+            C_bulletMaterial.SetColor("_EmissiveColor", materialColour);
             C_bulletMesh.SetVertexBufferParams(bulletMesh.vertexCount);
             C_bulletMesh.SetVertices(bulletMesh.vertices);
             C_bulletMesh.SetNormals(bulletMesh.normals);

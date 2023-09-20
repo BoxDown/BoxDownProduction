@@ -283,7 +283,8 @@ namespace Gun
 
             // remove unwanted trails by setting all durations to 0
             RemoveAllTrails();
-            //do update on VFX
+            float trailSpeedModifier = S_baseInformation.f_speed / 2.0f;
+            //do update on VFX magic numbers are artists numbers, modified by speed for looks
             switch (S_bulletEffect.e_bulletEffect)
             {
                 case BulletEffect.None:
@@ -291,18 +292,31 @@ namespace Gun
                 case BulletEffect.Fire:
                     //Set duration on current effect to be alive time of bullet
                     C_visualEffect.SetFloat("FireDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                    C_visualEffect.SetVector2("Main", new Vector2(-2, 0) * trailSpeedModifier);
+                    C_visualEffect.SetVector2("2nd", new Vector2(-0.71f, 0) * trailSpeedModifier);
+                    C_visualEffect.SetVector3("Specs", new Vector3(0, 0, 2f) * trailSpeedModifier);
                     break;
                 case BulletEffect.Ice:
                     //Set duration on current effect to be alive time of bullet
                     C_visualEffect.SetFloat("FrostDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                    C_visualEffect.SetVector2("Main", new Vector2(-0.92f, 0) * trailSpeedModifier);
+                    C_visualEffect.SetVector2("2nd", new Vector2(0.09f, 0) * trailSpeedModifier);
+                    C_visualEffect.SetVector3("Specs", new Vector3(0, 0.2f, 0.5f) * trailSpeedModifier);
                     break;
                 case BulletEffect.Lightning:
                     //Set duration on current effect to be alive time of bullet
                     C_visualEffect.SetFloat("ElectricDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                    C_visualEffect.SetVector2("Main", new Vector2(-2, 0) * trailSpeedModifier);
+                    C_visualEffect.SetVector2("2nd", new Vector2(-1.5f, 0) * trailSpeedModifier);
+                    C_visualEffect.SetVector3("Specs", new Vector3(1.5f, 0, 1.5f) * trailSpeedModifier);
+                    C_visualEffect.SetVector3("Specs 2", new Vector3(-1.5f, 0, -1.5f) * trailSpeedModifier);
                     break;
                 case BulletEffect.Vampire:
                     //Set duration on current effect to be alive time of bullet
                     C_visualEffect.SetFloat("LeachDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                    C_visualEffect.SetVector2("Main", new Vector2(-1.53f, 0) * trailSpeedModifier);
+                    C_visualEffect.SetVector2("2nd", new Vector2(-0.56f, 0) * trailSpeedModifier);
+                    C_visualEffect.SetVector3("Specs", new Vector3(0, 0, 0.5f) * trailSpeedModifier);
                     break;
             }
 

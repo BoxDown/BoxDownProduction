@@ -24,6 +24,12 @@ namespace Enemy
             base.Update();
             MeleeDamage();
 
+            if (C_player.b_isDead)
+            {
+                CancelGun();
+                return;
+            }
+
             if (!b_flee)
             {
                 if (f_distanceToPlayer < f_aimRange)

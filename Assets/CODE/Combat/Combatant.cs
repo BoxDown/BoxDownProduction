@@ -152,10 +152,11 @@ public class Combatant : MonoBehaviour
         {
             MoveTowardAimAnimation();
         }
-        else if(b_hasAnimator)
+        else if (b_hasAnimator)
         {
-            C_animator.SetFloat("Recoil", S_movementVec2Direction.magnitude);
+            C_animator.SetFloat("Recoil", S_rotationVec2Direction.magnitude);
         }
+
     }
 
     protected void LateUpdate()
@@ -177,6 +178,11 @@ public class Combatant : MonoBehaviour
     {
         // move
         transform.localPosition += S_velocity * Time.deltaTime;
+
+        if (b_isDead)
+        {
+            S_movementVec2Direction = Vector2.zero;
+        }
 
         // if we are moving then increase the acceleration step
         if (S_movementInputDirection != Vector3.zero)
@@ -210,8 +216,6 @@ public class Combatant : MonoBehaviour
         {
             float strafeToSet = 0;
             float runToSet = 0;
-
-
 
             Vector2 aimVector = new Vector2(transform.forward.x, transform.forward.z);
 
@@ -295,6 +299,10 @@ public class Combatant : MonoBehaviour
 
     protected void RotateToTarget()
     {
+        if (b_isDead)
+        {
+            return;
+        }
         // Rotate
         transform.rotation = Quaternion.Euler(0,
             Mathf.SmoothDampAngle(transform.rotation.eulerAngles.y, f_desiredRotationAngle, ref f_rotationalVelocity, f_rotationTime),
@@ -364,6 +372,7 @@ public class Combatant : MonoBehaviour
         StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, f_invincibleTime));
         if (f_currentHealth <= 0)
         {
+            f_currentHealth = 0;
             Die();
         }
     }
@@ -376,11 +385,16 @@ public class Combatant : MonoBehaviour
 
     public virtual void Die()
     {
-        gameObject.SetActive(false);
         b_isDead = true;
         ChangeState(CombatState.Normal);
         SetLightningEffected(false);
         ClearLightningHits();
+        if (C_animator != null)
+        {
+            C_animator.SetFloat("Death", 1);
+        }
+        CancelGun();
+        CancelDodge();
 
         if (b_debugRespawn)
         {
@@ -401,6 +415,10 @@ public class Combatant : MonoBehaviour
 
     public void FireGun()
     {
+        if (b_isDead)
+        {
+            return;
+        }
         if (e_combatState != CombatState.Dodge && e_combatState != CombatState.NoAttack && e_combatState != CombatState.NoControl && !C_ownedGun.b_isFiring)
         {
             if (C_ownedGun.b_isFiring)

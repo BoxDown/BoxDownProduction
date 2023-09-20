@@ -128,8 +128,7 @@ public class PlayerController : Combatant
     public override void Die()
     {
         base.Die();
-        GameManager.SwitchToUIActions();
-        ResultsUI.ActivateLose();
+        StartCoroutine(ActivateLoseAfterSeconds(5));
     }
 
 
@@ -213,6 +212,13 @@ public class PlayerController : Combatant
     private void OnDestroy()
     {        
         //Destroy(C_ownedGun.C_bulletPool.gameObject);
+    }
+
+    private IEnumerator ActivateLoseAfterSeconds(float time)
+    {
+        yield return new WaitForSeconds(time);
+        GameManager.SwitchToUIActions();
+        ResultsUI.ActivateLose();
     }
 
 }

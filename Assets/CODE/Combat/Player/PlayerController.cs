@@ -152,7 +152,7 @@ public class PlayerController : Combatant
         {
             return;
         }
-        for (int i = 0; i < collisions.Length; i++)
+        for (int i = 0; i < collisions.Length - 1; i++)
         {
             if (collisions[i].transform == transform)
             {
@@ -168,6 +168,11 @@ public class PlayerController : Combatant
                 closestDistance = distance;
                 closestCollisionReference = i;
             }
+        }
+
+        if (collisions[closestCollisionReference].transform == transform)
+        {
+            return;
         }
         Transform closestTransform = collisions[closestCollisionReference].transform;
 

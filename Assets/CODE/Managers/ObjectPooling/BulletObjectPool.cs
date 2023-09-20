@@ -159,7 +159,6 @@ namespace Gun
                     break;
             }
 
-            C_bulletMaterial.SetColor("_EmissiveColorLDR", materialColour);
             C_bulletMaterial.SetColor("_EmissiveColor", materialColour);
             C_bulletMesh.SetVertexBufferParams(bulletMesh.vertexCount);
             C_bulletMesh.SetVertices(bulletMesh.vertices);

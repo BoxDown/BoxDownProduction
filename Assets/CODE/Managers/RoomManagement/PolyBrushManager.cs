@@ -19,7 +19,7 @@ public class PolyBrushManager : MonoBehaviour
     {
         if (C_mat != null)
         {
-            C_mat.SetFloat("_DECAY_AMOUNT", 0);
+            C_mat.SetFloat("_Decay_Amount", 0);
         }
     }
 
@@ -30,7 +30,7 @@ public class PolyBrushManager : MonoBehaviour
         {
             f_currentGooValue = Mathf.Lerp(0, 1, timeClearing / f_gooClearTime);
             timeClearing += Time.deltaTime;
-            C_mat.SetFloat("_DECAY_AMOUNT", f_currentGooValue);
+            C_mat.SetFloat("_Decay_Amount", f_currentGooValue);
             yield return 0;
         }
     }

@@ -347,9 +347,9 @@ namespace Gun
 
             if (combatant == null)
             {
-                if (objectHit.GetComponent<Destructable>() != null)
+                if (objectHit.GetComponentInParent<Destructable>() != null)
                 {
-                    objectHit.GetComponent<Destructable>().DamageObject(S_baseInformation.f_damage);
+                    objectHit.GetComponentInParent<Destructable>().DamageObject(S_baseInformation.f_damage);
                 }
                 if (S_bulletTrait.e_bulletTrait == BulletTrait.Ricochet && S_bulletTrait.i_ricochetCount >= i_ricochetCount)
                 {

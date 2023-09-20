@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8945659a36ce7a43a8defef3334e1ff, type: 3}
-  m_Name: P_P_Slow(Trigger)
+  m_Name: E_Spray_Wild(barrel)
   m_EditorClassIdentifier: 
-  C_meshPrefab: {fileID: 5367125934582295157, guid: 7a72bdfd6ad004f4685df444c9f0e726,
+  C_meshPrefab: {fileID: 1696895482965973144, guid: 8f25454c7d5c7304a9795cdae2e174a2,
     type: 3}
-  e_moduleType: 0
-  f_moduleStrength: 75
-  f_baseDamage: 35
-  f_fireRate: 1
-  f_bulletSpeed: 15
-  f_knockBack: 1
+  e_moduleType: 2
+  f_moduleStrength: 0
+  f_baseDamage: 0
+  f_fireRate: 0
+  f_bulletSpeed: 0
+  f_knockBack: 0
   S_bulletEffectInformation:
     e_bulletEffect: 0
     f_effectTime: 0
@@ -33,24 +33,23 @@ MonoBehaviour:
   f_movementPenalty: 0
   i_clipSize: 0
   S_bulletTraitInformation:
-    e_bulletTrait: 1
-    i_pierceCount: 4
+    e_bulletTrait: 0
+    i_pierceCount: 0
     i_ricochetCount: 0
-    C_explosionPrefab: {fileID: 9198468734860294505, guid: e0bdd7450572f6c4b8b8b35f5228405a,
-      type: 3}
-    f_explosionSize: 4
-    f_explosionDamage: 10
-    f_explosionKnockbackDistance: 1
-    f_explosionLifeTime: 0.2
-    f_homingStrength: 0.2
-    f_homingDelayTime: 0.15
-  f_bulletSize: 0
-  f_bulletRange: 0
+    C_explosionPrefab: {fileID: 0}
+    f_explosionSize: 0
+    f_explosionDamage: 0
+    f_explosionKnockbackDistance: 0
+    f_explosionLifeTime: 0
+    f_homingStrength: 0
+    f_homingDelayTime: 0
+  f_bulletSize: 0.35
+  f_bulletRange: 10
   f_recoil: 0
   S_shotPatternInformation:
-    e_shotPattern: 0
+    e_shotPattern: 3
     b_randomSpread: 0
     i_shotCount: 0
     f_multiShotDistance: 0
-    f_maxAngle: 0
+    f_maxAngle: 18
     f_waveSpeed: 0

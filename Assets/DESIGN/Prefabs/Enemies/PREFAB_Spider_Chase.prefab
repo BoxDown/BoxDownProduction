@@ -431,6 +431,7 @@ MonoBehaviour:
   f_respawnTime: 5
   C_defaultMaterial: {fileID: 0}
   C_dodgeMaterial: {fileID: 0}
+  C_onHitEffects: {fileID: 0}
   e_combatState: 0
   b_isDead: 0
   b_lockEnemyPosition: 0
@@ -788,7 +789,7 @@ SkinnedMeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 3
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 257
+  m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 46511ec6800ea7249a7f6c0a1db7ef77, type: 2}
@@ -916,6 +917,10 @@ MonoBehaviour:
     type: 3}
   C_homingMesh: {fileID: -470265600441265283, guid: cb51c5f522f05da4abbad99b7e357990,
     type: 3}
+  C_bulletTrail: {fileID: 0}
+  C_bulletShells: {fileID: 0}
+  C_bulletShellSpawn: {fileID: 0}
+  C_bulletHitFX: {fileID: 0}
 --- !u!1 &4936355549451446988
 GameObject:
   m_ObjectHideFlags: 0

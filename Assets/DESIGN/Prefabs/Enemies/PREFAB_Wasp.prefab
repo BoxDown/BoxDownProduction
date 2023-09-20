@@ -125,6 +125,7 @@ MonoBehaviour:
   f_respawnTime: 5
   C_defaultMaterial: {fileID: 0}
   C_dodgeMaterial: {fileID: 0}
+  C_onHitEffects: {fileID: 0}
   e_combatState: 0
   b_isDead: 0
   b_lockEnemyPosition: 0
@@ -203,6 +204,10 @@ MonoBehaviour:
     type: 3}
   C_homingMesh: {fileID: -470265600441265283, guid: cb51c5f522f05da4abbad99b7e357990,
     type: 3}
+  C_bulletTrail: {fileID: 0}
+  C_bulletShells: {fileID: 0}
+  C_bulletShellSpawn: {fileID: 0}
+  C_bulletHitFX: {fileID: 0}
 --- !u!1001 &8176362472529208154
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -264,6 +269,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: ae47ef1464823d04f9d538802271349a,
+        type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: ae47ef1464823d04f9d538802271349a,
         type: 3}

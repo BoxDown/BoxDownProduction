@@ -71,7 +71,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d4c867f6b72b714dbb5fd1780afe208, type: 3}
-  m_Name: Trails
+  m_Name: TrailsPlayer
   m_EditorClassIdentifier: 
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 0}
@@ -161,8 +161,8 @@ MonoBehaviour:
     max: Infinity
     enumValues: []
     descendantCount: 0
-  - name: LeachDuration
-    path: LeachDuration
+  - name: FrostDuration
+    path: FrostDuration
     tooltip: 
     sheetType: m_Float
     realType: Single
@@ -175,8 +175,8 @@ MonoBehaviour:
     max: Infinity
     enumValues: []
     descendantCount: 0
-  - name: FrostDuration
-    path: FrostDuration
+  - name: LeachDuration
+    path: LeachDuration
     tooltip: 
     sheetType: m_Float
     realType: Single
@@ -200,7 +200,7 @@ VisualEffectResource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Trails
+  m_Name: TrailsPlayer
   m_Graph: {fileID: 114350483966674976}
   m_Infos:
     m_RendererSettings:
@@ -6670,7 +6670,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":78.79327392578125,"g":0.0,"b":3.3002419471740724,"a":0.0}'
+      m_SerializableObject: '{"r":78.79324340820313,"g":0.0,"b":0.0,"a":0.0}'
     m_Space: 2147483647
   m_Property:
     name: _Color
@@ -8790,7 +8790,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":10.68062686920166,"g":0.3355170488357544,"b":0.0,"a":0.0}'
+      m_SerializableObject: '{"r":42.72250747680664,"g":1.3420681953430176,"b":0.0,"a":0.0}'
     m_Space: 2147483647
   m_Property:
     name: _Color
@@ -12963,7 +12963,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.0,"g":15.358819961547852,"b":25.732759475708009,"a":0.0}'
+      m_SerializableObject: '{"r":0.0,"g":7.1529412269592289,"b":11.98431396484375,"a":0.0}'
     m_Space: 2147483647
   m_Property:
     name: _Color
@@ -18267,7 +18267,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.0,"y":20.545045852661134,"z":40.041873931884769}'
+      m_SerializableObject: '{"x":0.0,"y":1.3960784673690797,"z":2.6823530197143556}'
     m_Space: 2147483647
   m_Property:
     name: Color
@@ -18969,7 +18969,7 @@ MonoBehaviour:
   m_InputSlots: []
   m_OutputSlots:
   - {fileID: 8926484042661615196}
-  m_ExposedName: LeachDuration
+  m_ExposedName: FrostDuration
   m_Exposed: 1
   m_Order: 4
   m_Category: 
@@ -19329,7 +19329,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":3.9190359115600588,"g":39.39662170410156,"b":0.0,"a":0.0}'
+      m_SerializableObject: '{"r":1.0192971229553223,"g":9.734288215637207,"b":0.0,"a":0.0}'
     m_Space: 2147483647
   m_Property:
     name: _Color
@@ -21449,7 +21449,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.33725491166114809,"g":2.0,"b":0.0,"a":0.0}'
+      m_SerializableObject: '{"r":0.2973102033138275,"g":1.7207953929901124,"b":0.0,"a":0.0}'
     m_Space: 2147483647
   m_Property:
     name: _Color
@@ -24633,7 +24633,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.7129278182983398,"y":4.538975238800049,"z":0.0}'
+      m_SerializableObject: '{"x":0.17823202908039094,"y":1.1347439289093018,"z":0.0}'
     m_Space: 2147483647
   m_Property:
     name: Color
@@ -25098,7 +25098,7 @@ MonoBehaviour:
   m_InputSlots: []
   m_OutputSlots:
   - {fileID: 8926484042661615390}
-  m_ExposedName: FrostDuration
+  m_ExposedName: LeachDuration
   m_Exposed: 1
   m_Order: 6
   m_Category: 

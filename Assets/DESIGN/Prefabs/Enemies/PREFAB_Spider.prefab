@@ -69,6 +69,10 @@ MonoBehaviour:
     type: 3}
   C_homingMesh: {fileID: -470265600441265283, guid: cb51c5f522f05da4abbad99b7e357990,
     type: 3}
+  C_bulletTrail: {fileID: 0}
+  C_bulletShells: {fileID: 0}
+  C_bulletShellSpawn: {fileID: 0}
+  C_bulletHitFX: {fileID: 0}
 --- !u!1 &9064917460186098008
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,6 +198,7 @@ MonoBehaviour:
   f_respawnTime: 5
   C_defaultMaterial: {fileID: 0}
   C_dodgeMaterial: {fileID: 0}
+  C_onHitEffects: {fileID: 0}
   e_combatState: 0
   b_isDead: 0
   b_lockEnemyPosition: 0
@@ -282,6 +287,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MESH_CHA_BigSpider
+      objectReference: {fileID: 0}
+    - target: {fileID: 4918851935006246108, guid: a6edfbe68a2e24d42badae93213db1cc,
+        type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4918851935006246108, guid: a6edfbe68a2e24d42badae93213db1cc,
         type: 3}

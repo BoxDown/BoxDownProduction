@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8945659a36ce7a43a8defef3334e1ff, type: 3}
-  m_Name: E_Ricochet(Trigger)
+  m_Name: E_T_Straight_Range(barrel)
   m_EditorClassIdentifier: 
-  C_meshPrefab: {fileID: 5367125934582295157, guid: 7a72bdfd6ad004f4685df444c9f0e726,
+  C_meshPrefab: {fileID: 7746302337875151013, guid: 63ef40f4622fb264c886080cd8f7f215,
     type: 3}
-  e_moduleType: 0
+  e_moduleType: 2
   f_moduleStrength: 0
-  f_baseDamage: 6
-  f_fireRate: 10
-  f_bulletSpeed: 6
+  f_baseDamage: 0
+  f_fireRate: 0
+  f_bulletSpeed: 0
   f_knockBack: 0
   S_bulletEffectInformation:
     e_bulletEffect: 0
@@ -33,9 +33,9 @@ MonoBehaviour:
   f_movementPenalty: 0
   i_clipSize: 0
   S_bulletTraitInformation:
-    e_bulletTrait: 2
+    e_bulletTrait: 0
     i_pierceCount: 0
-    i_ricochetCount: 5
+    i_ricochetCount: 0
     C_explosionPrefab: {fileID: 0}
     f_explosionSize: 0
     f_explosionDamage: 0
@@ -43,13 +43,13 @@ MonoBehaviour:
     f_explosionLifeTime: 0
     f_homingStrength: 0
     f_homingDelayTime: 0
-  f_bulletSize: 0
-  f_bulletRange: 0
+  f_bulletSize: 0.35
+  f_bulletRange: 23
   f_recoil: 0
   S_shotPatternInformation:
     e_shotPattern: 0
     b_randomSpread: 0
-    i_shotCount: 0
-    f_multiShotDistance: 0
-    f_maxAngle: 0
+    i_shotCount: 2
+    f_multiShotDistance: 1
+    f_maxAngle: 2
     f_waveSpeed: 0

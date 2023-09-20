@@ -125,6 +125,7 @@ MonoBehaviour:
   f_respawnTime: 5
   C_defaultMaterial: {fileID: 0}
   C_dodgeMaterial: {fileID: 0}
+  C_onHitEffects: {fileID: 0}
   e_combatState: 0
   b_isDead: 0
   b_lockEnemyPosition: 0
@@ -189,7 +190,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3b949c5c7141b9c4899d142076ba3344, type: 2}
   b_isFiring: 0
   C_bulletPool: {fileID: 0}
-  C_bulletBaseMaterial: {fileID: 0}
   f_emissiveValue: 20
   S_standardColour: {r: 0.39560327, g: 0, b: 0.5471698, a: 1}
   S_fireColour: {r: 1, g: 0, b: 0.20019102, a: 1}
@@ -206,6 +206,10 @@ MonoBehaviour:
     type: 3}
   C_homingMesh: {fileID: -470265600441265283, guid: cb51c5f522f05da4abbad99b7e357990,
     type: 3}
+  C_bulletTrail: {fileID: 0}
+  C_bulletShells: {fileID: 0}
+  C_bulletShellSpawn: {fileID: 0}
+  C_bulletHitFX: {fileID: 0}
 --- !u!1001 &6616373417494673759
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -267,6 +271,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 11f6c2da13823924684fca22a46b21a2,
+        type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 11f6c2da13823924684fca22a46b21a2,
         type: 3}

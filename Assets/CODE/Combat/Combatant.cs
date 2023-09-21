@@ -131,6 +131,7 @@ public class Combatant : MonoBehaviour
     {
         i_bulletLayerMask = ~(LayerMask.GetMask("Bullet") + LayerMask.GetMask("Ignore Raycast"));
         f_currentHealth = f_maxHealth;
+        i_currentDodgeCount = i_maxDodges;
         C_animator = GetComponentInChildren<Animator>();
         if (C_animator != null)
         {
@@ -211,6 +212,8 @@ public class Combatant : MonoBehaviour
         S_velocity.x = Mathf.MoveTowards(S_velocity.x, desiredVelocity.x, maxSpeedChange);
         S_velocity.z = Mathf.MoveTowards(S_velocity.z, desiredVelocity.z, maxSpeedChange);
 
+        S_velocity = Vector3.ClampMagnitude(S_velocity, f_maxSpeed * 2.0f);
+
         //animator stuff
         if (b_hasAnimator)
         {
@@ -276,7 +279,11 @@ public class Combatant : MonoBehaviour
 
     protected void Dodge()
     {
-        StartCoroutine(DodgeRoutine());
+        if(i_currentDodgeCount > 0)
+        {
+            i_currentDodgeCount--;
+            StartCoroutine(DodgeRoutine());
+        }
     }
     protected void CancelDodge()
     {
@@ -290,10 +297,13 @@ public class Combatant : MonoBehaviour
 
     public void AddVelocity(Vector3 velToAdd)
     {
-        if (e_combatState != CombatState.Frozen)
+        if (e_combatState == CombatState.Frozen)
         {
-            S_velocity += velToAdd;
+            return;
         }
+
+        S_velocity += velToAdd;
+        CheckCollisions();
     }
 
 
@@ -343,21 +353,33 @@ public class Combatant : MonoBehaviour
     protected virtual void CheckCollisions()
     {
         RaycastHit hit;
-        if (Physics.SphereCast(transform.localPosition, f_size, Vector3.right, out hit, f_size, i_bulletLayerMask) && S_velocity.x > 0)
+        if (Physics.SphereCast(transform.localPosition, f_size, Vector3.right, out hit, f_size / 2.0f, i_bulletLayerMask) && S_velocity.x > 0)
         {
-            S_velocity.x = -S_velocity.x * f_collisionBounciness;
+            if (!hit.collider.isTrigger)
+            {
+                S_velocity.x = -S_velocity.x * f_collisionBounciness;
+            }
         }
-        else if (Physics.SphereCast(transform.localPosition, f_size, -Vector3.right, out hit, f_size, i_bulletLayerMask) && S_velocity.x < 0)
+        else if (Physics.SphereCast(transform.localPosition, f_size, -Vector3.right, out hit, f_size / 2.0f, i_bulletLayerMask) && S_velocity.x < 0)
         {
-            S_velocity.x = -S_velocity.x * f_collisionBounciness;
+            if (!hit.collider.isTrigger)
+            {
+                S_velocity.x = -S_velocity.x * f_collisionBounciness;
+            }
         }
-        if (Physics.SphereCast(transform.localPosition, f_size, Vector3.forward, out hit, f_size, i_bulletLayerMask) && S_velocity.z > 0)
+        if (Physics.SphereCast(transform.localPosition, f_size, Vector3.forward, out hit, f_size / 2.0f, i_bulletLayerMask) && S_velocity.z > 0)
         {
-            S_velocity.z = -S_velocity.z * f_collisionBounciness;
+            if (!hit.collider.isTrigger)
+            {
+                S_velocity.z = -S_velocity.z * f_collisionBounciness;
+            }
         }
-        else if (Physics.SphereCast(transform.localPosition, f_size, -Vector3.forward, out hit, f_size, i_bulletLayerMask) && S_velocity.z < 0)
+        else if (Physics.SphereCast(transform.localPosition, f_size, -Vector3.forward, out hit, f_size / 2.0f, i_bulletLayerMask) && S_velocity.z < 0)
         {
-            S_velocity.z = -S_velocity.z * f_collisionBounciness;
+            if (!hit.collider.isTrigger)
+            {
+                S_velocity.z = -S_velocity.z * f_collisionBounciness;
+            }
         }
     }
 
@@ -472,6 +494,11 @@ public class Combatant : MonoBehaviour
     public void ReloadGun()
     {
         C_ownedGun.Reload();
+    }
+
+    //called in gun reload
+    public void TriggerReloadAnimation()
+    {
         if (b_hasAnimator)
         {
             C_animator.SetFloat("Reload", 1);
@@ -479,6 +506,7 @@ public class Combatant : MonoBehaviour
             StartCoroutine(StopReloadAnimationAfterSeconds(C_ownedGun.aC_moduleArray[1].f_reloadSpeed));
         }
     }
+
 
     public IEnumerator StopReloadAnimationAfterSeconds(float seconds)
     {
@@ -615,7 +643,6 @@ public class Combatant : MonoBehaviour
             dodgeDistance = hit.distance - f_size;
             float dodgePercentage = dodgeDistance / f_dodgeLength;
             dodgeTime = f_dodgeTime * dodgePercentage;
-
         }
 
         Vector3 goalPosition = transform.position + (S_movementInputDirection.normalized * dodgeDistance);
@@ -636,7 +663,20 @@ public class Combatant : MonoBehaviour
         }
         b_fireCancelWhileDodging = false;
         b_dodgeCanceled = false;
+        StartCoroutine(StartDodgeRecovery());
     }
+
+    protected IEnumerator StartDodgeRecovery()
+    {
+        float startTime = Time.time;
+
+        while(Time.time - startTime < f_dodgeRecoveryTime)
+        {
+            yield return 0;            
+        }
+        i_currentDodgeCount++;
+    }
+
 
     protected IEnumerator SpeedUpAfterTime(float effectTime, float increaseAmount)
     {
@@ -690,7 +730,6 @@ public class Combatant : MonoBehaviour
             Gizmos.color = new Color(1, 0.92f, 0.016f, 0.5f);
             Gizmos.DrawSphere(Vector3.zero, f_debugLightningSize);
         }
-
     }
 
 }

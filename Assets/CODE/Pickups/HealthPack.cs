@@ -11,5 +11,17 @@ public class HealthPack : Pickup
     public void OnInteract(Combatant combatant)
     {
         combatant.Heal(f_healthToRecover);
+        Destroy(this);
+    }
+    private void FixedUpdate()
+    {
+        Collider[] collisions = Physics.OverlapSphere(transform.position, GetComponent<SphereCollider>().radius);
+        foreach(Collider c in collisions)
+        {
+            if (c.GetComponent<PlayerController>() != null)
+            {
+                c.GetComponent<PlayerController>().Heal(f_healthToRecover);
+            }
+        }
     }
 }

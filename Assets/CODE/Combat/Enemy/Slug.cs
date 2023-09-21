@@ -23,6 +23,11 @@ namespace Enemy
         private void Update()
         {
             base.Update();
+            if (C_player.b_isDead)
+            {
+                CancelGun();
+                return;
+            }
             MeleeDamage();
             if (b_aimAtPlayer)
             {

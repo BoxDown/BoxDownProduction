@@ -45,11 +45,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Base_Colour:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: e09cc5149f1179746b2c68fd7837328c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Emission:
-        m_Texture: {fileID: 2800000, guid: 677d3333e4fa612469ef90fed0dd14f3, type: 3}
+        m_Texture: {fileID: 2800000, guid: a2d77c0d513cf124fbcf80fc4231f4fa, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask:
@@ -57,7 +57,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: e1a7d1982d3c4fd41ac79baad07f8c05, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2DAsset_0b150143dd4945f3bbac408ebd2423da_Out_0:
@@ -123,6 +123,7 @@ Material:
     - _CullModeForward: 2
     - _DepthOffsetEnable: 0
     - _Dodge_amount: 0
+    - _Dodge_fresnel_strength: 4
     - _Dodge_scale: 0.75
     - _DoubleSidedEnable: 0
     - _DoubleSidedGIMode: 0
@@ -136,15 +137,16 @@ Material:
     - _Fire_Amount: 0
     - _Fire_Speed: 0.1
     - _Fire_scale: 12.8
-    - _Float: 1
+    - _Float: 3.01
     - _Frozen_On_Off: 0
     - _Health_up_amount: 0
     - _Health_up_scale: 5
+    - _Health_up_strength: 3
     - _Hit_amount: 0
     - _Hit_scale: 0.5
     - _Ice_amount: 0
     - _Ice_edge_power: 1.6
-    - _Ice_scale: 200
+    - _Ice_scale: 80.7
     - _Ice_speed: 0.05
     - _Leech_Speed: -1
     - _Leech_amount: 0
@@ -177,7 +179,8 @@ Material:
     - _TransparentWritingMotionVec: 0
     - _TransparentZWrite: 0
     - _UseShadowThreshold: 0
-    - _Vamp_Speed: 1
+    - _Vamp_Speed: 0.4
+    - _Vamp_Strength: 15
     - _Vamp_amount: 0
     - _Vamp_scale: 5
     - _ZTestDepthEqualForOpaque: 3
@@ -185,20 +188,20 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     - _health_up_amount: 0
-    - _health_up_speed: 1
+    - _health_up_speed: -0.4
     - _on_off: 0
     m_Colors:
-    - _Dodge_colour: {r: 0.7877358, g: 0.9009434, b: 1, a: 0}
+    - _Dodge_colour: {r: 0, g: 6.27451, b: 32, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _Electric_Colour: {r: 7.9686275, g: 4.3389387, b: 0, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Fire_Colour: {r: 2, g: 0.11764706, b: 0, a: 0}
+    - _Fire_Colour: {r: 2, g: 0.5340992, b: 0, a: 0}
     - _Health_up_colour: {r: 0.53333336, g: 4, b: 0, a: 0}
-    - _Hit_colour: {r: 1, g: 0, b: 0, a: 0}
+    - _Hit_colour: {r: 4, g: 0, b: 0, a: 0}
     - _Ice_base_colour: {r: 3.5137255, g: 6.1803923, b: 7.090196, a: 0}
     - _Ice_colour: {r: 0.3915094, g: 0.7160377, b: 1, a: 0}
     - _Ice_edge_colour: {r: 0, g: 0.53212494, b: 1, a: 0}
     - _Leech_colour: {r: 0.61960787, g: 0.9254902, b: 0, a: 0}
-    - _Vamp_colour: {r: 0.3561602, g: 0.5566038, b: 0.1076451, a: 0}
+    - _Vamp_colour: {r: 0.627451, g: 0.7529412, b: 0.17254902, a: 0}
     - _Vector2: {r: 7.46, g: 2, b: 0, a: 0}
   m_BuildTextureStacks: []

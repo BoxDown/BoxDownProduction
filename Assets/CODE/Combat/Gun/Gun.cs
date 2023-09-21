@@ -87,7 +87,11 @@ namespace Gun
         [Rename("Bullet Trail")] public GameObject C_bulletTrail;
         [Rename("Bullet Shells")] public GameObject C_bulletShells;
         [Rename("Bullet Shell Spawn Location")] public Transform C_bulletShellSpawn;
-        [Rename("Bullet Hit Effect")] public GameObject C_bulletHitFX;
+        [Rename("Bullet Standard Hit Effect")] public GameObject C_standardBulletHit;
+        [Rename("Bullet Fire Hit Effect")] public GameObject C_fireBulletHit;
+        [Rename("Bullet Ice Hit Effect")] public GameObject C_iceBulletHit;
+        [Rename("Bullet Lightning Hit Effect")] public GameObject C_lightningBulletHit;
+        [Rename("Bullet Vampire Hit Effect")] public GameObject C_vampireBulletHit;
         Bullet.BulletBaseInfo S_bulletInfo { get { return new Bullet.BulletBaseInfo(C_gunHolder, S_muzzlePosition, C_gunHolder.transform.forward, f_bulletRange, f_baseDamage, f_bulletSpeed, f_bulletSize, f_knockBack); } }
 
         private void Awake()

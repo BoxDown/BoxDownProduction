@@ -37,9 +37,11 @@ namespace Gun
                 lC_freeBullets.Add(bulletRef);
                 lC_allBullets.Add(bulletRef);
 
+                bulletRef.C_hitEffect = C_gun.C_standardBulletHit;
+
                 if (C_gun.C_bulletTrail != null)
                 {
-                    bulletRef.C_visualEffect = Instantiate(C_gun.C_bulletTrail, obj.transform).GetComponentInChildren<VisualEffect>();
+                    bulletRef.C_trailEffect = Instantiate(C_gun.C_bulletTrail, obj.transform).GetComponentInChildren<VisualEffect>();
                 }
 
                 obj.SetActive(false);
@@ -91,7 +93,7 @@ namespace Gun
                     bulletRef.C_poolOwner = this;
                     if (C_gun.C_bulletTrail != null)
                     {
-                        bulletRef.C_visualEffect = Instantiate(C_gun.C_bulletTrail, obj.transform).GetComponentInChildren<VisualEffect>();
+                        bulletRef.C_trailEffect = Instantiate(C_gun.C_bulletTrail, obj.transform).GetComponentInChildren<VisualEffect>();
                     }
                     lC_allBullets.Add(bulletRef);
                     lC_freeBullets.Add(bulletRef);

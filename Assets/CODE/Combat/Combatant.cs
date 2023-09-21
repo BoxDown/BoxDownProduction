@@ -389,6 +389,7 @@ public class Combatant : MonoBehaviour
         ChangeState(CombatState.Normal);
         SetLightningEffected(false);
         ClearLightningHits();
+        GetComponent<Collider>().enabled = false;
         if (C_animator != null)
         {
             C_animator.SetFloat("Death", 1);

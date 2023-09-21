@@ -1,10 +1,9 @@
 using Managers;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using Utility;
+using UnityEngine.VFX;
 
 namespace Gun
 {
@@ -68,12 +67,11 @@ namespace Gun
 
         [Header("Bullet Colours")]
         //[Rename("Bullet Material")] public Material C_bulletMaterial;
-        [Rename("Emission Value")] public float f_emissiveValue = 20.0f;
-        [Rename("Standard Colour")] public Color S_standardColour = new Color(0.75f, 0.5f, 0.2f, 1);
-        [Rename("Fire Colour")] public Color S_fireColour = new Color(1f, 0.2f, 0f, 1);
-        [Rename("Ice Colour")] public Color S_iceColour = new Color(0.35f, 0.8f, 0.7f, 1);
-        [Rename("Lightning Colour")] public Color S_lightningColour = new Color(1f, 1f, 0.25f, 1);
-        [Rename("Vampire Colour")] public Color S_vampireColour = new Color(0.5f, 0.8f, 0.1f, 1);
+        [Rename("Standard Colour"), ColorUsage(true,true)] public Color S_standardColour = new Color(0.75f, 0.5f, 0.2f, 1);
+        [Rename("Fire Colour"), ColorUsage(true,true)] public Color S_fireColour = new Color(1f, 0.2f, 0f, 1);
+        [Rename("Ice Colour"), ColorUsage(true,true)] public Color S_iceColour = new Color(0.35f, 0.8f, 0.7f, 1);
+        [Rename("Lightning Colour"), ColorUsage(true,true)] public Color S_lightningColour = new Color(1f, 1f, 0.25f, 1);
+        [Rename("Vampire Colour"), ColorUsage(true,true)] public Color S_vampireColour = new Color(0.5f, 0.8f, 0.1f, 1);
 
 
         [Space(15)]
@@ -89,7 +87,11 @@ namespace Gun
         [Rename("Bullet Trail")] public GameObject C_bulletTrail;
         [Rename("Bullet Shells")] public GameObject C_bulletShells;
         [Rename("Bullet Shell Spawn Location")] public Transform C_bulletShellSpawn;
-        [Rename("Bullet Hit Effect")] public GameObject C_bulletHitFX;
+        [Rename("Bullet Standard Hit Effect")] public GameObject C_standardBulletHit;
+        [Rename("Bullet Fire Hit Effect")] public GameObject C_fireBulletHit;
+        [Rename("Bullet Ice Hit Effect")] public GameObject C_iceBulletHit;
+        [Rename("Bullet Lightning Hit Effect")] public GameObject C_lightningBulletHit;
+        [Rename("Bullet Vampire Hit Effect")] public GameObject C_vampireBulletHit;
         Bullet.BulletBaseInfo S_bulletInfo { get { return new Bullet.BulletBaseInfo(C_gunHolder, S_muzzlePosition, C_gunHolder.transform.forward, f_bulletRange, f_baseDamage, f_bulletSpeed, f_bulletSize, f_knockBack); } }
 
         private void Awake()
@@ -380,13 +382,15 @@ namespace Gun
             }
 
             GameObject newShell = Instantiate(C_bulletShells, C_bulletShellSpawn.position, Quaternion.identity);
+            newShell.transform.position += (C_gunHolder.transform.right / 10.0f);
+            newShell.transform.localScale = new Vector3(f_bulletSize * 0.7f, f_bulletSize * 0.7f, f_bulletSize * 0.7f);
             newShell.layer = 6;
             Rigidbody rigidbody = newShell.GetComponent<Rigidbody>();
             if (rigidbody != null)
             {
-                rigidbody.AddForce(C_gunHolder.transform.right * Random.Range(1.0f, 3.0f), ForceMode.Impulse);
-                rigidbody.AddForce(C_gunHolder.transform.up * Random.Range(2.0f, 4.0f), ForceMode.Impulse);
-                rigidbody.AddForce(-C_gunHolder.transform.forward * Random.Range(1.0f, 2.0f), ForceMode.Impulse);
+                rigidbody.AddForce(C_gunHolder.transform.right * Random.Range(0.2f, 0.8f), ForceMode.Impulse);
+                rigidbody.AddForce(C_gunHolder.transform.up * Random.Range(1.0f, 3.0f), ForceMode.Impulse);
+                rigidbody.AddForce(-C_gunHolder.transform.forward * Random.Range(2.0f, 4.0f), ForceMode.Impulse);
                 rigidbody.AddTorque(new Vector3(1, 0.8f, 0) * Random.Range(1.0f, 6.0f), ForceMode.Impulse);
             }
             Destroy(newShell, 4);

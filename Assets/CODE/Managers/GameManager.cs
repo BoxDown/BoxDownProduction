@@ -305,6 +305,11 @@ namespace Managers
                         randomNumber -= 1 / chanceToTake;
                         if (randomNumber <= 0)
                         {
+                            if(ls_triggerGunModulesNames[i] == C_player.C_ownedGun.aC_moduleArray[0].name)
+                            {
+                                GetRandomModule(e_currentRewardType);
+                                return;
+                            }
                             GunModuleSpawner.SpawnGunModule(ls_triggerGunModulesNames[i], S_rewardPoint);
                             break;
                         }
@@ -325,6 +330,11 @@ namespace Managers
                         randomNumber -= 1 / chanceToTake;
                         if (randomNumber <= 0)
                         {
+                            if (ls_clipGunModulesNames[i] == C_player.C_ownedGun.aC_moduleArray[1].name)
+                            {
+                                GetRandomModule(e_currentRewardType);
+                                return;
+                            }
                             GunModuleSpawner.SpawnGunModule(ls_clipGunModulesNames[i], S_rewardPoint);
                             break;
                         }
@@ -344,6 +354,11 @@ namespace Managers
                         randomNumber -= 1 / chanceToTake;
                         if (randomNumber <= 0)
                         {
+                            if (ls_barrelGunModulesNames[i] == C_player.C_ownedGun.aC_moduleArray[2].name)
+                            {
+                                GetRandomModule(e_currentRewardType);
+                                return;
+                            }
                             GunModuleSpawner.SpawnGunModule(ls_barrelGunModulesNames[i], S_rewardPoint);
                             break;
                         }
@@ -363,6 +378,21 @@ namespace Managers
                         randomNumber -= 1 / chanceToTake;
                         if (randomNumber <= 0)
                         {
+                            if (ls_allGunModulesNames[i] == C_player.C_ownedGun.aC_moduleArray[0].name)
+                            {
+                                GetRandomModule(e_currentRewardType);
+                                return;
+                            }
+                            if (ls_allGunModulesNames[i] == C_player.C_ownedGun.aC_moduleArray[1].name)
+                            {
+                                GetRandomModule(e_currentRewardType);
+                                return;
+                            }
+                            if (ls_allGunModulesNames[i] == C_player.C_ownedGun.aC_moduleArray[2].name)
+                            {
+                                GetRandomModule(e_currentRewardType);
+                                return;
+                            }
                             GunModuleSpawner.SpawnGunModule(ls_allGunModulesNames[i], S_rewardPoint);
                             break;
                         }

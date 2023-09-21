@@ -144,11 +144,13 @@ namespace Gun
         {
             if (f_timeSinceLastFire < f_timeBetweenBulletShots || b_reloading)
             {
+                f_timeUntilNextFire = 0;
                 return;
             }
             if (i_currentAmmo <= 0 || i_currentAmmo < i_burstCount)
             {
                 Reload();
+                f_timeUntilNextFire = 0;
                 return;
             }
 
@@ -209,7 +211,16 @@ namespace Gun
             // read clip size and current bullet count and reload time
             // reload 1 at a time,
             //optional cancelleable reload
-            StartCoroutine(ReloadAfterTime());
+            if(i_currentAmmo  < i_clipSize)
+            {
+                StartCoroutine(ReloadAfterTime());
+                StartReloadAnimation();
+            }
+        }
+
+        private void StartReloadAnimation()
+        {
+            C_gunHolder.TriggerReloadAnimation();
         }
 
         public void HardReload()

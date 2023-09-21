@@ -20,6 +20,12 @@ namespace Enemy
                 throw new System.Exception("Slug Gun Is Null And Should Not Be");
             }
         }
+
+        protected override void Move()
+        {
+            return;
+        }
+
         private void Update()
         {
             base.Update();

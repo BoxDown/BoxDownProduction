@@ -349,6 +349,10 @@ namespace Gun
         }
         private void SpawnHitEffect(Vector3 position)
         {
+            if(C_hitEffect == null)
+            {
+                return;
+            }
             GameObject newHit = Instantiate(C_hitEffect, position, Quaternion.Euler(-transform.forward));
             newHit.transform.localScale = new Vector3(S_baseInformation.f_size, S_baseInformation.f_size, S_baseInformation.f_size) * 2;
             if(newHit.GetComponentInChildren<VisualEffect>() != null)

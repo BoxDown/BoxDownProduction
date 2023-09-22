@@ -203,6 +203,7 @@ public class PlayerController : Combatant
 
     private void TriggerDoor(Transform doorGoingThrough)
     {
+        ZeroVelocity();
         doorGoingThrough.GetComponent<Door>().OnEnterDoor();
     }
     

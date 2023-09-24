@@ -1,3 +1,6 @@
+using Explosion;
+using Managers;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Utility;
@@ -15,7 +18,7 @@ namespace Enemy
         [Rename("Melee Knockback")] public float f_meleeKnockback = 3;
 
         //runtime variables
-        private PlayerController C_player;
+        protected PlayerController C_player;
 
         private void Awake()
         {
@@ -49,6 +52,10 @@ namespace Enemy
         {
             if (C_player != null)
             {
+                if (C_player.b_isDead)
+                {
+                    return Vector2.zero;
+                }
                 Vector3 fromToPlayer = C_player.transform.position - transform.position;
                 return new Vector2(fromToPlayer.x, fromToPlayer.z);
             }
@@ -56,6 +63,11 @@ namespace Enemy
             {
                 return Vector2.zero;
             }
+        }
+        public override void Die()
+        {
+            base.Die();
+            StartCoroutine(DeactivateAfterSeconds(4));
         }
 
         public void ReflectMovementDirection(Vector2 normal)
@@ -71,6 +83,10 @@ namespace Enemy
 
         protected virtual void MeleeDamage()
         {
+            if (b_isDead || C_player.b_isDead)
+            {
+                return;
+            }
             Collider[] collisions = Physics.OverlapSphere(transform.position, f_size * 1.95f);
             PlayerController player = null;
             for (int i = 0; i < collisions.Length; i++)
@@ -90,6 +106,11 @@ namespace Enemy
                     return;
                 }
             }
+        }
+        private IEnumerator DeactivateAfterSeconds(float time)
+        {
+            yield return new WaitForSeconds(time);
+            gameObject.SetActive(false);
         }
     }
 }

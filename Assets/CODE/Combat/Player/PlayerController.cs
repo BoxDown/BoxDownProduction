@@ -128,8 +128,7 @@ public class PlayerController : Combatant
     public override void Die()
     {
         base.Die();
-        GameManager.SwitchToUIActions();
-        ResultsUI.ActivateLose();
+        StartCoroutine(ActivateLoseAfterSeconds(5));
     }
 
 
@@ -153,7 +152,7 @@ public class PlayerController : Combatant
         {
             return;
         }
-        for (int i = 0; i < collisions.Length; i++)
+        for (int i = 0; i < collisions.Length - 1; i++)
         {
             if (collisions[i].transform == transform)
             {
@@ -163,12 +162,17 @@ public class PlayerController : Combatant
             {
                 continue;
             }
-            float distance = (collisions[i].transform.position - transform.position).magnitude;
+            float distance = (collisions[i].ClosestPoint(transform.position) - transform.position).magnitude;
             if (distance < closestDistance)
             {
                 closestDistance = distance;
                 closestCollisionReference = i;
             }
+        }
+
+        if (collisions[closestCollisionReference].transform == transform)
+        {
+            return;
         }
         Transform closestTransform = collisions[closestCollisionReference].transform;
 
@@ -199,6 +203,7 @@ public class PlayerController : Combatant
 
     private void TriggerDoor(Transform doorGoingThrough)
     {
+        ZeroVelocity();
         doorGoingThrough.GetComponent<Door>().OnEnterDoor();
     }
     
@@ -213,6 +218,13 @@ public class PlayerController : Combatant
     private void OnDestroy()
     {        
         //Destroy(C_ownedGun.C_bulletPool.gameObject);
+    }
+
+    private IEnumerator ActivateLoseAfterSeconds(float time)
+    {
+        yield return new WaitForSeconds(time);
+        GameManager.SwitchToUIActions();
+        ResultsUI.ActivateLose();
     }
 
 }

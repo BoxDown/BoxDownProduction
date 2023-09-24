@@ -3,6 +3,7 @@ using UnityEngine;
 using Explosion;
 using static Gun.GunModule;
 using Utility;
+using UnityEngine.VFX;
 
 namespace Gun
 {
@@ -35,7 +36,8 @@ namespace Gun
         }
 
 
-        [HideInInspector] public GameObject C_prefab;
+
+
         [HideInInspector] public BulletObjectPool C_poolOwner;
         [HideInInspector] private BulletBaseInfo S_baseInformation;
         private Vector3 S_previousPosition;
@@ -73,6 +75,10 @@ namespace Gun
         BulletEffectInfo S_bulletEffect;
         BulletTraitInfo S_bulletTrait;
 
+        //Visuals
+        public GameObject C_hitEffect = null;
+        [HideInInspector] public VisualEffect C_trailEffect;
+        private BulletEffect e_lastFiredBulletEffect = BulletEffect.None;
 
 
         void Update()
@@ -149,12 +155,20 @@ namespace Gun
             S_previousPosition = transform.position = bulletInfo.S_firingOrigin + originOffset;
             transform.rotation = Quaternion.Euler(new Vector3(0, Mathf.Atan2(-bulletInfo.S_firingDirection.z, bulletInfo.S_firingDirection.x) * Mathf.Rad2Deg + 90, 0) + directionOffset);
 
+
             S_bulletEffect = bulletEffect;
             S_bulletTrait = bulletTrait;
+            if (C_trailEffect != null)
+            {
+                UpdateBulletTrail();
+                C_trailEffect.Play();
+            }
+            UpdateBulletHit();
             if (S_bulletTrait.e_bulletTrait == BulletTrait.Homing)
             {
                 FindHomingTarget();
             }
+            e_lastFiredBulletEffect = S_bulletEffect.e_bulletEffect;
         }
         void FindHomingTarget()
         {
@@ -261,6 +275,105 @@ namespace Gun
             S_baseInformation.S_firingOrigin = origin;
         }
 
+        private void UpdateBulletTrail()
+        {
+            if (e_lastFiredBulletEffect == S_bulletEffect.e_bulletEffect)
+            {
+                return;
+            }
+
+            // remove unwanted trails by setting all durations to 0
+            RemoveAllTrails();
+            float trailSpeedModifier = S_baseInformation.f_speed / 2.0f;
+            //do update on VFX magic numbers are artists numbers, modified by speed for looks
+            switch (S_bulletEffect.e_bulletEffect)
+            {
+                case BulletEffect.None:
+                    break;
+                case BulletEffect.Fire:
+                    //Set duration on current effect to be alive time of bullet
+                    C_trailEffect.SetFloat("FireDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                    C_trailEffect.SetVector2("Main", new Vector2(-2, 0) * trailSpeedModifier);
+                    C_trailEffect.SetVector2("2nd", new Vector2(-0.71f, 0) * trailSpeedModifier);
+                    C_trailEffect.SetVector3("Specs", new Vector3(0, 0, 2f) * trailSpeedModifier);
+                    break;
+                case BulletEffect.Ice:
+                    //Set duration on current effect to be alive time of bullet
+                    C_trailEffect.SetFloat("FrostDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                    C_trailEffect.SetVector2("Main", new Vector2(-0.92f, 0) * trailSpeedModifier);
+                    C_trailEffect.SetVector2("2nd", new Vector2(0.09f, 0) * trailSpeedModifier);
+                    C_trailEffect.SetVector3("Specs", new Vector3(0, 0.2f, 0.5f) * trailSpeedModifier);
+                    break;
+                case BulletEffect.Lightning:
+                    //Set duration on current effect to be alive time of bullet
+                    C_trailEffect.SetFloat("ElectricDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                    C_trailEffect.SetVector2("Main", new Vector2(-2, 0) * trailSpeedModifier);
+                    C_trailEffect.SetVector2("2nd", new Vector2(-1.5f, 0) * trailSpeedModifier);
+                    C_trailEffect.SetVector3("Specs", new Vector3(1.5f, 0, 1.5f) * trailSpeedModifier);
+                    C_trailEffect.SetVector3("Specs 2", new Vector3(-1.5f, 0, -1.5f) * trailSpeedModifier);
+                    break;
+                case BulletEffect.Vampire:
+                    //Set duration on current effect to be alive time of bullet
+                    C_trailEffect.SetFloat("LeachDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                    C_trailEffect.SetVector2("Main", new Vector2(-1.53f, 0) * trailSpeedModifier);
+                    C_trailEffect.SetVector2("2nd", new Vector2(-0.56f, 0) * trailSpeedModifier);
+                    C_trailEffect.SetVector3("Specs", new Vector3(0, 0, 0.5f) * trailSpeedModifier);
+                    break;
+            }
+
+        }
+        private void UpdateBulletHit()
+        {
+            if (e_lastFiredBulletEffect == S_bulletEffect.e_bulletEffect)
+            {
+                return;
+            }
+            switch (S_bulletEffect.e_bulletEffect)
+            {
+                case BulletEffect.None:
+                    C_hitEffect = C_poolOwner.C_gun.C_standardBulletHit;
+                    break;
+                case BulletEffect.Fire:
+                    C_hitEffect = C_poolOwner.C_gun.C_fireBulletHit;
+                    break;
+                case BulletEffect.Ice:
+                    C_hitEffect = C_poolOwner.C_gun.C_iceBulletHit;
+                    break;
+                case BulletEffect.Lightning:
+                    C_hitEffect = C_poolOwner.C_gun.C_lightningBulletHit;
+                    break;
+                case BulletEffect.Vampire:
+                    C_hitEffect = C_poolOwner.C_gun.C_vampireBulletHit;
+                    break;
+            }
+        }
+        private void SpawnHitEffect(Vector3 position)
+        {
+            if(C_hitEffect == null)
+            {
+                return;
+            }
+            GameObject newHit = Instantiate(C_hitEffect, position, Quaternion.Euler(-transform.forward));
+            newHit.transform.localScale = new Vector3(S_baseInformation.f_size, S_baseInformation.f_size, S_baseInformation.f_size) * 2;
+            if(newHit.GetComponentInChildren<VisualEffect>() != null)
+            {
+                newHit.GetComponentInChildren<VisualEffect>().Play();
+            }
+            Destroy(newHit, 0.8f);
+        }
+
+        private void RemoveAllTrails()
+        {
+            if (C_trailEffect == null)
+            {
+                return;
+            }
+            C_trailEffect.SetFloat("ElectricDuration", 0);
+            C_trailEffect.SetFloat("FireDuration", 0);
+            C_trailEffect.SetFloat("LeachDuration", 0);
+            C_trailEffect.SetFloat("FrostDuration", 0);
+        }
+
         private void DoBaseHit(Combatant combatant)
         {
             combatant.Damage(S_baseInformation.f_damage);
@@ -288,6 +401,10 @@ namespace Gun
 
             if (combatant == null)
             {
+                if (objectHit.GetComponentInParent<Destructable>() != null)
+                {
+                    objectHit.GetComponentInParent<Destructable>().DamageObject(S_baseInformation.f_damage);
+                }
                 if (S_bulletTrait.e_bulletTrait == BulletTrait.Ricochet && S_bulletTrait.i_ricochetCount >= i_ricochetCount)
                 {
                     if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, S_baseInformation.f_size, ~LayerMask.GetMask("Bullet")))
@@ -301,6 +418,7 @@ namespace Gun
                 {
                     ExplosionGenerator.MakeExplosion(transform.position, S_bulletTrait.C_explosionPrefab, S_bulletTrait.f_explosionSize, S_bulletTrait.f_explosionDamage, S_bulletTrait.f_explosionKnockbackDistance, S_bulletTrait.f_explosionLifeTime);
                 }
+                SpawnHitEffect(transform.position);
                 C_poolOwner.MoveToOpen(this);
                 return true;
             }
@@ -326,7 +444,9 @@ namespace Gun
                     {
                         //do damage
                         DoBaseHit(combatant);
+                        SpawnHitEffect(transform.position);
                         C_poolOwner.MoveToOpen(this);
+
                         return true;
                     }
                     return false;
@@ -339,7 +459,9 @@ namespace Gun
 
                         if (i_bulletPiercedCount == S_bulletTrait.i_pierceCount)
                         {
+                            SpawnHitEffect(transform.position);
                             C_poolOwner.MoveToOpen(this);
+
                             return true;
                         }
                     }
@@ -370,10 +492,11 @@ namespace Gun
                         else
                         {
                             DoBaseHit(combatant);
+                            SpawnHitEffect(transform.position);
                             C_poolOwner.MoveToOpen(this);
                             return true;
                         }
-                    }                    
+                    }
                     return false;
                 case BulletTrait.Explosive:
                     if (shouldHit)
@@ -390,6 +513,7 @@ namespace Gun
                     {
                         DoBaseHit(combatant);
                         C_homingTarget = null;
+                        SpawnHitEffect(transform.position);
                         C_poolOwner.MoveToOpen(this);
                         return true;
                     }

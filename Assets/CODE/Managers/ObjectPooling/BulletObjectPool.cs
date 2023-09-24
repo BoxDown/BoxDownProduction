@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 namespace Gun
 {
@@ -23,9 +24,6 @@ namespace Gun
             C_bulletMesh = new Mesh();
             C_bulletMesh.name = C_gun.C_gunHolder.name + ": Bullet Mesh";
             C_bulletMaterial.name = C_gun.C_gunHolder.name + ": Bullet Material";
-            C_bulletMaterial.SetInt("_UseEmissiveIntensity", 1);
-            C_bulletMaterial.SetInt("_EmissiveIntensityUnit", 0);
-            C_bulletMaterial.SetFloat("_EmissiveIntensity", Mathf.Pow(2, C_gun.f_emissiveValue) * (4 * Mathf.PI) * 0.01f);
 
 
             for (int i = 0; i < i_totalBullets; i++)
@@ -39,8 +37,15 @@ namespace Gun
                 lC_freeBullets.Add(bulletRef);
                 lC_allBullets.Add(bulletRef);
 
+                bulletRef.C_hitEffect = C_gun.C_standardBulletHit;
+
+                if (C_gun.C_bulletTrail != null)
+                {
+                    bulletRef.C_trailEffect = Instantiate(C_gun.C_bulletTrail, obj.transform).GetComponentInChildren<VisualEffect>();
+                }
+
                 obj.SetActive(false);
-                UpdateBulletColour();
+                UpdateBulletGraphics();
                 obj.GetComponent<Renderer>().sharedMaterial = C_bulletMaterial;
                 obj.GetComponent<MeshFilter>().mesh = C_bulletMesh;
             }
@@ -53,7 +58,7 @@ namespace Gun
             int bulletAmount = (int)(gun.aC_moduleArray[1].i_clipSize * shotCount * gun.aC_moduleArray[0].f_fireRate);
 
             int countDifference = bulletAmount - i_totalBullets;
-            UpdateBulletColour();
+            UpdateBulletGraphics();
             if (countDifference == 0)
             {
                 return;
@@ -86,6 +91,10 @@ namespace Gun
                     obj.layer = 6;
                     Bullet bulletRef = obj.AddComponent<Bullet>();
                     bulletRef.C_poolOwner = this;
+                    if (C_gun.C_bulletTrail != null)
+                    {
+                        bulletRef.C_trailEffect = Instantiate(C_gun.C_bulletTrail, obj.transform).GetComponentInChildren<VisualEffect>();
+                    }
                     lC_allBullets.Add(bulletRef);
                     lC_freeBullets.Add(bulletRef);
                     obj.SetActive(false);
@@ -111,7 +120,7 @@ namespace Gun
             lC_inUseBullets.Add(bullet);
             lC_freeBullets.Remove(bullet);
         }
-        public void UpdateBulletColour()
+        public void UpdateBulletGraphics()
         {
             Color materialColour = Color.white;
             switch (C_gun.aC_moduleArray[1].S_bulletEffectInformation.e_bulletEffect)
@@ -152,14 +161,11 @@ namespace Gun
                     break;
             }
 
-            C_bulletMaterial.SetColor("_EmissiveColorLDR", materialColour * Mathf.Pow(2, C_gun.f_emissiveValue) * (4 * Mathf.PI) * 0.01f);
-            C_bulletMaterial.SetColor("_EmissiveColor", materialColour * Mathf.Pow(2, C_gun.f_emissiveValue) * (4 * Mathf.PI) * 0.01f);
+            C_bulletMaterial.SetColor("_EmissiveColor", materialColour);
             C_bulletMesh.SetVertexBufferParams(bulletMesh.vertexCount);
             C_bulletMesh.SetVertices(bulletMesh.vertices);
             C_bulletMesh.SetNormals(bulletMesh.normals);
             C_bulletMesh.SetTriangles(bulletMesh.triangles, 0);
-
-
         }
     }
 }

@@ -60,9 +60,10 @@ public class Combatant : MonoBehaviour
     [Rename("Debug Respawn Time")] public float f_respawnTime = 5.0f;
     [Space(4)]
 
-    [Header("Materials")]
+    [Header("Visuals")]
     [Rename("Default Material")] public Material C_defaultMaterial;
     [Rename("Dodge Material")] public Material C_dodgeMaterial;
+    [Rename("Hit VFX")] public GameObject C_onHitEffects;
 
 
 
@@ -130,6 +131,7 @@ public class Combatant : MonoBehaviour
     {
         i_bulletLayerMask = ~(LayerMask.GetMask("Bullet") + LayerMask.GetMask("Ignore Raycast"));
         f_currentHealth = f_maxHealth;
+        i_currentDodgeCount = i_maxDodges;
         C_animator = GetComponentInChildren<Animator>();
         if (C_animator != null)
         {
@@ -151,10 +153,11 @@ public class Combatant : MonoBehaviour
         {
             MoveTowardAimAnimation();
         }
-        else if(b_hasAnimator)
+        else if (b_hasAnimator)
         {
-            C_animator.SetFloat("Recoil", S_movementVec2Direction.magnitude);
+            C_animator.SetFloat("Recoil", S_rotationVec2Direction.magnitude);
         }
+
     }
 
     protected void LateUpdate()
@@ -176,6 +179,11 @@ public class Combatant : MonoBehaviour
     {
         // move
         transform.localPosition += S_velocity * Time.deltaTime;
+
+        if (b_isDead)
+        {
+            S_movementVec2Direction = Vector2.zero;
+        }
 
         // if we are moving then increase the acceleration step
         if (S_movementInputDirection != Vector3.zero)
@@ -204,13 +212,13 @@ public class Combatant : MonoBehaviour
         S_velocity.x = Mathf.MoveTowards(S_velocity.x, desiredVelocity.x, maxSpeedChange);
         S_velocity.z = Mathf.MoveTowards(S_velocity.z, desiredVelocity.z, maxSpeedChange);
 
+        S_velocity = Vector3.ClampMagnitude(S_velocity, f_maxSpeed * 2.0f);
+
         //animator stuff
         if (b_hasAnimator)
         {
             float strafeToSet = 0;
             float runToSet = 0;
-
-
 
             Vector2 aimVector = new Vector2(transform.forward.x, transform.forward.z);
 
@@ -271,7 +279,11 @@ public class Combatant : MonoBehaviour
 
     protected void Dodge()
     {
-        StartCoroutine(DodgeRoutine());
+        if(i_currentDodgeCount > 0)
+        {
+            i_currentDodgeCount--;
+            StartCoroutine(DodgeRoutine());
+        }
     }
     protected void CancelDodge()
     {
@@ -285,15 +297,22 @@ public class Combatant : MonoBehaviour
 
     public void AddVelocity(Vector3 velToAdd)
     {
-        if (e_combatState != CombatState.Frozen)
+        if (e_combatState == CombatState.Frozen)
         {
-            S_velocity += velToAdd;
+            return;
         }
+
+        S_velocity += velToAdd;
+        CheckCollisions();
     }
 
 
     protected void RotateToTarget()
     {
+        if (b_isDead)
+        {
+            return;
+        }
         // Rotate
         transform.rotation = Quaternion.Euler(0,
             Mathf.SmoothDampAngle(transform.rotation.eulerAngles.y, f_desiredRotationAngle, ref f_rotationalVelocity, f_rotationTime),
@@ -334,21 +353,33 @@ public class Combatant : MonoBehaviour
     protected virtual void CheckCollisions()
     {
         RaycastHit hit;
-        if (Physics.SphereCast(transform.localPosition, f_size, Vector3.right, out hit, f_size, i_bulletLayerMask) && S_velocity.x > 0)
+        if (Physics.SphereCast(transform.localPosition, f_size, Vector3.right, out hit, f_size / 2.0f, i_bulletLayerMask) && S_velocity.x > 0)
         {
-            S_velocity.x = -S_velocity.x * f_collisionBounciness;
+            if (!hit.collider.isTrigger)
+            {
+                S_velocity.x = -S_velocity.x * f_collisionBounciness;
+            }
         }
-        else if (Physics.SphereCast(transform.localPosition, f_size, -Vector3.right, out hit, f_size, i_bulletLayerMask) && S_velocity.x < 0)
+        else if (Physics.SphereCast(transform.localPosition, f_size, -Vector3.right, out hit, f_size / 2.0f, i_bulletLayerMask) && S_velocity.x < 0)
         {
-            S_velocity.x = -S_velocity.x * f_collisionBounciness;
+            if (!hit.collider.isTrigger)
+            {
+                S_velocity.x = -S_velocity.x * f_collisionBounciness;
+            }
         }
-        if (Physics.SphereCast(transform.localPosition, f_size, Vector3.forward, out hit, f_size, i_bulletLayerMask) && S_velocity.z > 0)
+        if (Physics.SphereCast(transform.localPosition, f_size, Vector3.forward, out hit, f_size / 2.0f, i_bulletLayerMask) && S_velocity.z > 0)
         {
-            S_velocity.z = -S_velocity.z * f_collisionBounciness;
+            if (!hit.collider.isTrigger)
+            {
+                S_velocity.z = -S_velocity.z * f_collisionBounciness;
+            }
         }
-        else if (Physics.SphereCast(transform.localPosition, f_size, -Vector3.forward, out hit, f_size, i_bulletLayerMask) && S_velocity.z < 0)
+        else if (Physics.SphereCast(transform.localPosition, f_size, -Vector3.forward, out hit, f_size / 2.0f, i_bulletLayerMask) && S_velocity.z < 0)
         {
-            S_velocity.z = -S_velocity.z * f_collisionBounciness;
+            if (!hit.collider.isTrigger)
+            {
+                S_velocity.z = -S_velocity.z * f_collisionBounciness;
+            }
         }
     }
 
@@ -363,6 +394,7 @@ public class Combatant : MonoBehaviour
         StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, f_invincibleTime));
         if (f_currentHealth <= 0)
         {
+            f_currentHealth = 0;
             Die();
         }
     }
@@ -375,11 +407,17 @@ public class Combatant : MonoBehaviour
 
     public virtual void Die()
     {
-        gameObject.SetActive(false);
         b_isDead = true;
         ChangeState(CombatState.Normal);
         SetLightningEffected(false);
         ClearLightningHits();
+        GetComponent<Collider>().enabled = false;
+        if (C_animator != null)
+        {
+            C_animator.SetFloat("Death", 1);
+        }
+        CancelGun();
+        CancelDodge();
 
         if (b_debugRespawn)
         {
@@ -400,6 +438,10 @@ public class Combatant : MonoBehaviour
 
     public void FireGun()
     {
+        if (b_isDead)
+        {
+            return;
+        }
         if (e_combatState != CombatState.Dodge && e_combatState != CombatState.NoAttack && e_combatState != CombatState.NoControl && !C_ownedGun.b_isFiring)
         {
             if (C_ownedGun.b_isFiring)
@@ -452,6 +494,11 @@ public class Combatant : MonoBehaviour
     public void ReloadGun()
     {
         C_ownedGun.Reload();
+    }
+
+    //called in gun reload
+    public void TriggerReloadAnimation()
+    {
         if (b_hasAnimator)
         {
             C_animator.SetFloat("Reload", 1);
@@ -459,6 +506,7 @@ public class Combatant : MonoBehaviour
             StartCoroutine(StopReloadAnimationAfterSeconds(C_ownedGun.aC_moduleArray[1].f_reloadSpeed));
         }
     }
+
 
     public IEnumerator StopReloadAnimationAfterSeconds(float seconds)
     {
@@ -582,8 +630,11 @@ public class Combatant : MonoBehaviour
 
 
         ChangeState(CombatState.Dodge);
-        GetComponentInChildren<Renderer>().material = C_dodgeMaterial;
-
+        Renderer[] renders = GetComponentsInChildren<Renderer>();
+        for (int i = 0; i < renders.Length; i++)
+        {
+            renders[i].material = C_dodgeMaterial;
+        }
         Vector3 startPosition = transform.localPosition;
         float dodgeDistance = f_dodgeLength;
         float dodgeTime = f_dodgeTime;
@@ -595,7 +646,6 @@ public class Combatant : MonoBehaviour
             dodgeDistance = hit.distance - f_size;
             float dodgePercentage = dodgeDistance / f_dodgeLength;
             dodgeTime = f_dodgeTime * dodgePercentage;
-
         }
 
         Vector3 goalPosition = transform.position + (S_movementInputDirection.normalized * dodgeDistance);
@@ -609,14 +659,30 @@ public class Combatant : MonoBehaviour
         }
 
         ChangeState(CombatState.Normal);
-        GetComponentInChildren<Renderer>().material = C_defaultMaterial;
+        for (int i = 0; i < renders.Length; i++)
+        {
+            renders[i].material = C_defaultMaterial;
+        } 
         if (!b_fireCancelWhileDodging && firingAtStartOfDodge)
         {
             C_ownedGun.StartFire();
         }
         b_fireCancelWhileDodging = false;
         b_dodgeCanceled = false;
+        StartCoroutine(StartDodgeRecovery());
     }
+
+    protected IEnumerator StartDodgeRecovery()
+    {
+        float startTime = Time.time;
+
+        while(Time.time - startTime < f_dodgeRecoveryTime)
+        {
+            yield return 0;            
+        }
+        i_currentDodgeCount++;
+    }
+
 
     protected IEnumerator SpeedUpAfterTime(float effectTime, float increaseAmount)
     {
@@ -670,7 +736,6 @@ public class Combatant : MonoBehaviour
             Gizmos.color = new Color(1, 0.92f, 0.016f, 0.5f);
             Gizmos.DrawSphere(Vector3.zero, f_debugLightningSize);
         }
-
     }
 
 }

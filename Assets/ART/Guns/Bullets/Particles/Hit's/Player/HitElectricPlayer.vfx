@@ -19,8 +19,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: -276
     y: 1058
-    width: 1719
-    height: 1370
+    width: 1712
+    height: 1179
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -31,7 +31,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d4c867f6b72b714dbb5fd1780afe208, type: 3}
-  m_Name: Electric sparks
+  m_Name: HitElectricPlayer
   m_EditorClassIdentifier: 
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 0}
@@ -74,7 +74,7 @@ VisualEffectResource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Electric sparks
+  m_Name: HitElectricPlayer
   m_Graph: {fileID: 114350483966674976}
   m_Infos:
     m_RendererSettings:
@@ -2005,7 +2005,7 @@ MonoBehaviour:
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
-  m_UIPosition: {x: 170, y: 1806}
+  m_UIPosition: {x: 163, y: 1615}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -2072,7 +2072,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614678}
   - {fileID: 8926484042661614679}
   - {fileID: 8926484042661614680}
-  m_UIPosition: {x: 173, y: 1966}
+  m_UIPosition: {x: 166, y: 1775}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -2660,7 +2660,7 @@ MonoBehaviour:
   m_Parent: {fileID: 114350483966674976}
   m_Children:
   - {fileID: 8926484042661614684}
-  m_UIPosition: {x: 597, y: 1934}
+  m_UIPosition: {x: 590, y: 1743}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots: []
@@ -3374,7 +3374,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614708}
   - {fileID: 8926484042661614710}
   - {fileID: 8926484042661614712}
-  m_UIPosition: {x: 1019, y: 1938}
+  m_UIPosition: {x: 1012, y: 1747}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -3700,7 +3700,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614727}
   - {fileID: 8926484042661614723}
   m_OutputSlots: []
-  m_Disabled: 0
+  m_Disabled: 1
   repeat: 1
   spawnMode: 0
   delayMode: 0
@@ -3937,7 +3937,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1
+      m_SerializableObject: 0
     m_Space: 2147483647
   m_Property:
     name: Delay

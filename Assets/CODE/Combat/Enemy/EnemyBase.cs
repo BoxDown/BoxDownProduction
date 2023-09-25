@@ -67,7 +67,7 @@ namespace Enemy
         public override void Die()
         {
             base.Die();
-            StartCoroutine(DeactivateAfterSeconds(4));
+            StartCoroutine(DeactivateAfterSeconds(2.5f));
         }
 
         public void ReflectMovementDirection(Vector2 normal)
@@ -109,7 +109,21 @@ namespace Enemy
         }
         private IEnumerator DeactivateAfterSeconds(float time)
         {
-            yield return new WaitForSeconds(time);
+            if (!b_hasAnimator)
+            {
+                float startTime = Time.time;
+                float t = 0;
+                while (Time.time - startTime < time)
+                {
+                    transform.localScale = Vector3.Lerp(Vector3.one, Vector3.zero,  t);
+                    yield return 0;
+                    t += Time.deltaTime;
+                }
+            }
+            else
+            {
+                yield return new WaitForSeconds(time);
+            }
             gameObject.SetActive(false);
         }
     }

@@ -390,6 +390,10 @@ public class Combatant : MonoBehaviour
 
     public void Damage(float damage)
     {
+        if (b_isDead)
+        {
+            return;
+        }
         f_currentHealth -= damage;
         StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, f_invincibleTime));
         if (f_currentHealth <= 0)

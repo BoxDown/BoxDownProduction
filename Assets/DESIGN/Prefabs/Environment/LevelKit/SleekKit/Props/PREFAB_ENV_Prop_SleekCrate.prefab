@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7409573367185128824}
+  - component: {fileID: 2814259779503399872}
   m_Layer: 0
   m_Name: PREFAB_ENV_Prop_SleekCrate
   m_TagString: Untagged
@@ -33,6 +34,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2814259779503399872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722544649969515120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3733afbddd26b0e49a3658bd1101fa6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  f_health: 50
 --- !u!1 &6383896601878853292
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,7 +104,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6883682874841052880}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0.25, z: -0.25}
+  m_LocalPosition: {x: 0, y: 0.287, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -108,7 +122,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5, z: 0.5}
+  m_Size: {x: 0.55, y: 0.55, z: 0.55}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &3119825337970927509
 PrefabInstance:
@@ -172,6 +186,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8095637814363714002, guid: e31325ef9c66d944b84a9f15f36d82bb,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: de611a50458196e4fb242c7901d17e3f, type: 2}
     - target: {fileID: -7511558181221131132, guid: e31325ef9c66d944b84a9f15f36d82bb,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

@@ -354,7 +354,7 @@ namespace Gun
                 return;
             }
             GameObject newHit = Instantiate(C_hitEffect, position, Quaternion.Euler(-transform.forward));
-            newHit.transform.localScale = new Vector3(S_baseInformation.f_size, S_baseInformation.f_size, S_baseInformation.f_size) * 2;
+            newHit.transform.localScale = new Vector3(S_baseInformation.f_size, S_baseInformation.f_size, S_baseInformation.f_size) * 4;
             if(newHit.GetComponentInChildren<VisualEffect>() != null)
             {
                 newHit.GetComponentInChildren<VisualEffect>().Play();

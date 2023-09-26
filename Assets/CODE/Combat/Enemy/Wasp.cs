@@ -20,6 +20,11 @@ namespace Enemy
         {
             base.Update();
             MeleeDamage();
+            if (C_player.b_isDead)
+            {
+                CancelGun();
+                return;
+            }
             if (!b_debugFire)
             {
                 return;

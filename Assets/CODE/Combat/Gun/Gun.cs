@@ -42,6 +42,21 @@ namespace Gun
 
 
         [Rename("Muzzle Transform")] public Transform C_muzzle;
+        [Space(10)]
+
+        [Header("LEAVE NULL UNLESS PLAYER")]
+        [Rename("Trigger Transform")] public Transform C_trigger;
+        [Rename("Clip Transform")] public Transform C_clip;
+        [Rename("Barrel Transform")] public Transform C_barrel;
+
+        [Rename("Trigger Joint")] public Transform C_triggerJoint;
+        [Rename("Clip Joint")] public Transform C_clipJoint;
+        [Rename("Barrel Joint")] public Transform C_barrelJoint;
+
+
+
+        [Space(10)]
+
         [Rename("Debug Gun")] public bool b_debugGun = false;
 
         private Vector3 S_muzzlePosition
@@ -67,11 +82,11 @@ namespace Gun
 
         [Header("Bullet Colours")]
         //[Rename("Bullet Material")] public Material C_bulletMaterial;
-        [Rename("Standard Colour"), ColorUsage(true,true)] public Color S_standardColour = new Color(0.75f, 0.5f, 0.2f, 1);
-        [Rename("Fire Colour"), ColorUsage(true,true)] public Color S_fireColour = new Color(1f, 0.2f, 0f, 1);
-        [Rename("Ice Colour"), ColorUsage(true,true)] public Color S_iceColour = new Color(0.35f, 0.8f, 0.7f, 1);
-        [Rename("Lightning Colour"), ColorUsage(true,true)] public Color S_lightningColour = new Color(1f, 1f, 0.25f, 1);
-        [Rename("Vampire Colour"), ColorUsage(true,true)] public Color S_vampireColour = new Color(0.5f, 0.8f, 0.1f, 1);
+        [Rename("Standard Colour"), ColorUsage(true, true)] public Color S_standardColour = new Color(0.75f, 0.5f, 0.2f, 1);
+        [Rename("Fire Colour"), ColorUsage(true, true)] public Color S_fireColour = new Color(1f, 0.2f, 0f, 1);
+        [Rename("Ice Colour"), ColorUsage(true, true)] public Color S_iceColour = new Color(0.35f, 0.8f, 0.7f, 1);
+        [Rename("Lightning Colour"), ColorUsage(true, true)] public Color S_lightningColour = new Color(1f, 1f, 0.25f, 1);
+        [Rename("Vampire Colour"), ColorUsage(true, true)] public Color S_vampireColour = new Color(0.5f, 0.8f, 0.1f, 1);
 
 
         [Space(15)]
@@ -211,7 +226,7 @@ namespace Gun
             // read clip size and current bullet count and reload time
             // reload 1 at a time,
             //optional cancelleable reload
-            if(i_currentAmmo  < i_clipSize)
+            if (i_currentAmmo < i_clipSize)
             {
                 StartCoroutine(ReloadAfterTime());
                 StartReloadAnimation();
@@ -261,6 +276,23 @@ namespace Gun
                 return;
             }
 
+            if (C_gunHolder.CompareTag("Player"))
+            {
+                Destroy(C_trigger.gameObject);
+
+                C_trigger = Instantiate(gunModule.C_meshPrefab).transform;
+                C_trigger.gameObject.tag = "Player";
+                if (C_trigger.GetComponent<Collider>() != null)
+                {
+                    Destroy(C_trigger.GetComponent<Collider>());
+                }
+
+                C_trigger.parent = C_triggerJoint;
+                C_trigger.localPosition = Vector3.zero;
+                C_trigger.localRotation = Quaternion.Euler(new Vector3(0, 0, 90));
+                C_trigger.localScale = Vector3.one;
+            }
+
             f_baseDamage = gunModule.f_baseDamage;
             f_fireRate = gunModule.f_fireRate;
             f_bulletSpeed = gunModule.f_bulletSpeed;
@@ -276,6 +308,24 @@ namespace Gun
                 return;
             }
 
+
+            if (C_gunHolder.CompareTag("Player"))
+            {
+                Destroy(C_clip.gameObject);
+
+                C_clip = Instantiate(gunModule.C_meshPrefab).transform;
+                C_clip.gameObject.tag = "Player";
+                if (C_clip.GetComponent<Collider>() != null)
+                {
+                    Destroy(C_clip.GetComponent<Collider>());
+                }
+
+                C_clip.parent = C_clipJoint;
+                C_clip.localPosition = Vector3.zero;
+                C_clip.localRotation = Quaternion.Euler(new Vector3(0, 0, 90));
+                C_clip.localScale = Vector3.one;
+            }
+
             f_reloadSpeed = gunModule.f_reloadSpeed;
             f_movementPenalty = gunModule.f_movementPenalty;
             i_clipSize = gunModule.i_clipSize;
@@ -287,6 +337,24 @@ namespace Gun
             if (gunModule.e_moduleType != GunModule.ModuleSection.Barrel)
             {
                 return;
+            }
+
+            if (C_gunHolder.CompareTag("Player"))
+            {
+                Destroy(C_barrel.gameObject);
+
+                C_barrel = Instantiate(gunModule.C_meshPrefab).transform;
+                C_barrel.gameObject.tag = "Player";
+                if (C_barrel.GetComponent<Collider>() != null)
+                {
+                    Destroy(C_barrel.GetComponent<Collider>());
+                }
+
+
+                C_barrel.parent = C_barrelJoint;
+                C_barrel.localPosition = Vector3.zero;
+                C_barrel.localRotation = Quaternion.Euler(new Vector3(0, 0, 90));
+                C_barrel.localScale = Vector3.one;
             }
 
             f_bulletSize = gunModule.f_bulletSize;

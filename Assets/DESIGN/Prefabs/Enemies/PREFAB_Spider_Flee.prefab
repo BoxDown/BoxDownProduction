@@ -45,6 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   C_muzzle: {fileID: 0}
+  C_trigger: {fileID: 0}
+  C_clip: {fileID: 0}
+  C_barrel: {fileID: 0}
+  C_triggerJoint: {fileID: 0}
+  C_clipJoint: {fileID: 0}
+  C_barrelJoint: {fileID: 0}
   b_debugGun: 0
   C_gunHolder: {fileID: 3302032431299373885}
   aC_moduleArray:
@@ -205,9 +211,8 @@ MonoBehaviour:
   C_ownedGun: {fileID: 2949849303657169442}
   b_debugRespawn: 0
   f_respawnTime: 5
-  C_defaultMaterial: {fileID: 0}
-  C_dodgeMaterial: {fileID: 0}
   C_onHitEffects: {fileID: 0}
+  C_renderer: {fileID: 6510376702933340302}
   e_combatState: 0
   b_isDead: 0
   b_lockEnemyPosition: 0
@@ -312,6 +317,12 @@ PrefabInstance:
 --- !u!4 &1842110396327343033 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a6edfbe68a2e24d42badae93213db1cc,
+    type: 3}
+  m_PrefabInstance: {fileID: 2169262603540911186}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &6510376702933340302 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4918851935006246108, guid: a6edfbe68a2e24d42badae93213db1cc,
     type: 3}
   m_PrefabInstance: {fileID: 2169262603540911186}
   m_PrefabAsset: {fileID: 0}

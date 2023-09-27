@@ -24,18 +24,20 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MAT_CHA_Spider
-  m_Shader: {fileID: 4800000, guid: 6e4ae4064600d784cac1e41a9e6f2e59, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 5649061d8ef6efe44ba522411f90ac78,
+    type: 3}
   m_ValidKeywords:
   - _DISABLE_SSR_TRANSPARENT
+  m_InvalidKeywords:
   - _MASKMAP
   - _NORMALMAP
   - _NORMALMAP_TANGENT_SPACE
-  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2225
-  stringTagMap: {}
+  stringTagMap:
+    MotionVector: User
   disabledShaderPasses:
   - TransparentDepthPrepass
   - TransparentDepthPostpass
@@ -53,6 +55,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: a5452b5c9a4ecac4f9137436630f4179, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Base_Colour:
+        m_Texture: {fileID: 2800000, guid: a5452b5c9a4ecac4f9137436630f4179, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BentNormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -66,6 +72,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Emission:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -89,8 +99,16 @@ Material:
         m_Texture: {fileID: 2800000, guid: a5452b5c9a4ecac4f9137436630f4179, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 2800000, guid: 74918449b450dbc4980c5abf9c5f2db7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MaskMap:
         m_Texture: {fileID: 2800000, guid: 74918449b450dbc4980c5abf9c5f2db7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 2800000, guid: ea9cf517b8310d84e9f36132d922cc5b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
@@ -156,6 +174,7 @@ Material:
     - _Anisotropy: 0
     - _BlendMode: 0
     - _CoatMask: 0
+    - _ConservativeDepthOffsetEnable: 0
     - _CullMode: 2
     - _CullModeForward: 2
     - _Cutoff: 0.5
@@ -168,10 +187,16 @@ Material:
     - _DisplacementLockObjectScale: 1
     - _DisplacementLockTilingScale: 1
     - _DisplacementMode: 0
+    - _Dodge_amount: 0
+    - _Dodge_fresnel_strength: 4
     - _DoubleSidedEnable: 0
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 1
     - _DstBlend: 0
+    - _Electric_amount: 0
+    - _Electric_scale: 0.5
+    - _Electric_speed: 2
+    - _Emission_Multiplier: 0
     - _EmissiveColorMode: 1
     - _EmissiveExposureWeight: 1
     - _EmissiveIntensity: 1
@@ -180,6 +205,13 @@ Material:
     - _EnableFogOnTransparent: 1
     - _EnableGeometricSpecularAA: 0
     - _EnergyConservingSpecularColor: 1
+    - _Fire_Amount: 0
+    - _Fire_Speed: 1
+    - _Fire_scale: 5
+    - _Frozen_On_Off: 0
+    - _Health_up_amount: 0
+    - _Health_up_scale: 0.5
+    - _Health_up_strength: 3
     - _HeightAmplitude: 0.02
     - _HeightCenter: 0.5
     - _HeightMapParametrization: 0
@@ -189,6 +221,10 @@ Material:
     - _HeightPoMAmplitude: 2
     - _HeightTessAmplitude: 2
     - _HeightTessCenter: 0.5
+    - _Hit_amount: 0
+    - _Ice_amount: 0
+    - _Ice_scale: 5
+    - _Ice_speed: 1
     - _InvTilingScale: 1
     - _Ior: 1.5
     - _IridescenceMask: 1
@@ -210,6 +246,8 @@ Material:
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
     - _RefractionModel: 0
+    - _RenderQueueType: 1
+    - _RequireSplitLighting: 0
     - _Smoothness: 0.5
     - _SmoothnessRemapMax: 1
     - _SmoothnessRemapMin: 0
@@ -219,10 +257,12 @@ Material:
     - _SrcBlend: 1
     - _StencilRef: 0
     - _StencilRefDepth: 8
+    - _StencilRefDistortionVec: 4
     - _StencilRefGBuffer: 10
     - _StencilRefMV: 40
     - _StencilWriteMask: 6
     - _StencilWriteMaskDepth: 8
+    - _StencilWriteMaskDistortionVec: 4
     - _StencilWriteMaskGBuffer: 14
     - _StencilWriteMaskMV: 40
     - _SubsurfaceMask: 1
@@ -244,19 +284,29 @@ Material:
     - _UVEmissive: 0
     - _UseEmissiveIntensity: 0
     - _UseShadowThreshold: 0
+    - _Vamp_Speed: 0.4
+    - _Vamp_Strength: 3
+    - _Vamp_amount: 0
     - _ZTestDepthEqualForOpaque: 3
     - _ZTestGBuffer: 4
     - _ZTestTransparent: 4
     - _ZWrite: 1
+    - _health_up_speed: -0.4
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
+    - _Dodge_colour: {r: 0, g: 6.27451, b: 32, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
+    - _Electric_Colour: {r: 1, g: 0.6651313, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
+    - _Fire_Colour: {r: 1, g: 0.02967834, b: 0, a: 0}
+    - _Health_up_colour: {r: 0.1303961, g: 1, b: 0, a: 0}
+    - _Hit_colour: {r: 1, g: 0, b: 0, a: 0}
+    - _Ice_base_colour: {r: 0.7562745, g: 0.9168311, b: 0.9716981, a: 0}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
@@ -265,4 +315,7 @@ Material:
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
+    - _UV_Tiling: {r: 1, g: 1, b: 0, a: 0}
+    - _UV_offset: {r: 0, g: 0, b: 0, a: 0}
+    - _Vamp_colour: {r: 1.427451, g: 2.227451, b: 0.4235294, a: 0}
   m_BuildTextureStacks: []

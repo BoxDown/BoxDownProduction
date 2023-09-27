@@ -61,9 +61,8 @@ public class Combatant : MonoBehaviour
     [Space(4)]
 
     [Header("Visuals")]
-    [Rename("Default Material")] public Material C_defaultMaterial;
-    [Rename("Dodge Material")] public Material C_dodgeMaterial;
     [Rename("Hit VFX")] public GameObject C_onHitEffects;
+    [Rename("Renderer")] public Renderer C_renderer;
 
 
 
@@ -89,7 +88,7 @@ public class Combatant : MonoBehaviour
 
     protected bool b_hasAnimator = false;
     protected Animator C_animator = null;
-
+    protected Material C_material = null;
 
 
 
@@ -137,6 +136,7 @@ public class Combatant : MonoBehaviour
         {
             b_hasAnimator = true;
         }
+        C_material = C_renderer.material = new Material(C_renderer.material);
     }
 
     protected virtual void Update()
@@ -395,6 +395,7 @@ public class Combatant : MonoBehaviour
             return;
         }
         f_currentHealth -= damage;
+        TurnOnHit();
         StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, f_invincibleTime));
         if (f_currentHealth <= 0)
         {
@@ -602,6 +603,29 @@ public class Combatant : MonoBehaviour
         lC_lightningHits.Clear();
     }
 
+    //Shader Functions
+
+    public void TurnOnHit()
+    {
+        C_material.SetFloat("_Hit_amount", 1);
+    }
+    public void TurnOffHit()
+    {
+        C_material.SetFloat("_Hit_amount", 0);
+    }
+
+    public void TurnOnDodge()
+    {
+        C_material.SetFloat("_Dodge_amount", 1);
+    }
+    public void TurnOffDodge()
+    {
+        C_material.SetFloat("_Dodge_amount", 0);
+    }
+
+
+
+
 
     #endregion
 
@@ -618,6 +642,8 @@ public class Combatant : MonoBehaviour
         ChangeState(state);
         yield return new WaitForSeconds(seconds);
         ChangeState(CombatState.Normal);
+        TurnOffHit();
+
     }
 
     //set invincible, don't let player control direction
@@ -634,11 +660,6 @@ public class Combatant : MonoBehaviour
 
 
         ChangeState(CombatState.Dodge);
-        Renderer[] renders = GetComponentsInChildren<Renderer>();
-        for (int i = 0; i < renders.Length; i++)
-        {
-            renders[i].material = C_dodgeMaterial;
-        }
         Vector3 startPosition = transform.localPosition;
         float dodgeDistance = f_dodgeLength;
         float dodgeTime = f_dodgeTime;
@@ -663,10 +684,6 @@ public class Combatant : MonoBehaviour
         }
 
         ChangeState(CombatState.Normal);
-        for (int i = 0; i < renders.Length; i++)
-        {
-            renders[i].material = C_defaultMaterial;
-        } 
         if (!b_fireCancelWhileDodging && firingAtStartOfDodge)
         {
             C_ownedGun.StartFire();

@@ -24,9 +24,6 @@ namespace Gun
             C_bulletMesh = new Mesh();
             C_bulletMesh.name = C_gun.C_gunHolder.name + ": Bullet Mesh";
             C_bulletMaterial.name = C_gun.C_gunHolder.name + ": Bullet Material";
-            C_bulletMaterial.SetInt("_UseEmissiveIntensity", 1);
-            C_bulletMaterial.SetInt("_EmissiveIntensityUnit", 0);
-            C_bulletMaterial.SetFloat("_EmissiveIntensity", Mathf.Pow(2, C_gun.f_emissiveValue) * (4 * Mathf.PI) * 0.01f);
 
 
             for (int i = 0; i < i_totalBullets; i++)
@@ -40,9 +37,11 @@ namespace Gun
                 lC_freeBullets.Add(bulletRef);
                 lC_allBullets.Add(bulletRef);
 
+                bulletRef.C_hitEffect = C_gun.C_standardBulletHit;
+
                 if (C_gun.C_bulletTrail != null)
                 {
-                    bulletRef.C_visualEffect = Instantiate(C_gun.C_bulletTrail, obj.transform).GetComponentInChildren<VisualEffect>();
+                    bulletRef.C_trailEffect = Instantiate(C_gun.C_bulletTrail, obj.transform).GetComponentInChildren<VisualEffect>();
                 }
 
                 obj.SetActive(false);
@@ -94,7 +93,7 @@ namespace Gun
                     bulletRef.C_poolOwner = this;
                     if (C_gun.C_bulletTrail != null)
                     {
-                        bulletRef.C_visualEffect = Instantiate(C_gun.C_bulletTrail, obj.transform).GetComponentInChildren<VisualEffect>();
+                        bulletRef.C_trailEffect = Instantiate(C_gun.C_bulletTrail, obj.transform).GetComponentInChildren<VisualEffect>();
                     }
                     lC_allBullets.Add(bulletRef);
                     lC_freeBullets.Add(bulletRef);
@@ -162,8 +161,7 @@ namespace Gun
                     break;
             }
 
-            C_bulletMaterial.SetColor("_EmissiveColorLDR", materialColour * Mathf.Pow(2, C_gun.f_emissiveValue) * (4 * Mathf.PI) * 0.01f);
-            C_bulletMaterial.SetColor("_EmissiveColor", materialColour * Mathf.Pow(2, C_gun.f_emissiveValue) * (4 * Mathf.PI) * 0.01f);
+            C_bulletMaterial.SetColor("_EmissiveColor", materialColour);
             C_bulletMesh.SetVertexBufferParams(bulletMesh.vertexCount);
             C_bulletMesh.SetVertices(bulletMesh.vertices);
             C_bulletMesh.SetNormals(bulletMesh.normals);

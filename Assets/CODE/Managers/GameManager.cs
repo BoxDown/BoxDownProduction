@@ -117,6 +117,8 @@ namespace Managers
         public void GrabAllGunModules()
         {
             ls_allGunModulesNames = TextDocumentReadWrite.ReadTextAsset(C_allGunModules).ToList();
+
+
         }
 
         private void GroupGunModules()
@@ -305,6 +307,11 @@ namespace Managers
                         randomNumber -= 1 / chanceToTake;
                         if (randomNumber <= 0)
                         {
+                            if(ls_triggerGunModulesNames[i].Split("\\")[1] == C_player.C_ownedGun.aC_moduleArray[0].name)
+                            {
+                                GetRandomModule(e_currentRewardType);
+                                return;
+                            }
                             GunModuleSpawner.SpawnGunModule(ls_triggerGunModulesNames[i], S_rewardPoint);
                             break;
                         }
@@ -325,6 +332,11 @@ namespace Managers
                         randomNumber -= 1 / chanceToTake;
                         if (randomNumber <= 0)
                         {
+                            if (ls_clipGunModulesNames[i].Split("\\")[1] == C_player.C_ownedGun.aC_moduleArray[1].name)
+                            {
+                                GetRandomModule(e_currentRewardType);
+                                return;
+                            }
                             GunModuleSpawner.SpawnGunModule(ls_clipGunModulesNames[i], S_rewardPoint);
                             break;
                         }
@@ -344,6 +356,11 @@ namespace Managers
                         randomNumber -= 1 / chanceToTake;
                         if (randomNumber <= 0)
                         {
+                            if (ls_barrelGunModulesNames[i].Split("\\")[1] == C_player.C_ownedGun.aC_moduleArray[2].name)
+                            {
+                                GetRandomModule(e_currentRewardType);
+                                return;
+                            }
                             GunModuleSpawner.SpawnGunModule(ls_barrelGunModulesNames[i], S_rewardPoint);
                             break;
                         }
@@ -363,6 +380,21 @@ namespace Managers
                         randomNumber -= 1 / chanceToTake;
                         if (randomNumber <= 0)
                         {
+                            if (ls_allGunModulesNames[i].Split("\\")[1] == C_player.C_ownedGun.aC_moduleArray[0].name)
+                            {
+                                GetRandomModule(e_currentRewardType);
+                                return;
+                            }
+                            if (ls_allGunModulesNames[i].Split("\\")[1] == C_player.C_ownedGun.aC_moduleArray[1].name)
+                            {
+                                GetRandomModule(e_currentRewardType);
+                                return;
+                            }
+                            if (ls_allGunModulesNames[i].Split("\\")[1] == C_player.C_ownedGun.aC_moduleArray[2].name)
+                            {
+                                GetRandomModule(e_currentRewardType);
+                                return;
+                            }
                             GunModuleSpawner.SpawnGunModule(ls_allGunModulesNames[i], S_rewardPoint);
                             break;
                         }

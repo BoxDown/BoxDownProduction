@@ -35,6 +35,7 @@ namespace Managers
         {
             GameManager.gameManager.UpdateRewardPoint(S_rewardPosition);
             PlayerController player = FindObjectOfType<PlayerController>();
+            C_manager = GetComponent<PolyBrushManager>();
             player.SetPlayerPosition(S_spawnPosition);
             switch (e_entranceDirection)
             {
@@ -56,7 +57,7 @@ namespace Managers
                     break;
             }
             aC_doorsInLevel = FindObjectsOfType<Door>();
-            if (C_manager)
+            if (C_manager != null)
             {
                 C_manager.ResetGoo();
             }
@@ -84,7 +85,7 @@ namespace Managers
                 {
                     SpawnReward();
                     UnlockAllDoors();
-                    if (C_manager)
+                    if (C_manager != null)
                     {
                         C_manager.RemoveSpaceGoo();
                     }

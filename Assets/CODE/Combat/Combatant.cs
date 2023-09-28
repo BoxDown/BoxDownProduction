@@ -65,6 +65,10 @@ public class Combatant : MonoBehaviour
     [Rename("Renderer")] public Renderer C_renderer;
 
 
+    [Header("Cheats")]
+    [Rename("Infinite Health")] public bool b_infiniteHealth;
+
+
 
 
     /// <summary>
@@ -279,7 +283,7 @@ public class Combatant : MonoBehaviour
 
     protected void Dodge()
     {
-        if(i_currentDodgeCount > 0)
+        if (i_currentDodgeCount > 0)
         {
             i_currentDodgeCount--;
             StartCoroutine(DodgeRoutine());
@@ -390,6 +394,7 @@ public class Combatant : MonoBehaviour
 
     public void Damage(float damage)
     {
+
         if (b_isDead)
         {
             return;
@@ -397,6 +402,11 @@ public class Combatant : MonoBehaviour
         f_currentHealth -= damage;
         TurnOnHit();
         StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, f_invincibleTime));
+        if (b_infiniteHealth)
+        {
+            StartCoroutine(HealAfterSeconds(f_invincibleTime, damage));
+            return;
+        }
         if (f_currentHealth <= 0)
         {
             f_currentHealth = 0;
@@ -406,8 +416,15 @@ public class Combatant : MonoBehaviour
 
     public void Heal(float heal)
     {
+        if(f_currentHealth == f_maxHealth)
+        {
+            return;
+        }
+
         f_currentHealth += heal;
         f_currentHealth = Mathf.Clamp(f_currentHealth, 0, f_maxHealth);
+        SetHealthAmount(Utility.ExtraMaths.Map(0,1,0.6f,1,(heal / f_maxHealth)));
+        StartCoroutine(StopHealAfterSeconds(1f));
     }
 
     public virtual void Die()
@@ -523,6 +540,12 @@ public class Combatant : MonoBehaviour
     public void SetLightningEffected(bool effected)
     {
         b_lightingEffected = effected;
+        if (b_lightingEffected)
+        {
+            TurnOnElectric();
+            return;
+        }
+        TurnOffElectric();
     }
 
 
@@ -535,6 +558,7 @@ public class Combatant : MonoBehaviour
             case GunModule.BulletEffect.Fire:
                 if (e_combatState != CombatState.Burn)
                 {
+                    TurnOnFire();
                     StartCoroutine(DamageTicksForSecond(bulletEffectInfo.i_amountOfTicks, bulletEffectInfo.f_effectTime, bulletEffectInfo.f_tickDamage));
                 }
                 break;
@@ -551,26 +575,32 @@ public class Combatant : MonoBehaviour
                     {
                         e_combatState = CombatState.Frozen;
                         S_velocity = Vector3.zero;
+                        TurnOnFrozen();
+                        SetIceAmount(1 - f_slowMultiplier);
                         StartCoroutine(ResetAfterFrozen(bulletEffectInfo.f_effectTime / bulletEffectInfo.f_slowPercent));
                         break;
                     }
                     StartCoroutine(SpeedUpAfterTime(bulletEffectInfo.f_effectTime, bulletEffectInfo.f_slowPercent));
+                    SetIceAmount(1 - f_slowMultiplier);
                     break;
                 }
                 break;
             case GunModule.BulletEffect.Lightning:
+                SetLightningEffected(true);
                 if (baseInfo.b_playerOwned)
                 {
-                    LightningChainCheck(bulletEffectInfo.f_chainLength, bulletEffectInfo.f_chainDamagePercent * baseInfo.f_damage);
-                    f_debugLightningSize = bulletEffectInfo.f_chainLength;
-                    if (!b_isDead)
-                    {
-                        StartCoroutine(ClearLightningChainAfterSeconds(bulletEffectInfo.f_effectTime));
-                    }
+                    LightningChainCheck(bulletEffectInfo.f_chainLength, bulletEffectInfo.f_chainDamagePercent * baseInfo.f_damage, bulletEffectInfo.f_effectTime);
+                }
+                f_debugLightningSize = bulletEffectInfo.f_chainLength;
+                if (!b_isDead)
+                {
+                    StartCoroutine(ClearLightningChainAfterSeconds(bulletEffectInfo.f_effectTime));
                 }
                 break;
             case GunModule.BulletEffect.Vampire:
                 baseInfo.C_bulletOwner.Heal(baseInfo.f_damage * bulletEffectInfo.f_vampirePercent);
+                TurnOnVampire();
+                StartCoroutine(StopVampireAfterSeconds(1f));
                 break;
         }
     }
@@ -580,7 +610,7 @@ public class Combatant : MonoBehaviour
         e_combatState = state;
     }
 
-    public void LightningChainCheck(float chainRange, float chainDamage)
+    public void LightningChainCheck(float chainRange, float chainDamage, float effectTime)
     {
         Collider[] overlaps = Physics.OverlapSphere(transform.position, chainRange);
         for (int i = 0; i < overlaps.Length; i++)
@@ -589,7 +619,8 @@ public class Combatant : MonoBehaviour
             if (combatant != null && !combatant.CompareTag("Player"))
             {
                 combatant.Damage(chainDamage);
-                SetLightningEffected(true);
+                combatant.SetLightningEffected(true);
+                StartCoroutine(combatant.ClearLightningChainAfterSeconds(effectTime));
                 lC_lightningHits.Add(combatant.transform);
                 //TO DO
                 //SPAWN LIGHNING EFFECT
@@ -604,7 +635,7 @@ public class Combatant : MonoBehaviour
     }
 
     //Shader Functions
-
+    #region ShaderFunctions
     public void TurnOnHit()
     {
         C_material.SetFloat("_Hit_amount", 1);
@@ -622,14 +653,73 @@ public class Combatant : MonoBehaviour
     {
         C_material.SetFloat("_Dodge_amount", 0);
     }
+    public void SetHealthAmount(float healthAmount)
+    {
+        C_material.SetFloat("_Health_up_amount", healthAmount);
+    }
+    public void TurnOffHealth()
+    {
+        C_material.SetFloat("_Health_up_amount", 0);
+    }
 
-
-
-
+    public void TurnOnFire()
+    {
+        C_material.SetFloat("_Fire_Amount", 1);
+    }
+    public void TurnOffFire()
+    {
+        C_material.SetFloat("_Fire_Amount", 0);
+    }
+    public void SetIceAmount(float iceAmount)
+    {
+        C_material.SetFloat("_Ice_amount", iceAmount);
+    }
+    public void TurnOnFrozen()
+    {
+        C_material.SetFloat("_Frozen_On_Off", 1);
+    }
+    public void TurnOffFrozen()
+    {
+        C_material.SetFloat("_Frozen_On_Off", 0);
+    }
+    public void TurnOnElectric()
+    {
+        C_material.SetFloat("_Electric_amount", 1);
+    }
+    public void TurnOffElectric()
+    {
+        C_material.SetFloat("_Electric_amount", 0);
+    }
+    public void TurnOnVampire()
+    {
+        C_material.SetFloat("_Vamp_amount", 1);
+    }
+    public void TurnOffVampire()
+    {
+        C_material.SetFloat("_Vamp_amount", 0);
+    }
+    #endregion
 
     #endregion
 
     #region Coroutines
+
+    private IEnumerator HealAfterSeconds(float time, float healAmount)
+    {
+        yield return new WaitForSeconds(time);
+        Heal(healAmount);
+    }
+
+    private IEnumerator StopVampireAfterSeconds(float time)
+    {
+        yield return new WaitForSeconds(time);
+        TurnOffVampire();
+    }
+    private IEnumerator StopHealAfterSeconds(float time)
+    {
+        yield return new WaitForSeconds(time);
+        TurnOffHealth();
+    }
 
     private IEnumerator ClearLightningChainAfterSeconds(float seconds)
     {
@@ -643,7 +733,6 @@ public class Combatant : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         ChangeState(CombatState.Normal);
         TurnOffHit();
-
     }
 
     //set invincible, don't let player control direction
@@ -660,6 +749,11 @@ public class Combatant : MonoBehaviour
 
 
         ChangeState(CombatState.Dodge);
+        TurnOnDodge();
+        if(C_animator != null)
+        {
+            C_animator.SetBool("Dodge", true);
+        }
         Vector3 startPosition = transform.localPosition;
         float dodgeDistance = f_dodgeLength;
         float dodgeTime = f_dodgeTime;
@@ -690,6 +784,11 @@ public class Combatant : MonoBehaviour
         }
         b_fireCancelWhileDodging = false;
         b_dodgeCanceled = false;
+        TurnOffDodge();
+        if (C_animator != null)
+        {
+            C_animator.SetBool("Dodge", false);
+        }
         StartCoroutine(StartDodgeRecovery());
     }
 
@@ -697,9 +796,9 @@ public class Combatant : MonoBehaviour
     {
         float startTime = Time.time;
 
-        while(Time.time - startTime < f_dodgeRecoveryTime)
+        while (Time.time - startTime < f_dodgeRecoveryTime)
         {
-            yield return 0;            
+            yield return 0;
         }
         i_currentDodgeCount++;
     }
@@ -717,6 +816,7 @@ public class Combatant : MonoBehaviour
             f_slowMultiplier = 0;
         }
         Mathf.Clamp01(f_slowMultiplier);
+        SetIceAmount(1 - f_slowMultiplier);
     }
 
     protected IEnumerator ResetAfterFrozen(float effectTime)
@@ -725,6 +825,8 @@ public class Combatant : MonoBehaviour
         S_velocity = Vector3.zero;
         f_slowMultiplier = 1;
         ChangeState(CombatState.Normal);
+        SetIceAmount(1 - f_slowMultiplier);
+        TurnOffFrozen();
     }
 
     protected IEnumerator DamageTicksForSecond(int tickCount, float seconds, float damage)
@@ -737,7 +839,7 @@ public class Combatant : MonoBehaviour
             Damage(damage);
             yield return new WaitForSeconds(timeToWaitForTicks);
         }
-
+        TurnOffFire();
         yield return null;
     }
 

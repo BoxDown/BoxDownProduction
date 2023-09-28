@@ -289,6 +289,9 @@ namespace Gun
             switch (S_bulletEffect.e_bulletEffect)
             {
                 case BulletEffect.None:
+                    C_trailEffect.SetFloat("LeadDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                    C_trailEffect.SetVector2("Main", new Vector2(-0.5f, 0) * trailSpeedModifier);
+                    C_trailEffect.SetVector2("2nd", new Vector2(-1f, 0) * trailSpeedModifier);
                     break;
                 case BulletEffect.Fire:
                     //Set duration on current effect to be alive time of bullet
@@ -368,6 +371,7 @@ namespace Gun
             {
                 return;
             }
+            C_trailEffect.SetFloat("LeadDuration", 0);
             C_trailEffect.SetFloat("ElectricDuration", 0);
             C_trailEffect.SetFloat("FireDuration", 0);
             C_trailEffect.SetFloat("LeachDuration", 0);

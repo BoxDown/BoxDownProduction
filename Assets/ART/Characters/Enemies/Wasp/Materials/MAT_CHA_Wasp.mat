@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1422335400895298288
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da692e001514ec24dbc4cca1949ff7e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 12
-  hdPluginSubTargetMaterialVersions:
-    m_Keys: []
-    m_Values: 
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -23,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MAT_CHA_Spider
+  m_Name: MAT_CHA_Wasp
   m_Shader: {fileID: -6465566751694194690, guid: 5649061d8ef6efe44ba522411f90ac78,
     type: 3}
   m_ValidKeywords:
@@ -52,11 +36,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseColorMap:
-        m_Texture: {fileID: 2800000, guid: a5452b5c9a4ecac4f9137436630f4179, type: 3}
+        m_Texture: {fileID: 2800000, guid: 46d2a14ff276cc04e9080c5e8390f57f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Base_Colour:
-        m_Texture: {fileID: 2800000, guid: a5452b5c9a4ecac4f9137436630f4179, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BentNormalMap:
@@ -96,23 +80,23 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: a5452b5c9a4ecac4f9137436630f4179, type: 3}
+        m_Texture: {fileID: 2800000, guid: 46d2a14ff276cc04e9080c5e8390f57f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask:
-        m_Texture: {fileID: 2800000, guid: 74918449b450dbc4980c5abf9c5f2db7, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
-        m_Texture: {fileID: 2800000, guid: 74918449b450dbc4980c5abf9c5f2db7, type: 3}
+        m_Texture: {fileID: 2800000, guid: bc42ee9dcd327154185bb3ce542be7b8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
-        m_Texture: {fileID: 2800000, guid: ea9cf517b8310d84e9f36132d922cc5b, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: ea9cf517b8310d84e9f36132d922cc5b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 44bd7096fee204c4584223333fcb505d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMapOS:
@@ -305,7 +289,7 @@ Material:
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
     - _Fire_Colour: {r: 1, g: 0.02967834, b: 0, a: 0}
     - _Health_up_colour: {r: 0.1303961, g: 1, b: 0, a: 0}
-    - _Hit_colour: {r: 16, g: 0, b: 0, a: 0}
+    - _Hit_colour: {r: 11.984314, g: 0, b: 0, a: 0}
     - _Ice_base_colour: {r: 0.7562745, g: 0.9168311, b: 0.9716981, a: 0}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
@@ -319,3 +303,19 @@ Material:
     - _UV_offset: {r: 0, g: 0, b: 0, a: 0}
     - _Vamp_colour: {r: 1.427451, g: 2.227451, b: 0.4235294, a: 0}
   m_BuildTextureStacks: []
+--- !u!114 &1133653367177285029
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da692e001514ec24dbc4cca1949ff7e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 12
+  hdPluginSubTargetMaterialVersions:
+    m_Keys: []
+    m_Values: 

@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3426405913857524725
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da692e001514ec24dbc4cca1949ff7e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 12
-  hdPluginSubTargetMaterialVersions:
-    m_Keys: []
-    m_Values: 
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -23,21 +7,19 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MAT_Player
+  m_Name: MAT_CHA_Slug
   m_Shader: {fileID: -6465566751694194690, guid: 5649061d8ef6efe44ba522411f90ac78,
     type: 3}
   m_ValidKeywords:
-  - _DISABLE_DECALS
   - _DISABLE_SSR_TRANSPARENT
   m_InvalidKeywords:
-  - _EMISSIVE_COLOR_MAP
   - _MASKMAP
   - _NORMALMAP
   - _NORMALMAP_TANGENT_SPACE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 2225
   stringTagMap:
     MotionVector: User
   disabledShaderPasses:
@@ -54,11 +36,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseColorMap:
-        m_Texture: {fileID: 2800000, guid: bbd625a992fc90444b87d2f2a83238fa, type: 3}
+        m_Texture: {fileID: 2800000, guid: 46d2a14ff276cc04e9080c5e8390f57f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Base_Colour:
-        m_Texture: {fileID: 2800000, guid: bbd625a992fc90444b87d2f2a83238fa, type: 3}
+        m_Texture: {fileID: 2800000, guid: 46d2a14ff276cc04e9080c5e8390f57f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BentNormalMap:
@@ -78,11 +60,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Emission:
-        m_Texture: {fileID: 2800000, guid: ca4cece3252cf174c92283246853c4aa, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissiveColorMap:
-        m_Texture: {fileID: 2800000, guid: ca4cece3252cf174c92283246853c4aa, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HeightMap:
@@ -98,23 +80,23 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: bbd625a992fc90444b87d2f2a83238fa, type: 3}
+        m_Texture: {fileID: 2800000, guid: 46d2a14ff276cc04e9080c5e8390f57f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask:
-        m_Texture: {fileID: 2800000, guid: 3b5c649b889c4ec48b3c50a4fbdc3de2, type: 3}
+        m_Texture: {fileID: 2800000, guid: bc42ee9dcd327154185bb3ce542be7b8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
-        m_Texture: {fileID: 2800000, guid: 3b5c649b889c4ec48b3c50a4fbdc3de2, type: 3}
+        m_Texture: {fileID: 2800000, guid: bc42ee9dcd327154185bb3ce542be7b8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
-        m_Texture: {fileID: 2800000, guid: 55bd18482e7028b44850f50a55ccf9f3, type: 3}
+        m_Texture: {fileID: 2800000, guid: 44bd7096fee204c4584223333fcb505d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 55bd18482e7028b44850f50a55ccf9f3, type: 3}
+        m_Texture: {fileID: 2800000, guid: 44bd7096fee204c4584223333fcb505d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMapOS:
@@ -198,7 +180,7 @@ Material:
     - _Electric_amount: 0
     - _Electric_scale: 0.5
     - _Electric_speed: 2
-    - _Emission_Multiplier: 2
+    - _Emission_Multiplier: 0
     - _EmissiveColorMode: 1
     - _EmissiveExposureWeight: 1
     - _EmissiveIntensity: 1
@@ -233,8 +215,8 @@ Material:
     - _IridescenceThickness: 1
     - _LinkDetailsWithBase: 1
     - _MaterialID: 1
-    - _Metallic: 0.133
-    - _MetallicRemapMax: 0.99999994
+    - _Metallic: 0
+    - _MetallicRemapMax: 1
     - _MetallicRemapMin: 0
     - _NormalMapSpace: 0
     - _NormalScale: 1
@@ -250,7 +232,7 @@ Material:
     - _RefractionModel: 0
     - _RenderQueueType: 1
     - _RequireSplitLighting: 0
-    - _Smoothness: 0.379
+    - _Smoothness: 0.5
     - _SmoothnessRemapMax: 1
     - _SmoothnessRemapMin: 0
     - _SpecularAAScreenSpaceVariance: 0.1
@@ -268,7 +250,7 @@ Material:
     - _StencilWriteMaskGBuffer: 14
     - _StencilWriteMaskMV: 40
     - _SubsurfaceMask: 1
-    - _SupportDecals: 0
+    - _SupportDecals: 1
     - _SurfaceType: 0
     - _TexWorldScale: 1
     - _TexWorldScaleEmissive: 1
@@ -303,11 +285,11 @@ Material:
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _Electric_Colour: {r: 1, g: 0.6651313, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissiveColor: {r: 0.9411765, g: 1.9294118, b: 1.7333333, a: 1}
+    - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
     - _Fire_Colour: {r: 1, g: 0.02967834, b: 0, a: 0}
     - _Health_up_colour: {r: 0.1303961, g: 1, b: 0, a: 0}
-    - _Hit_colour: {r: 1, g: 0, b: 0, a: 0}
+    - _Hit_colour: {r: 11.984314, g: 0, b: 0, a: 0}
     - _Ice_base_colour: {r: 0.7562745, g: 0.9168311, b: 0.9716981, a: 0}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
@@ -321,3 +303,19 @@ Material:
     - _UV_offset: {r: 0, g: 0, b: 0, a: 0}
     - _Vamp_colour: {r: 1.427451, g: 2.227451, b: 0.4235294, a: 0}
   m_BuildTextureStacks: []
+--- !u!114 &1133653367177285029
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da692e001514ec24dbc4cca1949ff7e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 12
+  hdPluginSubTargetMaterialVersions:
+    m_Keys: []
+    m_Values: 

@@ -67,7 +67,7 @@ namespace Enemy
         public override void Die()
         {
             base.Die();
-            StartCoroutine(DeactivateAfterSeconds(2.5f));
+            StartCoroutine(DeactivateAfterSeconds(5f));
         }
 
         public void ReflectMovementDirection(Vector2 normal)

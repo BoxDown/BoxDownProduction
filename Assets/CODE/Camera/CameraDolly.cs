@@ -42,7 +42,7 @@ public class CameraDolly : MonoBehaviour
             Vector3 lookOffset = S_playerLookDirection * f_lookSrength;
             Vector3 nextCameraPos = (S_playerPosition + S_offsetVector) + lookOffset;
 
-            C_camera.transform.position = nextCameraPos;
+            C_camera.transform.position = Vector3.Lerp(C_camera.transform.position, nextCameraPos, ExtraMaths.Map(0, f_lookSrength, 0,1, Vector3.Distance(S_playerPosition, lookOffset)));
         }
     }
 }

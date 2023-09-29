@@ -438,8 +438,8 @@ public class Combatant : MonoBehaviour
         {
             C_animator.SetFloat("Death", 1);
         }
-        CancelGun();
         CancelDodge();
+        CancelGun();
 
         if (b_debugRespawn)
         {

@@ -78,7 +78,7 @@ namespace Gun
         //Visuals
         public GameObject C_hitEffect = null;
         [HideInInspector] public VisualEffect C_trailEffect;
-        private BulletEffect e_lastFiredBulletEffect = BulletEffect.None;
+        private BulletEffect e_lastFiredBulletEffect = BulletEffect.Count;
 
 
         void Update()
@@ -352,13 +352,13 @@ namespace Gun
         }
         private void SpawnHitEffect(Vector3 position)
         {
-            if(C_hitEffect == null)
+            if (C_hitEffect == null)
             {
                 return;
             }
             GameObject newHit = Instantiate(C_hitEffect, position, Quaternion.Euler(-transform.forward));
             newHit.transform.localScale = new Vector3(S_baseInformation.f_size, S_baseInformation.f_size, S_baseInformation.f_size) * 4;
-            if(newHit.GetComponentInChildren<VisualEffect>() != null)
+            if (newHit.GetComponentInChildren<VisualEffect>() != null)
             {
                 newHit.GetComponentInChildren<VisualEffect>().Play();
             }
@@ -382,10 +382,8 @@ namespace Gun
         {
             combatant.Damage(S_baseInformation.f_damage);
             combatant.AddVelocity(S_hitDirection * S_baseInformation.f_knockBack);
-            if (!combatant.b_isDead)
-            {
-                combatant.ApplyBulletElement(S_bulletEffect, S_baseInformation);
-            }
+            combatant.ApplyBulletElement(S_bulletEffect, S_baseInformation);
+
         }
 
         // bool returned early outs of update, if a bullet is destroyed return true else false

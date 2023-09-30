@@ -83,6 +83,10 @@ namespace Explosion
                 }
                 else if (combatant != null)
                 {
+                    if(combatant.e_combatState ==  Combatant.CombatState.Invincible || combatant.e_combatState == Combatant.CombatState.Dodge)
+                    {
+                        return;
+                    }
                     combatant.Damage(f_explosionDamage);
                     combatant.AddVelocity(hitDirection * (f_explosionKnockbackStrength * notCollisionDepth));
                     continue;

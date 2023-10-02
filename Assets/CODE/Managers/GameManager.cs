@@ -307,7 +307,7 @@ namespace Managers
                         randomNumber -= 1 / chanceToTake;
                         if (randomNumber <= 0)
                         {
-                            if(ls_triggerGunModulesNames[i].Split("\\")[1] == C_player.C_ownedGun.aC_moduleArray[0].name)
+                            if (ls_triggerGunModulesNames[i].Split("\\")[1] == C_player.C_ownedGun.aC_moduleArray[0].name)
                             {
                                 GetRandomModule(e_currentRewardType);
                                 return;
@@ -592,5 +592,99 @@ namespace Managers
             }
         }
         #endregion
+
+
+        #region Stats
+        int i_spidersKilled = 0;
+        int i_mitesKilled = 0;
+        int i_slugsKilled = 0;
+        int i_waspsKilled = 0;
+
+        int i_triggerSwaps = 0;
+        int i_clipSwaps = 0;
+        int i_barrelSwaps = 0;
+
+        int i_roomsCleared = 0;
+
+        float f_damageTaken = 0;
+        float f_healthRegained = 0;
+        int i_dodges = 0;
+        int i_bulletsFired = 0;
+        int i_bulletsHit = 0;
+        int i_environmentDestroyed = 0;
+        float f_runStartTime = 0;
+        float f_runEndTime = 0;
+        float f_averageTimePerRoom = 0;
+
+        static void IncrementSpiderKill()
+        {
+            gameManager.i_spidersKilled += 1;
+        }
+        static void IncrementMiteKill()
+        {
+            gameManager.i_mitesKilled += 1;
+        }
+        static void IncrementSlugKill()
+        {
+            gameManager.i_slugsKilled += 1;
+        }
+        static void IncrementWaspKill()
+        {
+            gameManager.i_waspsKilled += 1;
+        }
+        static void IncrementTriggerSwap()
+        {
+            gameManager.i_triggerSwaps += 1;
+        }
+        static void IncrementClipSwap()
+        {
+            gameManager.i_clipSwaps += 1;
+        }
+        static void IncrementBarrelSwap()
+        {
+            gameManager.i_barrelSwaps += 1;
+        }
+        static void IncrementRoomsCleared()
+        {
+            gameManager.i_roomsCleared += 1;
+        }
+        static float GetTimeTaken()
+        {
+            return gameManager.f_runEndTime - gameManager.f_runStartTime;
+        }
+        static float GetAverageTimePerRoom()
+        {
+            return (GetTimeTaken() / (float)gameManager.i_roomsCleared);
+        }
+        static void IncrementBulletsFired()
+        {
+            gameManager.i_bulletsFired += 1;
+        }
+        static void IncrementBulletsHit()
+        {
+            gameManager.i_bulletsHit += 1;
+        }
+        static float GetHitRate()
+        {
+            return ((float)gameManager.i_bulletsHit / (float)gameManager.i_bulletsFired) * 100f;
+        }
+        static void IncrementEnvironmentDestroyed()
+        {
+            gameManager.i_environmentDestroyed += 1;
+        }
+        static void IncrementDamageTaken(float damage)
+        {
+            gameManager.f_damageTaken += damage;
+        }
+        static void IncrementDamageHealed(float heal)
+        {
+            gameManager.f_healthRegained += heal;
+        }
+        static void IncrementDodges()
+        {
+            gameManager.i_dodges += 1;
+        }
+        #endregion
+
     }
 }

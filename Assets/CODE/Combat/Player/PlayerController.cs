@@ -78,7 +78,7 @@ public class PlayerController : Combatant
         if (ControlManager.GetControllerType() == ControlManager.ControllerType.KeyboardMouse)
         {
             Vector3 dir = new Vector3(inputValue.x, inputValue.y, 0) - Camera.main.WorldToScreenPoint(transform.position);
-            inputValue = Vector2.ClampMagnitude(new Vector2(dir.x, dir.y) / Screen.height, 1.0f);
+            inputValue = Vector2.ClampMagnitude((new Vector2(dir.x, dir.y) / Screen.height) * 2.5f, 1.0f);
             SetRotationDirection(inputValue);
         }
         else

@@ -35,6 +35,7 @@ namespace Managers
         [Rename("All Modules Document")] public TextAsset C_allGunModules;
 
         private Door.RoomType e_currentRewardType;
+        private GunModule[] aC_previousModules = new GunModule[3];
         private Vector3 S_rewardPoint;
         private List<string> ls_allGunModulesNames = new List<string>();
         private List<string> ls_triggerGunModulesNames = new List<string>();
@@ -117,8 +118,6 @@ namespace Managers
         public void GrabAllGunModules()
         {
             ls_allGunModulesNames = TextDocumentReadWrite.ReadTextAsset(C_allGunModules).ToList();
-
-
         }
 
         private void GroupGunModules()
@@ -140,6 +139,31 @@ namespace Managers
             }
         }
 
+        public void SetPreviousModules()
+        {
+            for (int i = 0; i < aC_previousModules.Count(); i++)
+            {
+                aC_previousModules[i] = C_player.C_ownedGun.aC_moduleArray[i];
+            }
+
+        }
+
+        private void CompareCurrentAndPreviousModules()
+        {
+            if (aC_previousModules[0] != C_player.C_ownedGun.aC_moduleArray[0])
+            {
+                IncrementTriggerSwap();
+            }
+            if (aC_previousModules[1] != C_player.C_ownedGun.aC_moduleArray[1])
+            {
+                IncrementClipSwap();
+            }
+            if (aC_previousModules[2] != C_player.C_ownedGun.aC_moduleArray[2])
+            {
+                IncrementBarrelSwap();
+            }
+        }
+
         private void IncrementRoom()
         {
             i_currentRoom++;
@@ -148,10 +172,10 @@ namespace Managers
         //what doors call
         public void MoveToNextRoom()
         {
+            CompareCurrentAndPreviousModules();
             LoadNextRoom();
+            SetPreviousModules();
         }
-
-
         private void LoadNextRoom()
         {
             int roomNumberToLoad = 0;
@@ -264,7 +288,6 @@ namespace Managers
         {
             ls_allLevels = TextDocumentReadWrite.ReadTextAsset(C_allLevels).ToList();
         }
-
         private void LoadGunModuleStringsAsModules()
         {
             foreach (string gunModuleName in ls_allGunModulesNames)
@@ -417,10 +440,12 @@ namespace Managers
         public static void StartGameEndless()
         {
             gameManager.b_endlessMode = true;
+            gameManager.ResetAllStats();
             gameManager.i_currentRoom = 0;
             gameManager.e_currentRewardType = Door.RoomType.None;
             DeactivateMainMenu();
             InGameUI.ActivateInGameUI();
+            SetStartTime();
             SceneManager.LoadScene("StartBreakRoom");
         }
         public static void OpenOptionsMenu()
@@ -446,21 +471,20 @@ namespace Managers
             gameManager.RemovePlayer();
             gameManager.RemoveCamera();
             ResultsUI.DeactivateLose();
-            ResultsUI.DeactivateWin();
+            gameManager.ResetAllStats();
             gameManager.i_currentRoom = 0;
             gameManager.e_currentRewardType = Door.RoomType.None;
+            SetStartTime();
             SceneManager.LoadScene("StartBreakRoom");
         }
         //deactivate all menus then back to main menu scene to have an empty scene with nothing but the menu
         public static void BackToMainMenu()
         {
 
-            //OptionsMenu.Deactivate();
             SwitchToUIActions();
             gameManager.RemoveCamera();
             gameManager.RemovePlayer();
             ResultsUI.DeactivateLose();
-            ResultsUI.DeactivateWin();
             InGameUI.DeactivateInGameUI();
             CreditsMenu.Deactivate();
             SceneManager.LoadScene("MainMenu");
@@ -496,6 +520,7 @@ namespace Managers
                 PauseMenu.DeactivatePause();
                 CreditsMenu.Deactivate();
                 WeaponsSwapUI.Deactivate();
+                ResultsUI.DeactivateLose();
                 DeactivateMainMenu();
             }
             else
@@ -503,6 +528,7 @@ namespace Managers
                 CreditsMenu.Deactivate();
                 PauseMenu.DeactivatePause();
                 InGameUI.DeactivateInGameUI();
+                ResultsUI.DeactivateLose();
                 WeaponsSwapUI.Deactivate();
             }
 
@@ -518,9 +544,6 @@ namespace Managers
             LoadGunModuleStringsAsModules();
             GrabAllLevels();
             GroupLevels(ls_allLevels);
-
-
-
 
             i_currentRoom = 0;
 
@@ -571,6 +594,7 @@ namespace Managers
         {
             gameManager.C_player = newPlayer;
             SwitchToInGameActions();
+            gameManager.SetPreviousModules();
         }
         public static void SetCamera(CameraDolly camera)
         {
@@ -593,7 +617,6 @@ namespace Managers
         }
         #endregion
 
-
         #region Stats
         int i_spidersKilled = 0;
         int i_mitesKilled = 0;
@@ -605,7 +628,7 @@ namespace Managers
         int i_barrelSwaps = 0;
 
         int i_roomsCleared = 0;
-
+        int i_explosionCount = 0;
         float f_damageTaken = 0;
         float f_healthRegained = 0;
         int i_dodges = 0;
@@ -616,75 +639,172 @@ namespace Managers
         float f_runEndTime = 0;
         float f_averageTimePerRoom = 0;
 
-        static void IncrementSpiderKill()
+        //set stats
+        public static void IncrementSpiderKill()
         {
             gameManager.i_spidersKilled += 1;
         }
-        static void IncrementMiteKill()
+        public static void IncrementMiteKill()
         {
             gameManager.i_mitesKilled += 1;
         }
-        static void IncrementSlugKill()
+        public static void IncrementSlugKill()
         {
             gameManager.i_slugsKilled += 1;
         }
-        static void IncrementWaspKill()
+        public static void IncrementWaspKill()
         {
             gameManager.i_waspsKilled += 1;
         }
-        static void IncrementTriggerSwap()
+        public static void IncrementTriggerSwap()
         {
             gameManager.i_triggerSwaps += 1;
         }
-        static void IncrementClipSwap()
+        public static void IncrementClipSwap()
         {
             gameManager.i_clipSwaps += 1;
         }
-        static void IncrementBarrelSwap()
+        public static void IncrementBarrelSwap()
         {
             gameManager.i_barrelSwaps += 1;
         }
-        static void IncrementRoomsCleared()
+        public static void IncrementRoomsCleared()
         {
             gameManager.i_roomsCleared += 1;
         }
-        static float GetTimeTaken()
+        public static void IncrementExplosionCount()
         {
-            return gameManager.f_runEndTime - gameManager.f_runStartTime;
+            gameManager.i_explosionCount += 1;
         }
-        static float GetAverageTimePerRoom()
-        {
-            return (GetTimeTaken() / (float)gameManager.i_roomsCleared);
-        }
-        static void IncrementBulletsFired()
+        public static void IncrementBulletsFired()
         {
             gameManager.i_bulletsFired += 1;
         }
-        static void IncrementBulletsHit()
+        public static void IncrementBulletsHit()
         {
             gameManager.i_bulletsHit += 1;
         }
-        static float GetHitRate()
-        {
-            return ((float)gameManager.i_bulletsHit / (float)gameManager.i_bulletsFired) * 100f;
-        }
-        static void IncrementEnvironmentDestroyed()
+        public static void IncrementEnvironmentDestroyed()
         {
             gameManager.i_environmentDestroyed += 1;
         }
-        static void IncrementDamageTaken(float damage)
+        public static void IncrementDamageTaken(float damage)
         {
             gameManager.f_damageTaken += damage;
         }
-        static void IncrementDamageHealed(float heal)
+        public static void IncrementDamageHealed(float heal)
         {
             gameManager.f_healthRegained += heal;
         }
-        static void IncrementDodges()
+        public static void IncrementDodges()
         {
             gameManager.i_dodges += 1;
         }
-        #endregion
 
+        public static void SetStopTime()
+        {
+            gameManager.f_runEndTime = Time.time;
+        }
+        public static void SetStartTime()
+        {
+            gameManager.f_runStartTime = Time.time;
+        }
+
+        void ResetAllStats()
+        {
+            gameManager.i_spidersKilled = 0;
+            gameManager.i_mitesKilled = 0;
+            gameManager.i_slugsKilled = 0;
+            gameManager.i_waspsKilled = 0;
+            gameManager.i_triggerSwaps = 0;
+            gameManager.i_clipSwaps = 0;
+            gameManager.i_barrelSwaps = 0;
+            gameManager.i_roomsCleared = 0;
+            gameManager.i_explosionCount = 0;
+            gameManager.f_damageTaken = 0;
+            gameManager.f_healthRegained = 0;
+            gameManager.i_dodges = 0;
+            gameManager.i_bulletsFired = 0;
+            gameManager.i_bulletsHit = 0;
+            gameManager.i_environmentDestroyed = 0;
+            gameManager.f_runStartTime = 0;
+            gameManager.f_runEndTime = 0;
+            gameManager.f_averageTimePerRoom = 0;
+        }
+
+        //get stats
+        public static int GetSpidersKilled()
+        {
+            return gameManager.i_spidersKilled;
+        }
+        public static int GetMitesKilled()
+        {
+            return gameManager.i_mitesKilled;
+        }
+        public static int GetSlugsKilled()
+        {
+            return gameManager.i_slugsKilled;
+        }
+        public static int GetWaspsKilled()
+        {
+            return gameManager.i_waspsKilled;
+        }
+        public static int GetTriggerSwaps()
+        {
+            return gameManager.i_triggerSwaps;
+        }
+        public static int GetClipSwaps()
+        {
+            return gameManager.i_clipSwaps;
+        }
+        public static int GetBarrelSwaps()
+        {
+            return gameManager.i_barrelSwaps;
+        }
+        public static int GetRoomsCleared()
+        {
+            return gameManager.i_roomsCleared;
+        }
+        public static int GetExplosionCount()
+        {
+            return gameManager.i_explosionCount;
+        }
+        public static float GetDamageTaken()
+        {
+            return gameManager.f_damageTaken;
+        }
+        public static float GetHealthRegained()
+        {
+            return gameManager.f_healthRegained;
+        }
+        public static int GetDodgeCount()
+        {
+            return gameManager.i_dodges;
+        }
+        public static int GetBulletsFired()
+        {
+            return gameManager.i_bulletsFired;
+        }
+        public static int GetBulletsHit()
+        {
+            return gameManager.i_bulletsHit;
+        }
+        public static float GetHitRate()
+        {
+            return ((float)gameManager.i_bulletsHit / (float)gameManager.i_bulletsFired) * 100f;
+        }
+        public static int GetEnvironmentDestroyed()
+        {
+            return gameManager.i_environmentDestroyed;
+        }
+        public static float GetTimeTaken()
+        {
+            return gameManager.f_runEndTime - gameManager.f_runStartTime;
+        }
+        public static float GetAverageTimePerRoom()
+        {
+            return (GetTimeTaken() / (float)gameManager.i_roomsCleared);
+        }
+        #endregion
     }
 }

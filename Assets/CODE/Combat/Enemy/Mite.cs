@@ -1,5 +1,6 @@
 ﻿using Utility;
 using UnityEngine;
+using Managers;
 
 namespace Enemy
 {
@@ -89,6 +90,11 @@ namespace Enemy
                     S_velocity.z = -S_velocity.z * f_collisionBounciness;
                 }
             }
+        }
+        public override void Die()
+        {
+            base.Die();
+            GameManager.IncrementMiteKill();
         }
     }
 }

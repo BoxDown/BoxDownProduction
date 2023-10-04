@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 using Utility;
+using Managers;
 
 namespace Explosion
 {
@@ -27,6 +28,7 @@ namespace Explosion
                 C_explosionEffect.Play();
                 C_explosionEffect.playRate = 1 / f_explosionLifeTime;
             }
+            GameManager.IncrementExplosionCount();
 
             ParticleSystem smokeParticle = transform.Find("PREFAB_VFX_Smoke").GetComponent<ParticleSystem>();
             ParticleSystem shockwaveParticle = transform.Find("PREFAB_VFX_Shockwave").GetComponent<ParticleSystem>();

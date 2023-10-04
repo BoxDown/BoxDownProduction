@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{4f19783b-91dc-4b49-9c70-e90cce18a39d}">
+		<property name="name">
+			<value>Weapon_Type</value>
+		</property>
+		<relationship name="folder">
+			<destination>{8d802f95-b841-4606-8c89-ce0af088c365}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{baa20911-1f20-45ae-9bdc-c95b9fc2f1d0}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{baa20911-1f20-45ae-9bdc-c95b9fc2f1d0}">
+		<property name="parameterType">
+			<value>2</value>
+		</property>
+		<property name="maximum">
+			<value>5</value>
+		</property>
+		<property name="enumerationLabels">
+			<value>Basic</value>
+			<value>Fire</value>
+			<value>Ice</value>
+			<value>Leeching</value>
+			<value>Piercing</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+		<property name="isExposedRecursively">
+			<value>false</value>
+		</property>
+	</object>
+</objects>

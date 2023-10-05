@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using Utility;
+using Managers;
 
 namespace Enemy
 {
     public class Wasp : EnemyBase
     {
-        [Header("Slug Specific Variables:")]
-        [Rename("Aim At Player")] public bool b_aimAtPlayer = false;
-        [Rename("Debug Fire")] public bool b_debugFire = false;
-        [Rename("Chase Distance")] public float f_chaseDistance = 3.5f;
-        [Rename("Stop Chase Distance")] public float f_stopChaseDistance = 4.5f;
+        [Header("Wasp Specific Variables:")]
+
+        [Rename("Flee Distance")] public float f_fleeDistance = 3.5f;
+        [Rename("Stop Flee Distance")] public float f_stopFleeDistance = 4.5f;
 
         private void OnValidate()
         {
@@ -22,27 +22,37 @@ namespace Enemy
         {
             base.Update();
             MeleeDamage();
-            if (f_distanceToPlayer < f_aimRange)
-            {
-                LookAtPlayer();
-            }
 
-            if (f_distanceToPlayer < f_chaseDistance)
+            if (C_player.b_isDead)
             {
-                ChangeMovementDirection(DirectionOfPlayer());
                 CancelGun();
                 return;
             }
-            else if (f_distanceToPlayer < f_fireRange)
+            if (f_distanceToPlayer < f_fleeDistance)
             {
-                FireGun();
+                ChangeMovementDirection(-DirectionOfPlayer());
             }
-
-            if (f_distanceToPlayer > f_stopChaseDistance)
+            if (f_distanceToPlayer > f_stopFleeDistance)
             {
                 ChangeMovementDirection(Vector2.zero);
             }
-            return;
+            if (f_distanceToPlayer < f_aimRange)
+            {
+                LookAtPlayer();
+                if (f_distanceToPlayer < f_fireRange)
+                {
+                    FireGun();
+                }
+                else
+                {
+                    CancelGun();
+                }
+            }
+        }
+        public override void Die()
+        {
+            base.Die();
+            GameManager.IncrementWaspKill();
         }
     }
 }

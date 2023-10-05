@@ -4,6 +4,7 @@ using Explosion;
 using static Gun.GunModule;
 using Utility;
 using UnityEngine.VFX;
+using Managers;
 
 namespace Gun
 {
@@ -169,6 +170,10 @@ namespace Gun
                 FindHomingTarget();
             }
             e_lastFiredBulletEffect = S_bulletEffect.e_bulletEffect;
+            if (S_baseInformation.b_playerOwned)
+            {
+                GameManager.IncrementBulletsFired();
+            }
         }
         void FindHomingTarget()
         {
@@ -380,6 +385,10 @@ namespace Gun
 
         private void DoBaseHit(Combatant combatant)
         {
+            if (S_baseInformation.b_playerOwned)
+            {
+                GameManager.IncrementBulletsHit();
+            }
             combatant.Damage(S_baseInformation.f_damage);
             combatant.AddVelocity(S_hitDirection * S_baseInformation.f_knockBack);
             combatant.ApplyBulletElement(S_bulletEffect, S_baseInformation);

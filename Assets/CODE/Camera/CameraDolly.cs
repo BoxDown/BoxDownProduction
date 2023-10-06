@@ -31,6 +31,10 @@ public class CameraDolly : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        if (PauseMenu.pauseMenu.b_gamePaused)
+        {
+            return;
+        }
         if (C_targetPlayer != null)
         {
             S_playerPosition = C_targetPlayer.transform.position;

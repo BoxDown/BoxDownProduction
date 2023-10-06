@@ -132,7 +132,7 @@ public class PlayerController : Combatant
     }
     public override void Heal(float heal)
     {
-        GameManager.IncrementDamageHealed(f_currentHealth - heal);
+        GameManager.IncrementDamageHealed(heal - f_currentHealth);
         base.Heal(heal);
     }
     protected override void Dodge()
@@ -240,8 +240,8 @@ public class PlayerController : Combatant
 
     private IEnumerator ActivateLoseAfterSeconds(float time)
     {
-        yield return new WaitForSeconds(time);
         GameManager.SwitchToUIActions();
+        yield return new WaitForSeconds(time);
         ResultsUI.ActivateLose();
     }
 

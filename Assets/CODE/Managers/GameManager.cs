@@ -59,6 +59,7 @@ namespace Managers
 
         private PlayerController C_player;
         private CameraDolly C_camera;
+        private bool b_usingUIActions = true;
 
         private void FixedUpdate()
         {
@@ -480,8 +481,12 @@ namespace Managers
         //deactivate all menus then back to main menu scene to have an empty scene with nothing but the menu
         public static void BackToMainMenu()
         {
-
-            SwitchToUIActions();
+            if (PauseMenu.pauseMenu.b_gamePaused)
+            {
+                PauseMenu.DeactivatePause();
+                PauseMenu.pauseMenu.b_gamePaused = false;
+                Time.timeScale = 1;
+            }
             gameManager.RemoveCamera();
             gameManager.RemovePlayer();
             ResultsUI.DeactivateLose();
@@ -489,6 +494,7 @@ namespace Managers
             CreditsMenu.Deactivate();
             SceneManager.LoadScene("MainMenu");
             ActivateMainMenu();
+            SwitchToUIActions();
         }
 
         public static void ExitGame()
@@ -555,12 +561,36 @@ namespace Managers
 
         public static void SwitchToUIActions()
         {
+            if (gameManager.b_usingUIActions)
+            {
+                return;
+            }
+            SwitchOffInGameActions();
             gameManager.C_playerInput.SwitchCurrentActionMap("UI");
             InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
+            if (gameManager.C_player != null)
+            {
+                actionMap.FindAction("Pause").performed += gameManager.C_player.Pause;
+            }
+            gameManager.b_usingUIActions = true;
+        }
+        public static void SwitchOffUIActions()
+        {
+            gameManager.C_playerInput.SwitchCurrentActionMap("UI");
+            InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
+            if (gameManager.C_player != null)
+            {
+                actionMap.FindAction("Pause").performed -= gameManager.C_player.Pause;
+            }
         }
 
         public static void SwitchToInGameActions()
         {
+            if (!gameManager.b_usingUIActions)
+            {
+                return;
+            }
+            SwitchOffUIActions();
             gameManager.C_playerInput.SwitchCurrentActionMap("PlayerControl");
             InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
             actionMap.Enable();
@@ -573,6 +603,7 @@ namespace Managers
             actionMap.FindAction("Fire").canceled += gameManager.C_player.CancelFire;
             actionMap.FindAction("Reload").performed += gameManager.C_player.Reload;
             actionMap.FindAction("Pause").performed += gameManager.C_player.Pause;
+            gameManager.b_usingUIActions = false;
         }
         public static void SwitchOffInGameActions()
         {
@@ -605,14 +636,20 @@ namespace Managers
         {
             if (C_player != null)
             {
+                InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
+                actionMap.FindAction("Pause").performed -= gameManager.C_player.Pause;
+                DestroyImmediate(C_player.C_ownedGun.C_bulletPool.gameObject);
                 DestroyImmediate(C_player.gameObject);
+                C_player = null;                
             }
+
         }
         public void RemoveCamera()
         {
             if (C_camera != null)
             {
                 DestroyImmediate(C_camera.gameObject);
+                C_camera = null;
             }
         }
         #endregion

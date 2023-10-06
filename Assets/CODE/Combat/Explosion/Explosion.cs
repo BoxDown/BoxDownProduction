@@ -95,7 +95,7 @@ namespace Explosion
                 }
                 else if (destructable != null)
                 {
-                    destructable.DamageObject(f_explosionDamage);
+                    destructable.DamageObject(f_explosionDamage * 5.0f);
                 }
             }
         }

@@ -93,16 +93,16 @@ namespace Managers
                     // For Debug without weapon modules in project COMMENT THESE OUT
                     case Door.RoomType.Trigger:
                         GetRandomModule(e_currentRewardType);
-                        return;
+                        break;
                     case Door.RoomType.Clip:
                         GetRandomModule(e_currentRewardType);
-                        return;
+                        break;
                     case Door.RoomType.Barrel:
                         GetRandomModule(e_currentRewardType);
-                        return;
+                        break;
                     case Door.RoomType.RandomModule:
                         GetRandomModule(e_currentRewardType);
-                        return;
+                        break;
                 }
             }
         }

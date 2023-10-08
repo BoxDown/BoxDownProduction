@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 using Utility;
+using Managers;
 
 namespace Explosion
 {
@@ -27,6 +28,7 @@ namespace Explosion
                 C_explosionEffect.Play();
                 C_explosionEffect.playRate = 1 / f_explosionLifeTime;
             }
+            GameManager.IncrementExplosionCount();
 
             ParticleSystem smokeParticle = transform.Find("PREFAB_VFX_Smoke").GetComponent<ParticleSystem>();
             ParticleSystem shockwaveParticle = transform.Find("PREFAB_VFX_Shockwave").GetComponent<ParticleSystem>();
@@ -83,13 +85,17 @@ namespace Explosion
                 }
                 else if (combatant != null)
                 {
+                    if(combatant.e_combatState ==  Combatant.CombatState.Invincible || combatant.e_combatState == Combatant.CombatState.Dodge)
+                    {
+                        return;
+                    }
                     combatant.Damage(f_explosionDamage);
                     combatant.AddVelocity(hitDirection * (f_explosionKnockbackStrength * notCollisionDepth));
                     continue;
                 }
                 else if (destructable != null)
                 {
-                    destructable.DamageObject(f_explosionDamage);
+                    destructable.DamageObject(f_explosionDamage * 5.0f);
                 }
             }
         }

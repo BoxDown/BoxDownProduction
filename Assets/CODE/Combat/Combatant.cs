@@ -281,7 +281,7 @@ public class Combatant : MonoBehaviour
         }
     }
 
-    protected void Dodge()
+    protected virtual void Dodge()
     {
         if (i_currentDodgeCount > 0)
         {
@@ -392,7 +392,7 @@ public class Combatant : MonoBehaviour
     /// Damage Related Functions
     /// </summary>
 
-    public void Damage(float damage)
+    public virtual void Damage(float damage)
     {
 
         if (b_isDead)
@@ -414,7 +414,7 @@ public class Combatant : MonoBehaviour
         }
     }
 
-    public void Heal(float heal)
+    public virtual void Heal(float heal)
     {
         if(f_currentHealth == f_maxHealth)
         {

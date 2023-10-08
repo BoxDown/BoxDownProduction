@@ -9,9 +9,10 @@ namespace Managers
     public class ResultsUI : MonoBehaviour
     {
 
-        [Rename("Win Screen")] public Transform C_winResult;
         [Rename("Lose Screen")] public Transform C_loseResult;
         [Rename("Lose Text")] public TextMeshProUGUI C_loseText;
+        [Rename("Stats Text")] public TextMeshProUGUI C_statsText;
+
 
 
         public static ResultsUI resultsUI
@@ -31,22 +32,32 @@ namespace Managers
             }
         }
 
-        public static void ActivateWin()
-        {
-            resultsUI.C_winResult.gameObject.SetActive(true);
-        }
-
         public static void ActivateLose()
         {
+            InGameUI.DeactivateInGameUI();
             resultsUI.C_loseResult.gameObject.SetActive(true);
-            resultsUI.C_loseText.text = $"You Made It Through {GameManager.gameManager.i_currentRoom - 1} rooms!";
+            resultsUI.C_loseText.text = $"-You Died-";
+            resultsUI.C_statsText.text =
+                "Stats:\n" + 
+                $"Spiders Killed: {GameManager.GetSpidersKilled()}\n" +
+                $"Mites Killed: {GameManager.GetMitesKilled()}\n" +
+                $"Slugs Killed: {GameManager.GetSlugsKilled()}\n" +
+                $"Wasps Killed: {GameManager.GetWaspsKilled()}\n" +
+                $"Triggers Swapped: {GameManager.GetTriggerSwaps()}\n" +
+                $"Clips Swapped: {GameManager.GetClipSwaps()}\n" +
+                $"Barrels Swapped: {GameManager.GetBarrelSwaps()}\n" +
+                $"Rooms Cleared: {GameManager.GetRoomsCleared()}\n" +
+                $"Amount of Explosions: {GameManager.GetExplosionCount()}\n" +
+                $"Damage Taken: {GameManager.GetDamageTaken()}\n" +
+                $"Health Regained: {GameManager.GetHealthRegained()}\n" +
+                $"Times Dodged: {GameManager.GetDodgeCount()}\n" +
+                $"Bullets Fired: {GameManager.GetBulletsFired()}\n" +
+                $"Bullets Hit: {GameManager.GetBulletsHit()}\n" +
+                $"Weapon Accuracy: {GameManager.GetHitRate().ToString("f1")}%\n" +
+                $"Boxes Destoyed: {GameManager.GetEnvironmentDestroyed()}\n" +
+                $"Play Time: {((int)(GameManager.GetTimeTaken()/ 60)).ToString("0")}m {(GameManager.GetTimeTaken() % 60).ToString("f2")}s\n" +
+                $"Average Time Per Room: {((int)(GameManager.GetAverageTimePerRoom() / 60)).ToString("0")}m {(GameManager.GetAverageTimePerRoom() % 60).ToString("f2")}s\n";
         }
-
-        public static void DeactivateWin()
-        {
-            resultsUI.C_winResult.gameObject.SetActive(false);
-        }
-
         public static void DeactivateLose()
         {
             resultsUI.C_loseResult.gameObject.SetActive(false);

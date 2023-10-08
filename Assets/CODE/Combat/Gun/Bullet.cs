@@ -4,6 +4,7 @@ using Explosion;
 using static Gun.GunModule;
 using Utility;
 using UnityEngine.VFX;
+using Managers;
 
 namespace Gun
 {
@@ -78,7 +79,7 @@ namespace Gun
         //Visuals
         public GameObject C_hitEffect = null;
         [HideInInspector] public VisualEffect C_trailEffect;
-        private BulletEffect e_lastFiredBulletEffect = BulletEffect.None;
+        private BulletEffect e_lastFiredBulletEffect = BulletEffect.Count;
 
 
         void Update()
@@ -169,6 +170,10 @@ namespace Gun
                 FindHomingTarget();
             }
             e_lastFiredBulletEffect = S_bulletEffect.e_bulletEffect;
+            if (S_baseInformation.b_playerOwned)
+            {
+                GameManager.IncrementBulletsFired();
+            }
         }
         void FindHomingTarget()
         {
@@ -289,6 +294,9 @@ namespace Gun
             switch (S_bulletEffect.e_bulletEffect)
             {
                 case BulletEffect.None:
+                    C_trailEffect.SetFloat("LeadDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                    C_trailEffect.SetVector2("Main", new Vector2(-0.5f, 0) * trailSpeedModifier);
+                    C_trailEffect.SetVector2("2nd", new Vector2(-1f, 0) * trailSpeedModifier);
                     break;
                 case BulletEffect.Fire:
                     //Set duration on current effect to be alive time of bullet
@@ -349,13 +357,13 @@ namespace Gun
         }
         private void SpawnHitEffect(Vector3 position)
         {
-            if(C_hitEffect == null)
+            if (C_hitEffect == null)
             {
                 return;
             }
             GameObject newHit = Instantiate(C_hitEffect, position, Quaternion.Euler(-transform.forward));
             newHit.transform.localScale = new Vector3(S_baseInformation.f_size, S_baseInformation.f_size, S_baseInformation.f_size) * 4;
-            if(newHit.GetComponentInChildren<VisualEffect>() != null)
+            if (newHit.GetComponentInChildren<VisualEffect>() != null)
             {
                 newHit.GetComponentInChildren<VisualEffect>().Play();
             }
@@ -368,6 +376,7 @@ namespace Gun
             {
                 return;
             }
+            C_trailEffect.SetFloat("LeadDuration", 0);
             C_trailEffect.SetFloat("ElectricDuration", 0);
             C_trailEffect.SetFloat("FireDuration", 0);
             C_trailEffect.SetFloat("LeachDuration", 0);
@@ -376,12 +385,14 @@ namespace Gun
 
         private void DoBaseHit(Combatant combatant)
         {
+            if (S_baseInformation.b_playerOwned)
+            {
+                GameManager.IncrementBulletsHit();
+            }
             combatant.Damage(S_baseInformation.f_damage);
             combatant.AddVelocity(S_hitDirection * S_baseInformation.f_knockBack);
-            if (!combatant.b_isDead)
-            {
-                combatant.ApplyBulletElement(S_bulletEffect, S_baseInformation);
-            }
+            combatant.ApplyBulletElement(S_bulletEffect, S_baseInformation);
+
         }
 
         // bool returned early outs of update, if a bullet is destroyed return true else false

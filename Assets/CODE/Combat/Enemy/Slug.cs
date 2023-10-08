@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Utility;
+using Managers;
 
 namespace Enemy
 {
@@ -54,6 +55,12 @@ namespace Enemy
             {
                 FireGun();
             }
+        }
+
+        public override void Die()
+        {
+            base.Die();
+            GameManager.IncrementSlugKill();
         }
     }
 }

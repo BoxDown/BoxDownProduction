@@ -1,5 +1,6 @@
 using UnityEngine;
 using Utility;
+using Managers;
 
 public class Destructable : MonoBehaviour
 {
@@ -31,5 +32,6 @@ public class Destructable : MonoBehaviour
         //art shit here
         //...
         Destroy(gameObject);
+        GameManager.IncrementEnvironmentDestroyed();
     }
 }

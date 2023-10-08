@@ -45,6 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   C_muzzle: {fileID: 0}
+  C_trigger: {fileID: 0}
+  C_clip: {fileID: 0}
+  C_barrel: {fileID: 0}
+  C_triggerJoint: {fileID: 0}
+  C_clipJoint: {fileID: 0}
+  C_barrelJoint: {fileID: 0}
   b_debugGun: 0
   C_gunHolder: {fileID: 3302032431299373885}
   aC_moduleArray:
@@ -53,11 +59,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3b949c5c7141b9c4899d142076ba3344, type: 2}
   b_isFiring: 0
   C_bulletPool: {fileID: 0}
-  S_standardColour: {r: 7196.11, g: 1028.0157, b: 24543.875, a: 1}
-  S_fireColour: {r: 8677.57, g: 136.2969, b: 954.07837, a: 1}
-  S_iceColour: {r: 1817.2922, g: 863.2138, b: 8677.57, a: 1}
-  S_lightningColour: {r: 12271.9375, g: 1028.0157, b: 4561.82, a: 1}
-  S_vampireColour: {r: 3084.047, g: 1542.0236, b: 24543.875, a: 1}
+  S_standardColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
+  S_fireColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
+  S_iceColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
+  S_lightningColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
+  S_vampireColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
   C_standardMesh: {fileID: 4289255759248854763, guid: a2043de5b86ce074089eb0926241be4c,
     type: 3}
   C_pierceMesh: {fileID: 7950570417774393746, guid: 21f871fe850d77e4eafb27be6a70db5f,
@@ -205,9 +211,9 @@ MonoBehaviour:
   C_ownedGun: {fileID: 2949849303657169442}
   b_debugRespawn: 0
   f_respawnTime: 5
-  C_defaultMaterial: {fileID: 0}
-  C_dodgeMaterial: {fileID: 0}
   C_onHitEffects: {fileID: 0}
+  C_renderer: {fileID: 6510376702933340302}
+  b_infiniteHealth: 0
   e_combatState: 0
   b_isDead: 0
   b_lockEnemyPosition: 0
@@ -215,11 +221,8 @@ MonoBehaviour:
   f_fireRange: 6.5
   f_meleeDamage: 5
   f_meleeKnockback: 3
-  b_flee: 1
   f_fleeDistance: 3.8
   f_stopFleeDistance: 5.5
-  f_chaseDistance: 0
-  f_stopChaseDistance: 0
 --- !u!1001 &2169262603540911186
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -312,6 +315,12 @@ PrefabInstance:
 --- !u!4 &1842110396327343033 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a6edfbe68a2e24d42badae93213db1cc,
+    type: 3}
+  m_PrefabInstance: {fileID: 2169262603540911186}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &6510376702933340302 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4918851935006246108, guid: a6edfbe68a2e24d42badae93213db1cc,
     type: 3}
   m_PrefabInstance: {fileID: 2169262603540911186}
   m_PrefabAsset: {fileID: 0}

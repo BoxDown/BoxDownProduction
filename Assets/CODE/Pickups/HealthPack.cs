@@ -21,6 +21,7 @@ public class HealthPack : Pickup
             if (c.GetComponent<PlayerController>() != null)
             {
                 c.GetComponent<PlayerController>().Heal(f_healthToRecover);
+                Destroy(gameObject);
             }
         }
     }

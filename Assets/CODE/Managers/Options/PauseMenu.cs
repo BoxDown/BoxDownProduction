@@ -15,7 +15,7 @@ namespace Managers
         public bool b_gamePaused
         {
             get;
-            private set;
+            set;
         }
         private void Awake()
         {
@@ -40,17 +40,20 @@ namespace Managers
 
         static public void PauseGame()
         {
-            pauseMenu.gameObject.SetActive(true);
+            ActivatePause();
             pauseMenu.b_gamePaused = true;
+            GameManager.SwitchToUIActions();
             Time.timeScale = 0;
         }
 
         static public void UnpauseGame()
         {
-            pauseMenu.gameObject.SetActive(false);
+            DeactivatePause();
             pauseMenu.b_gamePaused = false;
+            GameManager.SwitchToInGameActions();
             Time.timeScale = 1;
         }
+
 
         static public void OpenOptions()
         {

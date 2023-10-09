@@ -11,7 +11,7 @@ public class Door : MonoBehaviour
     [Rename("Cone Transform"), SerializeField] private Transform C_coneTransform;
     [Rename("Projection Transform"), SerializeField] private Transform C_projectionTransform;
     [Rename("Trigger Cone Material"), SerializeField] private Material C_triggerConeMat;
-    [Rename("Trigger Projection Material"), SerializeField] private Material C_triggerProjectionMat;    
+    [Rename("Trigger Projection Material"), SerializeField] private Material C_triggerProjectionMat;
     [Rename("Clip Cone Material"), SerializeField] private Material C_clipConeMat;
     [Rename("Clip Projection Material"), SerializeField] private Material C_clipProjectionMat;
     [Rename("Barrel Cone Material"), SerializeField] private Material C_barrelConeMat;
@@ -41,6 +41,8 @@ public class Door : MonoBehaviour
         GetAllDoors();
         RandomiseRoomType();
         UpdateDoorVisuals();
+        C_coneTransform.gameObject.SetActive(false);
+        C_projectionTransform.gameObject.SetActive(false);
     }
 
     public void GetAllDoors()
@@ -62,15 +64,15 @@ public class Door : MonoBehaviour
         while (!doorDifferentToOthers)
         {
             e_roomType = (RoomType)Random.Range(1, (int)RoomType.Count);
-            foreach(Door d in lC_doors)
+            foreach (Door d in lC_doors)
             {
-                if(d.e_roomType == e_roomType)
+                if (d.e_roomType == e_roomType)
                 {
                     doorDifferentToOthers = false;
                     break;
                 }
                 doorDifferentToOthers = true;
-            }            
+            }
         }
     }
 
@@ -109,6 +111,9 @@ public class Door : MonoBehaviour
     public void Unlock()
     {
         b_locked = false;
+
+        C_coneTransform.gameObject.SetActive(true);
+        C_projectionTransform.gameObject.SetActive(true);
     }
 
     public bool IsLocked()

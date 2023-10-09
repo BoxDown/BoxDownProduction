@@ -98,6 +98,7 @@ namespace Gun
                     lC_allBullets.Add(bulletRef);
                     lC_freeBullets.Add(bulletRef);
                     obj.SetActive(false);
+                    bulletRef.C_hitEffect = C_gun.C_standardBulletHit;
                     obj.GetComponent<MeshFilter>().sharedMesh = C_bulletMesh;
                     obj.GetComponent<Renderer>().sharedMaterial = C_bulletMaterial;
                 }

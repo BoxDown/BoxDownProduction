@@ -83,6 +83,7 @@ namespace Managers
             {
                 if (!b_endTriggered)
                 {
+                    GameManager.IncrementRoomsCleared();
                     SpawnReward();
                     UnlockAllDoors();
                     if (C_manager != null)

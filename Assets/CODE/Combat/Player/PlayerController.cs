@@ -78,7 +78,7 @@ public class PlayerController : Combatant
         if (ControlManager.GetControllerType() == ControlManager.ControllerType.KeyboardMouse)
         {
             Vector3 dir = new Vector3(inputValue.x, inputValue.y, 0) - Camera.main.WorldToScreenPoint(transform.position);
-            inputValue = Vector2.ClampMagnitude(new Vector2(dir.x, dir.y) / Screen.height, 1.0f);
+            inputValue = Vector2.ClampMagnitude((new Vector2(dir.x, dir.y) / Screen.height) * 2.5f, 1.0f);
             SetRotationDirection(inputValue);
         }
         else
@@ -125,12 +125,30 @@ public class PlayerController : Combatant
         //swap action map
     }
 
+    public override void Damage(float damage)
+    {
+        base.Damage(damage);
+        GameManager.IncrementDamageTaken(damage);
+    }
+    public override void Heal(float heal)
+    {
+        GameManager.IncrementDamageHealed(heal - f_currentHealth);
+        base.Heal(heal);
+    }
+    protected override void Dodge()
+    {
+        base.Dodge();
+        if(i_currentDodgeCount > 0)
+        {
+            GameManager.IncrementDodges();
+        }
+    }
     public override void Die()
     {
         base.Die();
-        StartCoroutine(ActivateLoseAfterSeconds(5));
+        GameManager.SetStopTime();
+        StartCoroutine(ActivateLoseAfterSeconds(2));
     }
-
 
     public void SetPlayerPosition(Vector3 position)
     {
@@ -222,8 +240,8 @@ public class PlayerController : Combatant
 
     private IEnumerator ActivateLoseAfterSeconds(float time)
     {
-        yield return new WaitForSeconds(time);
         GameManager.SwitchToUIActions();
+        yield return new WaitForSeconds(time);
         ResultsUI.ActivateLose();
     }
 

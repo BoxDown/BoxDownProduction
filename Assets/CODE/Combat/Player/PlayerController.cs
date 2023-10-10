@@ -170,7 +170,7 @@ public class PlayerController : Combatant
         {
             return;
         }
-        for (int i = 0; i < collisions.Length - 1; i++)
+        for (int i = 0; i < collisions.Length; i++)
         {
             if (collisions[i].transform == transform)
             {
@@ -180,7 +180,7 @@ public class PlayerController : Combatant
             {
                 continue;
             }
-            float distance = (collisions[i].ClosestPoint(transform.position) - transform.position).magnitude;
+            float distance = Vector3.Distance(collisions[i].ClosestPoint(transform.position), transform.position);
             if (distance < closestDistance)
             {
                 closestDistance = distance;
@@ -196,6 +196,7 @@ public class PlayerController : Combatant
 
         if (closestTransform.tag == "Gun Module")
         {
+            //WeaponsSwapUI.Activate();
             SwapModule(closestTransform);
         }
         else if (closestTransform.tag == "Door")

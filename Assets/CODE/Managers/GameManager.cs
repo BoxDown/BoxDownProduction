@@ -60,6 +60,12 @@ namespace Managers
         private PlayerController C_player;
         private CameraDolly C_camera;
         private bool b_usingUIActions = true;
+        public GunModuleUIAnimations C_gunModuleUI
+        {
+            get;
+            private set;
+        }
+
 
         private void FixedUpdate()
         {
@@ -520,6 +526,7 @@ namespace Managers
                 gameManager = this;
             }
             C_playerInput = GetComponent<PlayerInput>();
+            C_gunModuleUI = FindObjectOfType<GunModuleUIAnimations>();
             if (b_debugMode)
             {
                 FindObjectOfType<PlayerController>().Initialise();
@@ -627,6 +634,10 @@ namespace Managers
             SwitchToInGameActions();
             gameManager.SetPreviousModules();
         }
+        public static PlayerController GetPlayer()
+        {
+            return gameManager.C_player;
+        }
         public static void SetCamera(CameraDolly camera)
         {
             gameManager.C_camera = camera;
@@ -640,7 +651,7 @@ namespace Managers
                 actionMap.FindAction("Pause").performed -= gameManager.C_player.Pause;
                 DestroyImmediate(C_player.C_ownedGun.C_bulletPool.gameObject);
                 DestroyImmediate(C_player.gameObject);
-                C_player = null;                
+                C_player = null;
             }
 
         }

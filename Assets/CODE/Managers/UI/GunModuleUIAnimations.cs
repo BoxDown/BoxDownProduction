@@ -18,7 +18,7 @@ public class GunModuleUIAnimations : MonoBehaviour
     [Rename("Trigger Joint")] public Transform C_triggerJoint = null;
     [Rename("Clip Joint")] public Transform C_clipJoint = null;
     [Rename("Barrel Joint")] public Transform C_barrelJoint = null;
-    [Rename("Swapping Transform"), SerializeField] private Transform C_swappingJoint = null;
+    [Rename("Swapping Joint"), SerializeField] private Transform C_swappingJoint = null;
 
 
 

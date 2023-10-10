@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Utility;
 
 namespace Managers
 {
@@ -17,6 +18,11 @@ namespace Managers
             get;
             set;
         }
+
+        [Rename("Trigger Module Card"), SerializeField] private GunModuleCard C_triggerCard;
+        [Rename("Clip Module Card"), SerializeField] private GunModuleCard C_clipCard;
+        [Rename("Barrel Module Card"), SerializeField] private GunModuleCard C_barrelCard;
+
         private void Awake()
         {
             if (pauseMenu != null && pauseMenu != this)
@@ -31,6 +37,10 @@ namespace Managers
 
         public static void ActivatePause()
         {
+            //GameManager.gameManager.C_gunModuleUI.PlayPauseUI();
+            pauseMenu.C_triggerCard.UpdateGunModule(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[0]);
+            pauseMenu.C_clipCard.UpdateGunModule(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[1]);
+            pauseMenu.C_barrelCard.UpdateGunModule(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[2]);
             pauseMenu.gameObject.SetActive(true);
         }
         public static void DeactivatePause()

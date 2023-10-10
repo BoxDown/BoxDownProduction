@@ -59,7 +59,10 @@ public class GunModuleUIAnimations : MonoBehaviour
         Destroy(C_triggerTransform.gameObject);
 
         C_triggerTransform = Instantiate(gunModule.C_meshPrefab).transform;
-        C_triggerTransform.gameObject.tag = "Player";
+        foreach (Transform child in C_triggerTransform)
+        {
+            child.gameObject.layer = 8;
+        }
         if (C_triggerTransform.GetComponent<Collider>() != null)
         {
             Destroy(C_triggerTransform.GetComponent<Collider>());
@@ -75,13 +78,16 @@ public class GunModuleUIAnimations : MonoBehaviour
         Destroy(C_clipTransform.gameObject);
 
         C_clipTransform = Instantiate(gunModule.C_meshPrefab).transform;
-        C_clipTransform.gameObject.tag = "Player";
+        foreach (Transform child in C_clipTransform)
+        {
+            child.gameObject.layer = 8;
+        }
         if (C_clipTransform.GetComponent<Collider>() != null)
         {
             Destroy(C_clipTransform.GetComponent<Collider>());
         }
 
-        C_clipTransform.parent = C_triggerJoint;
+        C_clipTransform.parent = C_clipJoint;
         C_clipTransform.localPosition = Vector3.zero;
         C_clipTransform.localRotation = Quaternion.Euler(new Vector3(0, 0, 90));
         C_clipTransform.localScale = Vector3.one;
@@ -91,13 +97,16 @@ public class GunModuleUIAnimations : MonoBehaviour
         Destroy(C_barrelTransform.gameObject);
 
         C_barrelTransform = Instantiate(gunModule.C_meshPrefab).transform;
-        C_barrelTransform.gameObject.tag = "Player";
+        foreach(Transform child in C_barrelTransform)
+        {
+            child.gameObject.layer = 8;
+        }
         if (C_barrelTransform.GetComponent<Collider>() != null)
         {
             Destroy(C_barrelTransform.GetComponent<Collider>());
         }
 
-        C_barrelTransform.parent = C_triggerJoint;
+        C_barrelTransform.parent = C_barrelJoint;
         C_barrelTransform.localPosition = Vector3.zero;
         C_barrelTransform.localRotation = Quaternion.Euler(new Vector3(0, 0, 90));
         C_barrelTransform.localScale = Vector3.one;
@@ -107,7 +116,7 @@ public class GunModuleUIAnimations : MonoBehaviour
         Destroy(C_swappingTransform.gameObject);
 
         C_swappingTransform = Instantiate(gunModule.C_meshPrefab).transform;
-        C_swappingTransform.gameObject.tag = "Player";
+        C_swappingTransform.gameObject.layer = 8;
         if (C_swappingTransform.GetComponent<Collider>() != null)
         {
             Destroy(C_swappingTransform.GetComponent<Collider>());

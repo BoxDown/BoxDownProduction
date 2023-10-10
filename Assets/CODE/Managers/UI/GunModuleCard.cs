@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using Utility;
 using TMPro;
 using Gun;
+using Managers;
 
 public class GunModuleCard : MonoBehaviour
 {
@@ -41,7 +42,7 @@ public class GunModuleCard : MonoBehaviour
             case GunModule.ModuleSection.Trigger:
                 //Imagery
                 C_backgroundImage.sprite = C_triggerSprite;
-                //C_moduleAnimations.SwapTriggerMesh(C_gunModuleReference);
+                GameManager.gameManager.C_gunModuleUI.SwapTriggerMesh(C_gunModuleReference);
                 //Stat Names
                 C_moduleStat1Name.text = "Damage:";
                 C_moduleStat2Name.text = "Fire Rate:";
@@ -60,7 +61,7 @@ public class GunModuleCard : MonoBehaviour
             case GunModule.ModuleSection.Clip:
                 //Imagery
                 C_backgroundImage.sprite = C_clipSprite;
-                //C_moduleAnimations.SwapClipMesh(C_gunModuleReference);
+                GameManager.gameManager.C_gunModuleUI.SwapClipMesh(C_gunModuleReference);
                 //Stat Names
                 C_moduleStat1Name.text = "Clip Size:";
                 C_moduleStat2Name.text = "Reload Time:";
@@ -79,7 +80,7 @@ public class GunModuleCard : MonoBehaviour
             case GunModule.ModuleSection.Barrel:
                 //Imagery
                 C_backgroundImage.sprite = C_barrelSprite;
-                //C_moduleAnimations.SwapBarrelMesh(C_gunModuleReference);
+                GameManager.gameManager.C_gunModuleUI.SwapBarrelMesh(C_gunModuleReference);
                 //Stat Names
                 C_moduleStat1Name.text = "Bullet Size:";
                 C_moduleStat2Name.text = "Range:";

@@ -37,17 +37,17 @@ public class GunModuleUIAnimations : MonoBehaviour
     }
     public void PlayTriggerIdle()
     {
-        C_animator.Play("Default");
+        PlayPauseUI();
         C_animator.SetFloat("Trigger", 1.0f);
     }
     public void PlayClipIdle()
     {
-        C_animator.Play("Default");
+        PlayPauseUI();
         C_animator.SetFloat("Clip", 1.0f);
     }
     public void PlayBarrelIdle()
     {
-        C_animator.Play("Default");
+        PlayPauseUI();
         C_animator.SetFloat("Barrel", 1.0f);
     }
     public void PlayTriggerSwap()

@@ -34,14 +34,14 @@ public class CameraDolly : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        if (!GameManager.gameManager.cullShit)
+        if (!GameManager.gameManager.b_cull)
         {
             C_camera.cullingMatrix = Matrix4x4.Ortho(-99999, 99999, -99999, 99999, 0.001f, 99999) *
                                 Matrix4x4.Translate(Vector3.forward * -99999 / 2f) *
                                 C_camera.worldToCameraMatrix;
             C_camera.cullingMask = 0b0111111111111111111111111111111;
         }
-        else if (GameManager.gameManager.cullShit != GameManager.gameManager.cullShitLastFrame && GameManager.gameManager.cullShit)
+        else if (GameManager.gameManager.b_cull != GameManager.gameManager.b_cullLastFrame && GameManager.gameManager.b_cull)
         {
             ResetFrustumCulling();            
         }

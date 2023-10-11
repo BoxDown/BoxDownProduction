@@ -435,11 +435,11 @@ namespace Managers
         #endregion
 
         #region UIFunctions
-        public bool cullShit = true;
-        public bool cullShitLastFrame = true;
+        [HideInInspector]public bool b_cull = true;
+        [HideInInspector]public bool b_cullLastFrame = true;
         public void SetCulling(bool cullingOnOff)
         {
-            cullShit = cullingOnOff;
+            b_cull = cullingOnOff;
         }
 
         public static void StartGame()

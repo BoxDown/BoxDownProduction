@@ -435,6 +435,13 @@ namespace Managers
         #endregion
 
         #region UIFunctions
+        public bool cullShit = true;
+        public bool cullShitLastFrame = true;
+        public void SetCulling(bool cullingOnOff)
+        {
+            cullShit = cullingOnOff;
+        }
+
         public static void StartGame()
         {
             gameManager.b_endlessMode = false;

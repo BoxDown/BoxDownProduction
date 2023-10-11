@@ -37,6 +37,7 @@ namespace Managers
         }
         public static void Activate(GunModule gunModule, Transform swappingModule)
         {
+            GameManager.gameManager.SetCulling(false);
             GameManager.SwitchToUIActions();
             switch (gunModule.e_moduleType)
             {
@@ -58,41 +59,43 @@ namespace Managers
         public static void Deactivate()
         {
             swapUI.gameObject.SetActive(false);
+            GameManager.gameManager.SetCulling(true);
         }
 
-        private void TurnOff()
+        public void TurnOff()
         {
             GameManager.SwitchToInGameActions();
             swapUI.C_swappingModuleTransform = null;
             swapUI.C_swappingModule = null;
         }
 
+        // magic numbers -390 -130 130 390
         private void ReadySwapTrigger()
         {
             GameManager.gameManager.C_gunModuleUI.PlayTriggerIdle();
             //Set Positions
-            C_triggerCard.transform.localPosition = new Vector2(-540, 0);
-            C_swapCard.transform.localPosition = new Vector2(-178, -190);
-            C_clipCard.transform.localPosition = new Vector2(178, 0);
-            C_barrelCard.transform.localPosition = new Vector2(540, 0);
+            C_swapCard.transform.localPosition = new Vector2(-390, -190);
+            C_triggerCard.transform.localPosition = new Vector2(-130, 0);
+            C_clipCard.transform.localPosition = new Vector2(130, 0);
+            C_barrelCard.transform.localPosition = new Vector2(390, 0);
         }
         private void ReadySwapClip()
         {
             GameManager.gameManager.C_gunModuleUI.PlayClipIdle();
             //Set Positions
-            C_triggerCard.transform.localPosition = new Vector2(-540, 0);
-            C_clipCard.transform.localPosition = new Vector2(-178, 0);
-            C_swapCard.transform.localPosition = new Vector2(178, -190);
-            C_barrelCard.transform.localPosition = new Vector2(540, 0);
+            C_triggerCard.transform.localPosition = new Vector2(-390, 0);
+            C_swapCard.transform.localPosition = new Vector2(-130, -190);
+            C_clipCard.transform.localPosition = new Vector2(130, 0);
+            C_barrelCard.transform.localPosition = new Vector2(390, 0);
         }
         private void ReadySwapBarrel()
         {
             GameManager.gameManager.C_gunModuleUI.PlayBarrelIdle();
             //Set Positions
-            C_triggerCard.transform.localPosition = new Vector2(-540, 0);
-            C_clipCard.transform.localPosition = new Vector2(-178, 0);
-            C_barrelCard.transform.localPosition = new Vector2(178, 0);
-            C_swapCard.transform.localPosition = new Vector2(540, -190);
+            C_triggerCard.transform.localPosition = new Vector2(-390, 0);
+            C_clipCard.transform.localPosition = new Vector2(-130, 0);
+            C_swapCard.transform.localPosition = new Vector2(130, -190);
+            C_barrelCard.transform.localPosition = new Vector2(390, 0);
         }
         private void UpdateGunModels(GunModule swappingModule)
         {
@@ -115,7 +118,7 @@ namespace Managers
             C_barrelCard.Fade();
             C_swapCard.Fade();
 
-            yield return new WaitForSeconds(C_clipCard.f_fadeTime / 2.0f);
+            yield return new WaitForSeconds(C_clipCard.f_fadeTime);
             switch (swapUI.C_swappingModule.e_moduleType)
             {
                 case GunModule.ModuleSection.Trigger:

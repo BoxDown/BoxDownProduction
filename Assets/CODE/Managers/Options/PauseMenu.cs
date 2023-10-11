@@ -37,6 +37,7 @@ namespace Managers
 
         public static void ActivatePause()
         {
+            GameManager.gameManager.SetCulling(false);
             GameManager.gameManager.C_gunModuleUI.PlayPauseUI();
             pauseMenu.C_triggerCard.UpdateGunModule(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[0], false);
             pauseMenu.C_clipCard.UpdateGunModule(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[1], false);
@@ -46,6 +47,7 @@ namespace Managers
         public static void DeactivatePause()
         {
             pauseMenu.gameObject.SetActive(false);
+            GameManager.gameManager.SetCulling(true);
         }
 
         static public void PauseGame()

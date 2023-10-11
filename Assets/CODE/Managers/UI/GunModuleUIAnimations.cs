@@ -20,6 +20,8 @@ public class GunModuleUIAnimations : MonoBehaviour
     [Rename("Barrel Joint")] public Transform C_barrelJoint = null;
     [Rename("Swapping Joint"), SerializeField] private Transform C_swappingJoint = null;
 
+    [Rename("Render Texture"), SerializeField] private CustomRenderTexture C_renderTexture;
+
 
     private void Start()
     {
@@ -35,14 +37,17 @@ public class GunModuleUIAnimations : MonoBehaviour
     }
     public void PlayTriggerIdle()
     {
+        C_animator.Play("Default");
         C_animator.SetFloat("Trigger", 1.0f);
     }
     public void PlayClipIdle()
     {
+        C_animator.Play("Default");
         C_animator.SetFloat("Clip", 1.0f);
     }
     public void PlayBarrelIdle()
     {
+        C_animator.Play("Default");
         C_animator.SetFloat("Barrel", 1.0f);
     }
     public void PlayTriggerSwap()
@@ -120,7 +125,10 @@ public class GunModuleUIAnimations : MonoBehaviour
         Destroy(C_swappingTransform.gameObject);
 
         C_swappingTransform = Instantiate(gunModule.C_meshPrefab).transform;
-        C_swappingTransform.gameObject.layer = 8;
+        foreach (Transform child in C_swappingTransform)
+        {
+            child.gameObject.layer = 8;
+        }
         if (C_swappingTransform.GetComponent<Collider>() != null)
         {
             Destroy(C_swappingTransform.GetComponent<Collider>());

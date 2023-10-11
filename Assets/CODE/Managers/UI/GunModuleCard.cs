@@ -32,6 +32,7 @@ public class GunModuleCard : MonoBehaviour
 
     public void UpdateGunModule(GunModule gunModuleToSet, bool swappingModule)
     {
+        Show();
         C_gunModuleReference = gunModuleToSet;
         UpdateCardInfo(swappingModule);
     }
@@ -134,11 +135,13 @@ public class GunModuleCard : MonoBehaviour
     private IEnumerator FadeOverSeconds(float seconds)
     {
         float startTime = Time.time;
-        while (Time.time - startTime < seconds)
+        while ((Time.time - startTime) < seconds)
         {
-            C_canvasGroup.alpha = Mathf.Lerp(1, 0, (Time.time - startTime / seconds));
+            Debug.Log(((Time.time - startTime) / seconds));
+            C_canvasGroup.alpha = Mathf.Lerp(1, 0, ((Time.time - startTime) / seconds));
             yield return 0;
         }
+        C_canvasGroup.alpha = 0;
         yield return null;
     }
 }

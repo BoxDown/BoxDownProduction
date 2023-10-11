@@ -111,7 +111,6 @@ namespace Gun
 
         private void Awake()
         {
-
             GameObject bulletPool = new GameObject();
             if (C_gunHolder.CompareTag("Player"))
             {
@@ -128,7 +127,6 @@ namespace Gun
 
             i_currentAmmo = i_clipSize;
         }
-
         private void Update()
         {
             if (b_isFiring && !b_reloading)
@@ -148,13 +146,11 @@ namespace Gun
                 }
             }
         }
-
         public void StartFire()
         {
             f_timeUntilNextFire = 0;
             b_isFiring = true;
         }
-
         private void Fire()
         {
             if (f_timeSinceLastFire < f_timeBetweenBulletShots || b_reloading)
@@ -168,7 +164,6 @@ namespace Gun
                 f_timeUntilNextFire = 0;
                 return;
             }
-
             int timesFiredThisFrame = 0;
             while (f_timeUntilNextFire < 0.0f)
             {
@@ -213,14 +208,12 @@ namespace Gun
             f_lastFireTime = Time.time;
             i_currentAmmo -= timesFiredThisFrame;
         }
-
         public void CancelFire()
         {
             f_fireHoldTime = 0;
             f_timeUntilNextFire = 0;
             b_isFiring = false;
         }
-
         public void Reload()
         {
             // read clip size and current bullet count and reload time
@@ -232,12 +225,10 @@ namespace Gun
                 StartReloadAnimation();
             }
         }
-
         private void StartReloadAnimation()
         {
             C_gunHolder.TriggerReloadAnimation();
         }
-
         public void HardReload()
         {
             i_currentAmmo = i_clipSize;
@@ -267,7 +258,6 @@ namespace Gun
             }
             C_bulletPool.ResizePool(this);
             HardReload();
-
         }
         private void UpdateTriggerStats(GunModule gunModule)
         {

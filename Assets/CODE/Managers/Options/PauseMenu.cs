@@ -37,10 +37,10 @@ namespace Managers
 
         public static void ActivatePause()
         {
-            //GameManager.gameManager.C_gunModuleUI.PlayPauseUI();
-            pauseMenu.C_triggerCard.UpdateGunModule(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[0]);
-            pauseMenu.C_clipCard.UpdateGunModule(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[1]);
-            pauseMenu.C_barrelCard.UpdateGunModule(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[2]);
+            GameManager.gameManager.C_gunModuleUI.PlayPauseUI();
+            pauseMenu.C_triggerCard.UpdateGunModule(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[0], false);
+            pauseMenu.C_clipCard.UpdateGunModule(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[1], false);
+            pauseMenu.C_barrelCard.UpdateGunModule(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[2], false);
             pauseMenu.gameObject.SetActive(true);
         }
         public static void DeactivatePause()

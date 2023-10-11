@@ -21,6 +21,10 @@ public class GunModuleUIAnimations : MonoBehaviour
     [Rename("Swapping Joint"), SerializeField] private Transform C_swappingJoint = null;
 
 
+    private void Start()
+    {
+        C_animator = GetComponent<Animator>();
+    }
 
     public void PlayPauseUI()
     {

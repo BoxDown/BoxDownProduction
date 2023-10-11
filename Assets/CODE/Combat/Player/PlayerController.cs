@@ -196,8 +196,7 @@ public class PlayerController : Combatant
 
         if (closestTransform.tag == "Gun Module")
         {
-            //WeaponsSwapUI.Activate();
-            SwapModule(closestTransform);
+            WeaponsSwapUI.Activate(GunModuleSpawner.GetGunModule(closestTransform.name), closestTransform);
         }
         else if (closestTransform.tag == "Door")
         {
@@ -208,13 +207,9 @@ public class PlayerController : Combatant
         }
     }
 
-    private void SwapModule(Transform newGunModule)
+    public void SwapModule(Transform newGunModule)
     {
-        //check for interactables in radius, if none early out
-        //find distance of all in radius
-        //interact with shortest range
-
-        GunModule gunModuleToSwap = (GunModule)Resources.Load(GunModuleSpawner.GetGunModuleResourcesPath(newGunModule.name));
+        GunModule gunModuleToSwap = GunModuleSpawner.GetGunModule(newGunModule.name);
 
         C_ownedGun.SwapGunPiece(gunModuleToSwap);
         Destroy(newGunModule.gameObject);

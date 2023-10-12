@@ -19,6 +19,7 @@ namespace Enemy
 
         //runtime variables
         protected PlayerController C_player;
+        protected bool b_spawning;
 
         private void Awake()
         {
@@ -30,6 +31,19 @@ namespace Enemy
         protected override void Update()
         {
             base.Update();
+        }
+
+        public void Spawn()
+        {
+            StartCoroutine(SpawnRoutine());
+        }
+
+        protected virtual IEnumerator SpawnRoutine()
+        {
+            b_spawning = true;
+            StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, 2.5f));
+            yield return new WaitForSeconds(2.5f);
+            b_spawning = false;
         }
 
         public void LookAtPlayer()

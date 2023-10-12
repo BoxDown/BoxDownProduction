@@ -727,7 +727,7 @@ public class Combatant : MonoBehaviour
         ClearLightningHits();
     }
 
-    private IEnumerator ChangeStateForSeconds(CombatState state, float seconds)
+    protected IEnumerator ChangeStateForSeconds(CombatState state, float seconds)
     {
         ChangeState(state);
         yield return new WaitForSeconds(seconds);

@@ -137,7 +137,6 @@ public class GunModuleCard : MonoBehaviour
         float startTime = Time.time;
         while ((Time.time - startTime) < seconds)
         {
-            Debug.Log(((Time.time - startTime) / seconds));
             C_canvasGroup.alpha = Mathf.Lerp(1, 0, ((Time.time - startTime) / seconds));
             yield return 0;
         }

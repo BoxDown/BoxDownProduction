@@ -41,7 +41,7 @@ public class CameraDolly : MonoBehaviour
                                 C_camera.worldToCameraMatrix;
             C_camera.cullingMask = 0b0111111111111111111111111111111;
         }
-        else if (GameManager.gameManager.b_cull != GameManager.gameManager.b_cullLastFrame && GameManager.gameManager.b_cull)
+        else
         {
             ResetFrustumCulling();            
         }
@@ -61,6 +61,8 @@ public class CameraDolly : MonoBehaviour
             Vector3 nextCameraPos = (S_playerPosition + S_offsetVector) + lookOffset;
 
             C_camera.transform.position = Vector3.Lerp(C_camera.transform.position, nextCameraPos, ExtraMaths.Map(0, f_lookSrength, 0, 1, Vector3.Distance(S_playerPosition, lookOffset)));
+
+            GameManager.gameManager.b_cullLastFrame = GameManager.gameManager.b_cull;
         }
     }
 

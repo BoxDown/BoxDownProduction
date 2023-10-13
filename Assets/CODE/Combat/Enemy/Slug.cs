@@ -30,6 +30,10 @@ namespace Enemy
         private void Update()
         {
             base.Update();
+            if (b_spawning)
+            {
+                return;
+            }
             if (C_player.b_isDead)
             {
                 CancelGun();

@@ -52,7 +52,7 @@ public class CameraDolly : MonoBehaviour
         if (C_targetPlayer != null)
         {
             S_playerPosition = C_targetPlayer.transform.position;
-            S_playerLookDirection = C_targetPlayer.GetRotationDirection();
+            S_playerLookDirection = C_targetPlayer.S_cameraDirection;
             RaycastHit hitInfo;
             Physics.Raycast(C_camera.transform.position, C_camera.transform.forward, out hitInfo, S_offsetVector.y * 1.2f);
             Vector3 cameraCenterPos = new Vector3(hitInfo.point.x, S_playerPosition.y, hitInfo.point.z);

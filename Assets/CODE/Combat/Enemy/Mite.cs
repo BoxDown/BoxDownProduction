@@ -22,6 +22,10 @@ namespace Enemy
         {
             b_spawning = true;
             StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, 2.5f));
+            if (C_spawnEffects != null)
+            {
+                StartCoroutine(PlaySpawnEffect(f_spawnEffectDelay));
+            }
             yield return new WaitForSeconds(2.5f);
             b_spawning = false;
             if (!b_chasePlayer)
@@ -33,8 +37,9 @@ namespace Enemy
         private void Update()
         {
             base.Update();
-            if (b_spawning)
+            if (b_spawning || !PlayerLineOfSightCheck())
             {
+                CancelGun();
                 return;
             }
             MeleeDamage();

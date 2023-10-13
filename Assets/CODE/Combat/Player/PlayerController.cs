@@ -23,6 +23,8 @@ public class PlayerController : Combatant
     [Rename("Interact Range")] public float f_interactRange = 3.0f;
     [Rename("Spawn Location")] Vector3 S_spawnLocation; // player set to this on start and before loading into new scene
 
+    [HideInInspector] public Vector3 S_cameraDirection;
+
 
     ///<summary>
     /// Player methods, the method name should be self explanitory if not there is reference 
@@ -50,6 +52,10 @@ public class PlayerController : Combatant
 
     private void Update()
     {
+        if (S_rotationVec2Direction.magnitude < f_controllerDeadZone && S_movementVec2Direction != Vector2.zero)
+        {
+            SetRotationDirection(Vector2.ClampMagnitude(S_movementVec2Direction, f_controllerDeadZone * 0.9f));
+        }
         base.Update();
         InGameUI.gameUI.UpdateHealthSlider();
     }
@@ -80,11 +86,13 @@ public class PlayerController : Combatant
             Vector3 dir = new Vector3(inputValue.x, inputValue.y, 0) - Camera.main.WorldToScreenPoint(transform.position);
             inputValue = Vector2.ClampMagnitude((new Vector2(dir.x, dir.y) / Screen.height) * 2.5f, 1.0f);
             SetRotationDirection(inputValue);
+            S_cameraDirection = new Vector3(inputValue.x, 0, inputValue.y);
         }
         else
         {
             if (inputValue.magnitude > f_controllerDeadZone)
                 SetRotationDirection(inputValue);
+            S_cameraDirection = new Vector3(inputValue.x, 0, inputValue.y);
         }
     }
     public void Fire(InputAction.CallbackContext context)
@@ -132,13 +140,16 @@ public class PlayerController : Combatant
     }
     public override void Heal(float heal)
     {
-        GameManager.IncrementDamageHealed(heal - f_currentHealth);
+        if (f_currentHealth != f_maxHealth)
+        {
+            GameManager.IncrementDamageHealed(Mathf.Clamp(heal, f_maxHealth - f_currentHealth, heal));
+        }
         base.Heal(heal);
     }
     protected override void Dodge()
     {
         base.Dodge();
-        if(i_currentDodgeCount > 0)
+        if (i_currentDodgeCount > 0)
         {
             GameManager.IncrementDodges();
         }
@@ -220,7 +231,7 @@ public class PlayerController : Combatant
         ZeroVelocity();
         doorGoingThrough.GetComponent<Door>().OnEnterDoor();
     }
-    
+
     private void HealthUI()
     {
         InGameUI.gameUI.SetMaxHealth(f_maxHealth);
@@ -230,7 +241,7 @@ public class PlayerController : Combatant
 
     //needed because we want to clean up the object pool as well
     private void OnDestroy()
-    {        
+    {
         //Destroy(C_ownedGun.C_bulletPool.gameObject);
     }
 

@@ -442,15 +442,6 @@ namespace Managers
             b_cull = cullingOnOff;
         }
 
-        public static void StartGame()
-        {
-            gameManager.b_endlessMode = false;
-            gameManager.i_currentRoom = 0;
-            gameManager.e_currentRewardType = Door.RoomType.None;
-            DeactivateMainMenu();
-            InGameUI.ActivateInGameUI();
-            SceneManager.LoadScene("StartBreakRoom");
-        }
         public static void StartGameEndless()
         {
             gameManager.b_endlessMode = true;
@@ -458,9 +449,9 @@ namespace Managers
             gameManager.i_currentRoom = 0;
             gameManager.e_currentRewardType = Door.RoomType.None;
             DeactivateMainMenu();
-            InGameUI.ActivateInGameUI();
             SetStartTime();
             SceneManager.LoadScene("StartBreakRoom");
+            InGameUI.ActivateInGameUI();
         }
         public static void OpenOptionsMenu()
         {
@@ -484,12 +475,7 @@ namespace Managers
         {
             gameManager.RemovePlayer();
             gameManager.RemoveCamera();
-            ResultsUI.DeactivateLose();
-            gameManager.ResetAllStats();
-            gameManager.i_currentRoom = 0;
-            gameManager.e_currentRewardType = Door.RoomType.None;
-            SetStartTime();
-            SceneManager.LoadScene("StartBreakRoom");
+            StartGameEndless();
         }
         //deactivate all menus then back to main menu scene to have an empty scene with nothing but the menu
         public static void BackToMainMenu()

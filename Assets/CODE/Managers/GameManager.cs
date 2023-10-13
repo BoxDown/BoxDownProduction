@@ -449,6 +449,7 @@ namespace Managers
             gameManager.i_currentRoom = 0;
             gameManager.e_currentRewardType = Door.RoomType.None;
             DeactivateMainMenu();
+            ResultsUI.DeactivateLose();
             SetStartTime();
             SceneManager.LoadScene("StartBreakRoom");
             InGameUI.ActivateInGameUI();

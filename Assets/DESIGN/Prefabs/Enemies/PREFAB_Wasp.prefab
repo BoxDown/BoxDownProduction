@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   f_maxSpeed: 3
-  f_maxAcceleration: 20
+  f_maxAcceleration: 5
   C_accelerationCurve:
     serializedVersion: 2
     m_Curve:
@@ -86,7 +86,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  f_rotationTime: 0.12
+  f_rotationTime: 0.024
   f_dodgeStartDelay: 0.12
   f_dodgeLength: 2.5
   f_dodgeTime: 0.3
@@ -129,8 +129,8 @@ MonoBehaviour:
   e_combatState: 0
   b_isDead: 0
   b_lockEnemyPosition: 0
-  f_aimRange: 8
-  f_fireRange: 7
+  f_aimRange: 12
+  f_fireRange: 10
   f_meleeDamage: 5
   f_meleeKnockback: 12
   C_deathEffects: {fileID: 2388571588587728514, guid: 595b37fb51237cd41b78cade71e72652,
@@ -138,8 +138,8 @@ MonoBehaviour:
   C_spawnEffects: {fileID: 0}
   f_spawnEffectDelay: 0
   f_spawnEffectOffset: {x: 0, y: 0, z: 0}
-  f_fleeDistance: 3.5
-  f_stopFleeDistance: 4.5
+  f_fleeDistance: 4.5
+  f_stopFleeDistance: 6
 --- !u!1 &8176362473282986587
 GameObject:
   m_ObjectHideFlags: 0

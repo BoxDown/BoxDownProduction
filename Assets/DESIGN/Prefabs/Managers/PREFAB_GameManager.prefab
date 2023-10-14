@@ -145,9 +145,11 @@ MonoBehaviour:
   i_mediumRooms: 3
   i_hardRooms: 5
   b_endlessMode: 1
-  b_debugMode: 0
+  b_debugMode: 1
   C_allLevels: {fileID: 4900000, guid: 3a71983da1269e34db9f45bc54f60e59, type: 3}
   C_allGunModules: {fileID: 4900000, guid: 18fdafbf90a1d374eae3c6a7dacd387b, type: 3}
+  b_cull: 1
+  b_cullLastFrame: 1
 --- !u!114 &2774938962509960478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1192,6 +1194,7 @@ MonoBehaviour:
   C_clipJoint: {fileID: 5415889487466848531}
   C_barrelJoint: {fileID: 9011574973122640956}
   C_swappingJoint: {fileID: 7114578907659210330}
+  C_renderTexture: {fileID: 0}
 --- !u!4 &6477983131757980721 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8250119401774751871, guid: 450a66e8f1ea4404b9867df4cb2deea6,

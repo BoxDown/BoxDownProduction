@@ -119,8 +119,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  i_maxDodges: 3
-  f_dodgeRecoveryTime: 2.5
+  f_dodgeRecoveryTime: 0.25
   f_size: 0.35
   f_collisionBounciness: 0.285
   f_maxHealth: 100
@@ -129,11 +128,14 @@ MonoBehaviour:
   b_debugRespawn: 0
   f_respawnTime: 1
   C_onHitEffects: {fileID: 0}
+  C_onHealEffects: {fileID: 0}
   C_renderer: {fileID: 1762880991049522183}
+  b_infiniteHealth: 0
   e_combatState: 0
   b_isDead: 0
   f_controllerDeadZone: 0.15
-  f_interactRange: 3
+  f_interactRange: 1.5
+  S_cameraDirection: {x: 0, y: 0, z: 0}
 --- !u!136 &2007548048
 CapsuleCollider:
   m_ObjectHideFlags: 0

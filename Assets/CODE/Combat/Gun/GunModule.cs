@@ -99,6 +99,7 @@ namespace Gun
         #region Variables
         //Global
         [Rename("Module Prefab")] public GameObject C_meshPrefab;
+        [Rename("Module In Game Name")] public string s_moduleName;
         [Rename("Module Type")] public ModuleSection e_moduleType;
         [Rename("Module Strength"), Range(1, 100)] public float f_moduleStrength;
 
@@ -169,6 +170,7 @@ namespace Guns.CustomEditor
             serializedObject.Update();
 
             EditorGUILayout.PropertyField(serializedObject.FindProperty("C_meshPrefab"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("s_moduleName"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("e_moduleType"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("f_moduleStrength"));
 

@@ -87,5 +87,10 @@ namespace Gun
             }
             return filePath;
         }
+
+        public static GunModule GetGunModule(string gunModuleName)
+        {
+            return Resources.Load<GunModule>(GetGunModuleResourcesPath(gunModuleName));
+        }
     }
 }

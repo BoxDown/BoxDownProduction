@@ -202,7 +202,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  i_maxDodges: 3
   f_dodgeRecoveryTime: 0
   f_size: 0.4
   f_collisionBounciness: 0.285
@@ -212,6 +211,7 @@ MonoBehaviour:
   b_debugRespawn: 0
   f_respawnTime: 5
   C_onHitEffects: {fileID: 0}
+  C_onHealEffects: {fileID: 0}
   C_renderer: {fileID: 1211647819930197984}
   b_infiniteHealth: 0
   e_combatState: 0
@@ -221,8 +221,13 @@ MonoBehaviour:
   f_fireRange: 5
   f_meleeDamage: 5
   f_meleeKnockback: 3
-  f_fleeDistance: 4
-  f_stopFleeDistance: 5
+  C_deathEffects: {fileID: 2388571588587728514, guid: 595b37fb51237cd41b78cade71e72652,
+    type: 3}
+  C_spawnEffects: {fileID: 0}
+  f_spawnEffectDelay: 0
+  f_spawnEffectOffset: {x: 0, y: 0, z: 0}
+  f_chaseDistance: 3.5
+  f_stopChaseDistance: 4.5
 --- !u!1001 &6094468174753471292
 PrefabInstance:
   m_ObjectHideFlags: 0

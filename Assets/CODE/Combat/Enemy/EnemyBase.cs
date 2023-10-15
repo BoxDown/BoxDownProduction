@@ -3,6 +3,7 @@ using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 using Utility;
 
 namespace Enemy
@@ -16,9 +17,14 @@ namespace Enemy
         [Rename("Fire Range")] public float f_fireRange = 4;
         [Rename("Melee Damage")] public float f_meleeDamage = 8;
         [Rename("Melee Knockback")] public float f_meleeKnockback = 3;
+        [Rename("Death VFX"), SerializeField] protected GameObject C_deathEffects = null;
+        [Rename("Spawn VFX"), SerializeField] protected GameObject C_spawnEffects = null;
+        [Rename("Spawn Effect Delay"), SerializeField] protected float f_spawnEffectDelay = 0;
+        [Rename("Spawn Effect Offset"), SerializeField] protected Vector3 f_spawnEffectOffset = Vector3.zero;
 
         //runtime variables
         protected PlayerController C_player;
+        protected bool b_spawning;
 
         private void Awake()
         {
@@ -31,6 +37,41 @@ namespace Enemy
         {
             base.Update();
         }
+
+        public void Spawn()
+        {
+            StartCoroutine(SpawnRoutine());
+        }
+
+        protected virtual IEnumerator SpawnRoutine()
+        {
+            b_spawning = true;
+            StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, 2.5f));
+            if (C_spawnEffects != null)
+            {
+                StartCoroutine(PlaySpawnEffect(f_spawnEffectDelay));
+            }
+            yield return new WaitForSeconds(2.5f);
+            b_spawning = false;
+        }
+        protected virtual IEnumerator PlaySpawnEffect(float spawnDelay)
+        {
+            yield return new WaitForSeconds(spawnDelay);
+            Destroy(Instantiate(C_spawnEffects, transform.position + f_spawnEffectOffset, Quaternion.identity));
+        }
+
+        protected bool PlayerLineOfSightCheck()
+        {
+            if (Physics.Raycast(transform.position + Vector3.up, (C_player.transform.position + Vector3.up) - (transform.position + Vector3.up), out RaycastHit hit, f_distanceToPlayer, i_bulletLayerMask))
+            {
+                if (hit.transform == C_player.transform)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
         public void LookAtPlayer()
         {
@@ -67,7 +108,14 @@ namespace Enemy
         public override void Die()
         {
             base.Die();
-            StartCoroutine(DeactivateAfterSeconds(5f));
+            if (C_deathEffects != null)
+            {
+                GameObject effect = Instantiate(C_deathEffects, transform.position, transform.rotation);
+                effect.transform.localScale = new Vector3(f_size * 4, f_size * 4, f_size * 4);
+                effect.GetComponentInChildren<VisualEffect>().Play();
+                Destroy(effect, 4f);
+            }
+            StartCoroutine(DeactivateAfterSeconds(4f));
         }
 
         public void ReflectMovementDirection(Vector2 normal)
@@ -115,7 +163,7 @@ namespace Enemy
                 float t = 0;
                 while (Time.time - startTime < time)
                 {
-                    transform.localScale = Vector3.Lerp(Vector3.one, Vector3.zero,  t);
+                    transform.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, t);
                     yield return 0;
                     t += Time.deltaTime;
                 }

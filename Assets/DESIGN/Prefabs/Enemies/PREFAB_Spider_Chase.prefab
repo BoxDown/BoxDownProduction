@@ -25,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4936355548995289957}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.000002905726}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 6, y: 0, z: 12.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -60,33 +60,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a56961726c0211a438b943365a39fab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  f_maxSpeed: 4
-  f_maxAcceleration: 50
+  f_maxSpeed: 8.5
+  f_maxAcceleration: 8
   C_accelerationCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
-      tangentMode: 34
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  f_rotationTime: 0.15
+  f_rotationTime: 0.015
   f_dodgeStartDelay: 0.12
   f_dodgeLength: 2.5
   f_dodgeTime: 0.3
@@ -114,7 +114,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  i_maxDodges: 3
   f_dodgeRecoveryTime: 0
   f_size: 0.4
   f_collisionBounciness: 0.285
@@ -123,21 +122,24 @@ MonoBehaviour:
   C_ownedGun: {fileID: 4936355549448728020}
   b_debugRespawn: 0
   f_respawnTime: 5
-  C_defaultMaterial: {fileID: 0}
-  C_dodgeMaterial: {fileID: 0}
   C_onHitEffects: {fileID: 0}
+  C_onHealEffects: {fileID: 0}
+  C_renderer: {fileID: 5511125306660036115}
+  b_infiniteHealth: 0
   e_combatState: 0
   b_isDead: 0
   b_lockEnemyPosition: 0
-  f_aimRange: 7
-  f_fireRange: 6
+  f_aimRange: 13
+  f_fireRange: 11
   f_meleeDamage: 6
-  f_meleeKnockback: 13
-  b_flee: 0
-  f_fleeDistance: 0
-  f_stopFleeDistance: 0
-  f_chaseDistance: 3.5
-  f_stopChaseDistance: 5
+  f_meleeKnockback: 10
+  C_deathEffects: {fileID: 2388571588587728514, guid: 595b37fb51237cd41b78cade71e72652,
+    type: 3}
+  C_spawnEffects: {fileID: 0}
+  f_spawnEffectDelay: 0
+  f_spawnEffectOffset: {x: 0, y: 0, z: 0}
+  f_chaseDistance: 5
+  f_stopChaseDistance: 3
 --- !u!1 &4936355549448728021
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,6 +185,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   C_muzzle: {fileID: 0}
+  C_trigger: {fileID: 0}
+  C_clip: {fileID: 0}
+  C_barrel: {fileID: 0}
+  C_triggerJoint: {fileID: 0}
+  C_clipJoint: {fileID: 0}
+  C_barrelJoint: {fileID: 0}
   b_debugGun: 0
   C_gunHolder: {fileID: 4936355548995289956}
   aC_moduleArray:
@@ -191,11 +199,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3b949c5c7141b9c4899d142076ba3344, type: 2}
   b_isFiring: 0
   C_bulletPool: {fileID: 0}
-  S_standardColour: {r: 7196.11, g: 1028.0157, b: 24543.875, a: 1}
-  S_fireColour: {r: 8677.57, g: 136.2969, b: 954.07837, a: 1}
-  S_iceColour: {r: 1817.2922, g: 863.2138, b: 8677.57, a: 1}
-  S_lightningColour: {r: 12271.9375, g: 1028.0157, b: 4561.82, a: 1}
-  S_vampireColour: {r: 3084.047, g: 1542.0236, b: 24543.875, a: 1}
+  S_standardColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
+  S_fireColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
+  S_iceColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
+  S_lightningColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
+  S_vampireColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
   C_standardMesh: {fileID: 4289255759248854763, guid: a2043de5b86ce074089eb0926241be4c,
     type: 3}
   C_pierceMesh: {fileID: 7950570417774393746, guid: 21f871fe850d77e4eafb27be6a70db5f,
@@ -312,6 +320,12 @@ PrefabInstance:
 --- !u!4 &1131124781909032228 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a6edfbe68a2e24d42badae93213db1cc,
+    type: 3}
+  m_PrefabInstance: {fileID: 592283285001427663}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &5511125306660036115 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4918851935006246108, guid: a6edfbe68a2e24d42badae93213db1cc,
     type: 3}
   m_PrefabInstance: {fileID: 592283285001427663}
   m_PrefabAsset: {fileID: 0}

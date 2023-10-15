@@ -35,6 +35,7 @@ namespace Managers
         [Rename("All Modules Document")] public TextAsset C_allGunModules;
 
         private Door.RoomType e_currentRewardType;
+        private GunModule[] aC_previousModules = new GunModule[3];
         private Vector3 S_rewardPoint;
         private List<string> ls_allGunModulesNames = new List<string>();
         private List<string> ls_triggerGunModulesNames = new List<string>();
@@ -58,6 +59,13 @@ namespace Managers
 
         private PlayerController C_player;
         private CameraDolly C_camera;
+        private bool b_usingUIActions = true;
+        public GunModuleUIAnimations C_gunModuleUI
+        {
+            get;
+            private set;
+        }
+
 
         private void FixedUpdate()
         {
@@ -91,16 +99,16 @@ namespace Managers
                     // For Debug without weapon modules in project COMMENT THESE OUT
                     case Door.RoomType.Trigger:
                         GetRandomModule(e_currentRewardType);
-                        return;
+                        break;
                     case Door.RoomType.Clip:
                         GetRandomModule(e_currentRewardType);
-                        return;
+                        break;
                     case Door.RoomType.Barrel:
                         GetRandomModule(e_currentRewardType);
-                        return;
+                        break;
                     case Door.RoomType.RandomModule:
                         GetRandomModule(e_currentRewardType);
-                        return;
+                        break;
                 }
             }
         }
@@ -117,8 +125,6 @@ namespace Managers
         public void GrabAllGunModules()
         {
             ls_allGunModulesNames = TextDocumentReadWrite.ReadTextAsset(C_allGunModules).ToList();
-
-
         }
 
         private void GroupGunModules()
@@ -140,6 +146,31 @@ namespace Managers
             }
         }
 
+        public void SetPreviousModules()
+        {
+            for (int i = 0; i < aC_previousModules.Count(); i++)
+            {
+                aC_previousModules[i] = C_player.C_ownedGun.aC_moduleArray[i];
+            }
+
+        }
+
+        private void CompareCurrentAndPreviousModules()
+        {
+            if (aC_previousModules[0] != C_player.C_ownedGun.aC_moduleArray[0])
+            {
+                IncrementTriggerSwap();
+            }
+            if (aC_previousModules[1] != C_player.C_ownedGun.aC_moduleArray[1])
+            {
+                IncrementClipSwap();
+            }
+            if (aC_previousModules[2] != C_player.C_ownedGun.aC_moduleArray[2])
+            {
+                IncrementBarrelSwap();
+            }
+        }
+
         private void IncrementRoom()
         {
             i_currentRoom++;
@@ -148,10 +179,10 @@ namespace Managers
         //what doors call
         public void MoveToNextRoom()
         {
+            CompareCurrentAndPreviousModules();
             LoadNextRoom();
+            SetPreviousModules();
         }
-
-
         private void LoadNextRoom()
         {
             int roomNumberToLoad = 0;
@@ -264,7 +295,6 @@ namespace Managers
         {
             ls_allLevels = TextDocumentReadWrite.ReadTextAsset(C_allLevels).ToList();
         }
-
         private void LoadGunModuleStringsAsModules()
         {
             foreach (string gunModuleName in ls_allGunModulesNames)
@@ -307,7 +337,7 @@ namespace Managers
                         randomNumber -= 1 / chanceToTake;
                         if (randomNumber <= 0)
                         {
-                            if(ls_triggerGunModulesNames[i].Split("\\")[1] == C_player.C_ownedGun.aC_moduleArray[0].name)
+                            if (ls_triggerGunModulesNames[i].Split("\\")[1] == C_player.C_ownedGun.aC_moduleArray[0].name)
                             {
                                 GetRandomModule(e_currentRewardType);
                                 return;
@@ -405,23 +435,24 @@ namespace Managers
         #endregion
 
         #region UIFunctions
-        public static void StartGame()
+        [HideInInspector]public bool b_cull = true;
+        [HideInInspector]public bool b_cullLastFrame = true;
+        public void SetCulling(bool cullingOnOff)
         {
-            gameManager.b_endlessMode = false;
-            gameManager.i_currentRoom = 0;
-            gameManager.e_currentRewardType = Door.RoomType.None;
-            DeactivateMainMenu();
-            InGameUI.ActivateInGameUI();
-            SceneManager.LoadScene("StartBreakRoom");
+            b_cull = cullingOnOff;
         }
+
         public static void StartGameEndless()
         {
             gameManager.b_endlessMode = true;
+            gameManager.ResetAllStats();
             gameManager.i_currentRoom = 0;
             gameManager.e_currentRewardType = Door.RoomType.None;
             DeactivateMainMenu();
-            InGameUI.ActivateInGameUI();
+            ResultsUI.DeactivateLose();
+            SetStartTime();
             SceneManager.LoadScene("StartBreakRoom");
+            InGameUI.ActivateInGameUI();
         }
         public static void OpenOptionsMenu()
         {
@@ -445,26 +476,25 @@ namespace Managers
         {
             gameManager.RemovePlayer();
             gameManager.RemoveCamera();
-            ResultsUI.DeactivateLose();
-            ResultsUI.DeactivateWin();
-            gameManager.i_currentRoom = 0;
-            gameManager.e_currentRewardType = Door.RoomType.None;
-            SceneManager.LoadScene("StartBreakRoom");
+            StartGameEndless();
         }
         //deactivate all menus then back to main menu scene to have an empty scene with nothing but the menu
         public static void BackToMainMenu()
         {
-
-            //OptionsMenu.Deactivate();
-            SwitchToUIActions();
+            if (PauseMenu.pauseMenu.b_gamePaused)
+            {
+                PauseMenu.DeactivatePause();
+                PauseMenu.pauseMenu.b_gamePaused = false;
+                Time.timeScale = 1;
+            }
             gameManager.RemoveCamera();
             gameManager.RemovePlayer();
             ResultsUI.DeactivateLose();
-            ResultsUI.DeactivateWin();
             InGameUI.DeactivateInGameUI();
             CreditsMenu.Deactivate();
             SceneManager.LoadScene("MainMenu");
             ActivateMainMenu();
+            SwitchToUIActions();
         }
 
         public static void ExitGame()
@@ -490,12 +520,14 @@ namespace Managers
                 gameManager = this;
             }
             C_playerInput = GetComponent<PlayerInput>();
+            C_gunModuleUI = FindObjectOfType<GunModuleUIAnimations>();
             if (b_debugMode)
             {
                 FindObjectOfType<PlayerController>().Initialise();
                 PauseMenu.DeactivatePause();
                 CreditsMenu.Deactivate();
                 WeaponsSwapUI.Deactivate();
+                ResultsUI.DeactivateLose();
                 DeactivateMainMenu();
             }
             else
@@ -503,6 +535,7 @@ namespace Managers
                 CreditsMenu.Deactivate();
                 PauseMenu.DeactivatePause();
                 InGameUI.DeactivateInGameUI();
+                ResultsUI.DeactivateLose();
                 WeaponsSwapUI.Deactivate();
             }
 
@@ -519,9 +552,6 @@ namespace Managers
             GrabAllLevels();
             GroupLevels(ls_allLevels);
 
-
-
-
             i_currentRoom = 0;
 
         }
@@ -532,12 +562,36 @@ namespace Managers
 
         public static void SwitchToUIActions()
         {
+            if (gameManager.b_usingUIActions)
+            {
+                return;
+            }
+            SwitchOffInGameActions();
             gameManager.C_playerInput.SwitchCurrentActionMap("UI");
             InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
+            if (gameManager.C_player != null)
+            {
+                actionMap.FindAction("Pause").performed += gameManager.C_player.Pause;
+            }
+            gameManager.b_usingUIActions = true;
+        }
+        public static void SwitchOffUIActions()
+        {
+            gameManager.C_playerInput.SwitchCurrentActionMap("UI");
+            InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
+            if (gameManager.C_player != null)
+            {
+                actionMap.FindAction("Pause").performed -= gameManager.C_player.Pause;
+            }
         }
 
         public static void SwitchToInGameActions()
         {
+            if (!gameManager.b_usingUIActions)
+            {
+                return;
+            }
+            SwitchOffUIActions();
             gameManager.C_playerInput.SwitchCurrentActionMap("PlayerControl");
             InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
             actionMap.Enable();
@@ -550,6 +604,7 @@ namespace Managers
             actionMap.FindAction("Fire").canceled += gameManager.C_player.CancelFire;
             actionMap.FindAction("Reload").performed += gameManager.C_player.Reload;
             actionMap.FindAction("Pause").performed += gameManager.C_player.Pause;
+            gameManager.b_usingUIActions = false;
         }
         public static void SwitchOffInGameActions()
         {
@@ -571,6 +626,11 @@ namespace Managers
         {
             gameManager.C_player = newPlayer;
             SwitchToInGameActions();
+            gameManager.SetPreviousModules();
+        }
+        public static PlayerController GetPlayer()
+        {
+            return gameManager.C_player;
         }
         public static void SetCamera(CameraDolly camera)
         {
@@ -581,15 +641,211 @@ namespace Managers
         {
             if (C_player != null)
             {
+                InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
+                actionMap.FindAction("Pause").performed -= gameManager.C_player.Pause;
+                DestroyImmediate(C_player.C_ownedGun.C_bulletPool.gameObject);
                 DestroyImmediate(C_player.gameObject);
+                C_player = null;
             }
+
         }
         public void RemoveCamera()
         {
             if (C_camera != null)
             {
                 DestroyImmediate(C_camera.gameObject);
+                C_camera = null;
             }
+        }
+        #endregion
+
+        #region Stats
+        int i_spidersKilled = 0;
+        int i_mitesKilled = 0;
+        int i_slugsKilled = 0;
+        int i_waspsKilled = 0;
+
+        int i_triggerSwaps = 0;
+        int i_clipSwaps = 0;
+        int i_barrelSwaps = 0;
+
+        int i_roomsCleared = 0;
+        int i_explosionCount = 0;
+        float f_damageTaken = 0;
+        float f_healthRegained = 0;
+        int i_dodges = 0;
+        int i_bulletsFired = 0;
+        int i_bulletsHit = 0;
+        int i_environmentDestroyed = 0;
+        float f_runStartTime = 0;
+        float f_runEndTime = 0;
+        float f_averageTimePerRoom = 0;
+
+        //set stats
+        public static void IncrementSpiderKill()
+        {
+            gameManager.i_spidersKilled += 1;
+        }
+        public static void IncrementMiteKill()
+        {
+            gameManager.i_mitesKilled += 1;
+        }
+        public static void IncrementSlugKill()
+        {
+            gameManager.i_slugsKilled += 1;
+        }
+        public static void IncrementWaspKill()
+        {
+            gameManager.i_waspsKilled += 1;
+        }
+        public static void IncrementTriggerSwap()
+        {
+            gameManager.i_triggerSwaps += 1;
+        }
+        public static void IncrementClipSwap()
+        {
+            gameManager.i_clipSwaps += 1;
+        }
+        public static void IncrementBarrelSwap()
+        {
+            gameManager.i_barrelSwaps += 1;
+        }
+        public static void IncrementRoomsCleared()
+        {
+            gameManager.i_roomsCleared += 1;
+        }
+        public static void IncrementExplosionCount()
+        {
+            gameManager.i_explosionCount += 1;
+        }
+        public static void IncrementBulletsFired()
+        {
+            gameManager.i_bulletsFired += 1;
+        }
+        public static void IncrementBulletsHit()
+        {
+            gameManager.i_bulletsHit += 1;
+        }
+        public static void IncrementEnvironmentDestroyed()
+        {
+            gameManager.i_environmentDestroyed += 1;
+        }
+        public static void IncrementDamageTaken(float damage)
+        {
+            gameManager.f_damageTaken += damage;
+        }
+        public static void IncrementDamageHealed(float heal)
+        {
+            gameManager.f_healthRegained += heal;
+        }
+        public static void IncrementDodges()
+        {
+            gameManager.i_dodges += 1;
+        }
+
+        public static void SetStopTime()
+        {
+            gameManager.f_runEndTime = Time.time;
+        }
+        public static void SetStartTime()
+        {
+            gameManager.f_runStartTime = Time.time;
+        }
+
+        void ResetAllStats()
+        {
+            gameManager.i_spidersKilled = 0;
+            gameManager.i_mitesKilled = 0;
+            gameManager.i_slugsKilled = 0;
+            gameManager.i_waspsKilled = 0;
+            gameManager.i_triggerSwaps = 0;
+            gameManager.i_clipSwaps = 0;
+            gameManager.i_barrelSwaps = 0;
+            gameManager.i_roomsCleared = 0;
+            gameManager.i_explosionCount = 0;
+            gameManager.f_damageTaken = 0;
+            gameManager.f_healthRegained = 0;
+            gameManager.i_dodges = 0;
+            gameManager.i_bulletsFired = 0;
+            gameManager.i_bulletsHit = 0;
+            gameManager.i_environmentDestroyed = 0;
+            gameManager.f_runStartTime = 0;
+            gameManager.f_runEndTime = 0;
+            gameManager.f_averageTimePerRoom = 0;
+        }
+
+        //get stats
+        public static int GetSpidersKilled()
+        {
+            return gameManager.i_spidersKilled;
+        }
+        public static int GetMitesKilled()
+        {
+            return gameManager.i_mitesKilled;
+        }
+        public static int GetSlugsKilled()
+        {
+            return gameManager.i_slugsKilled;
+        }
+        public static int GetWaspsKilled()
+        {
+            return gameManager.i_waspsKilled;
+        }
+        public static int GetTriggerSwaps()
+        {
+            return gameManager.i_triggerSwaps;
+        }
+        public static int GetClipSwaps()
+        {
+            return gameManager.i_clipSwaps;
+        }
+        public static int GetBarrelSwaps()
+        {
+            return gameManager.i_barrelSwaps;
+        }
+        public static int GetRoomsCleared()
+        {
+            return gameManager.i_roomsCleared;
+        }
+        public static int GetExplosionCount()
+        {
+            return gameManager.i_explosionCount;
+        }
+        public static float GetDamageTaken()
+        {
+            return gameManager.f_damageTaken;
+        }
+        public static float GetHealthRegained()
+        {
+            return gameManager.f_healthRegained;
+        }
+        public static int GetDodgeCount()
+        {
+            return gameManager.i_dodges;
+        }
+        public static int GetBulletsFired()
+        {
+            return gameManager.i_bulletsFired;
+        }
+        public static int GetBulletsHit()
+        {
+            return gameManager.i_bulletsHit;
+        }
+        public static float GetHitRate()
+        {
+            return ((float)gameManager.i_bulletsHit / (float)gameManager.i_bulletsFired) * 100f;
+        }
+        public static int GetEnvironmentDestroyed()
+        {
+            return gameManager.i_environmentDestroyed;
+        }
+        public static float GetTimeTaken()
+        {
+            return gameManager.f_runEndTime - gameManager.f_runStartTime;
+        }
+        public static float GetAverageTimePerRoom()
+        {
+            return (GetTimeTaken() / (float)gameManager.i_roomsCleared);
         }
         #endregion
     }

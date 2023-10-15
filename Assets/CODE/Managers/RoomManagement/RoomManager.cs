@@ -1,6 +1,6 @@
 using Enemy;
 using Utility;
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using System;
 
@@ -25,11 +25,12 @@ namespace Managers
         [Rename("Reward Position")] public Vector3 S_rewardPosition;
         [Rename("Entrance Direction")] public EntranceDirection e_entranceDirection;
         [Rename("Spawn Position")] public Vector3 S_spawnPosition;
+        [Rename("Enemy Wave Delay (Seconds)")] public float f_spawnDelayTime;
         [HideInInspector] public PolyBrushManager C_manager;
         private bool b_endTriggered = false;
 
         private int i_currentWave = 0;
-        private Door[] aC_doorsInLevel;
+        private Door[] aC_doorsInLevel;        
 
         private void Start()
         {
@@ -70,7 +71,7 @@ namespace Managers
                 }
             }
             i_currentWave = 0;
-            SpawnNextWave();
+            StartCoroutine(SpawnNextWave());
         }
 
         private void FixedUpdate()
@@ -83,6 +84,7 @@ namespace Managers
             {
                 if (!b_endTriggered)
                 {
+                    GameManager.IncrementRoomsCleared();
                     SpawnReward();
                     UnlockAllDoors();
                     if (C_manager != null)
@@ -96,7 +98,7 @@ namespace Managers
             else
             {
                 IncrementWave();
-                SpawnNextWave();
+                StartCoroutine(SpawnNextWave());
                 return;
             }
         }
@@ -125,15 +127,17 @@ namespace Managers
             return true;
         }
 
-        private void SpawnNextWave()
+        private IEnumerator SpawnNextWave()
         {
             //enable all enemy objects in next list,
             //on enable spawn them in
+            yield return new WaitForSeconds(f_spawnDelayTime);
             if (aC_enemyWaveList.Length != 0 && i_currentWave < aC_enemyWaveList.Length)
             {
                 for (int i = 0; i < aC_enemyWaveList[i_currentWave].aC_enemies.Length; i++)
                 {
                     aC_enemyWaveList[i_currentWave].aC_enemies[i].gameObject.SetActive(true);
+                    aC_enemyWaveList[i_currentWave].aC_enemies[i].Spawn();
                 }
             }
         }

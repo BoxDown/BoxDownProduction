@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using Utility;
+using Managers;
 
 namespace Enemy
 {
     public class Wasp : EnemyBase
     {
-        [Header("Slug Specific Variables:")]
-        [Rename("Aim At Player")] public bool b_aimAtPlayer = false;
-        [Rename("Debug Fire")] public bool b_debugFire = false;
+        [Header("Wasp Specific Variables:")]
+
+        [Rename("Flee Distance")] public float f_fleeDistance = 3.5f;
+        [Rename("Stop Flee Distance")] public float f_stopFleeDistance = 4.5f;
 
         private void OnValidate()
         {
@@ -19,17 +21,27 @@ namespace Enemy
         private void Update()
         {
             base.Update();
+            if (b_spawning || !PlayerLineOfSightCheck())
+            {
+                CancelGun();
+                return;
+            }
             MeleeDamage();
+
             if (C_player.b_isDead)
             {
                 CancelGun();
                 return;
             }
-            if (!b_debugFire)
+            if (f_distanceToPlayer < f_fleeDistance)
             {
-                return;
+                ChangeMovementDirection(-DirectionOfPlayer());
             }
-            if (b_aimAtPlayer && f_distanceToPlayer < f_aimRange)
+            if (f_distanceToPlayer > f_stopFleeDistance)
+            {
+                ChangeMovementDirection(Vector2.zero);
+            }
+            if (f_distanceToPlayer < f_aimRange)
             {
                 LookAtPlayer();
                 if (f_distanceToPlayer < f_fireRange)
@@ -41,10 +53,11 @@ namespace Enemy
                     CancelGun();
                 }
             }
-            else
-            {
-                FireGun();
-            }
+        }
+        public override void Die()
+        {
+            base.Die();
+            GameManager.IncrementWaspKill();
         }
     }
 }

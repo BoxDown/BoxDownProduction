@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Utility;
+using Managers;
 
 namespace Enemy
 {
@@ -29,6 +30,11 @@ namespace Enemy
         private void Update()
         {
             base.Update();
+            if (b_spawning || !PlayerLineOfSightCheck())
+            {
+                CancelGun();
+                return;
+            }
             if (C_player.b_isDead)
             {
                 CancelGun();
@@ -54,6 +60,12 @@ namespace Enemy
             {
                 FireGun();
             }
+        }
+
+        public override void Die()
+        {
+            base.Die();
+            GameManager.IncrementSlugKill();
         }
     }
 }

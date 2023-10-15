@@ -1,18 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utility;
 
 public class GunModuleDisplayUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Rename("Gun Module Card Prefab")] public GunModuleCard C_gunModuleCardPrefab;
+    public GunModuleUIAnimations C_moduleAnimations;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

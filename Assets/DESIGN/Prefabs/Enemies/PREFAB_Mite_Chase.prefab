@@ -114,18 +114,18 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  i_maxDodges: 3
   f_dodgeRecoveryTime: 0
   f_size: 0.17
   f_collisionBounciness: 0.285
-  f_maxHealth: 35
+  f_maxHealth: 25
   f_invincibleTime: 0.1
   C_ownedGun: {fileID: 6616373417050219146}
   b_debugRespawn: 0
   f_respawnTime: 5
-  C_defaultMaterial: {fileID: 0}
-  C_dodgeMaterial: {fileID: 0}
   C_onHitEffects: {fileID: 0}
+  C_onHealEffects: {fileID: 0}
+  C_renderer: {fileID: 5481867217311753691}
+  b_infiniteHealth: 0
   e_combatState: 0
   b_isDead: 0
   b_lockEnemyPosition: 0
@@ -133,10 +133,15 @@ MonoBehaviour:
   f_fireRange: 0
   f_meleeDamage: 18
   f_meleeKnockback: 15
+  C_deathEffects: {fileID: 2388571588587728514, guid: 595b37fb51237cd41b78cade71e72652,
+    type: 3}
+  C_spawnEffects: {fileID: 0}
+  f_spawnEffectDelay: 0
+  f_spawnEffectOffset: {x: 0, y: 0, z: 0}
   b_chasePlayer: 1
   b_lookAtPlayer: 1
-  f_chaseDistance: 6
-  f_stopChaseDistance: 8
+  f_chaseDistance: 7
+  f_stopChaseDistance: 8.5
 --- !u!1 &6616373417050219144
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,6 +187,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   C_muzzle: {fileID: 0}
+  C_trigger: {fileID: 0}
+  C_clip: {fileID: 0}
+  C_barrel: {fileID: 0}
+  C_triggerJoint: {fileID: 0}
+  C_clipJoint: {fileID: 0}
+  C_barrelJoint: {fileID: 0}
   b_debugGun: 0
   C_gunHolder: {fileID: 2825287412866642495}
   aC_moduleArray:
@@ -190,11 +201,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3b949c5c7141b9c4899d142076ba3344, type: 2}
   b_isFiring: 0
   C_bulletPool: {fileID: 0}
-  S_standardColour: {r: 7196.11, g: 1028.0157, b: 24543.875, a: 1}
-  S_fireColour: {r: 8677.57, g: 136.2969, b: 954.07837, a: 1}
-  S_iceColour: {r: 1817.2922, g: 863.2138, b: 8677.57, a: 1}
-  S_lightningColour: {r: 12271.9375, g: 1028.0157, b: 4561.82, a: 1}
-  S_vampireColour: {r: 3084.047, g: 1542.0236, b: 24543.875, a: 1}
+  S_standardColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
+  S_fireColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
+  S_iceColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
+  S_lightningColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
+  S_vampireColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
   C_standardMesh: {fileID: 4289255759248854763, guid: a2043de5b86ce074089eb0926241be4c,
     type: 3}
   C_pierceMesh: {fileID: 7950570417774393746, guid: 21f871fe850d77e4eafb27be6a70db5f,
@@ -290,7 +301,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 46511ec6800ea7249a7f6c0a1db7ef77, type: 2}
+      objectReference: {fileID: 2100000, guid: 451d870363ccd7846a6e2ac38ac85ccd, type: 2}
     - target: {fileID: 919132149155446097, guid: 11f6c2da13823924684fca22a46b21a2,
         type: 3}
       propertyPath: m_Name
@@ -298,6 +309,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11f6c2da13823924684fca22a46b21a2, type: 3}
+--- !u!23 &5481867217311753691 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 11f6c2da13823924684fca22a46b21a2,
+    type: 3}
+  m_PrefabInstance: {fileID: 6616373417494673759}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6654259678792785588 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 11f6c2da13823924684fca22a46b21a2,

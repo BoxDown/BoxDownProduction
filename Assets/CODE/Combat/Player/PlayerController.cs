@@ -23,6 +23,8 @@ public class PlayerController : Combatant
     [Rename("Interact Range")] public float f_interactRange = 3.0f;
     [Rename("Spawn Location")] Vector3 S_spawnLocation; // player set to this on start and before loading into new scene
 
+    [HideInInspector] public Vector3 S_cameraDirection;
+
 
     ///<summary>
     /// Player methods, the method name should be self explanitory if not there is reference 
@@ -50,6 +52,10 @@ public class PlayerController : Combatant
 
     private void Update()
     {
+        if (S_rotationVec2Direction.magnitude < f_controllerDeadZone && S_movementVec2Direction != Vector2.zero)
+        {
+            SetRotationDirection(Vector2.ClampMagnitude(S_movementVec2Direction, f_controllerDeadZone * 0.9f));
+        }
         base.Update();
         InGameUI.gameUI.UpdateHealthSlider();
     }
@@ -78,13 +84,15 @@ public class PlayerController : Combatant
         if (ControlManager.GetControllerType() == ControlManager.ControllerType.KeyboardMouse)
         {
             Vector3 dir = new Vector3(inputValue.x, inputValue.y, 0) - Camera.main.WorldToScreenPoint(transform.position);
-            inputValue = Vector2.ClampMagnitude(new Vector2(dir.x, dir.y) / Screen.height, 1.0f);
+            inputValue = Vector2.ClampMagnitude((new Vector2(dir.x, dir.y) / Screen.height) * 2.5f, 1.0f);
             SetRotationDirection(inputValue);
+            S_cameraDirection = new Vector3(inputValue.x, 0, inputValue.y);
         }
         else
         {
             if (inputValue.magnitude > f_controllerDeadZone)
                 SetRotationDirection(inputValue);
+            S_cameraDirection = new Vector3(inputValue.x, 0, inputValue.y);
         }
     }
     public void Fire(InputAction.CallbackContext context)
@@ -125,12 +133,33 @@ public class PlayerController : Combatant
         //swap action map
     }
 
+    public override void Damage(float damage)
+    {
+        base.Damage(damage);
+        GameManager.IncrementDamageTaken(damage);
+    }
+    public override void Heal(float heal)
+    {
+        if (f_currentHealth != f_maxHealth)
+        {
+            GameManager.IncrementDamageHealed(Mathf.Clamp(heal, f_maxHealth - f_currentHealth, heal));
+        }
+        base.Heal(heal);
+    }
+    protected override void Dodge()
+    {
+        base.Dodge();
+        if (i_currentDodgeCount > 0)
+        {
+            GameManager.IncrementDodges();
+        }
+    }
     public override void Die()
     {
         base.Die();
-        StartCoroutine(ActivateLoseAfterSeconds(5));
+        GameManager.SetStopTime();
+        StartCoroutine(ActivateLoseAfterSeconds(2));
     }
-
 
     public void SetPlayerPosition(Vector3 position)
     {
@@ -152,7 +181,7 @@ public class PlayerController : Combatant
         {
             return;
         }
-        for (int i = 0; i < collisions.Length - 1; i++)
+        for (int i = 0; i < collisions.Length; i++)
         {
             if (collisions[i].transform == transform)
             {
@@ -162,7 +191,7 @@ public class PlayerController : Combatant
             {
                 continue;
             }
-            float distance = (collisions[i].ClosestPoint(transform.position) - transform.position).magnitude;
+            float distance = Vector3.Distance(collisions[i].ClosestPoint(transform.position), transform.position);
             if (distance < closestDistance)
             {
                 closestDistance = distance;
@@ -178,7 +207,7 @@ public class PlayerController : Combatant
 
         if (closestTransform.tag == "Gun Module")
         {
-            SwapModule(closestTransform);
+            WeaponsSwapUI.Activate(GunModuleSpawner.GetGunModule(closestTransform.name), closestTransform);
         }
         else if (closestTransform.tag == "Door")
         {
@@ -189,13 +218,9 @@ public class PlayerController : Combatant
         }
     }
 
-    private void SwapModule(Transform newGunModule)
+    public void SwapModule(Transform newGunModule)
     {
-        //check for interactables in radius, if none early out
-        //find distance of all in radius
-        //interact with shortest range
-
-        GunModule gunModuleToSwap = (GunModule)Resources.Load(GunModuleSpawner.GetGunModuleResourcesPath(newGunModule.name));
+        GunModule gunModuleToSwap = GunModuleSpawner.GetGunModule(newGunModule.name);
 
         C_ownedGun.SwapGunPiece(gunModuleToSwap);
         Destroy(newGunModule.gameObject);
@@ -206,7 +231,7 @@ public class PlayerController : Combatant
         ZeroVelocity();
         doorGoingThrough.GetComponent<Door>().OnEnterDoor();
     }
-    
+
     private void HealthUI()
     {
         InGameUI.gameUI.SetMaxHealth(f_maxHealth);
@@ -216,14 +241,14 @@ public class PlayerController : Combatant
 
     //needed because we want to clean up the object pool as well
     private void OnDestroy()
-    {        
+    {
         //Destroy(C_ownedGun.C_bulletPool.gameObject);
     }
 
     private IEnumerator ActivateLoseAfterSeconds(float time)
     {
-        yield return new WaitForSeconds(time);
         GameManager.SwitchToUIActions();
+        yield return new WaitForSeconds(time);
         ResultsUI.ActivateLose();
     }
 

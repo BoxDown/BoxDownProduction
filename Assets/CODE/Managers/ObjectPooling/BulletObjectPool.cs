@@ -18,7 +18,9 @@ namespace Gun
         {
             C_gun = gun;
             int shotCount = gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount == 0 ? 1 : gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount;
-            int bulletAmount = gun.aC_moduleArray[1].i_clipSize * shotCount * (int)gun.aC_moduleArray[0].f_fireRate;
+            int bulletTravel = (int)(gun.aC_moduleArray[2].f_bulletRange / gun.aC_moduleArray[0].f_fireRate);
+            bulletTravel = bulletTravel == 0 ? 1 : bulletTravel;
+            int bulletAmount = gun.aC_moduleArray[1].i_clipSize * shotCount * bulletTravel;
             i_totalBullets = (int)(bulletAmount);
             C_bulletMaterial = new Material(Shader.Find("HDRP/Lit"));
             C_bulletMesh = new Mesh();
@@ -98,6 +100,7 @@ namespace Gun
                     lC_allBullets.Add(bulletRef);
                     lC_freeBullets.Add(bulletRef);
                     obj.SetActive(false);
+                    bulletRef.C_hitEffect = C_gun.C_standardBulletHit;
                     obj.GetComponent<MeshFilter>().sharedMesh = C_bulletMesh;
                     obj.GetComponent<Renderer>().sharedMaterial = C_bulletMaterial;
                 }

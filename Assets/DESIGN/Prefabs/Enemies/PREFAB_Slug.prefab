@@ -27,7 +27,7 @@ Transform:
   m_LocalRotation: {x: 0.000000037748947, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.8, z: 0.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3262571477909809845}
   m_RootOrder: 0
@@ -133,7 +133,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.9
+  m_Radius: 0.71
   m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!114 &6726673220771769623
 MonoBehaviour:
@@ -201,7 +201,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  i_maxDodges: 3
   f_dodgeRecoveryTime: 1
   f_size: 0.45
   f_collisionBounciness: 0.285
@@ -211,6 +210,7 @@ MonoBehaviour:
   b_debugRespawn: 0
   f_respawnTime: 5
   C_onHitEffects: {fileID: 0}
+  C_onHealEffects: {fileID: 0}
   C_renderer: {fileID: 853452307763528981}
   b_infiniteHealth: 0
   e_combatState: 0
@@ -220,6 +220,11 @@ MonoBehaviour:
   f_fireRange: 7
   f_meleeDamage: 6
   f_meleeKnockback: 12
+  C_deathEffects: {fileID: 2388571588587728514, guid: 595b37fb51237cd41b78cade71e72652,
+    type: 3}
+  C_spawnEffects: {fileID: 0}
+  f_spawnEffectDelay: 0
+  f_spawnEffectOffset: {x: 0, y: 0, z: 0}
   b_aimAtPlayer: 1
 --- !u!1001 &5809285566382148729
 PrefabInstance:
@@ -296,6 +301,26 @@ PrefabInstance:
     - target: {fileID: -2482684263778650381, guid: f86abdc934fc1b94eb4e44d7a26206cd,
         type: 3}
       propertyPath: m_RenderingLayerMask
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -155302681372416308, guid: f86abdc934fc1b94eb4e44d7a26206cd,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -155302681372416308, guid: f86abdc934fc1b94eb4e44d7a26206cd,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -155302681372416308, guid: f86abdc934fc1b94eb4e44d7a26206cd,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -155302681372416308, guid: f86abdc934fc1b94eb4e44d7a26206cd,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f86abdc934fc1b94eb4e44d7a26206cd,

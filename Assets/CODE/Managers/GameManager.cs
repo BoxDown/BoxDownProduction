@@ -60,6 +60,12 @@ namespace Managers
         private PlayerController C_player;
         private CameraDolly C_camera;
         private bool b_usingUIActions = true;
+        public GunModuleUIAnimations C_gunModuleUI
+        {
+            get;
+            private set;
+        }
+
 
         private void FixedUpdate()
         {
@@ -429,15 +435,13 @@ namespace Managers
         #endregion
 
         #region UIFunctions
-        public static void StartGame()
+        [HideInInspector]public bool b_cull = true;
+        [HideInInspector]public bool b_cullLastFrame = true;
+        public void SetCulling(bool cullingOnOff)
         {
-            gameManager.b_endlessMode = false;
-            gameManager.i_currentRoom = 0;
-            gameManager.e_currentRewardType = Door.RoomType.None;
-            DeactivateMainMenu();
-            InGameUI.ActivateInGameUI();
-            SceneManager.LoadScene("StartBreakRoom");
+            b_cull = cullingOnOff;
         }
+
         public static void StartGameEndless()
         {
             gameManager.b_endlessMode = true;
@@ -445,9 +449,10 @@ namespace Managers
             gameManager.i_currentRoom = 0;
             gameManager.e_currentRewardType = Door.RoomType.None;
             DeactivateMainMenu();
-            InGameUI.ActivateInGameUI();
+            ResultsUI.DeactivateLose();
             SetStartTime();
             SceneManager.LoadScene("StartBreakRoom");
+            InGameUI.ActivateInGameUI();
         }
         public static void OpenOptionsMenu()
         {
@@ -471,12 +476,7 @@ namespace Managers
         {
             gameManager.RemovePlayer();
             gameManager.RemoveCamera();
-            ResultsUI.DeactivateLose();
-            gameManager.ResetAllStats();
-            gameManager.i_currentRoom = 0;
-            gameManager.e_currentRewardType = Door.RoomType.None;
-            SetStartTime();
-            SceneManager.LoadScene("StartBreakRoom");
+            StartGameEndless();
         }
         //deactivate all menus then back to main menu scene to have an empty scene with nothing but the menu
         public static void BackToMainMenu()
@@ -520,6 +520,7 @@ namespace Managers
                 gameManager = this;
             }
             C_playerInput = GetComponent<PlayerInput>();
+            C_gunModuleUI = FindObjectOfType<GunModuleUIAnimations>();
             if (b_debugMode)
             {
                 FindObjectOfType<PlayerController>().Initialise();
@@ -627,6 +628,10 @@ namespace Managers
             SwitchToInGameActions();
             gameManager.SetPreviousModules();
         }
+        public static PlayerController GetPlayer()
+        {
+            return gameManager.C_player;
+        }
         public static void SetCamera(CameraDolly camera)
         {
             gameManager.C_camera = camera;
@@ -640,7 +645,7 @@ namespace Managers
                 actionMap.FindAction("Pause").performed -= gameManager.C_player.Pause;
                 DestroyImmediate(C_player.C_ownedGun.C_bulletPool.gameObject);
                 DestroyImmediate(C_player.gameObject);
-                C_player = null;                
+                C_player = null;
             }
 
         }

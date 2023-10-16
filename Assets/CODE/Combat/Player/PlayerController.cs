@@ -148,11 +148,11 @@ public class PlayerController : Combatant
     }
     protected override void Dodge()
     {
-        base.Dodge();
         if (i_currentDodgeCount > 0)
         {
             GameManager.IncrementDodges();
         }
+        base.Dodge();        
     }
     public override void Die()
     {

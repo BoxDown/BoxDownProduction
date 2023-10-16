@@ -81,7 +81,7 @@ namespace Gun
         [HideInInspector] public BulletObjectPool C_bulletPool;
 
         [Header("Bullet Colours")]
-        //[Rename("Bullet Material")] public Material C_bulletMaterial;
+        [Rename("Bullet Material")] public Material C_bulletMaterial;
         [Rename("Standard Colour"), ColorUsage(true, true)] public Color S_standardColour = new Color(0.75f, 0.5f, 0.2f, 1);
         [Rename("Fire Colour"), ColorUsage(true, true)] public Color S_fireColour = new Color(1f, 0.2f, 0f, 1);
         [Rename("Ice Colour"), ColorUsage(true, true)] public Color S_iceColour = new Color(0.35f, 0.8f, 0.7f, 1);

@@ -60,8 +60,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a56961726c0211a438b943365a39fab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  f_maxSpeed: 8.5
-  f_maxAcceleration: 8
+  f_maxSpeed: 4
+  f_maxAcceleration: 7
   C_accelerationCurve:
     serializedVersion: 2
     m_Curve:
@@ -117,7 +117,7 @@ MonoBehaviour:
   f_dodgeRecoveryTime: 0
   f_size: 0.4
   f_collisionBounciness: 0.285
-  f_maxHealth: 200
+  f_maxHealth: 150
   f_invincibleTime: 0.1
   C_ownedGun: {fileID: 4936355549448728020}
   b_debugRespawn: 0
@@ -130,16 +130,16 @@ MonoBehaviour:
   b_isDead: 0
   b_lockEnemyPosition: 0
   f_aimRange: 13
-  f_fireRange: 11
-  f_meleeDamage: 6
-  f_meleeKnockback: 10
+  f_fireRange: 10
+  f_meleeDamage: 4
+  f_meleeKnockback: 8
   C_deathEffects: {fileID: 2388571588587728514, guid: 595b37fb51237cd41b78cade71e72652,
     type: 3}
   C_spawnEffects: {fileID: 0}
   f_spawnEffectDelay: 0
   f_spawnEffectOffset: {x: 0, y: 0, z: 0}
   f_chaseDistance: 5
-  f_stopChaseDistance: 3
+  f_stopChaseDistance: 1.5
 --- !u!1 &4936355549448728021
 GameObject:
   m_ObjectHideFlags: 0

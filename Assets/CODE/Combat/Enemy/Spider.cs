@@ -21,6 +21,11 @@ namespace Enemy
         private void Update()
         {
             base.Update();
+            if (b_spawning || !PlayerLineOfSightCheck())
+            {
+                CancelGun();
+                return;
+            }
             MeleeDamage();
             if (f_distanceToPlayer < f_aimRange)
             {

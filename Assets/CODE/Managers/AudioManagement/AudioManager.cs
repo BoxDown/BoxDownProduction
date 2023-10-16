@@ -21,27 +21,53 @@ public class AudioManager : MonoBehaviour
             audioManager = this;
         }
     }
-    static public void Activate()
-    {
-        audioManager.gameObject.SetActive(true);
-    }
-    static public void Deactivate()
-    {
-        audioManager.gameObject.SetActive(false);
-    }
 
-    static void PlayFmodEvent(string fmodEvent, Vector3 pos)
+    FMOD.Studio.EventInstance S_mainMenuLoop;
+    FMOD.Studio.EventInstance S_battleLoop;
+
+
+    public static void PlayFmodEvent(string fmodEvent, Vector3 pos)
     {
         RuntimeManager.PlayOneShot("event:/" + fmodEvent, pos);
-    }
+        Debug.Log($"Played {fmodEvent}");
+    }    
 
-    static void StartFmodLoop(FMOD.Studio.EventInstance eventInstance)
+    public static FMOD.Studio.EventInstance StartFmodLoop(string fmodEvent)
     {
+        FMOD.Studio.EventInstance eventInstance = RuntimeManager.CreateInstance(fmodEvent);
         eventInstance.start();
+        return eventInstance;
     }
-    static void EndFmodLoop(FMOD.Studio.EventInstance eventInstance)
+    public static void EndFmodLoop(FMOD.Studio.EventInstance fmodEvent)
     {
-        eventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        fmodEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
+    public static void StartMainMenuLoop()
+    {
+        audioManager.S_mainMenuLoop = StartFmodLoop("Music/Main Music Timeline");
+    }
+
+    public static void StopMainMenuLoop()
+    {
+        EndFmodLoop(audioManager.S_mainMenuLoop);
+    }
+    public static void StartBattleLoop()
+    {
+        audioManager.S_battleLoop = StartFmodLoop("Music/Main Music Timeline");
+    }
+
+    public static void StopBattleLoop()
+    {
+        EndFmodLoop(audioManager.S_battleLoop);
+    }
+
+    public static void BattleMusicCalm()
+    {
+        //audioManager.S_battleLoop.setParameterByName("Thing", 0);
+    }
+    public static void BattleMusicExciting()
+    {
+        //audioManager.S_battleLoop.setParameterByName("Thing", 1);
+    }
 }

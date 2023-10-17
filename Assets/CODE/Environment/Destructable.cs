@@ -16,7 +16,7 @@ public class Destructable : MonoBehaviour
     [Rename("Explosion Damage")] public float f_damage = 10;
     [Rename("Explosion Size")] public float f_size = 1.5f;
     [Rename("Explosion Duration")] public float f_length = 1f;
-    [Rename("Explosion Duration")] public float f_knockback = 1f;
+    [Rename("Explosion Knockback")] public float f_knockback = 1f;
     [Rename("Explosion Effect")] public GameObject C_explosionEffect = null;
 
     [Space(10)]

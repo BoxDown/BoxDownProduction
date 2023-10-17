@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using Utility;
 using Managers;
+using System;
+using System.Runtime.CompilerServices;
 
 namespace Enemy
 {
@@ -8,6 +10,7 @@ namespace Enemy
     {
         [Header("Slug Specific Variables:")]
         [Rename("Aim At Player")] public bool b_aimAtPlayer = false;
+        [Rename("Snap Aim On Hit")] public bool b_aimAfterhit = false;
 
         private void Start()
         {
@@ -59,6 +62,14 @@ namespace Enemy
             else
             {
                 FireGun();
+            }
+        }
+        public override void Damage(float damage)
+        {
+            base.Damage(damage);
+            if (b_aimAfterhit && !b_isDead)
+            {
+                SetRotationDirection(DirectionOfPlayer());
             }
         }
 

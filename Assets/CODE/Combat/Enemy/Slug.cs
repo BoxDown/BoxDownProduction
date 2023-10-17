@@ -33,12 +33,7 @@ namespace Enemy
         private void Update()
         {
             base.Update();
-            if (b_spawning || !PlayerLineOfSightCheck())
-            {
-                CancelGun();
-                return;
-            }
-            if (C_player.b_isDead)
+            if (b_spawning || !PlayerLineOfSightCheck() || C_player.b_isDead)
             {
                 CancelGun();
                 return;
@@ -52,7 +47,7 @@ namespace Enemy
                 }
                 if (f_distanceToPlayer < f_fireRange)
                 {
-                    FireGun();
+                    FireGun(); 
                 }
                 else
                 {
@@ -69,7 +64,7 @@ namespace Enemy
             base.Damage(damage);
             if (b_aimAfterhit && !b_isDead)
             {
-                SetRotationDirection(DirectionOfPlayer());
+                SetRotationDirection(Vector2.ClampMagnitude(DirectionOfPlayer(), 0.1f));
             }
         }
 

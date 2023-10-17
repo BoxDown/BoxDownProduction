@@ -85,7 +85,7 @@ namespace Enemy
         {
             get
             {
-                if (C_player != null) { return (C_player.transform.position - transform.position).magnitude; }
+                if (C_player != null) { return ((C_player.transform.position - transform.position).magnitude) - f_size - C_player.f_size; }
                 else { return 0; }
             }
         }
@@ -120,37 +120,33 @@ namespace Enemy
 
         public void ReflectMovementDirection(Vector2 normal)
         {
-            ChangeMovementDirection(Vector2.Reflect(S_movementVec2Direction, normal).normalized);
+            Vector2 reflectedAngle = Vector2.Reflect(S_movementVec2Direction, normal).normalized;
+
+            float angle = (-Mathf.Atan2(reflectedAngle.y, reflectedAngle.x) * Mathf.Rad2Deg) + 90;
+            int closest45Angle = ((int)(Mathf.RoundToInt(angle / 45f)) * 45);
+            ChangeMovementDirection(new Vector2(Mathf.Sin(closest45Angle * Mathf.Deg2Rad), Mathf.Cos(closest45Angle * Mathf.Deg2Rad)));
         }
 
         protected override void Move()
         {
             base.Move();
         }
+        
 
 
         protected virtual void MeleeDamage()
         {
-            if (b_isDead || C_player.b_isDead)
+            if (b_isDead || C_player.b_isDead || f_distanceToPlayer > f_size * 2)
             {
                 return;
             }
-            Collider[] collisions = Physics.OverlapSphere(transform.position, f_size * 1.95f);
-            PlayerController player = null;
-            for (int i = 0; i < collisions.Length; i++)
-            {
-                if (collisions[i].transform.GetComponent<PlayerController>() != null)
-                {
-                    player = collisions[i].transform.GetComponent<PlayerController>();
-                }
-            }
 
-            if (player != null)
+            if (C_player != null)
             {
-                if (player.e_combatState != CombatState.Invincible && player.e_combatState != CombatState.Dodge)
+                if (C_player.e_combatState != CombatState.Invincible && C_player.e_combatState != CombatState.Dodge)
                 {
-                    player.Damage(f_meleeDamage);
-                    player.AddVelocity(new Vector3(DirectionOfPlayer().x, 0, DirectionOfPlayer().y) * f_meleeKnockback);
+                    C_player.Damage(f_meleeDamage);
+                    C_player.AddVelocity(new Vector3(DirectionOfPlayer().x, 0, DirectionOfPlayer().y) * f_meleeKnockback);
                     return;
                 }
             }

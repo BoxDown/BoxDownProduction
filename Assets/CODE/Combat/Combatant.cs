@@ -279,6 +279,8 @@ public class Combatant : MonoBehaviour
         f_currentAccelerationStep = 0;
         if (b_hasAnimator)
         {
+            C_animator.SetFloat("Strafe", 0);
+            C_animator.SetFloat("Run", 0);
             C_animator.SetBool("Movement", false);
         }
     }
@@ -440,6 +442,7 @@ public class Combatant : MonoBehaviour
         SetLightningEffected(false);
         ClearLightningHits();
         GetComponent<Collider>().enabled = false;
+        StopMovementDirection();
         if (C_animator != null)
         {
             C_animator.SetFloat("Death", 1);

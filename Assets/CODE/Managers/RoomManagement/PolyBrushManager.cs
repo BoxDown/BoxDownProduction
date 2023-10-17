@@ -10,7 +10,10 @@ public class PolyBrushManager : MonoBehaviour
 
     public void InstanceMaterial()
     {
-        C_mat = new Material(C_mat);
+        if(C_mat != null)
+        {
+            C_mat = new Material(C_mat);
+        }
     }
 
 

@@ -9,7 +9,6 @@ namespace Enemy
         [Header("Spider Specific Variables:")]
 
         [Rename("Chase Distance")] public float f_chaseDistance = 3.5f;
-        [Rename("Stop Chase Distance")] public float f_stopChaseDistance = 4.5f;
 
         private void OnValidate()
         {
@@ -26,26 +25,26 @@ namespace Enemy
                 CancelGun();
                 return;
             }
-            MeleeDamage();
             if (f_distanceToPlayer < f_aimRange)
             {
                 LookAtPlayer();
+                if (f_distanceToPlayer < f_fireRange)
+                {
+                    ChangeMovementDirection(Vector2.zero);
+                    FireGun();
+                }
+                else
+                {
+                    CancelGun();
+                }
             }
+            MeleeDamage();
 
             if (f_distanceToPlayer < f_chaseDistance)
             {
                 ChangeMovementDirection(DirectionOfPlayer());
                 CancelGun();
                 return;
-            }
-            else if (f_distanceToPlayer < f_fireRange)
-            {
-                FireGun();
-            }
-
-            if (f_distanceToPlayer > f_stopChaseDistance)
-            {
-                ChangeMovementDirection(Vector2.zero);
             }
             return;
         }

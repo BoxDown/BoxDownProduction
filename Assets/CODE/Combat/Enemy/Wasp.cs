@@ -9,7 +9,6 @@ namespace Enemy
         [Header("Wasp Specific Variables:")]
 
         [Rename("Flee Distance")] public float f_fleeDistance = 3.5f;
-        [Rename("Stop Flee Distance")] public float f_stopFleeDistance = 4.5f;
 
         private void OnValidate()
         {
@@ -26,6 +25,19 @@ namespace Enemy
                 CancelGun();
                 return;
             }
+            if (f_distanceToPlayer < f_aimRange)
+            {
+                LookAtPlayer();
+                if (f_distanceToPlayer < f_fireRange)
+                {
+                    ChangeMovementDirection(Vector2.zero);
+                    FireGun();
+                }
+                else
+                {
+                    CancelGun();
+                }
+            }
             MeleeDamage();
 
             if (C_player.b_isDead)
@@ -37,22 +49,7 @@ namespace Enemy
             {
                 ChangeMovementDirection(-DirectionOfPlayer());
             }
-            if (f_distanceToPlayer > f_stopFleeDistance)
-            {
-                ChangeMovementDirection(Vector2.zero);
-            }
-            if (f_distanceToPlayer < f_aimRange)
-            {
-                LookAtPlayer();
-                if (f_distanceToPlayer < f_fireRange)
-                {
-                    FireGun();
-                }
-                else
-                {
-                    CancelGun();
-                }
-            }
+            
         }
         public override void Die()
         {

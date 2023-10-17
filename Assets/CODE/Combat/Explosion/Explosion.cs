@@ -71,7 +71,7 @@ namespace Explosion
 
                 lC_alreadyCollided.Add(collisions[i].transform);
                 Combatant combatant = collisions[i].transform.GetComponent<Combatant>();
-                Destructable destructable = collisions[i].transform.GetComponent<Destructable>();
+                Destructable destructable = collisions[i].transform.GetComponentInParent<Destructable>();
 
 
                 Vector3 hitDirection = collisions[i].transform.position - transform.position;

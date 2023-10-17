@@ -62,7 +62,7 @@ namespace Enemy
 
         protected bool PlayerLineOfSightCheck()
         {
-            if (Physics.Raycast(transform.position + Vector3.up, (C_player.transform.position + Vector3.up) - (transform.position + Vector3.up), out RaycastHit hit, f_distanceToPlayer, i_bulletLayerMask))
+            if (Physics.Raycast(transform.position + Vector3.up, (C_player.transform.position + Vector3.up) - (transform.position + Vector3.up), out RaycastHit hit, f_distanceToPlayer * 2.0f, i_bulletLayerMask))
             {
                 if (hit.transform == C_player.transform)
                 {
@@ -76,9 +76,8 @@ namespace Enemy
         public void LookAtPlayer()
         {
             if (C_player != null)
-            {
-                Vector3 fromToPlayer = C_player.transform.position - transform.position;
-                SetRotationDirection(new Vector2(fromToPlayer.x, fromToPlayer.z));
+            {                
+                SetRotationDirection(Vector2.ClampMagnitude(DirectionOfPlayer(), 0.1f));
             }
         }
         public float f_distanceToPlayer

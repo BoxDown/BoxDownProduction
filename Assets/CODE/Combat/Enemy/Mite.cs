@@ -56,7 +56,7 @@ namespace Enemy
                         return;
                     }
                     ReflectMovementDirection(new Vector2(hit.normal.x, hit.normal.z));
-                    SetRotationDirection(S_movementVec2Direction);
+                    SetRotationDirection(Vector2.ClampMagnitude(S_movementVec2Direction,0.1f));
                 }
                 return;
             }

@@ -258,7 +258,7 @@ namespace Gun
         {
             if (C_homingTarget != null)
             {
-                if (C_homingTarget.gameObject.activeInHierarchy)
+                if (!C_homingTarget.GetComponent<Combatant>().b_isDead)
                 {
                     return;
                 }

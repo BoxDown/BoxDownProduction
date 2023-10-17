@@ -454,6 +454,7 @@ namespace Managers
             SetStartTime();
             SceneManager.LoadScene("StartBreakRoom");
             InGameUI.ActivateInGameUI();
+            AudioManager.TransitionToBattleTheme();
         }
         public static void OpenOptionsMenu()
         {
@@ -475,6 +476,8 @@ namespace Managers
         }
         public static void RestartGame()
         {
+            AudioManager.StartMusicLoop();
+            AudioManager.TransitionToBattleTheme();
             gameManager.RemovePlayer();
             gameManager.RemoveCamera();
             StartGameEndless();
@@ -495,6 +498,7 @@ namespace Managers
             CreditsMenu.Deactivate();
             SceneManager.LoadScene("MainMenu");
             ActivateMainMenu();
+            AudioManager.TransitionToMainMenu();
             SwitchToUIActions();
         }
 
@@ -557,6 +561,8 @@ namespace Managers
             {
                 SpawnAllGunModules();
             }
+
+            AudioManager.StartMusicLoop();
 
             i_currentRoom = 0;
 

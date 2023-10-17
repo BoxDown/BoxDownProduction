@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FMODUnity;
+using Managers;
 
 public class AudioManager : MonoBehaviour
 {
@@ -22,15 +23,13 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    FMOD.Studio.EventInstance S_mainMenuLoop;
-    FMOD.Studio.EventInstance S_battleLoop;
+    FMOD.Studio.EventInstance S_musicLoop;
 
 
     public static void PlayFmodEvent(string fmodEvent, Vector3 pos)
     {
         RuntimeManager.PlayOneShot("event:/" + fmodEvent, pos);
-        Debug.Log($"Played {fmodEvent}");
-    }    
+    }
 
     public static FMOD.Studio.EventInstance StartFmodLoop(string fmodEvent)
     {
@@ -43,31 +42,32 @@ public class AudioManager : MonoBehaviour
         fmodEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
-    public static void StartMainMenuLoop()
+    public static void StartMusicLoop()
     {
-        audioManager.S_mainMenuLoop = StartFmodLoop("Music/Main Music Timeline");
+        audioManager.S_musicLoop = StartFmodLoop("event:/Music/Main Music Timeline");
+        TransitionToMainMenu();
     }
 
     public static void StopMainMenuLoop()
     {
-        EndFmodLoop(audioManager.S_mainMenuLoop);
-    }
-    public static void StartBattleLoop()
-    {
-        audioManager.S_battleLoop = StartFmodLoop("Music/Main Music Timeline");
+        EndFmodLoop(audioManager.S_musicLoop);
     }
 
-    public static void StopBattleLoop()
+    public static void TransitionToMainMenu()
     {
-        EndFmodLoop(audioManager.S_battleLoop);
+        audioManager.S_musicLoop.setParameterByName("MainMusicTransition", 0);
+    }
+    public static void TransitionToBattleTheme()
+    {
+        audioManager.S_musicLoop.setParameterByName("MainMusicTransition", 1);
     }
 
-    public static void BattleMusicCalm()
+    public static void SetBattleMusicLowIntensity()
     {
-        //audioManager.S_battleLoop.setParameterByName("Thing", 0);
+        audioManager.S_musicLoop.setParameterByName("BattleThemeIntensity", 0);
     }
-    public static void BattleMusicExciting()
+    public static void SetBattleMusicHighIntensity()
     {
-        //audioManager.S_battleLoop.setParameterByName("Thing", 1);
+        audioManager.S_musicLoop.setParameterByName("BattleThemeIntensity", 1);
     }
 }

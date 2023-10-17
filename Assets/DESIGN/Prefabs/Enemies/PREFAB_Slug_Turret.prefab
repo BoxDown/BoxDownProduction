@@ -197,6 +197,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1fed098e5ebe2784ead79126aadce1ff, type: 2}
   b_isFiring: 0
   C_bulletPool: {fileID: 0}
+  C_bulletMaterial: {fileID: 2100000, guid: f231a36aa5757064dabe5fab0ed89561, type: 2}
   S_standardColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
   S_fireColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
   S_iceColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
@@ -303,6 +304,11 @@ PrefabInstance:
       propertyPath: m_RenderingLayerMask
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -2482684263778650381, guid: f86abdc934fc1b94eb4e44d7a26206cd,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a0ace3675919c7b498b954cefc9410a4, type: 2}
     - target: {fileID: -155302681372416308, guid: f86abdc934fc1b94eb4e44d7a26206cd,
         type: 3}
       propertyPath: m_LocalScale.x

@@ -71,7 +71,7 @@ namespace Explosion
 
                 lC_alreadyCollided.Add(collisions[i].transform);
                 Combatant combatant = collisions[i].transform.GetComponent<Combatant>();
-                Destructable destructable = collisions[i].transform.GetComponent<Destructable>();
+                Destructable destructable = collisions[i].transform.GetComponentInParent<Destructable>();
 
 
                 Vector3 hitDirection = collisions[i].transform.position - transform.position;
@@ -83,17 +83,17 @@ namespace Explosion
                 {
                     continue;
                 }
-                else if (combatant != null)
+                if (combatant != null)
                 {
                     if(combatant.e_combatState ==  Combatant.CombatState.Invincible || combatant.e_combatState == Combatant.CombatState.Dodge)
                     {
-                        return;
+                        continue;
                     }
                     combatant.Damage(f_explosionDamage);
                     combatant.AddVelocity(hitDirection * (f_explosionKnockbackStrength * notCollisionDepth));
                     continue;
                 }
-                else if (destructable != null)
+                if (destructable != null)
                 {
                     destructable.DamageObject(f_explosionDamage * 5.0f);
                 }

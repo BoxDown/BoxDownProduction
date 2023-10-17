@@ -7,6 +7,13 @@ public class PolyBrushManager : MonoBehaviour
     [Rename("Clear Goo Time")] public float f_gooClearTime = 5;
     [HideInInspector] public float f_currentGooValue = 0;
     [Rename("Material")] public Material C_mat;
+
+    public void InstanceMaterial()
+    {
+        C_mat = new Material(C_mat);
+    }
+
+
     public void RemoveSpaceGoo()
     {
         if (C_mat != null)

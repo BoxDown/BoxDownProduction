@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Gun;
 using System.Linq;
+using System.Collections;
 using Utility;
 using System.IO;
 using UnityEngine.SceneManagement;
@@ -86,6 +87,7 @@ namespace Managers
             {
                 ControlManager.ChangeInputDevice(C_playerInput.currentControlScheme);
             }
+
         }
 
 
@@ -93,6 +95,11 @@ namespace Managers
         // Start is called before the first frame update
         void Awake()
         {
+            if (gameManager != null && gameManager != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
             if (!b_debugMode)
             {
                 StartCoroutine(StartUp());
@@ -528,6 +535,7 @@ namespace Managers
             if (gameManager != null && gameManager != this)
             {
                 Destroy(gameObject);
+                return;
             }
             else
             {
@@ -575,32 +583,36 @@ namespace Managers
 
             i_currentRoom = 0;
 
+            C_eventSystem = GetComponentInChildren<EventSystem>();
+            CurrentSelectionMainMenu();
         }
 
-        private void SetCurrentSelected(GameObject newSelection)
+        private IEnumerator SetCurrentSelected(GameObject newSelection)
         {
+            yield return 0;
             C_eventSystem.SetSelectedGameObject(newSelection);
+            Debug.Log(C_eventSystem.currentSelectedGameObject.name);
         }
 
         public static void CurrentSelectionMainMenu()
         {
-            gameManager.SetCurrentSelected(gameManager.C_defaultMainMenuButton);
+            gameManager.StartCoroutine(gameManager.SetCurrentSelected(gameManager.C_defaultMainMenuButton));
         }
         public static void CurrentSelectionPauseMenu()
         {
-            gameManager.SetCurrentSelected(gameManager.C_defaultPauseButton);
+            gameManager.StartCoroutine(gameManager.SetCurrentSelected(gameManager.C_defaultPauseButton));
         }
         public static void CurrentSelectionSwapMenu()
         {
-            gameManager.SetCurrentSelected(gameManager.C_defaultSwapButton);
+            gameManager.StartCoroutine(gameManager.SetCurrentSelected(gameManager.C_defaultSwapButton));
         }
         public static void CurrentSelectionResultsMenu()
         {
-            gameManager.SetCurrentSelected(gameManager.C_defaultResultsButton);
+            gameManager.StartCoroutine(gameManager.SetCurrentSelected(gameManager.C_defaultResultsButton));
         }
         public static void CurrentSelectionCreditsMenu()
         {
-            gameManager.SetCurrentSelected(gameManager.C_defaultCreditsButton);
+            gameManager.StartCoroutine(gameManager.SetCurrentSelected(gameManager.C_defaultCreditsButton));
         }
 
         public static void SpawnAllGunModules()

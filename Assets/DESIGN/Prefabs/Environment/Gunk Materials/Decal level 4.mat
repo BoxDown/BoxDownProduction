@@ -55,11 +55,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GunkAlpha:
-        m_Texture: {fileID: 2800000, guid: 5e21599358189f245958450ce98e78f6, type: 3}
+        m_Texture: {fileID: 2800000, guid: e541b930b69166e49bd29a031c58fd3d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GunkTexture:
-        m_Texture: {fileID: 2800000, guid: d90ad422e42229e4fb13b6dfc1683758, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6e6fa7559f30f1844bfc26abfb0019e6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Gunk_Map:
@@ -76,6 +76,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Normal:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTexture:
+        m_Texture: {fileID: 2800000, guid: c96a9a81222d384428b57afe9be2ea12, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Overlay_Texture:
@@ -119,6 +123,7 @@ Material:
     - _AffectMetal: 1
     - _AffectNormal: 1
     - _AffectSmoothness: 1
+    - _BlendOpacity: 1
     - _Cor_Base_Speed: 0.8
     - _Corruption_Base_size: 0.27
     - _DECAY_AMOUNT: 0
@@ -138,8 +143,8 @@ Material:
     - _Displacement_Scale: 0.54
     - _DrawOrder: 0
     - _EdgeNormalStrength: 0.22
-    - _EdgeScale: 40.46
-    - _EdgeSpeed: 1.1
+    - _EdgeScale: 79.59
+    - _EdgeSpeed: 0.5
     - _EdgeStrength: 1.5
     - _Edge_scale: 0.45
     - _Edge_speed: 0.5
@@ -149,8 +154,8 @@ Material:
     - _FadeSize_Careful: 1
     - _Float: 0.68
     - _Float_1: 0.61
-    - _GunkTextureScale: 1.1
-    - _GunkTextureSpeed: 0.02
+    - _GunkTextureScale: 7.84
+    - _GunkTextureSpeed: 0.01
     - _GunkTextureStrength: 1
     - _Gunk_Amount: 1.8
     - _Gunk_Map_scale: 0.12
@@ -159,17 +164,20 @@ Material:
     - _Gunk_Smoothness: 0.491
     - _Gunk_Surface_normal_size: 0.07
     - _Gunk_surface_normal_strength: 0.02
-    - _MaxSize: 25
+    - _InnerVoronoiMultiply: 1
+    - _InnerVoronoiScale: 35.5
+    - _MaxSize: 25.1
     - _Metallic: 0
     - _Metallic_Multiplier: 0
-    - _OverlayNormalScale: 23.85
-    - _OverlayNormalStrength: 0.1
+    - _OverlayNoiseScale: 50
+    - _OverlayNormalScale: 0.36
+    - _OverlayNormalStrength: 0.12
     - _Overlay_Texture_size: 1.38
     - _Overlay_var_speed: 0.2
-    - _ParallaxAmount: 20
+    - _ParallaxAmount: 30
     - _Secondary_Decay_size: 1
     - _Secondary_Edge_size: 0.1
-    - _Smoothness: 0.332
+    - _Smoothness: 0.489
     - _USE_GRADIENT_FOR_OVERLAY: 0
     - _USE_GRADIENT_FOR_SECONDARY: 1
     - _USE_VORONOI_FOR_TEXTURE: 0
@@ -181,12 +189,13 @@ Material:
     - _Center: {r: 45, g: 25, b: 0, a: 0}
     - _Corruption_Base_2: {r: 0.1981132, g: 0.03457636, b: 0.1855334, a: 0}
     - _Corruption_base: {r: 0.22980429, g: 0.18164827, b: 0.24528301, a: 0}
-    - _DecayStartPosition: {r: 20.49, g: 0.68, b: 0, a: 0}
+    - _DecayStartPosition: {r: 20.94, g: -1.16, b: 0, a: 0}
     - _Decay_Remap: {r: 0, g: 88.3, b: 0, a: 0}
     - _Decay_Where_From: {r: 27.27, g: -3.7, b: 0, a: 0}
+    - _EdgeColour: {r: 0.25661153, g: 0.16006574, b: 0.31132075, a: 0}
     - _Edge_scale: {r: 0.45, g: 0.3, b: 0, a: 0}
     - _Flat_Color: {r: 0.39288208, g: 0.43396226, b: 0.23131007, a: 0}
-    - _GunkColour: {r: 1, g: 0.6084906, b: 0.9761273, a: 0}
+    - _GunkColour: {r: 0.6037736, g: 0.3958704, b: 0.55179775, a: 0}
     - _Gunk_Where: {r: 15.34, g: 9.2, b: 0, a: 0}
     - _Gunk_map_scale: {r: 0.12, g: 0.12, b: 0, a: 0}
     - _Gunk_remap: {r: 0, g: 10.7, b: 0, a: 0}

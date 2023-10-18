@@ -55,6 +55,7 @@ namespace Managers
             swapUI.C_swappingModuleTransform = swappingModule;
             swapUI.C_swappingModule = gunModule;
             swapUI.gameObject.SetActive(true);
+            GameManager.CurrentSelectionSwapMenu();
         }
         public static void Deactivate()
         {

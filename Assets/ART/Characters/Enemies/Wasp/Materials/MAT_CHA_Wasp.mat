@@ -40,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Base_Colour:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 950f8042accfd0d4abd3fb4433d2818b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BentNormalMap:
@@ -60,7 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Emission:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 6aa2ea26c7b218e4ca01c5b5b28ddf7c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissiveColorMap:
@@ -84,7 +84,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 1df123e34e5902c4eb486aca68551dd0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
@@ -92,7 +92,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 5fa96f74a0df55544a7d5e9c081bad5f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
@@ -232,6 +232,7 @@ Material:
     - _RefractionModel: 0
     - _RenderQueueType: 1
     - _RequireSplitLighting: 0
+    - _Rim_light_strength: 1
     - _Smoothness: 0.5
     - _SmoothnessRemapMax: 1
     - _SmoothnessRemapMin: 0
@@ -277,6 +278,7 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     - _health_up_speed: -0.4
+    - _rim_light_multiply: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
@@ -300,8 +302,8 @@ Material:
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
-    - _UV_Tiling: {r: 1, g: 1, b: 0, a: 0}
-    - _UV_offset: {r: 0, g: 0, b: 0, a: 0}
+    - _UV_Tiling: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _UV_offset: {r: 1, g: 1, b: 0, a: 0}
     - _Vamp_colour: {r: 1.427451, g: 2.227451, b: 0.4235294, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &1133653367177285029

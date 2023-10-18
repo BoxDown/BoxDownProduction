@@ -43,8 +43,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5, z: 0.5}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.7242567, y: 0.7065255, z: 0.6824043}
+  m_Center: {x: -0.013534601, y: 0.12404923, z: -0.041201953}
 --- !u!1 &7311467568158204742
 GameObject:
   m_ObjectHideFlags: 0
@@ -71,7 +71,7 @@ Transform:
   m_GameObject: {fileID: 7311467568158204742}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.85, y: 0.85, z: 0.85}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 543261556821470695}
@@ -91,7 +91,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3733afbddd26b0e49a3658bd1101fa6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  f_health: 50
+  f_health: 15
+  C_halfDestroyedObject: {fileID: 0}
+  C_grabBag: {fileID: 0}
+  b_explosive: 0
+  f_damage: 10
+  f_size: 1.5
+  f_length: 1
+  f_knockback: 1
+  C_explosionEffect: {fileID: 0}
+  f_healthDropPercent: 15
+  C_healthPrefab: {fileID: 198115692206122089, guid: ad5db2b6e4c714f43a6fc2fd06349567,
+    type: 3}
 --- !u!1 &7698102743775638149
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,7 +238,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 4dd94e76e8ef5cf4eb26400a3ecfafbd, type: 2}
+      objectReference: {fileID: 2100000, guid: b5f37b6c92d3be5499f4b2437ac88afb, type: 2}
     - target: {fileID: 919132149155446097, guid: e03aec24e92e8854a8e75aa64a95c3d0,
         type: 3}
       propertyPath: m_Name

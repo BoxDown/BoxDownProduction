@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2c38c22bcf6884b975e48114bf160f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  f_maxSpeed: 4.8
+  f_maxSpeed: 3
   f_maxAcceleration: 35
   C_accelerationCurve:
     serializedVersion: 2
@@ -86,7 +86,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  f_rotationTime: 0.02
+  f_rotationTime: 0
   f_dodgeStartDelay: 0.12
   f_dodgeLength: 2.5
   f_dodgeTime: 0.3
@@ -114,16 +114,16 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  i_maxDodges: 3
   f_dodgeRecoveryTime: 0
   f_size: 0.17
-  f_collisionBounciness: 0.285
-  f_maxHealth: 35
+  f_collisionBounciness: 1
+  f_maxHealth: 10
   f_invincibleTime: 0.1
   C_ownedGun: {fileID: 6616373417050219146}
   b_debugRespawn: 0
   f_respawnTime: 5
   C_onHitEffects: {fileID: 0}
+  C_onHealEffects: {fileID: 0}
   C_renderer: {fileID: 5481867217311753691}
   b_infiniteHealth: 0
   e_combatState: 0
@@ -131,8 +131,13 @@ MonoBehaviour:
   b_lockEnemyPosition: 0
   f_aimRange: 0
   f_fireRange: 0
-  f_meleeDamage: 18
+  f_meleeDamage: 9
   f_meleeKnockback: 15
+  C_deathEffects: {fileID: 2388571588587728514, guid: 595b37fb51237cd41b78cade71e72652,
+    type: 3}
+  C_spawnEffects: {fileID: 0}
+  f_spawnEffectDelay: 0
+  f_spawnEffectOffset: {x: 0, y: 0, z: 0}
   b_chasePlayer: 0
   b_lookAtPlayer: 0
   f_chaseDistance: 0
@@ -196,20 +201,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3b949c5c7141b9c4899d142076ba3344, type: 2}
   b_isFiring: 0
   C_bulletPool: {fileID: 0}
+  C_bulletMaterial: {fileID: 2100000, guid: f231a36aa5757064dabe5fab0ed89561, type: 2}
   S_standardColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
   S_fireColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
   S_iceColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
   S_lightningColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
   S_vampireColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
-  C_standardMesh: {fileID: 4289255759248854763, guid: a2043de5b86ce074089eb0926241be4c,
+  C_standardMesh: {fileID: 4289255759248854763, guid: 981b269f43fd66d47b6b6b0b01e2b274,
     type: 3}
-  C_pierceMesh: {fileID: 7950570417774393746, guid: 21f871fe850d77e4eafb27be6a70db5f,
+  C_pierceMesh: {fileID: 7950570417774393746, guid: 50bc54d06fceff84393e1e36de1b48cb,
     type: 3}
-  C_ricochetMesh: {fileID: -7192917853620844143, guid: c3d4c60968e42054e96e401b4dabdaa8,
+  C_ricochetMesh: {fileID: -7192917853620844143, guid: 2d79d84372c7e754fab5beffd0b51221,
     type: 3}
-  C_explosiveMesh: {fileID: -2166002888209138128, guid: b8e6808b644cda043ad4380cf8956e40,
+  C_explosiveMesh: {fileID: -2166002888209138128, guid: 99bf2c23c26e04745a5616cf3ef5b1cf,
     type: 3}
-  C_homingMesh: {fileID: -470265600441265283, guid: cb51c5f522f05da4abbad99b7e357990,
+  C_homingMesh: {fileID: -470265600441265283, guid: adda9a555dbf6d9458d3b932623716c2,
     type: 3}
   C_bulletTrail: {fileID: 1828411177140869346, guid: 97cb0a8249c5d3f4ebd1d6ecbcfbdfcd,
     type: 3}

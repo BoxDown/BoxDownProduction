@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using Utility;
 using Managers;
+using System;
+using System.Runtime.CompilerServices;
 
 namespace Enemy
 {
@@ -8,6 +10,7 @@ namespace Enemy
     {
         [Header("Slug Specific Variables:")]
         [Rename("Aim At Player")] public bool b_aimAtPlayer = false;
+        [Rename("Snap Aim On Hit")] public bool b_aimAfterhit = false;
 
         private void Start()
         {
@@ -30,7 +33,7 @@ namespace Enemy
         private void Update()
         {
             base.Update();
-            if (C_player.b_isDead)
+            if (b_spawning || !PlayerLineOfSightCheck() || C_player.b_isDead)
             {
                 CancelGun();
                 return;
@@ -44,7 +47,7 @@ namespace Enemy
                 }
                 if (f_distanceToPlayer < f_fireRange)
                 {
-                    FireGun();
+                    FireGun(); 
                 }
                 else
                 {
@@ -54,6 +57,14 @@ namespace Enemy
             else
             {
                 FireGun();
+            }
+        }
+        public override void Damage(float damage)
+        {
+            base.Damage(damage);
+            if (b_aimAfterhit && !b_isDead)
+            {
+                SetRotationDirection(Vector2.ClampMagnitude(DirectionOfPlayer(), 0.1f));
             }
         }
 

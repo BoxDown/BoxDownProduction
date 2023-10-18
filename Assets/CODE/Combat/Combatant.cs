@@ -3,6 +3,7 @@ using UnityEngine;
 using Utility;
 using Gun;
 using System.Collections.Generic;
+using UnityEngine.VFX;
 
 public class Combatant : MonoBehaviour
 {
@@ -39,7 +40,7 @@ public class Combatant : MonoBehaviour
     [Rename("Dodge Length")] public float f_dodgeLength = 2.5f;
     [Rename("Dodge Time")] public float f_dodgeTime = 0.3f;
     [Rename("Dodge Animation Curve")] public AnimationCurve C_dodgeCurve;
-    [Rename("Dodge Count")] public int i_maxDodges = 3;
+    protected int i_maxDodges = 1;
     [Rename("Dodge Recovery Time")] public float f_dodgeRecoveryTime;
 
     [Space(4)]
@@ -62,6 +63,7 @@ public class Combatant : MonoBehaviour
 
     [Header("Visuals")]
     [Rename("Hit VFX")] public GameObject C_onHitEffects;
+    [Rename("Heal VFX")] public GameObject C_onHealEffects;
     [Rename("Renderer")] public Renderer C_renderer;
 
 
@@ -277,6 +279,8 @@ public class Combatant : MonoBehaviour
         f_currentAccelerationStep = 0;
         if (b_hasAnimator)
         {
+            C_animator.SetFloat("Strafe", 0);
+            C_animator.SetFloat("Run", 0);
             C_animator.SetBool("Movement", false);
         }
     }
@@ -416,15 +420,19 @@ public class Combatant : MonoBehaviour
 
     public virtual void Heal(float heal)
     {
-        if(f_currentHealth == f_maxHealth)
+        if (f_currentHealth == f_maxHealth)
         {
             return;
         }
 
         f_currentHealth += heal;
         f_currentHealth = Mathf.Clamp(f_currentHealth, 0, f_maxHealth);
-        SetHealthAmount(Utility.ExtraMaths.Map(0,1,0.6f,1,(heal / f_maxHealth)));
+        SetHealthAmount(Utility.ExtraMaths.Map(0, 1, 0.6f, 1, (heal / f_maxHealth)));
         StartCoroutine(StopHealAfterSeconds(1f));
+        if (C_onHealEffects != null)
+        {
+            Destroy(Instantiate(C_onHealEffects), 2.0f);
+        }
     }
 
     public virtual void Die()
@@ -434,6 +442,7 @@ public class Combatant : MonoBehaviour
         SetLightningEffected(false);
         ClearLightningHits();
         GetComponent<Collider>().enabled = false;
+        StopMovementDirection();
         if (C_animator != null)
         {
             C_animator.SetFloat("Death", 1);
@@ -727,7 +736,7 @@ public class Combatant : MonoBehaviour
         ClearLightningHits();
     }
 
-    private IEnumerator ChangeStateForSeconds(CombatState state, float seconds)
+    protected IEnumerator ChangeStateForSeconds(CombatState state, float seconds)
     {
         ChangeState(state);
         yield return new WaitForSeconds(seconds);
@@ -747,13 +756,15 @@ public class Combatant : MonoBehaviour
             C_ownedGun.CancelFire();
         }
 
-
-        ChangeState(CombatState.Dodge);
+        //Visual
         TurnOnDodge();
-        if(C_animator != null)
+        if (C_animator != null)
         {
             C_animator.SetBool("Dodge", true);
         }
+
+        //actually dodge stuff
+        ChangeState(CombatState.Dodge);
         Vector3 startPosition = transform.localPosition;
         float dodgeDistance = f_dodgeLength;
         float dodgeTime = f_dodgeTime;

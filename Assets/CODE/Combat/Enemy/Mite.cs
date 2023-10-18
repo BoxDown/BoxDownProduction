@@ -1,6 +1,7 @@
 ﻿using Utility;
 using UnityEngine;
 using Managers;
+using System.Collections;
 
 namespace Enemy
 {
@@ -15,17 +16,32 @@ namespace Enemy
         private void Start()
         {
             base.Start();
+        }
+
+        protected override IEnumerator SpawnRoutine()
+        {
+            b_spawning = true;
+            StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, 2.5f));
+            if (C_spawnEffects != null)
+            {
+                StartCoroutine(PlaySpawnEffect(f_spawnEffectDelay));
+            }
+            yield return new WaitForSeconds(2.5f);
+            b_spawning = false;
             if (!b_chasePlayer)
             {
                 ChangeMovementDirection(new Vector2(transform.forward.x, transform.forward.z));
-                SetRotationDirection(S_movementVec2Direction);
             }
         }
-
 
         private void Update()
         {
             base.Update();
+            if (b_spawning)
+            {
+                CancelGun();
+                return;
+            }
             MeleeDamage();
             if (f_distanceToPlayer < f_aimRange && b_lookAtPlayer)
             {
@@ -40,7 +56,7 @@ namespace Enemy
                         return;
                     }
                     ReflectMovementDirection(new Vector2(hit.normal.x, hit.normal.z));
-                    SetRotationDirection(S_movementVec2Direction);
+                    SetRotationDirection(Vector2.ClampMagnitude(S_movementVec2Direction,0.1f));
                 }
                 return;
             }

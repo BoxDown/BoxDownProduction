@@ -119,8 +119,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  i_maxDodges: 3
-  f_dodgeRecoveryTime: 2.5
+  f_dodgeRecoveryTime: 0.25
   f_size: 0.35
   f_collisionBounciness: 0.285
   f_maxHealth: 100
@@ -129,11 +128,14 @@ MonoBehaviour:
   b_debugRespawn: 0
   f_respawnTime: 1
   C_onHitEffects: {fileID: 0}
+  C_onHealEffects: {fileID: 0}
   C_renderer: {fileID: 1762880991049522183}
+  b_infiniteHealth: 0
   e_combatState: 0
   b_isDead: 0
   f_controllerDeadZone: 0.15
-  f_interactRange: 3
+  f_interactRange: 1.5
+  S_cameraDirection: {x: 0, y: 0, z: 0}
 --- !u!136 &2007548048
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -207,20 +209,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5b187bdf3af346c45b33a337b2e9d0c6, type: 2}
   b_isFiring: 0
   C_bulletPool: {fileID: 0}
+  C_bulletMaterial: {fileID: 2100000, guid: f231a36aa5757064dabe5fab0ed89561, type: 2}
   S_standardColour: {r: 6135.965, g: 2564.005, b: 0, a: 1}
   S_fireColour: {r: 6833.1636, g: 419.01492, b: 419.01492, a: 1}
   S_iceColour: {r: 277.8555, g: 868.48096, b: 6545.0435, a: 1}
   S_lightningColour: {r: 6135.9688, g: 5461.3335, b: 738.8863, a: 1}
   S_vampireColour: {r: 995.8902, g: 6135.9688, b: 385.5059, a: 1}
-  C_standardMesh: {fileID: 4289255759248854763, guid: a2043de5b86ce074089eb0926241be4c,
+  C_standardMesh: {fileID: 4289255759248854763, guid: 981b269f43fd66d47b6b6b0b01e2b274,
     type: 3}
-  C_pierceMesh: {fileID: 7950570417774393746, guid: 21f871fe850d77e4eafb27be6a70db5f,
+  C_pierceMesh: {fileID: 7950570417774393746, guid: 50bc54d06fceff84393e1e36de1b48cb,
     type: 3}
-  C_ricochetMesh: {fileID: -7192917853620844143, guid: c3d4c60968e42054e96e401b4dabdaa8,
+  C_ricochetMesh: {fileID: -7192917853620844143, guid: 2d79d84372c7e754fab5beffd0b51221,
     type: 3}
-  C_explosiveMesh: {fileID: -2166002888209138128, guid: b8e6808b644cda043ad4380cf8956e40,
+  C_explosiveMesh: {fileID: -2166002888209138128, guid: 99bf2c23c26e04745a5616cf3ef5b1cf,
     type: 3}
-  C_homingMesh: {fileID: -470265600441265283, guid: cb51c5f522f05da4abbad99b7e357990,
+  C_homingMesh: {fileID: -470265600441265283, guid: adda9a555dbf6d9458d3b932623716c2,
     type: 3}
   C_bulletTrail: {fileID: 1828411177140869346, guid: 50cb4ac4d2efe7d4fbe23047e73f41f4,
     type: 3}

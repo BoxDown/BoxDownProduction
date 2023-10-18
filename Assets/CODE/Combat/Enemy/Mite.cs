@@ -37,7 +37,7 @@ namespace Enemy
         private void Update()
         {
             base.Update();
-            if (b_spawning || !PlayerLineOfSightCheck())
+            if (b_spawning)
             {
                 CancelGun();
                 return;

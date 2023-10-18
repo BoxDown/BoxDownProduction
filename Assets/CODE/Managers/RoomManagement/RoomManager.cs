@@ -37,7 +37,7 @@ namespace Managers
             GameManager.gameManager.UpdateRewardPoint(S_rewardPosition);
             PlayerController player = FindObjectOfType<PlayerController>();
             C_manager = GetComponent<PolyBrushManager>();
-            C_manager.InstanceMaterial();
+            //C_manager.InstanceMaterial();
             player.SetPlayerPosition(S_spawnPosition);
             switch (e_entranceDirection)
             {

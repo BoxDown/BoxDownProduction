@@ -258,7 +258,7 @@ namespace Gun
         {
             if (C_homingTarget != null)
             {
-                if (C_homingTarget.gameObject.activeInHierarchy)
+                if (!C_homingTarget.GetComponent<Combatant>().b_isDead)
                 {
                     return;
                 }
@@ -303,7 +303,7 @@ namespace Gun
                     C_trailEffect.SetFloat("FireDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
                     C_trailEffect.SetVector2("Main", new Vector2(-2, 0) * trailSpeedModifier);
                     C_trailEffect.SetVector2("2nd", new Vector2(-0.71f, 0) * trailSpeedModifier);
-                    C_trailEffect.SetVector3("Specs", new Vector3(0, 0, 2f) * trailSpeedModifier);
+                    C_trailEffect.SetVector3("Specs", new Vector3(0, 0, 1f) * trailSpeedModifier);
                     break;
                 case BulletEffect.Ice:
                     //Set duration on current effect to be alive time of bullet

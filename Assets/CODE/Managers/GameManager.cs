@@ -30,6 +30,7 @@ namespace Managers
 
         [Space(10)]
         [Rename("Debug Game"), SerializeField] public bool b_debugMode;
+        [Rename("Spawn All Modules"), SerializeField] public bool b_spawnAllModules;
 
         [Rename("All Levels Document")] public TextAsset C_allLevels;
         [Rename("All Modules Document")] public TextAsset C_allGunModules;
@@ -435,8 +436,8 @@ namespace Managers
         #endregion
 
         #region UIFunctions
-        [HideInInspector]public bool b_cull = true;
-        [HideInInspector]public bool b_cullLastFrame = true;
+        [HideInInspector] public bool b_cull = true;
+        [HideInInspector] public bool b_cullLastFrame = true;
         public void SetCulling(bool cullingOnOff)
         {
             b_cull = cullingOnOff;
@@ -453,6 +454,7 @@ namespace Managers
             SetStartTime();
             SceneManager.LoadScene("StartBreakRoom");
             InGameUI.ActivateInGameUI();
+            AudioManager.TransitionToBattleTheme();
         }
         public static void OpenOptionsMenu()
         {
@@ -474,6 +476,8 @@ namespace Managers
         }
         public static void RestartGame()
         {
+            AudioManager.StartMusicLoop();
+            AudioManager.TransitionToBattleTheme();
             gameManager.RemovePlayer();
             gameManager.RemoveCamera();
             StartGameEndless();
@@ -494,6 +498,7 @@ namespace Managers
             CreditsMenu.Deactivate();
             SceneManager.LoadScene("MainMenu");
             ActivateMainMenu();
+            AudioManager.TransitionToMainMenu();
             SwitchToUIActions();
         }
 
@@ -552,9 +557,25 @@ namespace Managers
             GrabAllLevels();
             GroupLevels(ls_allLevels);
 
+            if (b_debugMode && b_spawnAllModules)
+            {
+                SpawnAllGunModules();
+            }
+
+            AudioManager.StartMusicLoop();
+
             i_currentRoom = 0;
 
         }
+
+        public static void SpawnAllGunModules()
+        {
+            for (int i = 0; i < gameManager.ls_allGunModulesNames.Count(); i++)
+            {
+                GunModuleSpawner.SpawnGunModule(gameManager.ls_allGunModulesNames[i], new Vector3((i % 6) * 1.5f, 0, (i / 6) * 1.5f));
+            }
+        }
+
 
         #endregion
 

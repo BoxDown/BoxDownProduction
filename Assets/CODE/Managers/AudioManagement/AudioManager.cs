@@ -44,11 +44,12 @@ public class AudioManager : MonoBehaviour
 
     public static void StartMusicLoop()
     {
+        audioManager.S_musicLoop.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         audioManager.S_musicLoop = StartFmodLoop("event:/Music/Main Music Timeline");
         TransitionToMainMenu();
     }
 
-    public static void StopMainMenuLoop()
+    public static void StopMusicLoop()
     {
         EndFmodLoop(audioManager.S_musicLoop);
     }

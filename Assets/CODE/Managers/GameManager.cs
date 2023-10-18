@@ -6,6 +6,7 @@ using Utility;
 using System.IO;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 namespace Managers
 {
@@ -32,8 +33,19 @@ namespace Managers
         [Rename("Debug Game"), SerializeField] public bool b_debugMode;
         [Rename("Spawn All Modules"), SerializeField] public bool b_spawnAllModules;
 
+        [Space(10)]
+        [Header("Plug in documents from assets folder")]
         [Rename("All Levels Document")] public TextAsset C_allLevels;
         [Rename("All Modules Document")] public TextAsset C_allGunModules;
+
+        [Space(10)]
+        [Header("UI Default Buttons")]
+        [Rename("Default Main Menu Button")] public GameObject C_defaultMainMenuButton;
+        [Rename("Default Pause Button")] public GameObject C_defaultPauseButton;
+        [Rename("Default Swap Button")] public GameObject C_defaultSwapButton;
+        [Rename("Default Results Button")] public GameObject C_defaultResultsButton;
+        [Rename("Default Credits Button")] public GameObject C_defaultCreditsButton;
+        private EventSystem C_eventSystem;
 
         private Door.RoomType e_currentRewardType;
         private GunModule[] aC_previousModules = new GunModule[3];
@@ -456,14 +468,10 @@ namespace Managers
             InGameUI.ActivateInGameUI();
             AudioManager.TransitionToBattleTheme();
         }
-        public static void OpenOptionsMenu()
-        {
-            OptionsMenu.Activate();
-            DeactivateMainMenu();
-        }
         public static void OpenCreditsMenu()
         {
             CreditsMenu.Activate();
+            CurrentSelectionCreditsMenu();
             DeactivateMainMenu();
         }
         public static void ActivateMainMenu()
@@ -500,6 +508,7 @@ namespace Managers
             ActivateMainMenu();
             AudioManager.TransitionToMainMenu();
             SwitchToUIActions();
+            CurrentSelectionMainMenu();
         }
 
         public static void ExitGame()
@@ -566,6 +575,32 @@ namespace Managers
 
             i_currentRoom = 0;
 
+        }
+
+        private void SetCurrentSelected(GameObject newSelection)
+        {
+            C_eventSystem.SetSelectedGameObject(newSelection);
+        }
+
+        public static void CurrentSelectionMainMenu()
+        {
+            gameManager.SetCurrentSelected(gameManager.C_defaultMainMenuButton);
+        }
+        public static void CurrentSelectionPauseMenu()
+        {
+            gameManager.SetCurrentSelected(gameManager.C_defaultPauseButton);
+        }
+        public static void CurrentSelectionSwapMenu()
+        {
+            gameManager.SetCurrentSelected(gameManager.C_defaultSwapButton);
+        }
+        public static void CurrentSelectionResultsMenu()
+        {
+            gameManager.SetCurrentSelected(gameManager.C_defaultResultsButton);
+        }
+        public static void CurrentSelectionCreditsMenu()
+        {
+            gameManager.SetCurrentSelected(gameManager.C_defaultCreditsButton);
         }
 
         public static void SpawnAllGunModules()

@@ -36,6 +36,7 @@ namespace Managers
         {
             InGameUI.DeactivateInGameUI();
             resultsUI.C_loseResult.gameObject.SetActive(true);
+            GameManager.CurrentSelectionResultsMenu();
             resultsUI.C_loseText.text = $"-You Died-";
             resultsUI.C_statsText.text =
                 "Stats:\n" + 

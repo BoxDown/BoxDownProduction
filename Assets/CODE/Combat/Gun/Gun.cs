@@ -340,7 +340,6 @@ namespace Gun
                     Destroy(C_barrel.GetComponent<Collider>());
                 }
 
-
                 C_barrel.parent = C_barrelJoint;
                 C_barrel.localPosition = Vector3.zero;
                 C_barrel.localRotation = Quaternion.Euler(new Vector3(0, 0, 90));
@@ -482,6 +481,7 @@ namespace Gun
             b_reloading = true;
             yield return new WaitForSeconds(f_reloadSpeed);
             HardReload();
+            yield return new WaitForSeconds(0.15f);
             b_reloading = false;
             if (C_gunHolder.CompareTag("Player"))
             {

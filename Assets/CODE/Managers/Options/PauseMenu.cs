@@ -42,12 +42,13 @@ namespace Managers
             pauseMenu.C_triggerCard.UpdateGunModule(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[0], false);
             pauseMenu.C_clipCard.UpdateGunModule(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[1], false);
             pauseMenu.C_barrelCard.UpdateGunModule(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[2], false);
+
             pauseMenu.gameObject.SetActive(true);
+            GameManager.CurrentSelectionPauseMenu();
         }
         public static void DeactivatePause()
         {
             pauseMenu.gameObject.SetActive(false);
-            GameManager.gameManager.SetCulling(true);
         }
 
         static public void PauseGame()
@@ -62,7 +63,15 @@ namespace Managers
         {
             DeactivatePause();
             pauseMenu.b_gamePaused = false;
-            GameManager.SwitchToInGameActions();
+            if (!WeaponsSwapUI.swapUI.gameObject.activeInHierarchy)
+            {
+                GameManager.SwitchToInGameActions();
+                GameManager.gameManager.SetCulling(true);
+            }
+            else
+            {
+                GameManager.CurrentSelectionSwapMenu();
+            }
             Time.timeScale = 1;
         }
 

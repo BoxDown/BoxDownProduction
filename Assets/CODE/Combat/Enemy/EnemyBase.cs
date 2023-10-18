@@ -31,6 +31,10 @@ namespace Enemy
             base.Start();
             C_player = FindObjectOfType<PlayerController>();
             SetRotationDirection(new Vector2(transform.forward.x, transform.forward.z));
+            if (FindObjectOfType<RoomManager>() == null)
+            {
+                Spawn();
+            }
         }
 
         protected override void Update()

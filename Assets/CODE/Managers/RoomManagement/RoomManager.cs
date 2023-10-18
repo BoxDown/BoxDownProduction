@@ -73,6 +73,7 @@ namespace Managers
             }
             i_currentWave = 0;
             StartCoroutine(SpawnNextWave());
+            AudioManager.SetBattleMusicHighIntensity();
         }
 
         private void FixedUpdate()
@@ -91,6 +92,7 @@ namespace Managers
                     if (C_manager != null)
                     {
                         C_manager.RemoveSpaceGoo();
+                        AudioManager.SetBattleMusicLowIntensity();
                     }
                     b_endTriggered = true;
                 }

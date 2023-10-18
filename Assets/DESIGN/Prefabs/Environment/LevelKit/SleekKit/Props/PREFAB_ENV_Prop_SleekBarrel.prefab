@@ -42,6 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3930329478843098099}
   - component: {fileID: 7939594904432337914}
+  - component: {fileID: 7697451242822740828}
   m_Layer: 0
   m_Name: PREFAB_ENV_Prop_SleekBarrel
   m_TagString: Untagged
@@ -78,12 +79,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3733afbddd26b0e49a3658bd1101fa6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  f_health: 50
+  f_health: 25
+  C_halfDestroyedObject: {fileID: 0}
+  C_grabBag: {fileID: 0}
   b_explosive: 1
-  C_explosionEffect: {fileID: 9198468734860294505, guid: e0bdd7450572f6c4b8b8b35f5228405a,
+  f_damage: 20
+  f_size: 4
+  f_length: 1
+  f_knockback: 2
+  C_explosionEffect: {fileID: 9198468734860294505, guid: 2e9cbdddc48dff340b51083b4dc79e55,
     type: 3}
   f_healthDropPercent: 0
   C_healthPrefab: {fileID: 0}
+--- !u!54 &7697451242822740828
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3930329478843098098}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &3930329479096324876
 GameObject:
   m_ObjectHideFlags: 0

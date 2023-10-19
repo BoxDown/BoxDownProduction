@@ -451,6 +451,7 @@ public class Combatant : MonoBehaviour
         }
         CancelDodge();
         CancelGun();
+        ClearAllEffects();
 
         if (b_debugRespawn)
         {
@@ -709,6 +710,19 @@ public class Combatant : MonoBehaviour
     {
         C_material.SetFloat("_Vamp_amount", 0);
     }
+
+    public void ClearAllEffects()
+    {
+        TurnOffHit();
+        TurnOffDodge();
+        TurnOffHealth();
+        TurnOffFire();
+        SetIceAmount(0);
+        TurnOffFrozen();
+        TurnOffElectric();
+        TurnOffVampire();
+    }
+
     #endregion
 
     #endregion

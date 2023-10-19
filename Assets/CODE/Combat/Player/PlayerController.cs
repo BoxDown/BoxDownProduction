@@ -173,7 +173,7 @@ public class PlayerController : Combatant
 
     private void Interact()
     {
-        CancelDodge();
+        StartCoroutine(CancelDodge());
         float closestDistance = float.MaxValue;
         int closestCollisionReference = 0;
         Collider[] collisions = Physics.OverlapSphere(transform.position, f_interactRange);

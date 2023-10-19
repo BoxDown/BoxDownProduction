@@ -289,13 +289,15 @@ public class Combatant : MonoBehaviour
     {
         if (i_currentDodgeCount > 0)
         {
-            i_currentDodgeCount--;
+            //i_currentDodgeCount--;
             StartCoroutine(DodgeRoutine());
         }
     }
-    protected void CancelDodge()
+    protected IEnumerator CancelDodge()
     {
         b_dodgeCanceled = true;
+        yield return 0;
+        b_dodgeCanceled = false;
     }
 
     public void ZeroVelocity()
@@ -765,13 +767,13 @@ public class Combatant : MonoBehaviour
 
         //actually dodge stuff
         ChangeState(CombatState.Dodge);
-        Vector3 startPosition = transform.localPosition;
+        Vector3 startPosition = transform.position;
         float dodgeDistance = f_dodgeLength;
         float dodgeTime = f_dodgeTime;
         float timeSinceStart = 0;
 
         RaycastHit hit;
-        if (Physics.SphereCast(transform.localPosition, f_size, S_movementInputDirection, out hit, f_dodgeLength, i_bulletLayerMask))
+        if (Physics.SphereCast(transform.position + Vector3.up, f_size, S_movementInputDirection, out hit, f_dodgeLength, i_bulletLayerMask))
         {
             dodgeDistance = hit.distance - f_size;
             float dodgePercentage = dodgeDistance / f_dodgeLength;

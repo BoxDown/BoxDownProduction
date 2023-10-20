@@ -266,7 +266,7 @@ public class PlayerController : Combatant
 
     private void FootStepCheck()
     {
-        if(S_velocity == Vector3.zero || C_leftFoot != null || C_rightFoot != null)
+        if(S_velocity == Vector3.zero || C_leftFoot == null || C_rightFoot == null)
         {
             return;
         }

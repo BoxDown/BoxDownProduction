@@ -738,19 +738,39 @@ namespace Managers
 
         public static void PlayUIHoverSound()
         {
+            if (GetCamera() == null)
+            {
+                AudioManager.PlayFmodEvent("SFX/Menu_SFX/Button_Hover", FindObjectOfType<Camera>().transform.position);
+                return;
+            }
             AudioManager.PlayFmodEvent("SFX/Menu_SFX/Button_Hover", GetCamera().transform.position);
         }
 
         public static void PlayUISelectSound()
         {
+            if (GetCamera() == null)
+            {
+                AudioManager.PlayFmodEvent("SFX/Menu_SFX/Button_Select", FindObjectOfType<Camera>().transform.position);
+                return;
+            }
             AudioManager.PlayFmodEvent("SFX/Menu_SFX/Button_Select", GetCamera().transform.position);
         }
         public static void PlayMenuTransitionSound()
         {
+            if (GetCamera() == null)
+            {
+                AudioManager.PlayFmodEvent("SFX/Menu_SFX/Menu_Transition", FindObjectOfType<Camera>().transform.position);
+                return;
+            }
             AudioManager.PlayFmodEvent("SFX/Menu_SFX/Menu_Transition", GetCamera().transform.position);
         }
         public static void PlayModuleSwapSound()
         {
+            if (GetCamera() == null)
+            {
+                AudioManager.PlayFmodEvent("SFX/Menu_SFX/Module_Swap", FindObjectOfType<Camera>().transform.position);
+                return;
+            }
             AudioManager.PlayFmodEvent("SFX/Menu_SFX/Module_Swap", GetCamera().transform.position);
         }
 

@@ -480,6 +480,7 @@ namespace Managers
             CreditsMenu.Activate();
             CurrentSelectionCreditsMenu();
             DeactivateMainMenu();
+            PlayMenuTransitionSound();
         }
         public static void ActivateMainMenu()
         {
@@ -513,9 +514,11 @@ namespace Managers
             CreditsMenu.Deactivate();
             SceneManager.LoadScene("MainMenu");
             ActivateMainMenu();
+            gameManager.SetCulling(true);
             AudioManager.TransitionToMainMenu();
             SwitchToUIActions();
             CurrentSelectionMainMenu();
+            PlayMenuTransitionSound();
         }
 
         public static void ExitGame()
@@ -704,6 +707,10 @@ namespace Managers
         {
             gameManager.C_camera = camera;
         }
+        public static CameraDolly GetCamera()
+        {
+            return gameManager.C_camera;
+        }
 
         public void RemovePlayer()
         {
@@ -725,6 +732,28 @@ namespace Managers
                 C_camera = null;
             }
         }
+        #endregion
+
+        #region Audio
+
+        public static void PlayUIHoverSound()
+        {
+            AudioManager.PlayFmodEvent("SFX/Menu_SFX/Button_Hover", GetCamera().transform.position);
+        }
+
+        public static void PlayUISelectSound()
+        {
+            AudioManager.PlayFmodEvent("SFX/Menu_SFX/Button_Select", GetCamera().transform.position);
+        }
+        public static void PlayMenuTransitionSound()
+        {
+            AudioManager.PlayFmodEvent("SFX/Menu_SFX/Menu_Transition", GetCamera().transform.position);
+        }
+        public static void PlayModuleSwapSound()
+        {
+            AudioManager.PlayFmodEvent("SFX/Menu_SFX/Module_Swap", GetCamera().transform.position);
+        }
+
         #endregion
 
         #region Stats

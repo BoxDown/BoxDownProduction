@@ -33,7 +33,13 @@ namespace Enemy
         private void Update()
         {
             base.Update();
-            if (b_spawning || !PlayerLineOfSightCheck() || C_player.b_isDead)
+
+            //audio
+            PlayAudio();
+
+            // behaviour
+
+            if (b_spawning || C_player.b_isDead)
             {
                 CancelGun();
                 return;
@@ -45,7 +51,7 @@ namespace Enemy
                 {
                     LookAtPlayer();
                 }
-                if (f_distanceToPlayer < f_fireRange)
+                if (f_distanceToPlayer < f_fireRange && PlayerLineOfSightCheck())
                 {
                     FireGun(); 
                 }
@@ -66,12 +72,22 @@ namespace Enemy
             {
                 SetRotationDirection(Vector2.ClampMagnitude(DirectionOfPlayer(), 0.1f));
             }
+            AudioManager.PlayFmodEvent("SFX/Enemy/Worm/Worm_Hit", transform.position);
         }
 
         public override void Die()
         {
             base.Die();
             GameManager.IncrementSlugKill();
+        }
+        private void PlayAudio()
+        {
+            if (f_currentTimeBetweenSounds < 0)
+            {
+                AudioManager.PlayFmodEvent("SFX/Enemy/Worm/Worm_Chatter", transform.position);
+                GetNewTimeBetweenSounds();
+            }
+            f_currentTimeBetweenSounds -= Time.deltaTime;
         }
     }
 }

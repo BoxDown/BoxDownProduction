@@ -132,7 +132,10 @@ namespace Managers
                     GameManager.gameManager.C_gunModuleUI.PlayBarrelSwap();
                     break;
             }
-            yield return new WaitForSeconds(1.6f);
+            yield return new WaitForSeconds(1.3f);
+            AudioManager.PlayFmodEvent("SFX/Player/Gun_Change", GameManager.GetCamera().transform.position);
+
+            yield return new WaitForSeconds(0.3f);
             TurnOff();
             Deactivate();
         }

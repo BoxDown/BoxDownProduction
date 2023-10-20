@@ -260,6 +260,10 @@ public class Combatant : MonoBehaviour
             {
                 C_animator.SetBool("Movement", true);
             }
+            else
+            {
+                C_animator.SetBool("Movement", false);
+            }
         }
 
         CheckCollisions();

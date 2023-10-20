@@ -293,7 +293,6 @@ public class Combatant : MonoBehaviour
     {
         if (i_currentDodgeCount > 0)
         {
-            //i_currentDodgeCount--;
             StartCoroutine(DodgeRoutine());
         }
     }
@@ -529,7 +528,7 @@ public class Combatant : MonoBehaviour
         }
     }
 
-    public void ReloadGun()
+    public virtual void ReloadGun()
     {
         C_ownedGun.Reload();
     }
@@ -540,6 +539,7 @@ public class Combatant : MonoBehaviour
         if (b_hasAnimator)
         {
             C_animator.SetFloat("Reload", 1);
+            C_animator.SetFloat("Recoil", 0);
             C_animator.speed = 1 / C_ownedGun.aC_moduleArray[1].f_reloadSpeed;
             StartCoroutine(StopReloadAnimationAfterSeconds(C_ownedGun.aC_moduleArray[1].f_reloadSpeed));
         }
@@ -769,12 +769,19 @@ public class Combatant : MonoBehaviour
     //set state to normal
     private IEnumerator DodgeRoutine()
     {
+        if (S_movementInputDirection == Vector3.zero)
+        {
+            yield break;
+        }
         yield return new WaitForSeconds(f_dodgeStartDelay);
+        
+
         bool firingAtStartOfDodge = C_ownedGun.b_isFiring;
         if (firingAtStartOfDodge)
         {
             C_ownedGun.CancelFire();
         }
+        AudioManager.PlayFmodEvent("SFX/Player/Dash", transform.position);
 
         //Visual
         TurnOnDodge();
@@ -786,12 +793,12 @@ public class Combatant : MonoBehaviour
         //actually dodge stuff
         ChangeState(CombatState.Dodge);
         Vector3 startPosition = transform.position;
-        float dodgeDistance = f_dodgeLength;
+        float dodgeDistance = f_dodgeLength * f_slowMultiplier;
         float dodgeTime = f_dodgeTime;
         float timeSinceStart = 0;
 
         RaycastHit hit;
-        if (Physics.SphereCast(transform.position + Vector3.up, f_size, S_movementInputDirection, out hit, f_dodgeLength, i_bulletLayerMask))
+        if (Physics.SphereCast(transform.position + Vector3.up, f_size, S_movementInputDirection, out hit, dodgeDistance, i_bulletLayerMask))
         {
             dodgeDistance = hit.distance - f_size;
             float dodgePercentage = dodgeDistance / f_dodgeLength;

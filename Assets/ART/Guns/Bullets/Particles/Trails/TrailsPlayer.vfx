@@ -70,7 +70,7 @@ MonoBehaviour:
     x: -1963
     y: -337
     width: 5764
-    height: 4863
+    height: 5523
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -153,6 +153,20 @@ MonoBehaviour:
   m_UISuperCollapsed: 0
   m_UIInfos: {fileID: 114340500867371532}
   m_ParameterInfo:
+  - name: SizeTrail
+    path: SizeTrail
+    tooltip: 
+    sheetType: m_Float
+    realType: Single
+    defaultValue:
+      m_Type:
+        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089
+      m_SerializableObject: 0.15
+    min: -Infinity
+    max: Infinity
+    enumValues: []
+    descendantCount: 0
   - name: ElectricDuration
     path: ElectricDuration
     tooltip: 
@@ -6601,7 +6615,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614827}
   - {fileID: 8926484042661614833}
   - {fileID: 8926484042661614838}
-  m_UIPosition: {x: 466, y: 2667}
+  m_UIPosition: {x: 16, y: 3315}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -6617,11 +6631,9 @@ MonoBehaviour:
   - {fileID: 8926484042661614821}
   m_OutputSlots: []
   m_Label: MainBeam
-  m_Data: {fileID: 8926484042661614998}
+  m_Data: {fileID: 8926484042661615661}
   m_InputFlowSlot:
-  - link:
-    - context: {fileID: 8926484042661614847}
-      slotIndex: 0
+  - link: []
   m_OutputFlowSlot:
   - link: []
   blendMode: 0
@@ -7993,8 +8005,6 @@ MonoBehaviour:
       slotIndex: 0
   m_OutputFlowSlot:
   - link:
-    - context: {fileID: 8926484042661614803}
-      slotIndex: 0
     - context: {fileID: 8926484042661614871}
       slotIndex: 0
   integration: 0
@@ -9046,8 +9056,7 @@ MonoBehaviour:
       m_SerializableType: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   m_Direction: 0
-  m_LinkedSlots:
-  - {fileID: 8926484042661615404}
+  m_LinkedSlots: []
 --- !u!114 &8926484042661614880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9717,7 +9726,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":-1.1799999475479127,"y":2.0,"z":1.0}'
+      m_SerializableObject: '{"x":-1.159999966621399,"y":1.1399999856948853,"z":1.0}'
     m_Space: 2147483647
   m_Property:
     name: Scale
@@ -12715,7 +12724,6 @@ MonoBehaviour:
   m_Owners:
   - {fileID: 8926484042661614849}
   - {fileID: 8926484042661614847}
-  - {fileID: 8926484042661614803}
   - {fileID: 8926484042661614871}
   dataType: 0
   capacity: 32
@@ -25336,14 +25344,12 @@ MonoBehaviour:
     - outputSlot: {fileID: 8926484042661615404}
       inputSlot: {fileID: 8926484042661615279}
     - outputSlot: {fileID: 8926484042661615404}
-      inputSlot: {fileID: 8926484042661614879}
-    - outputSlot: {fileID: 8926484042661615404}
       inputSlot: {fileID: 8926484042661615078}
     - outputSlot: {fileID: 8926484042661615404}
       inputSlot: {fileID: 8926484042661614678}
     - outputSlot: {fileID: 8926484042661615404}
       inputSlot: {fileID: 8926484042661615641}
-    position: {x: 1413, y: 4384}
+    position: {x: 722, y: 2741}
     expandedSlots: []
     expanded: 0
 --- !u!114 &8926484042661615404
@@ -25383,7 +25389,6 @@ MonoBehaviour:
   m_Direction: 1
   m_LinkedSlots:
   - {fileID: 8926484042661615279}
-  - {fileID: 8926484042661614879}
   - {fileID: 8926484042661615078}
   - {fileID: 8926484042661614678}
   - {fileID: 8926484042661615641}
@@ -25854,7 +25859,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615441}
   - {fileID: 8926484042661615447}
   - {fileID: 8926484042661615452}
-  m_UIPosition: {x: 2534, y: 3643}
+  m_UIPosition: {x: 2789, y: 4343}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -25870,11 +25875,9 @@ MonoBehaviour:
   - {fileID: 8926484042661615435}
   m_OutputSlots: []
   m_Label: MainBeam
-  m_Data: {fileID: 8926484042661615608}
+  m_Data: {fileID: 8926484042661615662}
   m_InputFlowSlot:
-  - link:
-    - context: {fileID: 8926484042661615461}
-      slotIndex: 0
+  - link: []
   m_OutputFlowSlot:
   - link: []
   blendMode: 0
@@ -26134,7 +26137,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"4be3fe2ee344ac246a386812357ea1e5","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"d1616a0be75dc6b4a87edf05c8663bf7","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: _MaskTex
@@ -26849,7 +26852,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":-1.1799999475479127,"y":2.0,"z":1.0}'
+      m_SerializableObject: '{"x":1.149999976158142,"y":1.0800000429153443,"z":1.0}'
     m_Space: 2147483647
   m_Property:
     name: Scale
@@ -27246,8 +27249,6 @@ MonoBehaviour:
       slotIndex: 0
   m_OutputFlowSlot:
   - link:
-    - context: {fileID: 8926484042661615417}
-      slotIndex: 0
     - context: {fileID: 8926484042661615616}
       slotIndex: 0
   integration: 0
@@ -27978,7 +27979,6 @@ MonoBehaviour:
   m_Owners:
   - {fileID: 8926484042661615463}
   - {fileID: 8926484042661615461}
-  - {fileID: 8926484042661615417}
   - {fileID: 8926484042661615616}
   dataType: 0
   capacity: 32
@@ -28107,7 +28107,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615619}
   - {fileID: 8926484042661615625}
   - {fileID: 8926484042661615630}
-  m_UIPosition: {x: 2956, y: 3643}
+  m_UIPosition: {x: 3326, y: 3737}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -28469,7 +28469,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":-1.1799999475479127,"y":2.0,"z":1.0}'
+      m_SerializableObject: '{"x":0.6100000143051148,"y":1.1699999570846558,"z":1.0}'
     m_Space: 2147483647
   m_Property:
     name: Scale
@@ -28939,7 +28939,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"4be3fe2ee344ac246a386812357ea1e5","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"d1616a0be75dc6b4a87edf05c8663bf7","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: _MaskTex
@@ -29503,13 +29503,13 @@ MonoBehaviour:
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 0
+  m_UICollapsed: 1
   m_UISuperCollapsed: 0
   m_InputSlots: []
   m_OutputSlots:
   - {fileID: 8926484042661615658}
   m_ExposedName: SizeTrail
-  m_Exposed: 0
+  m_Exposed: 1
   m_Order: 1
   m_Category: 
   m_Min:
@@ -29666,3 +29666,59 @@ MonoBehaviour:
         PublicKeyToken=b77a5c561934e089
   m_Direction: 1
   m_LinkedSlots: []
+--- !u!114 &8926484042661615661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d78581a96eae8bf4398c282eb0b098bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 114350483966674976}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  title: 
+  m_Owners:
+  - {fileID: 8926484042661614803}
+  dataType: 0
+  capacity: 128
+  stripCapacity: 1
+  particlePerStripCount: 128
+  needsComputeBounds: 0
+  boundsMode: 0
+  m_Space: 0
+--- !u!114 &8926484042661615662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d78581a96eae8bf4398c282eb0b098bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 114350483966674976}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  title: 
+  m_Owners:
+  - {fileID: 8926484042661615417}
+  dataType: 0
+  capacity: 128
+  stripCapacity: 1
+  particlePerStripCount: 128
+  needsComputeBounds: 0
+  boundsMode: 0
+  m_Space: 0

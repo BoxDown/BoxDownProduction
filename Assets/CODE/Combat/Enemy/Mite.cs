@@ -37,6 +37,11 @@ namespace Enemy
         private void Update()
         {
             base.Update();
+
+            //audio
+            PlayAudio();
+
+            // behaviour
             if (b_spawning)
             {
                 CancelGun();
@@ -111,6 +116,22 @@ namespace Enemy
         {
             base.Die();
             GameManager.IncrementMiteKill();
+        }
+
+        public override void Damage(float damage)
+        {
+            base.Damage(damage);
+            AudioManager.PlayFmodEvent("SFX/Enemy/Mite/Mite_Hit", transform.position);
+        }
+
+        private void PlayAudio()
+        {
+            if (f_currentTimeBetweenSounds < 0)
+            {
+                AudioManager.PlayFmodEvent("SFX/Enemy/Mite/Mite_Chatter", transform.position);
+                GetNewTimeBetweenSounds();
+            }
+            f_currentTimeBetweenSounds -= Time.deltaTime;
         }
     }
 }

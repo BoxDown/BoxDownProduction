@@ -18,6 +18,7 @@ namespace Gun
                 throw new NullReferenceException("Module attempted to load is null");
             }
             moduleToLoad.Spawn(worldPos);
+            AudioManager.PlayFmodEvent("SFX/Environment/Module_Crate_Spawn", worldPos);
         }
 
         //public static string[] GetAllGunModules()

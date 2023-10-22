@@ -22,6 +22,10 @@ namespace Enemy
         [Rename("Spawn Effect Delay"), SerializeField] protected float f_spawnEffectDelay = 0;
         [Rename("Spawn Effect Offset"), SerializeField] protected Vector3 f_spawnEffectOffset = Vector3.zero;
 
+        protected float f_minTimeBetweenSound = 5;
+        protected float f_maxTimeBetweenSound = 15;
+        protected float f_currentTimeBetweenSounds;
+
         //runtime variables
         protected PlayerController C_player;
         protected bool b_spawning;
@@ -31,6 +35,10 @@ namespace Enemy
             base.Start();
             C_player = FindObjectOfType<PlayerController>();
             SetRotationDirection(new Vector2(transform.forward.x, transform.forward.z));
+            if (FindObjectOfType<RoomManager>() == null)
+            {
+                Spawn();
+            }
         }
 
         protected override void Update()
@@ -168,6 +176,11 @@ namespace Enemy
                 yield return new WaitForSeconds(time);
             }
             gameObject.SetActive(false);
+        }
+
+        protected void GetNewTimeBetweenSounds()
+        {
+            f_currentTimeBetweenSounds = Random.Range(f_minTimeBetweenSound, f_maxTimeBetweenSound);
         }
     }
 }

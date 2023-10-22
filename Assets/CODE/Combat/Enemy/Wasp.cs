@@ -20,6 +20,11 @@ namespace Enemy
         private void Update()
         {
             base.Update();
+
+            //audio
+            PlayAudio();
+
+            // behaviour
             if (b_spawning || !PlayerLineOfSightCheck())
             {
                 CancelGun();
@@ -49,12 +54,28 @@ namespace Enemy
             {
                 ChangeMovementDirection(-DirectionOfPlayer());
             }
-            
+
         }
         public override void Die()
         {
             base.Die();
             GameManager.IncrementWaspKill();
+        }
+
+        public override void Damage(float damage)
+        {
+            base.Damage(damage);
+            AudioManager.PlayFmodEvent("SFX/Enemy/Wasp/Wasp_Hit", transform.position);
+        }
+
+        private void PlayAudio()
+        {
+            if (f_currentTimeBetweenSounds < 0)
+            {
+                AudioManager.PlayFmodEvent("SFX/Enemy/Wasp/Wasp_Chatter", transform.position);
+                GetNewTimeBetweenSounds();
+            }
+            f_currentTimeBetweenSounds -= Time.deltaTime;
         }
     }
 }

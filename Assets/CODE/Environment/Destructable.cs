@@ -44,6 +44,7 @@ public class Destructable : MonoBehaviour
 
     private void Break()
     {
+        AudioManager.PlayFmodEvent("SFX/Environment/Box_Break", transform.position);
         Destroy(gameObject);
         //Destroy(Instantiate(C_grabBag), 2.0f)
         if (b_explosive && C_explosionEffect)

@@ -1,6 +1,7 @@
 using System.Collections;
 using Utility;
 using UnityEngine;
+using Managers;
 
 public class PolyBrushManager : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class PolyBrushManager : MonoBehaviour
     {
         if (aC_mat != null)
         {
+            AudioManager.PlayFmodEvent("SFX/Environment/Gunk_Clear", GameManager.GetCamera().transform.position);
             StartCoroutine(ClearGoo());
         }
     }

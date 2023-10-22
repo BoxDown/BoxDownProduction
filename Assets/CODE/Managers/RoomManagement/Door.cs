@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Managers;
 using Utility;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(BoxCollider))]
 public class Door : MonoBehaviour
@@ -105,6 +106,8 @@ public class Door : MonoBehaviour
     public void OnEnterDoor()
     {
         GameManager.gameManager.UpdateRewardType(e_roomType);
+        AudioManager.PlayFmodEvent("SFX/Environment/Door_Open", transform.position);
+
         GameManager.gameManager.MoveToNextRoom();
     }
 
@@ -120,5 +123,10 @@ public class Door : MonoBehaviour
     {
         return b_locked;
     }
-
+    
+    public IEnumerator PlayCloseDoorSound()
+    {
+        yield return new WaitForSeconds(0.9f);
+        AudioManager.PlayFmodEvent("SFX/Environment/Door_Close", GameManager.GetPlayer().transform.position);
+    }
 }

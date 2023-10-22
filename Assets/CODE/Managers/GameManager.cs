@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Gun;
 using System.Linq;
+using System.Collections;
 using Utility;
 using System.IO;
 using UnityEngine.SceneManagement;
@@ -86,6 +87,7 @@ namespace Managers
             {
                 ControlManager.ChangeInputDevice(C_playerInput.currentControlScheme);
             }
+
         }
 
 
@@ -93,6 +95,11 @@ namespace Managers
         // Start is called before the first frame update
         void Awake()
         {
+            if (gameManager != null && gameManager != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
             if (!b_debugMode)
             {
                 StartCoroutine(StartUp());
@@ -473,6 +480,7 @@ namespace Managers
             CreditsMenu.Activate();
             CurrentSelectionCreditsMenu();
             DeactivateMainMenu();
+            PlayMenuTransitionSound();
         }
         public static void ActivateMainMenu()
         {
@@ -506,9 +514,11 @@ namespace Managers
             CreditsMenu.Deactivate();
             SceneManager.LoadScene("MainMenu");
             ActivateMainMenu();
+            gameManager.SetCulling(true);
             AudioManager.TransitionToMainMenu();
             SwitchToUIActions();
             CurrentSelectionMainMenu();
+            PlayMenuTransitionSound();
         }
 
         public static void ExitGame()
@@ -528,6 +538,7 @@ namespace Managers
             if (gameManager != null && gameManager != this)
             {
                 Destroy(gameObject);
+                return;
             }
             else
             {
@@ -575,32 +586,36 @@ namespace Managers
 
             i_currentRoom = 0;
 
+            C_eventSystem = GetComponentInChildren<EventSystem>();
+            CurrentSelectionMainMenu();
         }
 
-        private void SetCurrentSelected(GameObject newSelection)
+        private IEnumerator SetCurrentSelected(GameObject newSelection)
         {
+            yield return 0;
             C_eventSystem.SetSelectedGameObject(newSelection);
+            Debug.Log(C_eventSystem.currentSelectedGameObject.name);
         }
 
         public static void CurrentSelectionMainMenu()
         {
-            gameManager.SetCurrentSelected(gameManager.C_defaultMainMenuButton);
+            gameManager.StartCoroutine(gameManager.SetCurrentSelected(gameManager.C_defaultMainMenuButton));
         }
         public static void CurrentSelectionPauseMenu()
         {
-            gameManager.SetCurrentSelected(gameManager.C_defaultPauseButton);
+            gameManager.StartCoroutine(gameManager.SetCurrentSelected(gameManager.C_defaultPauseButton));
         }
         public static void CurrentSelectionSwapMenu()
         {
-            gameManager.SetCurrentSelected(gameManager.C_defaultSwapButton);
+            gameManager.StartCoroutine(gameManager.SetCurrentSelected(gameManager.C_defaultSwapButton));
         }
         public static void CurrentSelectionResultsMenu()
         {
-            gameManager.SetCurrentSelected(gameManager.C_defaultResultsButton);
+            gameManager.StartCoroutine(gameManager.SetCurrentSelected(gameManager.C_defaultResultsButton));
         }
         public static void CurrentSelectionCreditsMenu()
         {
-            gameManager.SetCurrentSelected(gameManager.C_defaultCreditsButton);
+            gameManager.StartCoroutine(gameManager.SetCurrentSelected(gameManager.C_defaultCreditsButton));
         }
 
         public static void SpawnAllGunModules()
@@ -692,6 +707,10 @@ namespace Managers
         {
             gameManager.C_camera = camera;
         }
+        public static CameraDolly GetCamera()
+        {
+            return gameManager.C_camera;
+        }
 
         public void RemovePlayer()
         {
@@ -713,6 +732,48 @@ namespace Managers
                 C_camera = null;
             }
         }
+        #endregion
+
+        #region Audio
+
+        public static void PlayUIHoverSound()
+        {
+            if (GetCamera() == null)
+            {
+                AudioManager.PlayFmodEvent("SFX/Menu_SFX/Button_Hover", FindObjectOfType<Camera>().transform.position);
+                return;
+            }
+            AudioManager.PlayFmodEvent("SFX/Menu_SFX/Button_Hover", GetCamera().transform.position);
+        }
+
+        public static void PlayUISelectSound()
+        {
+            if (GetCamera() == null)
+            {
+                AudioManager.PlayFmodEvent("SFX/Menu_SFX/Button_Select", FindObjectOfType<Camera>().transform.position);
+                return;
+            }
+            AudioManager.PlayFmodEvent("SFX/Menu_SFX/Button_Select", GetCamera().transform.position);
+        }
+        public static void PlayMenuTransitionSound()
+        {
+            if (GetCamera() == null)
+            {
+                AudioManager.PlayFmodEvent("SFX/Menu_SFX/Menu_Transition", FindObjectOfType<Camera>().transform.position);
+                return;
+            }
+            AudioManager.PlayFmodEvent("SFX/Menu_SFX/Menu_Transition", GetCamera().transform.position);
+        }
+        public static void PlayModuleSwapSound()
+        {
+            if (GetCamera() == null)
+            {
+                AudioManager.PlayFmodEvent("SFX/Menu_SFX/Module_Swap", FindObjectOfType<Camera>().transform.position);
+                return;
+            }
+            AudioManager.PlayFmodEvent("SFX/Menu_SFX/Module_Swap", GetCamera().transform.position);
+        }
+
         #endregion
 
         #region Stats

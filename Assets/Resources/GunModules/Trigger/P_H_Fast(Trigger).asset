@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8945659a36ce7a43a8defef3334e1ff, type: 3}
-  m_Name: P_S_Slow_BatteringRam(Trigger)
+  m_Name: P_H_Fast(Trigger)
   m_EditorClassIdentifier: 
   C_meshPrefab: {fileID: 4385295613262930323, guid: 80fd750af69d3ad4b9e9a168c83241f2,
     type: 3}
-  s_moduleName: Battering Ram
+  s_moduleName: Lil Homers
   e_moduleType: 0
   f_moduleStrength: 60
-  f_baseDamage: 17.5
-  f_fireRate: 4
-  f_bulletSpeed: 16
-  f_knockBack: 5
+  f_baseDamage: 7
+  f_fireRate: 5.5
+  f_bulletSpeed: 9
+  f_knockBack: 1.25
   S_bulletEffectInformation:
     e_bulletEffect: 0
     f_effectTime: 0
@@ -34,7 +34,7 @@ MonoBehaviour:
   f_movementPenalty: 0
   i_clipSize: 0
   S_bulletTraitInformation:
-    e_bulletTrait: 0
+    e_bulletTrait: 4
     i_pierceCount: 0
     i_ricochetCount: 0
     C_explosionPrefab: {fileID: 0}
@@ -42,8 +42,8 @@ MonoBehaviour:
     f_explosionDamage: 0
     f_explosionKnockbackDistance: 0
     f_explosionLifeTime: 0
-    f_homingStrength: 0
-    f_homingDelayTime: 0
+    f_homingStrength: 0.35
+    f_homingDelayTime: 0.15
   f_bulletSize: 0
   f_bulletRange: 0
   f_recoil: 0

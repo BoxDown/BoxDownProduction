@@ -192,6 +192,10 @@ Material:
     - _Fire_Amount: 0
     - _Fire_Speed: 1
     - _Fire_scale: 5
+    - _FresnelPower: 1
+    - _FresnelStep: 0.5
+    - _Fresnel_Power: 0.75
+    - _Fresnel_power: 1
     - _Frozen_On_Off: 0
     - _Health_up_amount: 0
     - _Health_up_scale: 0.5
@@ -218,6 +222,7 @@ Material:
     - _Metallic: 0
     - _MetallicRemapMax: 1
     - _MetallicRemapMin: 0
+    - _Multiply: 5
     - _NormalMapSpace: 0
     - _NormalScale: 1
     - _OpaqueCullMode: 2
@@ -233,6 +238,7 @@ Material:
     - _RenderQueueType: 1
     - _RequireSplitLighting: 0
     - _Rim_light_strength: 1
+    - _Rim_step: 0.52
     - _Smoothness: 0.5
     - _SmoothnessRemapMax: 1
     - _SmoothnessRemapMin: 0
@@ -277,8 +283,10 @@ Material:
     - _ZTestGBuffer: 4
     - _ZTestTransparent: 4
     - _ZWrite: 1
+    - _fressy_power: 1
     - _health_up_speed: -0.4
     - _rim_light_multiply: 0
+    - _step_edge: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
@@ -291,11 +299,15 @@ Material:
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
     - _Fire_Colour: {r: 1, g: 0.02967834, b: 0, a: 0}
+    - _FresnelAngle: {r: 1, g: 0, b: 0, a: 0}
+    - _FresnelColour: {r: 1, g: 1, b: 1, a: 0}
     - _Health_up_colour: {r: 0.1303961, g: 1, b: 0, a: 0}
     - _Hit_colour: {r: 11.984314, g: 0, b: 0, a: 0}
     - _Ice_base_colour: {r: 0.7562745, g: 0.9168311, b: 0.9716981, a: 0}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _Rim_Angle: {r: -15, g: 25, b: 23, a: 0}
+    - _Rim_Colour: {r: 1, g: 1, b: 1, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
     - _TransmittanceColor: {r: 1, g: 1, b: 1, a: 1}
@@ -305,6 +317,8 @@ Material:
     - _UV_Tiling: {r: 1, g: 1, b: 0, a: 0}
     - _UV_offset: {r: 0, g: 0, b: 0, a: 0}
     - _Vamp_colour: {r: 1.427451, g: 2.227451, b: 0.4235294, a: 0}
+    - _Vector3: {r: 0, g: 1, b: 0, a: 0}
+    - _Vector3_1: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &1133653367177285029
 MonoBehaviour:

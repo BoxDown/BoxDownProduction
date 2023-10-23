@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: HDRP Performant
   m_EditorClassIdentifier: 
   m_RenderPipelineSettings:
-    supportShadowMask: 1
-    supportSSR: 1
+    supportShadowMask: 0
+    supportSSR: 0
     supportSSRTransparent: 0
     supportSSAO: 1
     supportSSGI: 0
@@ -77,7 +77,7 @@ MonoBehaviour:
       maxLocalVolumetricFogSize: 32
       maxLocalVolumetricFogOnScreen: 64
     hdShadowInitParams:
-      maxShadowRequests: 300
+      maxShadowRequests: 128
       directionalShadowsDepthBits: 16
       shadowFilteringQuality: 1
       punctualLightShadowAtlas:

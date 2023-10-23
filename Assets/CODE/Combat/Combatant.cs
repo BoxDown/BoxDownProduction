@@ -64,7 +64,7 @@ public class Combatant : MonoBehaviour
     [Header("Visuals")]
     [Rename("Hit VFX")] public GameObject C_onHitEffects;
     [Rename("Heal VFX")] public GameObject C_onHealEffects;
-    [Rename("Renderer")] public Renderer C_renderer;
+    protected Renderer[] C_renderer;
 
 
     [Header("Cheats")]
@@ -94,7 +94,7 @@ public class Combatant : MonoBehaviour
 
     protected bool b_hasAnimator = false;
     protected Animator C_animator = null;
-    protected Material C_material = null;
+    protected List<Material> C_material = new List<Material>();
 
 
 
@@ -142,10 +142,33 @@ public class Combatant : MonoBehaviour
         {
             b_hasAnimator = true;
         }
-        C_material = C_renderer.material = new Material(C_renderer.material);
+        if(C_renderer != null)
+        {
+            return;
+        }
+
+        C_renderer = transform.GetComponentsInChildren<SkinnedMeshRenderer>();
+
+        for (int i = 0; i < C_renderer.Length; i++)
+        {
+            C_renderer[i].material = new Material(C_renderer[i].material);
+            C_material.Add(C_renderer[i].material);
+        }
+
     }
 
     protected virtual void Update()
+    {
+        if (b_hasAnimator && C_ownedGun.b_isFiring)
+        {
+            MoveTowardAimAnimation();
+        }
+        else if (b_hasAnimator)
+        {
+            C_animator.SetFloat("Recoil", S_rotationVec2Direction.magnitude);
+        }
+    }
+    protected virtual void FixedUpdate()
     {
         if (e_combatState != CombatState.NoControl || e_combatState != CombatState.Dodge)
         {
@@ -155,18 +178,9 @@ public class Combatant : MonoBehaviour
         {
             RotateToTarget();
         }
-        if (b_hasAnimator && C_ownedGun.b_isFiring)
-        {
-            MoveTowardAimAnimation();
-        }
-        else if (b_hasAnimator)
-        {
-            C_animator.SetFloat("Recoil", S_rotationVec2Direction.magnitude);
-        }
-
     }
 
-    protected void LateUpdate()
+    protected virtual void LateUpdate()
     {
         S_movementVec2DirectionLastFrame = S_movementVec2Direction;
         S_previousRotationVec2Direction = S_rotationVec2Direction;
@@ -184,7 +198,7 @@ public class Combatant : MonoBehaviour
     protected virtual void Move()
     {
         // move
-        transform.localPosition += S_velocity * Time.deltaTime;
+        transform.localPosition += S_velocity * Time.fixedDeltaTime;
 
         if (b_isDead)
         {
@@ -196,7 +210,7 @@ public class Combatant : MonoBehaviour
         {
             if (f_currentAccelerationStep < 1)
             {
-                f_currentAccelerationStep += Time.deltaTime;
+                f_currentAccelerationStep += Time.fixedDeltaTime;
             }
         }
 
@@ -212,7 +226,7 @@ public class Combatant : MonoBehaviour
         }
 
         Vector3 desiredVelocity = S_movementInputDirection * effectiveSpeed * C_accelerationCurve.Evaluate(f_currentAccelerationStep) * f_slowMultiplier;
-        float maxSpeedChange = f_maxAcceleration * Time.deltaTime;
+        float maxSpeedChange = f_maxAcceleration * Time.fixedDeltaTime;
 
         //move smoothly towards our desired velocity from our current veolicty
         S_velocity.x = Mathf.MoveTowards(S_velocity.x, desiredVelocity.x, maxSpeedChange);
@@ -348,8 +362,8 @@ public class Combatant : MonoBehaviour
         }
         else
         {
-            f_rotationalAcceleration = rotationAngleDifference * Time.deltaTime;
-            f_rotationalVelocity += f_rotationalAcceleration * Time.deltaTime;
+            f_rotationalAcceleration = rotationAngleDifference * Time.fixedDeltaTime;
+            f_rotationalVelocity += f_rotationalAcceleration * Time.fixedDeltaTime;
         }
     }
 
@@ -410,12 +424,13 @@ public class Combatant : MonoBehaviour
         }
         f_currentHealth -= damage;
         TurnOnHit();
-        StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, f_invincibleTime));
+
         if (b_infiniteHealth)
         {
             StartCoroutine(HealAfterSeconds(f_invincibleTime, damage));
             return;
         }
+        Invoke("TurnOffHit", f_invincibleTime);
         if (f_currentHealth <= 0)
         {
             f_currentHealth = 0;
@@ -654,65 +669,110 @@ public class Combatant : MonoBehaviour
     #region ShaderFunctions
     public void TurnOnHit()
     {
-        C_material.SetFloat("_Hit_amount", 1);
+        foreach (Material m in C_material)
+        {
+            m.SetFloat("_Hit_amount", 1);
+        }
     }
     public void TurnOffHit()
     {
-        C_material.SetFloat("_Hit_amount", 0);
+        foreach (Material m in C_material)
+        {
+            m.SetFloat("_Hit_amount", 0);
+        }
     }
 
     public void TurnOnDodge()
     {
-        C_material.SetFloat("_Dodge_amount", 1);
+        foreach (Material m in C_material)
+        {
+            m.SetFloat("_Dodge_amount", 1);
+        }
     }
     public void TurnOffDodge()
     {
-        C_material.SetFloat("_Dodge_amount", 0);
+        foreach (Material m in C_material)
+        {
+            m.SetFloat("_Dodge_amount", 0);
+        }
     }
     public void SetHealthAmount(float healthAmount)
     {
-        C_material.SetFloat("_Health_up_amount", healthAmount);
+        foreach (Material m in C_material)
+        {
+            m.SetFloat("_Health_up_amount", healthAmount);
+        }
     }
     public void TurnOffHealth()
     {
-        C_material.SetFloat("_Health_up_amount", 0);
+        foreach (Material m in C_material)
+        {
+            m.SetFloat("_Health_up_amount", 0);
+        }
     }
 
     public void TurnOnFire()
     {
-        C_material.SetFloat("_Fire_Amount", 1);
+        foreach (Material m in C_material)
+        {
+            m.SetFloat("_Fire_Amount", 1);
+        }
     }
     public void TurnOffFire()
     {
-        C_material.SetFloat("_Fire_Amount", 0);
+        foreach (Material m in C_material)
+        {
+            m.SetFloat("_Fire_Amount", 0);
+        }
     }
     public void SetIceAmount(float iceAmount)
     {
-        C_material.SetFloat("_Ice_amount", iceAmount);
+        foreach (Material m in C_material)
+        {
+            m.SetFloat("_Ice_amount", iceAmount);
+        }
     }
     public void TurnOnFrozen()
     {
-        C_material.SetFloat("_Frozen_On_Off", 1);
+        foreach (Material m in C_material)
+        {
+            m.SetFloat("_Frozen_On_Off", 1);
+        }
     }
     public void TurnOffFrozen()
     {
-        C_material.SetFloat("_Frozen_On_Off", 0);
+        foreach (Material m in C_material)
+        {
+            m.SetFloat("_Frozen_On_Off", 0);
+        }
     }
     public void TurnOnElectric()
     {
-        C_material.SetFloat("_Electric_amount", 1);
+        foreach (Material m in C_material)
+        {
+            m.SetFloat("_Electric_amount", 1);
+        }
     }
     public void TurnOffElectric()
     {
-        C_material.SetFloat("_Electric_amount", 0);
+        foreach (Material m in C_material)
+        {
+            m.SetFloat("_Electric_amount", 0);
+        }
     }
     public void TurnOnVampire()
     {
-        C_material.SetFloat("_Vamp_amount", 1);
+        foreach (Material m in C_material)
+        {
+            m.SetFloat("_Vamp_amount", 1);
+        }
     }
     public void TurnOffVampire()
     {
-        C_material.SetFloat("_Vamp_amount", 0);
+        foreach (Material m in C_material)
+        {
+            m.SetFloat("_Vamp_amount", 0);
+        }
     }
 
     public void ClearAllEffects()
@@ -774,7 +834,7 @@ public class Combatant : MonoBehaviour
             yield break;
         }
         yield return new WaitForSeconds(f_dodgeStartDelay);
-        
+
 
         bool firingAtStartOfDodge = C_ownedGun.b_isFiring;
         if (firingAtStartOfDodge)

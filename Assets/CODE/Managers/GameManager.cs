@@ -33,6 +33,7 @@ namespace Managers
         [Space(10)]
         [Rename("Debug Game"), SerializeField] public bool b_debugMode;
         [Rename("Spawn All Modules"), SerializeField] public bool b_spawnAllModules;
+        [Rename("Music On/Off"), SerializeField] public bool b_musicOnOff;
 
         [Space(10)]
         [Header("Plug in documents from assets folder")]
@@ -492,7 +493,7 @@ namespace Managers
         }
         public static void RestartGame()
         {
-            AudioManager.StartMusicLoop();
+            //AudioManager.StartMusicLoop();
             AudioManager.TransitionToBattleTheme();
             gameManager.RemovePlayer();
             gameManager.RemoveCamera();
@@ -554,6 +555,12 @@ namespace Managers
                 WeaponsSwapUI.Deactivate();
                 ResultsUI.DeactivateLose();
                 DeactivateMainMenu();
+                if (b_musicOnOff)
+                {
+                    AudioManager.StartMusicLoop();
+                    AudioManager.TransitionToBattleTheme();
+                    AudioManager.SetBattleMusicLowIntensity();
+                }
             }
             else
             {
@@ -562,6 +569,10 @@ namespace Managers
                 InGameUI.DeactivateInGameUI();
                 ResultsUI.DeactivateLose();
                 WeaponsSwapUI.Deactivate();
+                if (b_musicOnOff)
+                {
+                    AudioManager.StartMusicLoop();
+                }
             }
 
             // make module lists
@@ -582,7 +593,7 @@ namespace Managers
                 SpawnAllGunModules();
             }
 
-            AudioManager.StartMusicLoop();
+            
 
             i_currentRoom = 0;
 

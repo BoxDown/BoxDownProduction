@@ -54,22 +54,23 @@ public class PlayerController : Combatant
         GameManager.SwitchToInGameActions();
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         if (S_rotationVec2Direction.magnitude < f_controllerDeadZone && S_movementVec2Direction != Vector2.zero)
         {
             SetRotationDirection(Vector2.ClampMagnitude(S_movementVec2Direction, f_controllerDeadZone * 0.9f));
         }
-        base.Update();
         InGameUI.gameUI.UpdateHealthSlider();
     }
 
-    private  void FixedUpdate()
+    protected override void FixedUpdate()
     {
+        base.FixedUpdate();
         FootStepCheck();
     }
 
-    private void LateUpdate()
+    protected override void LateUpdate()
     {
         base.LateUpdate();
         HealthUI();
@@ -145,6 +146,7 @@ public class PlayerController : Combatant
     public override void Damage(float damage)
     {
         base.Damage(damage);
+        StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, f_invincibleTime));
         AudioManager.PlayFmodEvent("SFX/Player/Player_Hit", transform.position);
         GameManager.IncrementDamageTaken(damage);
     }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using FMODUnity;
 using Managers;
+using Gun;
+using static UnityEditor.Profiling.RawFrameDataView;
 
 public class AudioManager : MonoBehaviour
 {
@@ -41,6 +43,31 @@ public class AudioManager : MonoBehaviour
     {
         fmodEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
+
+    public static void FireBulletSound(GunModule.BulletEffect bulletType, Vector3 position)
+    {
+        FMOD.Studio.EventInstance eventInstance = RuntimeManager.CreateInstance("event:/SFX/Player/Weapon_Shot");
+        switch (bulletType)
+        {
+            case GunModule.BulletEffect.None:
+                eventInstance.setParameterByName("Weapon_Type", 0, true);
+                break;
+            case GunModule.BulletEffect.Fire:
+                eventInstance.setParameterByName("Weapon_Type", 1, true);
+                break;
+            case GunModule.BulletEffect.Ice:
+                eventInstance.setParameterByName("Weapon_Type", 2, true);
+                break;
+            case GunModule.BulletEffect.Lightning:
+                eventInstance.setParameterByName("Weapon_Type", 0, true);
+                break;
+            case GunModule.BulletEffect.Vampire:
+                eventInstance.setParameterByName("Weapon_Type", 3, true);
+                break;
+        }
+        eventInstance.start();
+    }
+
 
     public static void StartMusicLoop()
     {

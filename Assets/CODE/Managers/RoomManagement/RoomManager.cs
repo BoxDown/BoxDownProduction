@@ -3,6 +3,7 @@ using Utility;
 using System.Collections;
 using UnityEngine;
 using System;
+using GunkManager;
 
 namespace Managers
 {

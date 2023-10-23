@@ -17,6 +17,12 @@ namespace Enemy
                 throw new System.Exception("Wasp Gun Is Null And Should Not Be");
             }
         }
+        private void Start()
+        {
+            base.Start();
+            SetMaterialUVOffset(C_ownedGun.aC_moduleArray[1].S_bulletEffectInformation.e_bulletEffect);
+
+        }
         private void Update()
         {
             base.Update();

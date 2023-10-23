@@ -42,6 +42,8 @@ namespace Gun
 
 
         [Rename("Muzzle Transform")] public Transform C_muzzle;
+        [Rename("Muzzle Light Flash")] public Light C_light;
+        [Rename("Light Off Time")] public float f_lightOffTime = 0.024f;
         [Space(10)]
 
         [Header("LEAVE NULL UNLESS PLAYER")]
@@ -198,7 +200,11 @@ namespace Gun
                 }
                 timesFiredThisFrame += 1;
                 Vector3 recoil = -C_gunHolder.transform.forward * Mathf.Clamp(f_recoil - f_movementPenalty, 0, f_recoil);
-                AudioManager.PlayFmodEvent("SFX/Player/Weapon_Shot", S_muzzlePosition);
+                AudioManager.FireBulletSound(S_bulletEffectInfo.e_bulletEffect, S_muzzlePosition);
+                if (C_light)
+                {
+                    TurnOnLight();
+                }
 
                 C_gunHolder.GetComponent<Combatant>().AddVelocity(recoil);
                 SpawnBulletShells();
@@ -251,6 +257,7 @@ namespace Gun
                 case GunModule.ModuleSection.Clip:
                     UpdateClipStats(gunModule);
                     aC_moduleArray[(int)GunModule.ModuleSection.Clip] = gunModule;
+
                     break;
                 case GunModule.ModuleSection.Barrel:
                     UpdateBarrelStats(gunModule);
@@ -322,6 +329,32 @@ namespace Gun
             i_clipSize = gunModule.i_clipSize;
 
             S_bulletEffectInfo = gunModule.S_bulletEffectInformation;
+
+            if (C_light == null)
+            {
+                return;
+            }
+            switch (S_bulletEffectInfo.e_bulletEffect)
+            {
+                case GunModule.BulletEffect.None:
+                    ChangeLightColour(S_standardColour);
+                    break;
+                case GunModule.BulletEffect.Fire:
+                    ChangeLightColour(S_fireColour);
+                    break;
+                case GunModule.BulletEffect.Ice:
+                    ChangeLightColour(S_iceColour);
+                    break;
+                case GunModule.BulletEffect.Lightning:
+                    ChangeLightColour(S_lightningColour);
+                    break;
+                case GunModule.BulletEffect.Vampire:
+                    ChangeLightColour(S_vampireColour);
+                    break;
+            }
+
+
+
         }
         private void UpdateBarrelStats(GunModule gunModule)
         {
@@ -442,6 +475,17 @@ namespace Gun
             UpdateGunStats(baseTrigger);
         }
 
+        private void TurnOnLight()
+        {
+            C_light.gameObject.SetActive(true);
+            StartCoroutine(TurnOffLight());
+        }
+
+        private void ChangeLightColour(Color color)
+        {
+            Vector3 normalizedColor = new Vector3(color.r, color.g, color.b).normalized;
+            C_light.color = new Color(normalizedColor.x, normalizedColor.y, normalizedColor.z, 1) * C_light.intensity;
+        }
 
         public void SpawnBulletShells()
         {
@@ -514,6 +558,11 @@ namespace Gun
                 InGameUI.gameUI.TurnOffReloadingText();
             }
         }
-        
+        private IEnumerator TurnOffLight()
+        {
+            yield return new WaitForSeconds(f_lightOffTime);
+            C_light.gameObject.SetActive(false);
+        }
+
     }
 }

@@ -10,6 +10,7 @@ public class CameraDolly : MonoBehaviour
 
     [Header("Modifier Varaibles")]
     [Rename("Look Strength")] public float f_lookSrength;
+    [Rename("Smooth Time")] public float f_smoothTime = 0.2f;
     [Rename("Focus Radius")] public float f_focusRadius;
     [Rename("Offset")] public Vector3 S_offsetVector;
 
@@ -17,6 +18,7 @@ public class CameraDolly : MonoBehaviour
     [HideInInspector] public Camera C_camera;
     private Vector3 S_playerPosition;
     private Vector3 S_playerLookDirection;
+    private Vector3 S_velocity = Vector3.zero;
 
     int i_originalCullingMask;
 
@@ -55,12 +57,11 @@ public class CameraDolly : MonoBehaviour
             S_playerLookDirection = C_targetPlayer.S_cameraDirection;
             RaycastHit hitInfo;
             Physics.Raycast(C_camera.transform.position, C_camera.transform.forward, out hitInfo, S_offsetVector.y * 1.2f);
-            Vector3 cameraCenterPos = new Vector3(hitInfo.point.x, S_playerPosition.y, hitInfo.point.z);
 
             Vector3 lookOffset = S_playerLookDirection * f_lookSrength;
             Vector3 nextCameraPos = (S_playerPosition + S_offsetVector) + lookOffset;
 
-            C_camera.transform.position = Vector3.Lerp(C_camera.transform.position, nextCameraPos, ExtraMaths.Map(0, f_lookSrength, 0, 1, Vector3.Distance(S_playerPosition, lookOffset)));
+            C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime);
 
             GameManager.gameManager.b_cullLastFrame = GameManager.gameManager.b_cull;
         }

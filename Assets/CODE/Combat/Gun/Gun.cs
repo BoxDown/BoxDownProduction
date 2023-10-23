@@ -198,6 +198,7 @@ namespace Gun
                 }
                 timesFiredThisFrame += 1;
                 Vector3 recoil = -C_gunHolder.transform.forward * Mathf.Clamp(f_recoil - f_movementPenalty, 0, f_recoil);
+                AudioManager.PlayFmodEvent("SFX/Player/Weapon_Shot", S_muzzlePosition);
 
                 C_gunHolder.GetComponent<Combatant>().AddVelocity(recoil);
                 SpawnBulletShells();
@@ -479,7 +480,12 @@ namespace Gun
                 InGameUI.gameUI.TurnOnReloadingText();
             }
             b_reloading = true;
-            yield return new WaitForSeconds(f_reloadSpeed);
+            yield return new WaitForSeconds(f_reloadSpeed / 2.0f);
+            if (C_gunHolder.CompareTag("Player"))
+            {
+                AudioManager.PlayFmodEvent("SFX/Player/Reload", transform.position);
+            }
+            yield return new WaitForSeconds(f_reloadSpeed / 2.0f);
             HardReload();
             yield return new WaitForSeconds(0.15f);
             b_reloading = false;
@@ -508,5 +514,6 @@ namespace Gun
                 InGameUI.gameUI.TurnOffReloadingText();
             }
         }
+        
     }
 }

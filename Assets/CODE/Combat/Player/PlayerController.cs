@@ -56,11 +56,11 @@ public class PlayerController : Combatant
 
     private void Update()
     {
+        base.Update();
         if (S_rotationVec2Direction.magnitude < f_controllerDeadZone && S_movementVec2Direction != Vector2.zero)
         {
             SetRotationDirection(Vector2.ClampMagnitude(S_movementVec2Direction, f_controllerDeadZone * 0.9f));
         }
-        base.Update();
         InGameUI.gameUI.UpdateHealthSlider();
     }
 

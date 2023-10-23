@@ -198,7 +198,7 @@ namespace Gun
                 }
                 timesFiredThisFrame += 1;
                 Vector3 recoil = -C_gunHolder.transform.forward * Mathf.Clamp(f_recoil - f_movementPenalty, 0, f_recoil);
-                AudioManager.PlayFmodEvent("SFX/Player/Weapon_Shot", S_muzzlePosition);
+                AudioManager.FireBulletSound(S_bulletEffectInfo.e_bulletEffect, S_muzzlePosition);
 
                 C_gunHolder.GetComponent<Combatant>().AddVelocity(recoil);
                 SpawnBulletShells();

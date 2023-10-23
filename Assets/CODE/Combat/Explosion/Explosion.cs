@@ -69,7 +69,6 @@ namespace Explosion
                     continue;
                 }
 
-                lC_alreadyCollided.Add(collisions[i].transform);
                 Combatant combatant = collisions[i].transform.GetComponent<Combatant>();
                 Destructable destructable = collisions[i].transform.GetComponentInParent<Destructable>();
 
@@ -81,6 +80,7 @@ namespace Explosion
 
                 if (combatant == null && destructable == null && collisions[i].gameObject.layer != LayerMask.GetMask("Explosive"))
                 {
+                    lC_alreadyCollided.Add(collisions[i].transform);
                     continue;
                 }
                 if (combatant != null)
@@ -91,6 +91,7 @@ namespace Explosion
                     }
                     combatant.Damage(f_explosionDamage);
                     combatant.AddVelocity(hitDirection * (f_explosionKnockbackStrength * notCollisionDepth));
+                    lC_alreadyCollided.Add(collisions[i].transform);
                     continue;
                 }
                 if (destructable != null)

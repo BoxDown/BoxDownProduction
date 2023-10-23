@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 using Utility;
+using Gun;
 
 namespace Enemy
 {
@@ -18,7 +19,10 @@ namespace Enemy
         [Rename("Melee Damage")] public float f_meleeDamage = 8;
         [Rename("Melee Knockback")] public float f_meleeKnockback = 3;
         [Rename("Death VFX"), SerializeField] protected GameObject C_deathEffects = null;
+        [Rename("Gut Bag VFX"), SerializeField] protected GameObject C_gutBag = null;
         [Rename("Spawn VFX"), SerializeField] protected GameObject C_spawnEffects = null;
+        protected float f_spawnTime = 1.25f;
+        [Rename("Gut Bag After Seconds")] protected float f_gutBagTime = 1.0f;
         [Rename("Spawn Effect Delay"), SerializeField] protected float f_spawnEffectDelay = 0;
         [Rename("Spawn Effect Offset"), SerializeField] protected Vector3 f_spawnEffectOffset = Vector3.zero;
 
@@ -54,12 +58,12 @@ namespace Enemy
         protected virtual IEnumerator SpawnRoutine()
         {
             b_spawning = true;
-            StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, 2.5f));
+            StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, f_spawnTime));
             if (C_spawnEffects != null)
             {
                 StartCoroutine(PlaySpawnEffect(f_spawnEffectDelay));
             }
-            yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(f_spawnTime);
             b_spawning = false;
         }
         protected virtual IEnumerator PlaySpawnEffect(float spawnDelay)
@@ -84,7 +88,7 @@ namespace Enemy
         public void LookAtPlayer()
         {
             if (C_player != null)
-            {                
+            {
                 SetRotationDirection(Vector2.ClampMagnitude(DirectionOfPlayer(), 0.1f));
             }
         }
@@ -115,6 +119,7 @@ namespace Enemy
         public override void Die()
         {
             base.Die();
+            StartCoroutine(DeactivateAfterSeconds(f_gutBagTime));
             if (C_deathEffects != null)
             {
                 GameObject effect = Instantiate(C_deathEffects, transform.position, transform.rotation);
@@ -122,7 +127,10 @@ namespace Enemy
                 effect.GetComponentInChildren<VisualEffect>().Play();
                 Destroy(effect, 4f);
             }
-            StartCoroutine(DeactivateAfterSeconds(4f));
+            if (C_gutBag)
+            {
+                StartCoroutine(SpawnGutBag());
+            }
         }
 
         public void ReflectMovementDirection(Vector2 normal)
@@ -138,7 +146,7 @@ namespace Enemy
         {
             base.Move();
         }
-        
+
 
 
         protected virtual void MeleeDamage()
@@ -182,5 +190,49 @@ namespace Enemy
         {
             f_currentTimeBetweenSounds = Random.Range(f_minTimeBetweenSound, f_maxTimeBetweenSound);
         }
+
+        private IEnumerator SpawnGutBag()
+        {
+            yield return new WaitForSeconds(f_gutBagTime);
+            Destroy(Instantiate(C_gutBag), 5.0f);
+        }
+
+        protected void SetMaterialUVOffset(GunModule.BulletEffect bulletEffect)
+        {
+            switch (bulletEffect)
+            {
+                case GunModule.BulletEffect.None:
+                    foreach (Renderer r in C_renderer)
+                    {
+                        r.material.SetVector("_UV_offset", new Vector2(0.5f, 0));
+                    }
+                    break;
+                case GunModule.BulletEffect.Fire:
+                    foreach (Renderer r in C_renderer)
+                    {
+                        r.material.SetVector("_UV_offset", new Vector2(0, 0));
+                    }
+                    break;
+                case GunModule.BulletEffect.Ice:
+                    foreach (Renderer r in C_renderer)
+                    {
+                        r.material.SetVector("_UV_offset", new Vector2(0.5f, 0.5f));
+                    }
+                    break;
+                case GunModule.BulletEffect.Lightning:
+                    foreach (Renderer r in C_renderer)
+                    {
+                        r.material.SetVector("_UV_offset", new Vector2(0f, 0));
+                    }
+                    break;
+                case GunModule.BulletEffect.Vampire:
+                    foreach (Renderer r in C_renderer)
+                    {
+                        r.material.SetVector("_UV_offset", new Vector2(0, 0.5f));
+                    }
+                    break;
+            }
+        }
+
     }
 }

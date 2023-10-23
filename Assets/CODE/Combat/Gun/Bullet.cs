@@ -3,6 +3,7 @@ using UnityEngine;
 using Explosion;
 using static Gun.GunModule;
 using Utility;
+using System.Collections.Generic;
 using UnityEngine.VFX;
 using Managers;
 
@@ -41,6 +42,7 @@ namespace Gun
 
         [HideInInspector] public BulletObjectPool C_poolOwner;
         [HideInInspector] private BulletBaseInfo S_baseInformation;
+        private List<Combatant> lC_combatantsHit = new List<Combatant>();
         private Vector3 S_previousPosition;
         private float f_rotationalAcceleration;
         private float f_rotationalVelocity;
@@ -145,6 +147,7 @@ namespace Gun
             f_distanceTravelled = 0;
             i_bulletPiercedCount = 0;
             i_ricochetCount = 0;
+            lC_combatantsHit.Clear();
 
             //move bullet to closed list
             C_poolOwner.MoveToClosed(this);
@@ -392,7 +395,7 @@ namespace Gun
             combatant.Damage(S_baseInformation.f_damage);
             combatant.AddVelocity(S_hitDirection * S_baseInformation.f_knockBack);
             combatant.ApplyBulletElement(S_bulletEffect, S_baseInformation);
-
+            lC_combatantsHit.Add(combatant);
         }
 
         // bool returned early outs of update, if a bullet is destroyed return true else false
@@ -435,7 +438,13 @@ namespace Gun
                 return true;
             }
 
-
+            for (int i = 0; i < lC_combatantsHit.Count; i++)
+            {
+                if (lC_combatantsHit.Contains(lC_combatantsHit[i]))
+                {
+                    return false;
+                }
+            }
 
             //do boolean calcs
             bool isPlayer = combatant.CompareTag("Player");

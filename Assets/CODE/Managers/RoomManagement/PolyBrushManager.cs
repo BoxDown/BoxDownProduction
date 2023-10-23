@@ -2,67 +2,97 @@ using System.Collections;
 using Utility;
 using UnityEngine;
 using Managers;
-
-public class PolyBrushManager : MonoBehaviour
+namespace GunkManager
 {
-    [Rename("Clear Goo Time")] public float f_gooClearTime = 5;
-    [HideInInspector] public float f_currentGooValue = 0;
-    [Rename("Materials")] public Material[] aC_mat;
 
-    public void InstanceMaterial()
+    public class PolyBrushManager : MonoBehaviour
     {
-        if(aC_mat.Length != 0)
+        [Rename("Clear Goo Time")] public float f_gooClearTime = 5;
+        [HideInInspector] public float f_currentGooValue = 0;
+        [Rename("Materials")] public Material[] aC_mat;
+
+        public void InstanceMaterial()
         {
-            for (int i = 0; i < aC_mat.Length; i++)
+            if (aC_mat.Length != 0)
             {
-                if (aC_mat[i] != null)
+                for (int i = 0; i < aC_mat.Length; i++)
                 {
-                    aC_mat[i] = new Material(aC_mat[i]);
+                    if (aC_mat[i] != null)
+                    {
+                        aC_mat[i] = new Material(aC_mat[i]);
+                    }
                 }
+            }
+        }
+
+
+        public void RemoveSpaceGoo()
+        {
+            if (aC_mat != null)
+            {
+                StartCoroutine(ClearGoo());
+            }
+        }
+
+        public void ResetGoo()
+        {
+            if (aC_mat.Length != 0)
+            {
+                for (int i = 0; i < aC_mat.Length; i++)
+                {
+                    if (aC_mat[i] != null)
+                    {
+                        aC_mat[i].SetFloat("_Decay_Amount", 0);
+                    }
+                }
+
+            }
+        }
+
+        private IEnumerator ClearGoo()
+        {
+            FMOD.Studio.EventInstance clearSound = AudioManager.StartFmodLoop("event:/SFX/Environment/Gunk_Clear");
+            float timeClearing = 0;
+            while (timeClearing < f_gooClearTime)
+            {
+                f_currentGooValue = Mathf.Lerp(0, 1, timeClearing / f_gooClearTime);
+                timeClearing += Time.deltaTime;
+                for (int i = 0; i < aC_mat.Length; i++)
+                {
+                    if (aC_mat[i] != null)
+                    {
+                        aC_mat[i].SetFloat("_Decay_Amount", f_currentGooValue);
+                    }
+                }
+                yield return 0;
+            }
+            AudioManager.EndFmodLoop(clearSound);
+        }
+    }
+}
+
+namespace GunkManager.Editor
+{
+#if UNITY_EDITOR
+    using UnityEditor;
+#endif
+    [CustomEditor(typeof(PolyBrushManager))]
+    public class PolyBrushManagerEditor : Editor
+    {
+        PolyBrushManager C_polyBrushManager;
+        public override void OnInspectorGUI()
+        {
+            C_polyBrushManager = (PolyBrushManager)serializedObject.targetObject;
+            base.OnInspectorGUI();
+            if(GUILayout.Button("Reset Goo - RunTime Only"))
+            {
+                C_polyBrushManager.ResetGoo();
+            }
+            if(GUILayout.Button("Clear Goo - RunTime Only"))
+            {
+                C_polyBrushManager.RemoveSpaceGoo();
             }
         }
     }
 
-
-    public void RemoveSpaceGoo()
-    {
-        if (aC_mat != null)
-        {
-            AudioManager.PlayFmodEvent("SFX/Environment/Gunk_Clear", GameManager.GetCamera().transform.position);
-            StartCoroutine(ClearGoo());
-        }
-    }
-
-    public void ResetGoo()
-    {
-        if (aC_mat.Length != 0)
-        {
-            for (int i = 0; i < aC_mat.Length; i++)
-            {
-                if (aC_mat[i] != null)
-                {
-                    aC_mat[i].SetFloat("_Decay_Amount", 0);
-                }
-            }
-            
-        }
-    }
-
-    private IEnumerator ClearGoo()
-    {
-        float timeClearing = 0;
-        while (timeClearing < f_gooClearTime)
-        {
-            f_currentGooValue = Mathf.Lerp(0, 1, timeClearing / f_gooClearTime);
-            timeClearing += Time.deltaTime;
-            for (int i = 0; i < aC_mat.Length; i++)
-            {
-                if (aC_mat[i] != null)
-                {
-                    aC_mat[i].SetFloat("_Decay_Amount", f_currentGooValue);
-                }
-            }
-            yield return 0;
-        }
-    }
 }

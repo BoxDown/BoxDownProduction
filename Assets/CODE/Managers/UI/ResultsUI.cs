@@ -32,17 +32,6 @@ namespace Managers
             }
         }
 
-        public static void ActivateResults()
-        {
-            resultsUI.gameObject.SetActive(true);
-            ActivateLose();
-        }
-        public static void DeactivateResults()
-        {
-            resultsUI.gameObject.SetActive(false);
-            DeactivateLose();
-        }
-
         public static void ActivateLose()
         {
             InGameUI.DeactivateInGameUI();

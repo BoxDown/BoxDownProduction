@@ -834,7 +834,7 @@ public class Combatant : MonoBehaviour
             yield break;
         }
         yield return new WaitForSeconds(f_dodgeStartDelay);
-
+        i_currentDodgeCount--;
 
         bool firingAtStartOfDodge = C_ownedGun.b_isFiring;
         if (firingAtStartOfDodge)

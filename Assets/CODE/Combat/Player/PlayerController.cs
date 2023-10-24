@@ -263,7 +263,7 @@ public class PlayerController : Combatant
     {
         GameManager.SwitchToUIActions();
         yield return new WaitForSeconds(time);
-        ResultsUI.ActivateLose();
+        ResultsUI.ActivateResults();
     }
 
     private void FootStepCheck()

@@ -115,9 +115,9 @@ public class CameraDolly : MonoBehaviour
             }
             randomXStart = -randomXStart;
             randomZStart = -randomZStart;
-            float timePercentage = (Time.time - startTime) / f_shakeTime;
-            S_shakeOffset.x = randomXStart = Mathf.MoveTowards(S_shakeOffset.x, randomXStart * (1 - timePercentage), (f_shakeStrength / 2.0f) * Time.deltaTime);
-            S_shakeOffset.z = randomZStart = Mathf.MoveTowards(S_shakeOffset.z, randomZStart * (1 - timePercentage), (f_shakeStrength / 2.0f) * Time.deltaTime);
+            float timePercentage = (Time.time - startTime) / shakeTime;
+            S_shakeOffset.x = randomXStart = Mathf.MoveTowards(S_shakeOffset.x, randomXStart * (1 - timePercentage), (shakeIntensity / 2.0f) * Time.deltaTime);
+            S_shakeOffset.z = randomZStart = Mathf.MoveTowards(S_shakeOffset.z, randomZStart * (1 - timePercentage), (shakeIntensity / 2.0f) * Time.deltaTime);
             yield return 0;
             frameCounter++;
         }

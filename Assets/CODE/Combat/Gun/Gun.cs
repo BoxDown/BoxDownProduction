@@ -43,7 +43,7 @@ namespace Gun
 
         [Rename("Muzzle Transform")] public Transform C_muzzle;
         [Rename("Muzzle Light Flash")] public Light C_light;
-        [Rename("Light Off Time")] public float f_lightOffTime = 0.024f;
+        private float f_lightIntensity;
         [Space(10)]
 
         [Header("LEAVE NULL UNLESS PLAYER")]
@@ -128,6 +128,11 @@ namespace Gun
             }
 
             i_currentAmmo = i_clipSize;
+            if (C_light != null)
+            {
+                f_lightIntensity = C_light.intensity;
+                C_light.intensity = 0;
+            }
         }
         private void Update()
         {
@@ -146,6 +151,10 @@ namespace Gun
                 {
                     UpdateGunStats(aC_moduleArray[i]);
                 }
+            }
+            if (C_light != null)
+            {
+                C_light.intensity = Mathf.MoveTowards(C_light.intensity, 0, 25 * Time.fixedDeltaTime);
             }
         }
         public void StartFire()
@@ -477,8 +486,7 @@ namespace Gun
 
         private void TurnOnLight()
         {
-            C_light.gameObject.SetActive(true);
-            StartCoroutine(TurnOffLight());
+            C_light.intensity = f_lightIntensity;
         }
 
         private void ChangeLightColour(Color color)
@@ -557,11 +565,6 @@ namespace Gun
             {
                 InGameUI.gameUI.TurnOffReloadingText();
             }
-        }
-        private IEnumerator TurnOffLight()
-        {
-            yield return new WaitForSeconds(f_lightOffTime);
-            C_light.gameObject.SetActive(false);
         }
 
     }

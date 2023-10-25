@@ -22,7 +22,7 @@ namespace Enemy
         [Rename("Gut Bag VFX"), SerializeField] protected GameObject C_gutBag = null;
         [Rename("Spawn VFX"), SerializeField] protected GameObject C_spawnEffects = null;
         protected float f_spawnTime = 1.25f;
-        [Rename("Gut Bag After Seconds"), SerializeField] protected float f_gutBagTime = 1.0f;
+        [Rename("Gut Bag After Seconds")] protected float f_gutBagTime = 1.0f;
         [Rename("Spawn Effect Delay"), SerializeField] protected float f_spawnEffectDelay = 0;
         [Rename("Spawn Effect Offset"), SerializeField] protected Vector3 f_spawnEffectOffset = Vector3.zero;
 
@@ -85,7 +85,7 @@ namespace Enemy
         }
 
 
-        public virtual void LookAtPlayer()
+        public void LookAtPlayer()
         {
             if (C_player != null)
             {

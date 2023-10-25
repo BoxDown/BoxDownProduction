@@ -142,7 +142,7 @@ public class Combatant : MonoBehaviour
         {
             b_hasAnimator = true;
         }
-        if (C_renderer != null)
+        if(C_renderer != null)
         {
             return;
         }
@@ -334,11 +334,11 @@ public class Combatant : MonoBehaviour
     }
 
 
-    protected float RotateToTarget()
+    protected void RotateToTarget()
     {
         if (b_isDead)
         {
-            return 0;
+            return;
         }
         // Rotate
         transform.rotation = Quaternion.Euler(0,
@@ -365,7 +365,6 @@ public class Combatant : MonoBehaviour
             f_rotationalAcceleration = rotationAngleDifference * Time.fixedDeltaTime;
             f_rotationalVelocity += f_rotationalAcceleration * Time.fixedDeltaTime;
         }
-        return rotationAngleDifference;
     }
 
     protected void SetRotationDirection(Vector2 input)
@@ -381,74 +380,32 @@ public class Combatant : MonoBehaviour
     protected virtual void CheckCollisions()
     {
         RaycastHit hit;
-
-        //stepped collisionchecks
-        int stepCount = 2;
-        float halfSize = f_size;
-
-        //check right
-        if (S_velocity.x > 0)
+        if (Physics.SphereCast(transform.localPosition, f_size, Vector3.right, out hit, f_size / 2.0f, i_bulletLayerMask) && S_velocity.x > 0)
         {
-            for (int i = 0; i < stepCount; i++)
+            if (!hit.collider.isTrigger)
             {
-
-                if (Physics.BoxCast((transform.position + (Vector3.up / 2.0f)), new Vector3(halfSize, halfSize, halfSize), Vector3.right, out hit, Quaternion.identity, halfSize * (i / (float)stepCount), i_bulletLayerMask))
-                {
-                    if (hit.collider.isTrigger)
-                    {
-                        continue;
-                    }
-                    S_velocity.x = -S_velocity.x * f_collisionBounciness;
-                    break;
-                }
+                S_velocity.x = -S_velocity.x * f_collisionBounciness;
             }
         }
-        //check left
-        else if (S_velocity.x < 0)
+        else if (Physics.SphereCast(transform.localPosition, f_size, -Vector3.right, out hit, f_size / 2.0f, i_bulletLayerMask) && S_velocity.x < 0)
         {
-            for (int i = 0; i < stepCount; i++)
+            if (!hit.collider.isTrigger)
             {
-                if (Physics.BoxCast((transform.position + (Vector3.up / 2.0f)), new Vector3(halfSize, halfSize, halfSize), -Vector3.right, out hit, Quaternion.identity, halfSize * (i / (float)stepCount), i_bulletLayerMask))
-                {
-                    if (hit.collider.isTrigger)
-                    {
-                        continue;
-                    }
-                    S_velocity.x = -S_velocity.x * f_collisionBounciness;
-                    break;
-                }
+                S_velocity.x = -S_velocity.x * f_collisionBounciness;
             }
         }
-        //check up
-        if (S_velocity.z > 0)
+        if (Physics.SphereCast(transform.localPosition, f_size, Vector3.forward, out hit, f_size / 2.0f, i_bulletLayerMask) && S_velocity.z > 0)
         {
-            for (int i = 0; i < stepCount; i++)
+            if (!hit.collider.isTrigger)
             {
-                if (Physics.BoxCast((transform.position + (Vector3.up / 2.0f)), new Vector3(halfSize, halfSize, halfSize), Vector3.forward, out hit, Quaternion.identity, halfSize * (i / (float)stepCount), i_bulletLayerMask))
-                {
-                    if (hit.collider.isTrigger)
-                    {
-                        continue;
-                    }
-                    S_velocity.z = -S_velocity.z * f_collisionBounciness;
-                    break;
-                }
+                S_velocity.z = -S_velocity.z * f_collisionBounciness;
             }
         }
-        //check down
-        else if (S_velocity.z < 0)
+        else if (Physics.SphereCast(transform.localPosition, f_size, -Vector3.forward, out hit, f_size / 2.0f, i_bulletLayerMask) && S_velocity.z < 0)
         {
-            for (int i = 0; i < stepCount; i++)
+            if (!hit.collider.isTrigger)
             {
-                if (Physics.BoxCast((transform.position + (Vector3.up / 2.0f)), new Vector3(halfSize, halfSize, halfSize), -Vector3.forward, out hit, Quaternion.identity, halfSize * (i / (float)stepCount), i_bulletLayerMask))
-                {
-                    if (hit.collider.isTrigger)
-                    {
-                        continue;
-                    }
-                    S_velocity.z = -S_velocity.z * f_collisionBounciness;
-                    break;
-                }
+                S_velocity.z = -S_velocity.z * f_collisionBounciness;
             }
         }
     }
@@ -901,9 +858,9 @@ public class Combatant : MonoBehaviour
         float timeSinceStart = 0;
 
         RaycastHit hit;
-        if (Physics.SphereCast(transform.position + (Vector3.up / 2.0f), f_size * 2.0f, S_movementInputDirection, out hit, dodgeDistance, i_bulletLayerMask))
+        if (Physics.SphereCast(transform.position + Vector3.up, f_size, S_movementInputDirection, out hit, dodgeDistance, i_bulletLayerMask))
         {
-            dodgeDistance = hit.distance - (f_size * 1.1f);
+            dodgeDistance = hit.distance - f_size;
             float dodgePercentage = dodgeDistance / f_dodgeLength;
             dodgeTime = f_dodgeTime * dodgePercentage;
         }
@@ -1000,7 +957,6 @@ public class Combatant : MonoBehaviour
             Gizmos.color = new Color(1, 0.92f, 0.016f, 0.5f);
             Gizmos.DrawSphere(Vector3.zero, f_debugLightningSize);
         }
-
     }
 
 }

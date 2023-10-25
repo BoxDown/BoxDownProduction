@@ -604,7 +604,6 @@ namespace Managers
         {
             yield return 0;
             C_eventSystem.SetSelectedGameObject(newSelection);
-            Debug.Log(C_eventSystem.currentSelectedGameObject.name);
         }
 
         public static void CurrentSelectionMainMenu()
@@ -630,7 +629,6 @@ namespace Managers
 
         private void CurrentSelectionCheck()
         {
-            Debug.Log(ControlManager.GetControllerType());
             if (ControlManager.GetControllerType() == ControlManager.ControllerType.KeyboardMouse)
             {
                 C_eventSystem.SetSelectedGameObject(null);

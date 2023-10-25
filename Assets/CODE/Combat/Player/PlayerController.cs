@@ -148,6 +148,7 @@ public class PlayerController : Combatant
         base.Damage(damage);
         StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, f_invincibleTime));
         AudioManager.PlayFmodEvent("SFX/Player/Player_Hit", transform.position);
+        GameManager.GetCamera().ShakeCamera(0.5f);
         GameManager.IncrementDamageTaken(damage);
     }
     public override void Heal(float heal)
@@ -263,7 +264,7 @@ public class PlayerController : Combatant
     {
         GameManager.SwitchToUIActions();
         yield return new WaitForSeconds(time);
-        ResultsUI.ActivateResults();
+        ResultsUI.ActivateLose();
     }
 
     private void FootStepCheck()

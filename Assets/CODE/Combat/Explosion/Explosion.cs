@@ -33,8 +33,10 @@ namespace Explosion
             ParticleSystem smokeParticle = transform.Find("PREFAB_VFX_Smoke").GetComponent<ParticleSystem>();
             ParticleSystem shockwaveParticle = transform.Find("PREFAB_VFX_Shockwave").GetComponent<ParticleSystem>();
             //smoke start speed needs to be radius
-            smokeParticle.startSpeed = f_explosionSize;
-            shockwaveParticle.startSize = f_explosionSize * 1.2f;
+            smokeParticle.startSpeed = (f_explosionSize / 2);
+            shockwaveParticle.startSize = (f_explosionSize / 2) * 1.2f;
+
+            FindObjectOfType<CameraDolly>().ShakeCamera(f_explosionSize * 1.5f);
 
             //shockwave start size radius * 1.2f
         }
@@ -46,13 +48,13 @@ namespace Explosion
                 Destroy(gameObject);
             }
             CheckCollisions();
-            transform.localScale = Vector3.Lerp(Vector3.zero, new Vector3(f_explosionSize, f_explosionSize, f_explosionSize), f_lifeTime / f_explosionLifeTime);
+            transform.localScale = Vector3.Lerp(Vector3.zero, new Vector3(f_explosionSize * 2.0f, f_explosionSize * 2.0f, f_explosionSize * 2.0f), f_lifeTime / f_explosionLifeTime);
             f_lifeTime += Time.deltaTime;
         }
 
         private void CheckCollisions()
         {
-            Collider[] collisions = Physics.OverlapSphere(transform.position, transform.localScale.x / 2);
+            Collider[] collisions = Physics.OverlapSphere(transform.position, transform.localScale.x / 2 / 2);
             if (collisions.Length == 0)
             {
                 return;
@@ -115,6 +117,12 @@ namespace Explosion
 
         }
 
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(transform.position, f_explosionSize / 2.0f);
+        }
     }
 
 }

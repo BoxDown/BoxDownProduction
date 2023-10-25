@@ -81,14 +81,13 @@ namespace Managers
             private set;
         }
 
-
-        private void FixedUpdate()
+        private void Update()
         {
             if (C_playerInput != null)
             {
                 ControlManager.ChangeInputDevice(C_playerInput.currentControlScheme);
             }
-
+            CurrentSelectionCheck();
         }
 
 
@@ -470,7 +469,7 @@ namespace Managers
             gameManager.i_currentRoom = 0;
             gameManager.e_currentRewardType = Door.RoomType.None;
             DeactivateMainMenu();
-            ResultsUI.DeactivateLose();
+            ResultsUI.DeactivateResults();
             SetStartTime();
             SceneManager.LoadScene("StartBreakRoom");
             InGameUI.ActivateInGameUI();
@@ -510,7 +509,7 @@ namespace Managers
             }
             gameManager.RemoveCamera();
             gameManager.RemovePlayer();
-            ResultsUI.DeactivateLose();
+            ResultsUI.DeactivateResults();
             InGameUI.DeactivateInGameUI();
             CreditsMenu.Deactivate();
             SceneManager.LoadScene("MainMenu");
@@ -553,7 +552,7 @@ namespace Managers
                 PauseMenu.DeactivatePause();
                 CreditsMenu.Deactivate();
                 WeaponsSwapUI.Deactivate();
-                ResultsUI.DeactivateLose();
+                ResultsUI.DeactivateResults();
                 DeactivateMainMenu();
                 if (b_musicOnOff)
                 {
@@ -567,7 +566,7 @@ namespace Managers
                 CreditsMenu.Deactivate();
                 PauseMenu.DeactivatePause();
                 InGameUI.DeactivateInGameUI();
-                ResultsUI.DeactivateLose();
+                ResultsUI.DeactivateResults();
                 WeaponsSwapUI.Deactivate();
                 if (b_musicOnOff)
                 {
@@ -605,7 +604,6 @@ namespace Managers
         {
             yield return 0;
             C_eventSystem.SetSelectedGameObject(newSelection);
-            Debug.Log(C_eventSystem.currentSelectedGameObject.name);
         }
 
         public static void CurrentSelectionMainMenu()
@@ -627,6 +625,44 @@ namespace Managers
         public static void CurrentSelectionCreditsMenu()
         {
             gameManager.StartCoroutine(gameManager.SetCurrentSelected(gameManager.C_defaultCreditsButton));
+        }
+
+        private void CurrentSelectionCheck()
+        {
+            if (ControlManager.GetControllerType() == ControlManager.ControllerType.KeyboardMouse)
+            {
+                C_eventSystem.SetSelectedGameObject(null);
+                return;
+            }
+            if (C_eventSystem.currentSelectedGameObject != null || !b_usingUIActions)
+            {
+                return;
+            }
+            if (C_mainMenu.gameObject.activeInHierarchy)
+            {
+                CurrentSelectionMainMenu();
+                return;
+            }
+            if (PauseMenu.pauseMenu.gameObject.activeInHierarchy)
+            {
+                CurrentSelectionPauseMenu();
+                return;
+            }
+            if (WeaponsSwapUI.swapUI.gameObject.activeInHierarchy)
+            {
+                CurrentSelectionSwapMenu();
+                return;
+            }
+            if (ResultsUI.resultsUI.gameObject.activeInHierarchy)
+            {
+                CurrentSelectionResultsMenu();
+                return;
+            }
+            if (CreditsMenu.creditsUI.gameObject.activeInHierarchy)
+            {
+                CurrentSelectionCreditsMenu();
+                return;
+            }
         }
 
         public static void SpawnAllGunModules()

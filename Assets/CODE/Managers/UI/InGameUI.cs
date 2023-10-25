@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Utility;
+using Gun;
 
 namespace Managers
 {
@@ -25,6 +26,7 @@ namespace Managers
 
         [Rename("Health Slider"), SerializeField] Image C_healthSlider;
         [Rename("Ammo Slider"), SerializeField] Image C_ammoSlider;
+        [Rename("Gun Module Card"), SerializeField] GunModuleCard C_gunModuleCard;
 
         [Rename("Ammo Text"), SerializeField] TextMeshProUGUI C_ammoText;
         [Rename("Reload Text"), SerializeField] TextMeshProUGUI C_reloadText;
@@ -93,6 +95,15 @@ namespace Managers
         public void TurnOffReloadingText()
         {
             C_reloadText.gameObject.SetActive(false);
+        }
+        public static void TurnOnGunModuleCard(GunModule module)
+        {
+            gameUI.C_gunModuleCard.gameObject.SetActive(true);
+            gameUI.C_gunModuleCard.UpdateGunModule(module, false);
+        }
+        public static void TurnOffGunModuleCard()
+        {
+            gameUI.C_gunModuleCard.gameObject.SetActive(false);
         }
     }
 }

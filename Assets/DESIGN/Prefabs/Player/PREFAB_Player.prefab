@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   f_maxSpeed: 7.5
-  f_maxAcceleration: 40
+  f_maxAcceleration: 65
   C_accelerationCurve:
     serializedVersion: 2
     m_Curve:
@@ -336,7 +336,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  f_dodgeRecoveryTime: 0.25
+  f_dodgeRecoveryTime: 0.35
   f_size: 0.35
   f_collisionBounciness: 0.285
   f_maxHealth: 100
@@ -346,7 +346,6 @@ MonoBehaviour:
   f_respawnTime: 1
   C_onHitEffects: {fileID: 0}
   C_onHealEffects: {fileID: 0}
-  C_renderer: {fileID: 1762880991049522183}
   b_infiniteHealth: 0
   e_combatState: 0
   b_isDead: 0
@@ -565,12 +564,6 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: dc90a7027e5b91848af9ba73f63d7cde, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 450a66e8f1ea4404b9867df4cb2deea6, type: 3}
---- !u!137 &1762880991049522183 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -2761541951823679226, guid: 450a66e8f1ea4404b9867df4cb2deea6,
-    type: 3}
-  m_PrefabInstance: {fileID: 4745117055353515265}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2002236324118742831 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6490625522564147758, guid: 450a66e8f1ea4404b9867df4cb2deea6,

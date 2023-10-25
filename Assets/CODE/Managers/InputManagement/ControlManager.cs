@@ -123,6 +123,7 @@ namespace Managers
 
         public static void ChangeInputDevice(string controlScheme)
         {
+
             switch (controlScheme)
             {
                 //correct name

@@ -14,7 +14,6 @@ public class GunModuleCard : MonoBehaviour
     [Rename("Trigger Sprite"), SerializeField] private Sprite C_triggerSprite;
     [Rename("Clip Sprite"), SerializeField] private Sprite C_clipSprite;
     [Rename("Barrel Sprite"), SerializeField] private Sprite C_barrelSprite;
-    [Rename("Gun Module Animations")] public GunModuleUIAnimations C_moduleAnimations;
     [Rename("Stat Bar Gradient")] public Gradient C_statBarGradient;
     [Rename("Gun Module Transform")] public Transform C_gunModuleTransform;
     [Rename("Gun Module Name")] public TextMeshProUGUI C_gunModuleName;
@@ -29,6 +28,8 @@ public class GunModuleCard : MonoBehaviour
     [Rename("Stat 4 String")] public TextMeshProUGUI C_statString;
 
     [Rename("Card Fade Time")] public float f_fadeTime = 0.2f;
+
+    [Rename("Swap Mesh On/Off")] public bool b_swapMeshOnOff = true;
 
     public void UpdateGunModule(GunModule gunModuleToSet, bool swappingModule)
     {
@@ -45,13 +46,16 @@ public class GunModuleCard : MonoBehaviour
             case GunModule.ModuleSection.Trigger:
                 //Imagery
                 C_backgroundImage.sprite = C_triggerSprite;
-                if (!swappingModule)
+                if (b_swapMeshOnOff)
                 {
-                    GameManager.gameManager.C_gunModuleUI.SwapTriggerMesh(C_gunModuleReference);
-                }
-                else
-                {
-                    GameManager.gameManager.C_gunModuleUI.SwapSwappingMesh(C_gunModuleReference);
+                    if (!swappingModule)
+                    {
+                        GameManager.gameManager.C_gunModuleUI.SwapTriggerMesh(C_gunModuleReference);
+                    }
+                    else
+                    {
+                        GameManager.gameManager.C_gunModuleUI.SwapSwappingMesh(C_gunModuleReference);
+                    }
                 }
                 //Stat Names
                 C_moduleStat1Name.text = "Damage:";
@@ -71,13 +75,16 @@ public class GunModuleCard : MonoBehaviour
             case GunModule.ModuleSection.Clip:
                 //Imagery
                 C_backgroundImage.sprite = C_clipSprite;
-                if (!swappingModule)
+                if (b_swapMeshOnOff)
                 {
-                    GameManager.gameManager.C_gunModuleUI.SwapClipMesh(C_gunModuleReference);
-                }
-                else
-                {
-                    GameManager.gameManager.C_gunModuleUI.SwapSwappingMesh(C_gunModuleReference);
+                    if (!swappingModule)
+                    {
+                        GameManager.gameManager.C_gunModuleUI.SwapClipMesh(C_gunModuleReference);
+                    }
+                    else
+                    {
+                        GameManager.gameManager.C_gunModuleUI.SwapSwappingMesh(C_gunModuleReference);
+                    }
                 }
                 //Stat Names
                 C_moduleStat1Name.text = "Clip Size:";
@@ -97,13 +104,16 @@ public class GunModuleCard : MonoBehaviour
             case GunModule.ModuleSection.Barrel:
                 //Imagery
                 C_backgroundImage.sprite = C_barrelSprite;
-                if (!swappingModule)
+                if (b_swapMeshOnOff)
                 {
-                    GameManager.gameManager.C_gunModuleUI.SwapBarrelMesh(C_gunModuleReference);
-                }
-                else
-                {
-                    GameManager.gameManager.C_gunModuleUI.SwapSwappingMesh(C_gunModuleReference);
+                    if (!swappingModule)
+                    {
+                        GameManager.gameManager.C_gunModuleUI.SwapBarrelMesh(C_gunModuleReference);
+                    }
+                    else
+                    {
+                        GameManager.gameManager.C_gunModuleUI.SwapSwappingMesh(C_gunModuleReference);
+                    }
                 }
                 //Stat Names
                 C_moduleStat1Name.text = "Bullet Size:";

@@ -36,7 +36,7 @@ namespace Explosion
             smokeParticle.startSpeed = (f_explosionSize / 2);
             shockwaveParticle.startSize = (f_explosionSize / 2) * 1.2f;
 
-            FindObjectOfType<CameraDolly>().ShakeCamera(f_explosionSize * 1.5f);
+            FindObjectOfType<CameraDolly>().ShakeCamera(f_explosionSize / 2.0f);
 
             //shockwave start size radius * 1.2f
         }

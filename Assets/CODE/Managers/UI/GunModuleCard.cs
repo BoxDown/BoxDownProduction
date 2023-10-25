@@ -63,11 +63,11 @@ public class GunModuleCard : MonoBehaviour
                 C_moduleStat3Name.text = "Bullet Speed:";
                 C_moduleStat4Name.text = "Bullet Type:";
                 //Values scale on x axis for horizontal fill, magic numbers at the start of maps are minimum and maximum
-                C_statValueBar1.transform.localScale = new Vector3(ExtraMaths.Map(4, 35, 0.1f, 0.9f, C_gunModuleReference.f_baseDamage), 1, 1);
+                C_statValueBar1.transform.localScale = new Vector3(ExtraMaths.Map(4, 18, 0.1f, 0.9f, C_gunModuleReference.f_baseDamage), 1, 1);
                 C_statValueBar1.color = C_statBarGradient.Evaluate(C_statValueBar1.transform.localScale.x);
-                C_statValueBar2.transform.localScale = new Vector3(ExtraMaths.Map(1, 9, 0.1f, 0.9f, C_gunModuleReference.f_fireRate), 1, 1);
+                C_statValueBar2.transform.localScale = new Vector3(ExtraMaths.Map(2.5f, 9, 0.1f, 0.9f, C_gunModuleReference.f_fireRate), 1, 1);
                 C_statValueBar2.color = C_statBarGradient.Evaluate(C_statValueBar2.transform.localScale.x);
-                C_statValueBar3.transform.localScale = new Vector3(ExtraMaths.Map(12, 20, 0.1f, 0.9f, C_gunModuleReference.f_bulletSpeed), 1, 1);
+                C_statValueBar3.transform.localScale = new Vector3(ExtraMaths.Map(7.5f, 18, 0.1f, 0.9f, C_gunModuleReference.f_bulletSpeed), 1, 1);
                 C_statValueBar3.color = C_statBarGradient.Evaluate(C_statValueBar3.transform.localScale.x);
                 C_statString.text = C_gunModuleReference.S_bulletTraitInformation.e_bulletTrait.ToString();
                 break;
@@ -92,9 +92,9 @@ public class GunModuleCard : MonoBehaviour
                 C_moduleStat3Name.text = "Weight:";
                 C_moduleStat4Name.text = "Bullet Element:";
                 //Values scale on x axis for horizontal fill, magic numbers at the start of maps are minimum and maximum
-                C_statValueBar1.transform.localScale = new Vector3(ExtraMaths.Map(6, 38, 0.1f, 0.9f, C_gunModuleReference.i_clipSize), 1, 1);
+                C_statValueBar1.transform.localScale = new Vector3(ExtraMaths.Map(1, 34, 0.1f, 0.9f, C_gunModuleReference.i_clipSize), 1, 1);
                 C_statValueBar1.color = C_statBarGradient.Evaluate(C_statValueBar1.transform.localScale.x);
-                C_statValueBar2.transform.localScale = new Vector3(ExtraMaths.Map(0.6f, 2.5f, 0.1f, 0.9f, C_gunModuleReference.f_reloadSpeed), 1, 1);
+                C_statValueBar2.transform.localScale = new Vector3(ExtraMaths.Map(0.2f, 2f, 0.1f, 0.9f, C_gunModuleReference.f_reloadSpeed), 1, 1);
                 C_statValueBar2.color = C_statBarGradient.Evaluate(1 - C_statValueBar2.transform.localScale.x);
                 C_statValueBar3.transform.localScale = new Vector3(ExtraMaths.Map(0, 2.25f, 0.1f, 0.9f, C_gunModuleReference.f_movementPenalty), 1, 1);
                 C_statValueBar3.color = C_statBarGradient.Evaluate(1 - C_statValueBar3.transform.localScale.x);
@@ -121,11 +121,11 @@ public class GunModuleCard : MonoBehaviour
                 C_moduleStat3Name.text = "Recoil:";
                 C_moduleStat4Name.text = "Shot Pattern:";
                 //Values scale on x axis for horizontal fill, magic numbers at the start of maps are minimum and maximum
-                C_statValueBar1.transform.localScale = new Vector3(ExtraMaths.Map(0.25f, 0.3f, 0.1f, 0.9f, C_gunModuleReference.f_bulletSize), 1, 1);
+                C_statValueBar1.transform.localScale = new Vector3(ExtraMaths.Map(0.25f, 0.65f, 0.1f, 0.9f, C_gunModuleReference.f_bulletSize), 1, 1);
                 C_statValueBar1.color = C_statBarGradient.Evaluate(C_statValueBar1.transform.localScale.x);
-                C_statValueBar2.transform.localScale = new Vector3(ExtraMaths.Map(3.85f, 11, 0.1f, 0.9f, C_gunModuleReference.f_bulletRange), 1, 1);
+                C_statValueBar2.transform.localScale = new Vector3(ExtraMaths.Map(4, 9, 0.1f, 0.9f, C_gunModuleReference.f_bulletRange), 1, 1);
                 C_statValueBar2.color = C_statBarGradient.Evaluate(C_statValueBar2.transform.localScale.x);
-                C_statValueBar3.transform.localScale = new Vector3(ExtraMaths.Map(0, 8, 0.1f, 0.9f, C_gunModuleReference.f_recoil), 1, 1);
+                C_statValueBar3.transform.localScale = new Vector3(ExtraMaths.Map(0, 4, 0.1f, 0.9f, C_gunModuleReference.f_recoil), 1, 1);
                 C_statValueBar3.color = C_statBarGradient.Evaluate(1 - C_statValueBar3.transform.localScale.x);
                 C_statString.text = C_gunModuleReference.S_shotPatternInformation.e_shotPattern.ToString();
                 break;

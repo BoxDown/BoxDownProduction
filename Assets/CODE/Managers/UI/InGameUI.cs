@@ -27,9 +27,12 @@ namespace Managers
         [Rename("Health Slider"), SerializeField] Image C_healthSlider;
         [Rename("Ammo Slider"), SerializeField] Image C_ammoSlider;
         [Rename("Gun Module Card"), SerializeField] GunModuleCard C_gunModuleCard;
+        [Rename("Single Module Transform"), SerializeField] Transform C_gunModuleTransform;
 
         [Rename("Ammo Text"), SerializeField] TextMeshProUGUI C_ammoText;
         [Rename("Reload Text"), SerializeField] TextMeshProUGUI C_reloadText;
+
+        private string s_currentActiveModuleName;
 
 
 
@@ -98,12 +101,32 @@ namespace Managers
         }
         public static void TurnOnGunModuleCard(GunModule module)
         {
+            if (gameUI.s_currentActiveModuleName == module.name)
+            {
+                return;
+            }
             gameUI.C_gunModuleCard.gameObject.SetActive(true);
             gameUI.C_gunModuleCard.UpdateGunModule(module, false);
+
+            Vector3 modulePosition = gameUI.C_gunModuleTransform.position;
+
+            Destroy(gameUI.C_gunModuleTransform.gameObject);
+            gameUI.C_gunModuleTransform = Instantiate(module.C_meshPrefab).transform;
+            gameUI.C_gunModuleTransform.position = modulePosition;
+            if (gameUI.C_gunModuleTransform.GetComponent<Collider>() != null)
+            {
+                Destroy(gameUI.C_gunModuleTransform.GetComponent<Collider>());
+            }
+            foreach (Transform child in gameUI.C_gunModuleTransform)
+            {
+                child.gameObject.layer = 8;
+            }
+            gameUI.s_currentActiveModuleName = module.name;
         }
         public static void TurnOffGunModuleCard()
         {
             gameUI.C_gunModuleCard.gameObject.SetActive(false);
+            gameUI.s_currentActiveModuleName = "";
         }
     }
 }

@@ -217,7 +217,7 @@ namespace Gun
 
                 if (C_gunHolder.CompareTag("Player"))
                 {
-                    GameManager.GetCamera().ShakeCamera(0.1f);
+                    GameManager.GetCamera().ShakeCamera(0.05f);
                 }
                 C_gunHolder.GetComponent<Combatant>().AddVelocity(recoil);
                 SpawnBulletShells();

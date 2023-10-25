@@ -440,7 +440,7 @@ namespace Gun
 
             for (int i = 0; i < lC_combatantsHit.Count; i++)
             {
-                if (lC_combatantsHit.Contains(lC_combatantsHit[i]))
+                if (lC_combatantsHit.Contains(combatant))
                 {
                     return false;
                 }

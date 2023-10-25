@@ -291,7 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 7073544469878300018}
+  m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!114 &2855244226098366614
@@ -393,7 +393,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7073544470372775882}
+  - {fileID: 7205974778779495643}
   - {fileID: 5446364670628036549}
   - {fileID: 4766024189628455318}
   - {fileID: 1979782556969424777}
@@ -419,7 +419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65fbb7c4d11ef2545940276a6dd90b3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  C_mainMenu: {fileID: 7073544470372775882}
+  C_mainMenu: {fileID: 7205974778779495643}
   i_rewardsPerRoom: 1
   i_easyRooms: 3
   i_mediumRooms: 3
@@ -430,7 +430,7 @@ MonoBehaviour:
   b_musicOnOff: 0
   C_allLevels: {fileID: 4900000, guid: 3a71983da1269e34db9f45bc54f60e59, type: 3}
   C_allGunModules: {fileID: 4900000, guid: 18fdafbf90a1d374eae3c6a7dacd387b, type: 3}
-  C_defaultMainMenuButton: {fileID: 7073544469878300018}
+  C_defaultMainMenuButton: {fileID: 7205974778164430435}
   C_defaultPauseButton: {fileID: 2378806167066044406}
   C_defaultSwapButton: {fileID: 4721422457226255653}
   C_defaultResultsButton: {fileID: 1979782557583818396}
@@ -898,7 +898,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1140,7 +1140,7 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1979564563661773346}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &5161998947559019487
+--- !u!1001 &4722479852024629454
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1299,17 +1299,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a7766f3c50c72d44aa1449ba620e2fc, type: 3}
---- !u!1 &7073544469878300018 stripped
+--- !u!1 &7205974778164430435 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2704795882765962925, guid: 4a7766f3c50c72d44aa1449ba620e2fc,
     type: 3}
-  m_PrefabInstance: {fileID: 5161998947559019487}
+  m_PrefabInstance: {fileID: 4722479852024629454}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &7073544470372775882 stripped
+--- !u!4 &7205974778779495643 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2704795883254146069, guid: 4a7766f3c50c72d44aa1449ba620e2fc,
     type: 3}
-  m_PrefabInstance: {fileID: 5161998947559019487}
+  m_PrefabInstance: {fileID: 4722479852024629454}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5587412551834638653
 PrefabInstance:
@@ -2868,6 +2868,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PREFAB_GameplayCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5609971400382011282, guid: 516ea00787d977d4fa1022d5cde336eb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6779366280228112154, guid: 516ea00787d977d4fa1022d5cde336eb,
         type: 3}

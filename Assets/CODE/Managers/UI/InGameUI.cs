@@ -25,7 +25,12 @@ namespace Managers
         private float f_currentHealth = 1;
 
         [Rename("Health Slider"), SerializeField] Image C_healthSlider;
-        [Rename("Ammo Slider"), SerializeField] Image C_ammoSlider;
+
+        [Rename("Vertical Layout Group"), SerializeField] VerticalLayoutGroup C_verticalLayoutGroup;
+        [Rename("Bullet Image "), SerializeField] Image C_ammoImage;
+        List<Image> lC_bulletUIPool = new List<Image>();
+        int i_currentBullet = 0;
+
         [Rename("Gun Module Card"), SerializeField] GunModuleCard C_gunModuleCard;
         [Rename("Single Module Transform"), SerializeField] Transform C_gunModuleTransform;
 
@@ -86,9 +91,46 @@ namespace Managers
             C_healthSlider.rectTransform.localScale = new Vector3(percentageHealth, 1, 1);
             C_healthSlider.color = C_healthGradient.Evaluate(percentageHealth);
         }
-        public void UpdateAmmoSlider()
+
+        public void CreateUIBulletPool(int newBulletCount)
         {
-            C_ammoSlider.rectTransform.localScale = new Vector3(i_currentAmmo / (float)i_maxAmmo, 1, 1);
+            for (int i = 0; i < newBulletCount; i++)
+            {
+                lC_bulletUIPool.Add(Instantiate(C_ammoImage, C_verticalLayoutGroup.transform).GetComponent<Image>());
+            }
+        }
+
+        public void UpdateBulletCount(int newBulletCount)
+        {
+            int currentBulletCount = lC_bulletUIPool.Count;
+
+            int difference = newBulletCount - currentBulletCount;
+
+            if (difference < 0)
+            {
+                for (int i = 0; i < difference; i++)
+                {
+                    lC_bulletUIPool.Add(Instantiate(C_ammoImage, C_verticalLayoutGroup.transform).GetComponent<Image>());
+                }
+            }
+            else
+            {
+                lC_bulletUIPool.RemoveRange(lC_bulletUIPool.Count + difference, -difference);
+            }
+
+        }
+
+        public void BulletFireUI()
+        {
+
+        }
+
+        public void ReloadBulletUI()
+        {
+            foreach (Image bullet in lC_bulletUIPool)
+            {
+                bullet.transform.position = Vector3.zero;
+            }
         }
 
         public void TurnOnReloadingText()

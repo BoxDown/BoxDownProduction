@@ -517,7 +517,6 @@ namespace Gun
         {
             InGameUI.gameUI.SetMaxAmmo(i_clipSize);
             InGameUI.gameUI.SetCurrentAmmo(i_currentAmmo);
-            InGameUI.gameUI.UpdateAmmoSlider();
             InGameUI.gameUI.UpdateAmmoText();
         }
         //reload all at once

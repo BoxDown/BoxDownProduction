@@ -62,6 +62,43 @@ public class PlayerController : Combatant
             SetRotationDirection(Vector2.ClampMagnitude(S_movementVec2Direction, f_controllerDeadZone * 0.9f));
         }
         InGameUI.gameUI.UpdateHealthSlider();
+
+        float closestDistance = float.MaxValue;
+        int closestCollisionReference = 0;
+        Collider[] collisions = Physics.OverlapSphere(transform.position, f_interactRange);
+        if (collisions.Length == 0)
+        {
+            InGameUI.TurnOffGunModuleCard();
+            return;
+        }
+        for (int i = 0; i < collisions.Length; i++)
+        {
+            if (collisions[i].transform == transform)
+            {
+                continue;
+            }
+            if (!collisions[i].isTrigger)
+            {
+                continue;
+            }
+            float distance = Vector3.Distance(collisions[i].ClosestPoint(transform.position), transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestCollisionReference = i;
+            }
+        }
+
+        Transform closestTransform = collisions[closestCollisionReference].transform;
+
+        if (closestTransform.tag == "Gun Module")
+        {
+            InGameUI.TurnOnGunModuleCard(GunModuleSpawner.GetGunModule(closestTransform.name));
+        }
+        else
+        {
+            InGameUI.TurnOffGunModuleCard();
+        }
     }
 
     protected override void FixedUpdate()
@@ -264,7 +301,7 @@ public class PlayerController : Combatant
     {
         GameManager.SwitchToUIActions();
         yield return new WaitForSeconds(time);
-        ResultsUI.ActivateLose();
+        ResultsUI.ActivateResults();
     }
 
     private void FootStepCheck()

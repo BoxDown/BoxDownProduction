@@ -134,4 +134,9 @@ public class CameraDolly : MonoBehaviour
 
         S_shakeOffset = Vector3.MoveTowards(S_shakeOffset, Vector3.zero, Time.deltaTime);
     }
+
+    public void SetCameraFocus(Vector3 position)
+    {
+        transform.position = position + S_offsetVector;
+    }
 }

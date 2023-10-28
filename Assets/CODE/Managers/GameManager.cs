@@ -47,6 +47,13 @@ namespace Managers
         [Rename("Default Swap Button")] public GameObject C_defaultSwapButton;
         [Rename("Default Results Button")] public GameObject C_defaultResultsButton;
         [Rename("Default Credits Button")] public GameObject C_defaultCreditsButton;
+
+        [Space(10)]
+        [Header("Gun Module Spawn VFX")]
+        [Rename("Trigger Module Spawn Effect"), SerializeField] private GameObject C_triggerSpawnVFX;
+        [Rename("Clip Module Spawn Effect"), SerializeField] private GameObject C_clipSpawnVFX;
+        [Rename("Barrel Module Spawn Effect"), SerializeField] private GameObject C_barrelSpawnVFX;
+
         private EventSystem C_eventSystem;
 
         private Door.RoomType e_currentRewardType;
@@ -446,6 +453,35 @@ namespace Managers
                     }
                     break;
             }
+        }
+
+        public static void SpawnModuleVFX(GunModule.ModuleSection moduleType, Vector3 position)
+        {
+            switch (moduleType)
+            {
+                case GunModule.ModuleSection.Trigger:
+                    gameManager.SpawnTriggerVFX(position);
+                    break;
+                case GunModule.ModuleSection.Clip:
+                    gameManager.SpawnClipVFX(position);
+                    break;
+                case GunModule.ModuleSection.Barrel:
+                    gameManager.SpawnBarrelVFX(position);
+                    break;
+            }
+        }
+
+        public  void SpawnTriggerVFX(Vector3 position)
+        {
+            Instantiate(gameManager.C_triggerSpawnVFX, position, Quaternion.identity);
+        }
+        public  void SpawnClipVFX(Vector3 position)
+        {
+            Instantiate(gameManager.C_clipSpawnVFX, position, Quaternion.identity);
+        }
+        public  void SpawnBarrelVFX(Vector3 position)
+        {
+            Instantiate(gameManager.C_barrelSpawnVFX, position, Quaternion.identity);
         }
         #endregion
 

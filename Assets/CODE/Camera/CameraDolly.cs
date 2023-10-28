@@ -50,17 +50,6 @@ public class CameraDolly : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        if (!GameManager.gameManager.b_cull)
-        {
-            C_camera.cullingMatrix = Matrix4x4.Ortho(-99999, 99999, -99999, 99999, 0.001f, 99999) *
-                                Matrix4x4.Translate(Vector3.forward * -99999 / 2f) *
-                                C_camera.worldToCameraMatrix;
-            C_camera.cullingMask = 0b0111111111111111111111111111111;
-        }
-        else
-        {
-            ResetFrustumCulling();
-        }
         if (PauseMenu.pauseMenu.b_gamePaused)
         {
             return;
@@ -112,12 +101,6 @@ public class CameraDolly : MonoBehaviour
         GameManager.gameManager.b_cullLastFrame = GameManager.gameManager.b_cull;
     }
 
-    void ResetFrustumCulling()
-    {
-        C_camera.ResetCullingMatrix();
-        C_camera.cullingMask = i_originalCullingMask;
-    }
-
     public void ShakeCamera(float shakeIntensity)
     {
         if(S_shakeOffset.magnitude > shakeIntensity)
@@ -150,5 +133,10 @@ public class CameraDolly : MonoBehaviour
         S_shakeOffset.z = -S_shakeOffset.z;
 
         S_shakeOffset = Vector3.MoveTowards(S_shakeOffset, Vector3.zero, Time.deltaTime);
+    }
+
+    public void SetCameraFocus(Vector3 position)
+    {
+        transform.position = position + S_offsetVector;
     }
 }

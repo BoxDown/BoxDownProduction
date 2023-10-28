@@ -172,7 +172,6 @@ namespace Managers
             {
                 aC_previousModules[i] = C_player.C_ownedGun.aC_moduleArray[i];
             }
-
         }
 
         private void CompareCurrentAndPreviousModules()
@@ -214,14 +213,14 @@ namespace Managers
                     roomNumberToLoad = Random.Range(0, ls_easyLevels.Count());
                 }
                 IncrementRoom();
-                SceneManager.LoadScene(ls_easyLevels[roomNumberToLoad]);
+                StartCoroutine(SceneTransition(ls_easyLevels[roomNumberToLoad]));
                 return;
             }
             else if (i_currentRoom < i_easyRooms + 1 + i_mediumRooms)
             {
                 if (i_currentRoom == i_easyRooms)
                 {
-                    SceneManager.LoadScene("EasyBreakRoom");
+                    StartCoroutine(SceneTransition("EasyBreakRoom"));
                     IncrementRoom();
                     return;
                 }
@@ -231,14 +230,15 @@ namespace Managers
                     roomNumberToLoad = Random.Range(0, ls_mediumLevels.Count());
                 }
                 IncrementRoom();
-                SceneManager.LoadScene(ls_mediumLevels[roomNumberToLoad]);
+                StartCoroutine(SceneTransition(ls_mediumLevels[roomNumberToLoad]));
+
                 return;
             }
             else if (b_endlessMode || i_currentRoom < i_easyRooms + 1 + i_mediumRooms + 1 + i_hardRooms + 1)
             {
                 if (i_currentRoom == i_easyRooms + 1 + i_mediumRooms)
                 {
-                    SceneManager.LoadScene("MediumBreakRoom");
+                    StartCoroutine(SceneTransition("MediumBreakRoom"));
                     IncrementRoom();
                     return;
                 }
@@ -248,19 +248,14 @@ namespace Managers
                     roomNumberToLoad = Random.Range(0, ls_hardLevels.Count());
                 }
                 IncrementRoom();
-                SceneManager.LoadScene(ls_hardLevels[roomNumberToLoad]);
+                StartCoroutine(SceneTransition(ls_hardLevels[roomNumberToLoad]));
                 return;
             }
             else if (i_currentRoom == i_easyRooms + 1 + i_mediumRooms + 1 + i_hardRooms)
             {
-                SceneManager.LoadScene("HardBreakRoom");
+                StartCoroutine(SceneTransition("HardBreakRoom"));
                 IncrementRoom();
                 return;
-            }
-            else
-            {
-                //load boss scene after reaching the specified end
-                SceneManager.LoadScene("BossRoom");
             }
         }
         private void DeclareAllLevels()
@@ -471,7 +466,7 @@ namespace Managers
             DeactivateMainMenu();
             ResultsUI.DeactivateResults();
             SetStartTime();
-            SceneManager.LoadScene("StartBreakRoom");
+            gameManager.StartCoroutine(gameManager.SceneTransition("StartBreakRoom"));
             InGameUI.ActivateInGameUI();
             AudioManager.TransitionToBattleTheme();
         }
@@ -629,6 +624,10 @@ namespace Managers
 
         private void CurrentSelectionCheck()
         {
+            if(C_eventSystem == null)
+            {
+                return;
+            }
             if (ControlManager.GetControllerType() == ControlManager.ControllerType.KeyboardMouse)
             {
                 C_eventSystem.SetSelectedGameObject(null);
@@ -673,6 +672,37 @@ namespace Managers
             }
         }
 
+
+        #endregion
+
+        #region SceneTransitionAnimation
+        [Header("Scene Transition Animations")]
+        [Rename("Scene Transition Animator"), SerializeField] Animator C_sceneTransitionAnimator;
+        [Rename("Scene Transition Time"), SerializeField] float f_sceneTransitionTime = 1;
+
+        public static void StartTransitionAnimation()
+        {
+            if (gameManager.C_sceneTransitionAnimator != null)
+            {
+                gameManager.C_sceneTransitionAnimator.SetTrigger("Start");
+            }
+        }
+        public static void FinishTransitionAnimation()
+        {
+            if(gameManager.C_sceneTransitionAnimator != null)
+            {
+                gameManager.C_sceneTransitionAnimator.SetTrigger("Stop");
+            }
+        }
+
+        public IEnumerator SceneTransition(string sceneName)
+        {
+            StartTransitionAnimation();
+            yield return new WaitForSeconds(f_sceneTransitionTime);
+            SceneManager.LoadScene(sceneName);
+            yield return new WaitForSeconds(f_sceneTransitionTime);
+            FinishTransitionAnimation();
+        }
 
         #endregion
 

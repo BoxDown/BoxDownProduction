@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
+using Managers;
 
 namespace Gun
 {
@@ -50,6 +51,11 @@ namespace Gun
                 UpdateBulletGraphics();
                 obj.GetComponent<Renderer>().sharedMaterial = C_bulletMaterial;
                 obj.GetComponent<MeshFilter>().mesh = C_bulletMesh;
+            }
+
+            if (gun.C_gunHolder.CompareTag("Player"))
+            {
+                InGameUI.gameUI.CreateUIBulletPool(C_gun.aC_moduleArray[1].i_clipSize);
             }
 
         }
@@ -106,6 +112,11 @@ namespace Gun
                 }
             }
             i_totalBullets = lC_allBullets.Count;
+
+            if (gun.C_gunHolder.CompareTag("Player"))
+            {
+                InGameUI.gameUI.UpdateBulletCount(C_gun.aC_moduleArray[1].i_clipSize);
+            }
         }
         public Bullet GetFirstOpen()
         {

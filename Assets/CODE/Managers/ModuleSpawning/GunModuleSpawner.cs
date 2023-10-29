@@ -3,7 +3,7 @@ using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
 using Utility;
-using Unity.VisualScripting;
+using Managers;
 
 namespace Gun
 {
@@ -18,16 +18,9 @@ namespace Gun
                 throw new NullReferenceException("Module attempted to load is null");
             }
             moduleToLoad.Spawn(worldPos);
+            GameManager.SpawnModuleVFX(moduleToLoad.e_moduleType, worldPos);
             AudioManager.PlayFmodEvent("SFX/Environment/Module_Crate_Spawn", worldPos);
         }
-
-        //public static string[] GetAllGunModules()
-        //{
-        //    List<string> allModuleNames = new List<string>();
-        //    string filePath = Directory.GetCurrentDirectory() + "\\Assets\\Resources\\GunModules\\allGunModules.txt";
-
-        //    return TextDocumentReadWrite.FileRead(filePath);
-        //}
 
         public static void DeclareAllGunModules()
         {

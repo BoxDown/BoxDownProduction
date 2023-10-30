@@ -63,7 +63,9 @@ namespace Gun
         public void ResizePool(Gun gun)
         {
             int shotCount = gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount == 0 ? 1 : gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount;
-            int bulletAmount = (int)(gun.aC_moduleArray[1].i_clipSize * shotCount * gun.aC_moduleArray[0].f_fireRate);
+            int bulletTravel = (int)(gun.aC_moduleArray[2].f_bulletRange / gun.aC_moduleArray[0].f_fireRate);
+            bulletTravel = bulletTravel == 0 ? 1 : bulletTravel;
+            int bulletAmount = gun.aC_moduleArray[1].i_clipSize * shotCount * bulletTravel;
 
             int countDifference = bulletAmount - i_totalBullets;
             UpdateBulletGraphics();

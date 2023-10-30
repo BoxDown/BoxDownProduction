@@ -139,6 +139,7 @@ namespace Managers
             {
                 lC_bulletUIPool[lC_bulletUIPool.Count - i - 1].transform.position = goalPositions[i];
             }
+            i_currentBullet = currentBulletCount;
 
             if (difference > 0)
             {

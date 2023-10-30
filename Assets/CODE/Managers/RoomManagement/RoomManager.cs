@@ -158,6 +158,13 @@ namespace Managers
                 aC_doorsInLevel[i].Unlock();
             }
         }
+        public void LockAllDoors()
+        {
+            for (int i = 0; i < aC_doorsInLevel.Length; i++)
+            {
+                aC_doorsInLevel[i].Lock();
+            }
+        }
 
         private void IncrementWave()
         {

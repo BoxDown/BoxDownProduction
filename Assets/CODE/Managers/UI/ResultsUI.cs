@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Utility;
@@ -50,7 +48,7 @@ namespace Managers
             GameManager.CurrentSelectionResultsMenu();
             resultsUI.C_loseText.text = $"-You Died-";
             resultsUI.C_statsText.text =
-                "Stats:\n" + 
+                "Stats:\n" +
                 $"Spiders Killed: {GameManager.GetSpidersKilled()}\n" +
                 $"Mites Killed: {GameManager.GetMitesKilled()}\n" +
                 $"Slugs Killed: {GameManager.GetSlugsKilled()}\n" +
@@ -67,7 +65,7 @@ namespace Managers
                 $"Bullets Hit: {GameManager.GetBulletsHit()}\n" +
                 $"Weapon Accuracy: {GameManager.GetHitRate().ToString("f1")}%\n" +
                 $"Boxes Destoyed: {GameManager.GetEnvironmentDestroyed()}\n" +
-                $"Play Time: {((int)(GameManager.GetTimeTaken()/ 60)).ToString("0")}m {(GameManager.GetTimeTaken() % 60).ToString("f2")}s\n" +
+                $"Play Time: {((int)(GameManager.GetTimeTaken() / 60)).ToString("0")}m {(GameManager.GetTimeTaken() % 60).ToString("f2")}s\n" +
                 $"Average Time Per Room: {((int)(GameManager.GetAverageTimePerRoom() / 60)).ToString("0")}m {(GameManager.GetAverageTimePerRoom() % 60).ToString("f2")}s\n";
         }
         public static void DeactivateLose()

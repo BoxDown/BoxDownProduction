@@ -75,7 +75,6 @@ namespace GunkManager.Editor
 {
 #if UNITY_EDITOR
     using UnityEditor;
-#endif
     [CustomEditor(typeof(PolyBrushManager))]
     public class PolyBrushManagerEditor : Editor
     {
@@ -94,5 +93,6 @@ namespace GunkManager.Editor
             }
         }
     }
+#endif
 
 }

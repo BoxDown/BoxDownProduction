@@ -34,8 +34,6 @@ namespace Enemy
             if (b_spawning || !PlayerLineOfSightCheck())
             {
                 CancelGun();
-                C_animator.SetBool("Rotating", false);
-                C_animator.SetFloat("Turn", 0);
                 return;
             }
             if (f_distanceToPlayer < f_aimRange)
@@ -51,12 +49,6 @@ namespace Enemy
                     CancelGun();
                 }
             }
-            else
-            {
-                C_animator.SetBool("Rotating", false);
-                C_animator.SetFloat("Turn", 0);
-            }
-
             MeleeDamage();
 
             if (f_distanceToPlayer < f_chaseDistance)
@@ -85,15 +77,6 @@ namespace Enemy
             base.Damage(damage);
             AudioManager.PlayFmodEvent("SFX/Enemy/Spider/Spider_Hit", transform.position);
         }
-
-        public override void LookAtPlayer()
-        {
-            base.LookAtPlayer();
-
-            C_animator.SetBool("Rotating", true);
-            C_animator.SetFloat("Turn", -RotateToTarget());
-        }
-
         private void PlayAudio()
         {
             if (f_currentTimeBetweenSounds < 0)

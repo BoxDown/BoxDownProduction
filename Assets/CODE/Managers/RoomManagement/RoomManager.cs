@@ -39,6 +39,7 @@ namespace Managers
             PlayerController player = FindObjectOfType<PlayerController>();
             C_manager = GetComponent<PolyBrushManager>();
             //C_manager.InstanceMaterial();
+            FindObjectOfType<CameraDolly>().SetCameraFocus(S_spawnPosition);
             player.SetPlayerPosition(S_spawnPosition);
             switch (e_entranceDirection)
             {

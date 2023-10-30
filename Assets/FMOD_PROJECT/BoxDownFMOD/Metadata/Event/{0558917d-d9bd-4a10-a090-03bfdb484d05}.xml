@@ -5,7 +5,7 @@
 			<value>Module_Pickup</value>
 		</property>
 		<property name="outputFormat">
-			<value>0</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{a69a7649-41a2-4513-b4a8-90a29ac24acf}</destination>
@@ -98,6 +98,7 @@
 	<object class="MixerBusEffectChain" id="{33c3ef6d-db99-4cc5-812e-2ed854493d94}">
 		<relationship name="effects">
 			<destination>{c1bee7cc-1377-45e9-89b3-22fd8d26cfa8}</destination>
+			<destination>{6a2eafc4-0240-4671-a3e7-47919d291da9}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{d660e206-9a42-4fa4-aa37-ba733579094f}" />
@@ -109,5 +110,6 @@
 	</object>
 	<object class="MixerBusPanner" id="{067e02fe-37be-4871-9c61-e4434f5c47f7}" />
 	<object class="MixerBusFader" id="{c1bee7cc-1377-45e9-89b3-22fd8d26cfa8}" />
+	<object class="SpatialiserEffect" id="{6a2eafc4-0240-4671-a3e7-47919d291da9}" />
 	<object class="MixerBusFader" id="{34d7e37e-cbdc-4d54-a6b3-d93ce73c7d62}" />
 </objects>

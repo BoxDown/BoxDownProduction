@@ -71,6 +71,7 @@ namespace Managers
             }
             else
             {
+                GameManager.SwitchToSwapUIActions();
                 GameManager.CurrentSelectionSwapMenu();
             }
             Time.timeScale = 1;

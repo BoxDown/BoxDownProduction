@@ -24,14 +24,21 @@ namespace Managers
         private float f_maxHealth = 1;
         private float f_currentHealth = 1;
 
+        [Header("Health")]
         [Rename("Health Slider"), SerializeField] Image C_healthSlider;
+        [Space(10)]
 
+        [Header("Bullet UI Variables")]
         [Rename("Bullet Start Position"), SerializeField] Transform C_bulletStartTransform;
         [Rename("Bullet Image "), SerializeField] Image C_ammoImage;
         [Rename("Distance Between Bullets")]
         List<Image> lC_bulletUIPool;
         int i_currentBullet = 0;
+        [Rename("Ammo Animation Curve Fire"), SerializeField] AnimationCurve C_bulletAnimationCurveFire;
+        [Rename("Ammo Animation Curve Reload"), SerializeField] AnimationCurve C_bulletAnimationCurveReload;
+        [Space(10)]
 
+        [Header("Gun Module Card")]
         [Rename("Gun Module Card"), SerializeField] GunModuleCard C_gunModuleCard;
         [Rename("Single Module Transform"), SerializeField] Transform C_gunModuleTransform;
 
@@ -109,7 +116,7 @@ namespace Managers
                 ammoPiece.transform.localPosition = new Vector3(0, ((-i * 10)), 0);
                 lC_bulletUIPool.Add(ammoPiece.GetComponent<Image>());
             }
-            i_currentBullet = lC_bulletUIPool.Count - 1;
+            i_currentBullet = lC_bulletUIPool.Count;
         }
 
         public void UpdateBulletCount(int newBulletCount)
@@ -211,8 +218,9 @@ namespace Managers
                     bulletToFire.position = goalPosition;
                     yield break;
                 }
-                bulletToFire.position = Vector3.Lerp(originalPosition, goalPosition, (Time.time - startTime) / 0.15f);
+                bulletToFire.position = Vector3.Lerp(originalPosition, goalPosition, C_bulletAnimationCurveFire.Evaluate((Time.time - startTime) / 0.15f));
             }
+            bulletToFire.position = goalPosition;
         }
         public IEnumerator ReloadBulletCoroutine()
         {
@@ -235,7 +243,7 @@ namespace Managers
                 yield return 0;
                 for (int i = 0; i < originalPositions.Count; i++)
                 {
-                    Vector3 positionToSet = Vector3.Lerp(originalPositions[i], goalPositions[i], (Time.time - startTime) / reloadTime);
+                    Vector3 positionToSet = Vector3.Lerp(originalPositions[i], goalPositions[i], C_bulletAnimationCurveReload.Evaluate((Time.time - startTime) / reloadTime));
                     lC_bulletUIPool[lC_bulletUIPool.Count - i - 1].transform.position = positionToSet;
                 }
             }

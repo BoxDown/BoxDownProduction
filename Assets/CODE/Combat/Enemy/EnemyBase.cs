@@ -43,6 +43,7 @@ namespace Enemy
             {
                 Spawn();
             }
+            C_ownedGun.InitialiseGun();
         }
 
         protected override void Update()

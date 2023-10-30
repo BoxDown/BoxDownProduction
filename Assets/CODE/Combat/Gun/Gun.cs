@@ -111,7 +111,8 @@ namespace Gun
         [Rename("Bullet Vampire Hit Effect")] public GameObject C_vampireBulletHit;
         Bullet.BulletBaseInfo S_bulletInfo { get { return new Bullet.BulletBaseInfo(C_gunHolder, S_muzzlePosition, C_gunHolder.transform.forward, f_bulletRange, f_baseDamage, f_bulletSpeed, f_bulletSize, f_knockBack); } }
 
-        private void Awake()
+
+        public void InitialiseGun()
         {
             GameObject bulletPool = new GameObject();
             if (C_gunHolder.CompareTag("Player"))
@@ -129,6 +130,7 @@ namespace Gun
 
             i_currentAmmo = i_clipSize;
         }
+
         private void Update()
         {
             if (b_isFiring && !b_reloading)

@@ -70,7 +70,7 @@ namespace Enemy
         protected virtual IEnumerator PlaySpawnEffect(float spawnDelay)
         {
             yield return new WaitForSeconds(spawnDelay);
-            Destroy(Instantiate(C_spawnEffects, transform.position + f_spawnEffectOffset, Quaternion.identity));
+            Destroy(Instantiate(C_spawnEffects, transform.position + f_spawnEffectOffset, Quaternion.identity),5f);
         }
 
         protected bool PlayerLineOfSightCheck()

@@ -107,6 +107,7 @@ public class Door : MonoBehaviour
     {
         GameManager.gameManager.UpdateRewardType(e_roomType);
         AudioManager.PlayFmodEvent("SFX/Environment/Door_Open", transform.position);
+        FindObjectOfType<RoomManager>().LockAllDoors();
 
         GameManager.gameManager.MoveToNextRoom();
     }
@@ -117,6 +118,10 @@ public class Door : MonoBehaviour
 
         C_coneTransform.gameObject.SetActive(true);
         C_projectionTransform.gameObject.SetActive(true);
+    }
+    public void Lock()
+    {
+        b_locked = true;
     }
 
     public bool IsLocked()

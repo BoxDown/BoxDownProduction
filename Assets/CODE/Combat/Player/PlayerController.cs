@@ -52,6 +52,7 @@ public class PlayerController : Combatant
         // reference control manager
         GameManager.SetPlayer(this);
         GameManager.SwitchToInGameActions();
+        C_ownedGun.InitialiseGun();
     }
 
     protected override void Update()

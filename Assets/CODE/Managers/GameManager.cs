@@ -579,12 +579,12 @@ namespace Managers
             C_gunModuleUI = FindObjectOfType<GunModuleUIAnimations>();
             if (b_debugMode)
             {
-                FindObjectOfType<PlayerController>().Initialise();
                 PauseMenu.DeactivatePause();
                 CreditsMenu.Deactivate();
                 WeaponsSwapUI.Deactivate();
                 ResultsUI.DeactivateResults();
                 DeactivateMainMenu();
+                FindObjectOfType<PlayerController>().Initialise();
                 if (b_musicOnOff)
                 {
                     AudioManager.StartMusicLoop();

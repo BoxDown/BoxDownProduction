@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   C_muzzle: {fileID: 0}
+  C_light: {fileID: 0}
+  f_lightOffTime: 0.024
   C_trigger: {fileID: 0}
   C_clip: {fileID: 0}
   C_barrel: {fileID: 0}
@@ -213,7 +215,6 @@ MonoBehaviour:
   f_respawnTime: 5
   C_onHitEffects: {fileID: 0}
   C_onHealEffects: {fileID: 0}
-  C_renderer: {fileID: 1211647819930197984}
   b_infiniteHealth: 0
   e_combatState: 0
   b_isDead: 0
@@ -223,6 +224,8 @@ MonoBehaviour:
   f_meleeDamage: 5
   f_meleeKnockback: 3
   C_deathEffects: {fileID: 2388571588587728514, guid: 595b37fb51237cd41b78cade71e72652,
+    type: 3}
+  C_gutBag: {fileID: 5224667693989873235, guid: 9b747e8a14c454f48a3caa3f528c055f,
     type: 3}
   C_spawnEffects: {fileID: 0}
   f_spawnEffectDelay: 0
@@ -332,12 +335,6 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 32febefa48550f1409a361e49fc0c0c1, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6edfbe68a2e24d42badae93213db1cc, type: 3}
---- !u!137 &1211647819930197984 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 4918851935006246108, guid: a6edfbe68a2e24d42badae93213db1cc,
-    type: 3}
-  m_PrefabInstance: {fileID: 6094468174753471292}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5987922726871366871 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a6edfbe68a2e24d42badae93213db1cc,

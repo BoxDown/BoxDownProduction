@@ -1006,6 +1006,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "SwapUI",
+            "id": "26d1eed6-ee8a-4770-8cb2-69ed6126b676",
+            "actions": [
+                {
+                    "name": "Swap",
+                    "type": "Button",
+                    "id": "13922967-1715-45ce-9d18-820a5a0f07d6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Keep",
+                    "type": "Button",
+                    "id": "8e6763fd-4a67-42ab-9c8b-a603c2acac18",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d913f601-6c83-440b-84e9-aa3f3eb67e54",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Swap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "684491fc-2ffd-4e7e-8420-e771fa1ebab9",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Keep",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

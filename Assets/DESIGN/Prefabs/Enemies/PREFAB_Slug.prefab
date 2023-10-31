@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2066372186101962198}
   m_LocalRotation: {x: 0.000000037748947, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8, z: 0.8}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0.831}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   C_muzzle: {fileID: 0}
+  C_light: {fileID: 0}
+  f_lightOffTime: 0.024
   C_trigger: {fileID: 0}
   C_clip: {fileID: 0}
   C_barrel: {fileID: 0}
@@ -212,7 +214,6 @@ MonoBehaviour:
   f_respawnTime: 5
   C_onHitEffects: {fileID: 0}
   C_onHealEffects: {fileID: 0}
-  C_renderer: {fileID: 853452307763528981}
   b_infiniteHealth: 0
   e_combatState: 0
   b_isDead: 0
@@ -223,7 +224,10 @@ MonoBehaviour:
   f_meleeKnockback: 12
   C_deathEffects: {fileID: 2388571588587728514, guid: 595b37fb51237cd41b78cade71e72652,
     type: 3}
-  C_spawnEffects: {fileID: 0}
+  C_gutBag: {fileID: 0}
+  C_spawnEffects: {fileID: 6987517116045560118, guid: 0f5b8d7d11686084e85c2a3e130c720a,
+    type: 3}
+  f_gutBagTime: 1
   f_spawnEffectDelay: 0
   f_spawnEffectOffset: {x: 0, y: 0, z: 0}
   b_aimAtPlayer: 1
@@ -342,12 +346,6 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: fac049ea6eae2d24fb701d81031a02a7, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f86abdc934fc1b94eb4e44d7a26206cd, type: 3}
---- !u!137 &853452307763528981 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -2646242825377117844, guid: f86abdc934fc1b94eb4e44d7a26206cd,
-    type: 3}
-  m_PrefabInstance: {fileID: 5809285566382148729}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3262571477909809845 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -155302681372416308, guid: f86abdc934fc1b94eb4e44d7a26206cd,

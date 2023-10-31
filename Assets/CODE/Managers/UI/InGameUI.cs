@@ -125,8 +125,12 @@ namespace Managers
         //TO DO FIX THIS ASAP
         public void UpdateBulletCount(int newBulletCount)
         {
+
+            int currentBullet = i_currentBullet;
+
+            //set them to their original position
             List<Vector3> originalPositions = new List<Vector3>();
-            for (int i = 0; i < lC_bulletUIPool.Count - i_currentBullet; i++)
+            for (int i = 0; i < lC_bulletUIPool.Count - currentBullet; i++)
             {
                 originalPositions.Add(lC_bulletUIPool[lC_bulletUIPool.Count - i - 1].transform.position);
             }
@@ -135,19 +139,24 @@ namespace Managers
             {
                 goalPositions.Add(originalPositions[i] + new Vector3(-150, 0, 0));
             }
-            for (int i = 0; i < originalPositions.Count - 1; i++)
+            for (int i = 0; i < originalPositions.Count; i++)
             {
-                lC_bulletUIPool[lC_bulletUIPool.Count - i].transform.position = goalPositions[i];
+                lC_bulletUIPool[lC_bulletUIPool.Count - i - 1].transform.position = goalPositions[i];
             }
 
-            int currentBulletCount = lC_bulletUIPool.Count;
+            //then, get the difference between the two
+            i_currentBullet = lC_bulletUIPool.Count;
 
-            int difference = newBulletCount - currentBulletCount;
+            int difference = newBulletCount - i_currentBullet;
 
-            
-            i_currentBullet = currentBulletCount;
+            //if the difference is 0 do nothing
+            if(difference == 0)
+            {
+                return;
+            }
 
-            if (difference > 0)
+            //if it is greater than 0, instantiate the difference and add it to the list
+            if(difference > 0)
             {
                 for (int i = 0; i < difference; i++)
                 {
@@ -156,6 +165,7 @@ namespace Managers
                     lC_bulletUIPool.Add(ammoPiece.GetComponent<Image>());
                 }
             }
+            //if it is less than 0, destroy the image, then remove it from the end of the list
             else
             {
                 for (int i = 0; i < -difference; i++)
@@ -164,7 +174,9 @@ namespace Managers
                     lC_bulletUIPool.RemoveAt(lC_bulletUIPool.Count - 1);
                 }
             }
+
             i_currentBullet = lC_bulletUIPool.Count;
+
         }
 
         public void BulletFireUI()

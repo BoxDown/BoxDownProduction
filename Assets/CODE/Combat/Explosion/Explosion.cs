@@ -34,11 +34,12 @@ namespace Explosion
             ParticleSystem shockwaveParticle = transform.Find("PREFAB_VFX_Shockwave").GetComponent<ParticleSystem>();
             //smoke start speed needs to be radius
             smokeParticle.startSpeed = (f_explosionSize / 2);
+            //shockwave start size radius * 1.2f
             shockwaveParticle.startSize = (f_explosionSize / 2) * 1.2f;
 
-            FindObjectOfType<CameraDolly>().ShakeCamera(f_explosionSize / 8.0f);
+            FindObjectOfType<CameraDolly>().ShakeCamera(f_explosionSize / 10.0f);
+            AudioManager.PlayFmodEvent("Explosion", transform.position);
 
-            //shockwave start size radius * 1.2f
         }
 
         private void Update()
@@ -54,7 +55,7 @@ namespace Explosion
 
         private void CheckCollisions()
         {
-            Collider[] collisions = Physics.OverlapSphere(transform.position, transform.localScale.x / 2 / 2);
+            Collider[] collisions = Physics.OverlapSphere(transform.position, transform.localScale.x / 2 );
             if (collisions.Length == 0)
             {
                 return;

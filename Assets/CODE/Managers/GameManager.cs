@@ -746,7 +746,15 @@ namespace Managers
 
         public static void SwitchToUIActions()
         {
-            if (gameManager.b_usingUIActions)
+            if (gameManager.C_playerInput.currentActionMap.name == "PlayerControl")
+            {
+                SwitchOffInGameActions();
+            }
+            else if(gameManager.C_playerInput.currentActionMap.name == "SwapUI")
+            {
+                SwitchOffSwapUIActions();
+            }
+            else
             {
                 return;
             }
@@ -757,7 +765,6 @@ namespace Managers
             {
                 actionMap.FindAction("Pause").performed += gameManager.C_player.Pause;
             }
-            gameManager.b_usingUIActions = true;
         }
         public static void SwitchOffUIActions()
         {
@@ -771,11 +778,18 @@ namespace Managers
 
         public static void SwitchToInGameActions()
         {
-            if (!gameManager.b_usingUIActions)
+            if(gameManager.C_playerInput.currentActionMap.name == "UI")
+            {
+                SwitchOffUIActions();
+            }
+            else if(gameManager.C_playerInput.currentActionMap.name == "SwapUI")
+            {
+                SwitchOffSwapUIActions();
+            }
+            else
             {
                 return;
             }
-            SwitchOffUIActions();
             gameManager.C_playerInput.SwitchCurrentActionMap("PlayerControl");
             InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
             actionMap.Enable();
@@ -788,7 +802,6 @@ namespace Managers
             actionMap.FindAction("Fire").canceled += gameManager.C_player.CancelFire;
             actionMap.FindAction("Reload").performed += gameManager.C_player.Reload;
             actionMap.FindAction("Pause").performed += gameManager.C_player.Pause;
-            gameManager.b_usingUIActions = false;
         }
         public static void SwitchOffInGameActions()
         {
@@ -804,6 +817,37 @@ namespace Managers
             actionMap.FindAction("Fire").canceled -= gameManager.C_player.CancelFire;
             actionMap.FindAction("Reload").performed -= gameManager.C_player.Reload;
             actionMap.FindAction("Pause").performed -= gameManager.C_player.Pause;
+        }
+
+        public static void SwitchToSwapUIActions()
+        {
+
+            if (gameManager.C_playerInput.currentActionMap.name == "PlayerControl")
+            {
+                SwitchOffInGameActions();
+            }
+            else if (gameManager.C_playerInput.currentActionMap.name == "UI")
+            {
+                SwitchOffUIActions();
+            }
+            else
+            {
+                return;
+            }
+
+            gameManager.C_playerInput.SwitchCurrentActionMap("SwapUI");
+            InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
+            actionMap.Enable();
+            actionMap.FindAction("Swap").performed += WeaponsSwapUI.SwapAction;
+            actionMap.FindAction("Keep").performed += WeaponsSwapUI.BackAction;
+        }
+        public static void SwitchOffSwapUIActions()
+        {
+            gameManager.C_playerInput.SwitchCurrentActionMap("SwapUI");
+            InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
+            actionMap.Disable();
+            actionMap.FindAction("Swap").performed -= WeaponsSwapUI.SwapAction;
+            actionMap.FindAction("Keep").performed -= WeaponsSwapUI.BackAction;
         }
 
         public static void SetPlayer(PlayerController newPlayer)

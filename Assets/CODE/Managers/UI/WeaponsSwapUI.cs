@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Utility;
 using Gun;
-using UnityEditor;
+using UnityEngine.InputSystem;
 
 namespace Managers
 {
@@ -46,7 +46,7 @@ namespace Managers
         public static void Activate(GunModule gunModule, Transform swappingModule)
         {
             GameManager.gameManager.SetCulling(false);
-            GameManager.SwitchToUIActions();
+            GameManager.SwitchToSwapUIActions();
             switch (gunModule.e_moduleType)
             {
                 case GunModule.ModuleSection.Trigger:
@@ -65,6 +65,16 @@ namespace Managers
             swapUI.gameObject.SetActive(true);
             GameManager.CurrentSelectionSwapMenu();
         }
+
+        public static void SwapAction(InputAction.CallbackContext context)
+        {
+            swapUI.ConfirmSwap();
+        }
+        public static void BackAction(InputAction.CallbackContext context)
+        {
+            swapUI.TurnOff();
+        }
+
         public static void Deactivate()
         {
             swapUI.gameObject.SetActive(false);
@@ -76,6 +86,7 @@ namespace Managers
             GameManager.SwitchToInGameActions();
             swapUI.C_swappingModuleTransform = null;
             swapUI.C_swappingModule = null;
+            Deactivate();
         }
 
         private void ReadySwapTrigger()
@@ -144,7 +155,6 @@ namespace Managers
 
             yield return new WaitForSeconds(0.3f);
             TurnOff();
-            Deactivate();
         }
     }
 

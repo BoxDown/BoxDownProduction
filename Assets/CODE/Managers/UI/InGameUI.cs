@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Utility;
 using Gun;
+using System.Linq;
 
 namespace Managers
 {
@@ -32,7 +33,7 @@ namespace Managers
         [Rename("Bullet Start Position"), SerializeField] Transform C_bulletStartTransform;
         [Rename("Bullet Image "), SerializeField] Image C_ammoImage;
         [Rename("Distance Between Bullets")]
-        List<Image> lC_bulletUIPool;
+        List<Image> lC_bulletUIPool = null;
         int i_currentBullet = 0;
         [Rename("Ammo Animation Curve Fire"), SerializeField] AnimationCurve C_bulletAnimationCurveFire;
         [Rename("Ammo Animation Curve Reload"), SerializeField] AnimationCurve C_bulletAnimationCurveReload;
@@ -106,8 +107,9 @@ namespace Managers
             {
                 for (int i = 0; i < lC_bulletUIPool.Count; i++)
                 {
-                    Destroy(lC_bulletUIPool[lC_bulletUIPool.Count - 1].gameObject);
+                    Destroy(lC_bulletUIPool[lC_bulletUIPool.Count - 1 - i].gameObject);
                 }
+                lC_bulletUIPool = null;
             }
             lC_bulletUIPool = new List<Image>();
             for (int i = 0; i < newBulletCount; i++)
@@ -119,26 +121,30 @@ namespace Managers
             i_currentBullet = lC_bulletUIPool.Count;
         }
 
+
+        //TO DO FIX THIS ASAP
         public void UpdateBulletCount(int newBulletCount)
         {
-            int currentBulletCount = lC_bulletUIPool.Count;
-
-            int difference = newBulletCount - currentBulletCount;
-
             List<Vector3> originalPositions = new List<Vector3>();
-            for (int i = 0; i < (lC_bulletUIPool.Count - 1) - i_currentBullet; i++)
+            for (int i = 0; i < lC_bulletUIPool.Count - i_currentBullet; i++)
             {
-                originalPositions.Add(lC_bulletUIPool[lC_bulletUIPool.Count - 1 - i].transform.position);
+                originalPositions.Add(lC_bulletUIPool[lC_bulletUIPool.Count - i - 1].transform.position);
             }
             List<Vector3> goalPositions = new List<Vector3>();
             for (int i = 0; i < originalPositions.Count; i++)
             {
                 goalPositions.Add(originalPositions[i] + new Vector3(-150, 0, 0));
             }
-            for (int i = 0; i < originalPositions.Count; i++)
+            for (int i = 0; i < originalPositions.Count - 1; i++)
             {
-                lC_bulletUIPool[lC_bulletUIPool.Count - i - 1].transform.position = goalPositions[i];
+                lC_bulletUIPool[lC_bulletUIPool.Count - i].transform.position = goalPositions[i];
             }
+
+            int currentBulletCount = lC_bulletUIPool.Count;
+
+            int difference = newBulletCount - currentBulletCount;
+
+            
             i_currentBullet = currentBulletCount;
 
             if (difference > 0)
@@ -146,7 +152,7 @@ namespace Managers
                 for (int i = 0; i < difference; i++)
                 {
                     GameObject ammoPiece = Instantiate(C_ammoImage, C_bulletStartTransform.transform).gameObject;
-                    ammoPiece.transform.localPosition = new Vector3(0, (((-currentBulletCount - i) * 10)), 0);
+                    ammoPiece.transform.localPosition = new Vector3(0, (((-i_currentBullet - i) * 10)), 0);
                     lC_bulletUIPool.Add(ammoPiece.GetComponent<Image>());
                 }
             }

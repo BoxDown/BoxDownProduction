@@ -754,6 +754,10 @@ namespace Managers
             {
                 SwitchOffSwapUIActions();
             }
+            else
+            {
+                return;
+            }
             SwitchOffInGameActions();
             gameManager.C_playerInput.SwitchCurrentActionMap("UI");
             InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;

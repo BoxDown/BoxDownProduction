@@ -471,15 +471,15 @@ namespace Managers
             }
         }
 
-        public  void SpawnTriggerVFX(Vector3 position)
+        public void SpawnTriggerVFX(Vector3 position)
         {
             Instantiate(gameManager.C_triggerSpawnVFX, position, Quaternion.identity);
         }
-        public  void SpawnClipVFX(Vector3 position)
+        public void SpawnClipVFX(Vector3 position)
         {
             Instantiate(gameManager.C_clipSpawnVFX, position, Quaternion.identity);
         }
-        public  void SpawnBarrelVFX(Vector3 position)
+        public void SpawnBarrelVFX(Vector3 position)
         {
             Instantiate(gameManager.C_barrelSpawnVFX, position, Quaternion.identity);
         }
@@ -557,7 +557,7 @@ namespace Managers
             Application.Quit();
         }
 
-        private System.Collections.IEnumerator StartUp()
+        private IEnumerator StartUp()
         {
             yield return 0;
             Initialise();
@@ -623,7 +623,7 @@ namespace Managers
                 SpawnAllGunModules();
             }
 
-            
+
 
             i_currentRoom = 0;
 
@@ -660,7 +660,7 @@ namespace Managers
 
         private void CurrentSelectionCheck()
         {
-            if(C_eventSystem == null)
+            if (C_eventSystem == null)
             {
                 return;
             }
@@ -725,7 +725,7 @@ namespace Managers
         }
         public static void FinishTransitionAnimation()
         {
-            if(gameManager.C_sceneTransitionAnimator != null)
+            if (gameManager.C_sceneTransitionAnimator != null)
             {
                 gameManager.C_sceneTransitionAnimator.SetTrigger("Stop");
             }
@@ -734,10 +734,18 @@ namespace Managers
         public IEnumerator SceneTransition(string sceneName)
         {
             StartTransitionAnimation();
+            if (C_player != null)
+            {
+                SwitchOffInGameActions();
+            }
             yield return new WaitForSeconds(f_sceneTransitionTime);
             SceneManager.LoadScene(sceneName);
             yield return new WaitForSeconds(f_sceneTransitionTime);
             FinishTransitionAnimation();
+            if (C_player != null)
+            {
+                SwitchToInGameActions();
+            }
         }
 
         #endregion
@@ -750,7 +758,7 @@ namespace Managers
             {
                 SwitchOffInGameActions();
             }
-            else if(gameManager.C_playerInput.currentActionMap.name == "SwapUI")
+            else if (gameManager.C_playerInput.currentActionMap.name == "SwapUI")
             {
                 SwitchOffSwapUIActions();
             }
@@ -778,17 +786,13 @@ namespace Managers
 
         public static void SwitchToInGameActions()
         {
-            if(gameManager.C_playerInput.currentActionMap.name == "UI")
+            if (gameManager.C_playerInput.currentActionMap.name == "UI")
             {
                 SwitchOffUIActions();
             }
-            else if(gameManager.C_playerInput.currentActionMap.name == "SwapUI")
+            else if (gameManager.C_playerInput.currentActionMap.name == "SwapUI")
             {
                 SwitchOffSwapUIActions();
-            }
-            else
-            {
-                return;
             }
             gameManager.C_playerInput.SwitchCurrentActionMap("PlayerControl");
             InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
@@ -829,10 +833,6 @@ namespace Managers
             else if (gameManager.C_playerInput.currentActionMap.name == "UI")
             {
                 SwitchOffUIActions();
-            }
-            else
-            {
-                return;
             }
 
             gameManager.C_playerInput.SwitchCurrentActionMap("SwapUI");

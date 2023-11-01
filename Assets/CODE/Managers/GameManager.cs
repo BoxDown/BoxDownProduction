@@ -214,7 +214,7 @@ namespace Managers
             int roomNumberToLoad = 0;
             if (i_currentRoom < i_easyRooms)
             {
-                roomNumberToLoad = Random.Range(0, ls_easyLevels.Count());
+                roomNumberToLoad = Random.Range(0, ls_easyLevels.Count() - 1);
                 while (ls_easyLevels[roomNumberToLoad] == SceneManager.GetActiveScene().name)
                 {
                     roomNumberToLoad = Random.Range(0, ls_easyLevels.Count());
@@ -231,7 +231,7 @@ namespace Managers
                     IncrementRoom();
                     return;
                 }
-                roomNumberToLoad = Random.Range(0, ls_easyLevels.Count());
+                roomNumberToLoad = Random.Range(0, ls_easyLevels.Count() - 1);
                 while (ls_mediumLevels[roomNumberToLoad] == SceneManager.GetActiveScene().name)
                 {
                     roomNumberToLoad = Random.Range(0, ls_mediumLevels.Count());
@@ -249,7 +249,7 @@ namespace Managers
                     IncrementRoom();
                     return;
                 }
-                roomNumberToLoad = Random.Range(0, ls_easyLevels.Count());
+                roomNumberToLoad = Random.Range(0, ls_easyLevels.Count() - 1);
                 while (ls_hardLevels[roomNumberToLoad] == SceneManager.GetActiveScene().name)
                 {
                     roomNumberToLoad = Random.Range(0, ls_hardLevels.Count());
@@ -471,15 +471,15 @@ namespace Managers
             }
         }
 
-        public  void SpawnTriggerVFX(Vector3 position)
+        public void SpawnTriggerVFX(Vector3 position)
         {
             Instantiate(gameManager.C_triggerSpawnVFX, position, Quaternion.identity);
         }
-        public  void SpawnClipVFX(Vector3 position)
+        public void SpawnClipVFX(Vector3 position)
         {
             Instantiate(gameManager.C_clipSpawnVFX, position, Quaternion.identity);
         }
-        public  void SpawnBarrelVFX(Vector3 position)
+        public void SpawnBarrelVFX(Vector3 position)
         {
             Instantiate(gameManager.C_barrelSpawnVFX, position, Quaternion.identity);
         }
@@ -557,7 +557,7 @@ namespace Managers
             Application.Quit();
         }
 
-        private System.Collections.IEnumerator StartUp()
+        private IEnumerator StartUp()
         {
             yield return 0;
             Initialise();
@@ -623,7 +623,7 @@ namespace Managers
                 SpawnAllGunModules();
             }
 
-            
+
 
             i_currentRoom = 0;
 
@@ -660,7 +660,7 @@ namespace Managers
 
         private void CurrentSelectionCheck()
         {
-            if(C_eventSystem == null)
+            if (C_eventSystem == null)
             {
                 return;
             }
@@ -725,7 +725,7 @@ namespace Managers
         }
         public static void FinishTransitionAnimation()
         {
-            if(gameManager.C_sceneTransitionAnimator != null)
+            if (gameManager.C_sceneTransitionAnimator != null)
             {
                 gameManager.C_sceneTransitionAnimator.SetTrigger("Stop");
             }
@@ -734,10 +734,19 @@ namespace Managers
         public IEnumerator SceneTransition(string sceneName)
         {
             StartTransitionAnimation();
+            if (C_player != null)
+            {
+                SwitchOffInGameActions();
+            }
             yield return new WaitForSeconds(f_sceneTransitionTime);
             SceneManager.LoadScene(sceneName);
             yield return new WaitForSeconds(f_sceneTransitionTime);
             FinishTransitionAnimation();
+            if (C_player != null)
+            {
+                SwitchToInGameActions();
+                C_player.C_ownedGun.HardReload();
+            }
         }
 
         #endregion
@@ -746,7 +755,15 @@ namespace Managers
 
         public static void SwitchToUIActions()
         {
-            if (gameManager.b_usingUIActions)
+            if (gameManager.C_playerInput.currentActionMap.name == "PlayerControl")
+            {
+                SwitchOffInGameActions();
+            }
+            else if (gameManager.C_playerInput.currentActionMap.name == "SwapUI")
+            {
+                SwitchOffSwapUIActions();
+            }
+            else
             {
                 return;
             }
@@ -757,7 +774,6 @@ namespace Managers
             {
                 actionMap.FindAction("Pause").performed += gameManager.C_player.Pause;
             }
-            gameManager.b_usingUIActions = true;
         }
         public static void SwitchOffUIActions()
         {
@@ -771,11 +787,14 @@ namespace Managers
 
         public static void SwitchToInGameActions()
         {
-            if (!gameManager.b_usingUIActions)
+            if (gameManager.C_playerInput.currentActionMap.name == "UI")
             {
-                return;
+                SwitchOffUIActions();
             }
-            SwitchOffUIActions();
+            else if (gameManager.C_playerInput.currentActionMap.name == "SwapUI")
+            {
+                SwitchOffSwapUIActions();
+            }
             gameManager.C_playerInput.SwitchCurrentActionMap("PlayerControl");
             InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
             actionMap.Enable();
@@ -788,7 +807,6 @@ namespace Managers
             actionMap.FindAction("Fire").canceled += gameManager.C_player.CancelFire;
             actionMap.FindAction("Reload").performed += gameManager.C_player.Reload;
             actionMap.FindAction("Pause").performed += gameManager.C_player.Pause;
-            gameManager.b_usingUIActions = false;
         }
         public static void SwitchOffInGameActions()
         {
@@ -804,6 +822,33 @@ namespace Managers
             actionMap.FindAction("Fire").canceled -= gameManager.C_player.CancelFire;
             actionMap.FindAction("Reload").performed -= gameManager.C_player.Reload;
             actionMap.FindAction("Pause").performed -= gameManager.C_player.Pause;
+        }
+
+        public static void SwitchToSwapUIActions()
+        {
+
+            if (gameManager.C_playerInput.currentActionMap.name == "PlayerControl")
+            {
+                SwitchOffInGameActions();
+            }
+            else if (gameManager.C_playerInput.currentActionMap.name == "UI")
+            {
+                SwitchOffUIActions();
+            }
+
+            gameManager.C_playerInput.SwitchCurrentActionMap("SwapUI");
+            InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
+            actionMap.Enable();
+            actionMap.FindAction("Swap").performed += WeaponsSwapUI.SwapAction;
+            actionMap.FindAction("Keep").performed += WeaponsSwapUI.BackAction;
+        }
+        public static void SwitchOffSwapUIActions()
+        {
+            gameManager.C_playerInput.SwitchCurrentActionMap("SwapUI");
+            InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
+            actionMap.Disable();
+            actionMap.FindAction("Swap").performed -= WeaponsSwapUI.SwapAction;
+            actionMap.FindAction("Keep").performed -= WeaponsSwapUI.BackAction;
         }
 
         public static void SetPlayer(PlayerController newPlayer)

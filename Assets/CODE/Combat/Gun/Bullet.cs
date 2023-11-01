@@ -415,6 +415,10 @@ namespace Gun
 
             if (combatant == null)
             {
+                if (objectHit.GetComponent<Collider>().isTrigger)
+                {
+                    return false;
+                }
                 if (objectHit.GetComponentInParent<Destructable>() != null)
                 {
                     objectHit.GetComponentInParent<Destructable>().DamageObject(S_baseInformation.f_damage);

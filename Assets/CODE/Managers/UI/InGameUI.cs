@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Utility;
 using Gun;
+using System.Linq;
 
 namespace Managers
 {
@@ -32,7 +33,7 @@ namespace Managers
         [Rename("Bullet Start Position"), SerializeField] Transform C_bulletStartTransform;
         [Rename("Bullet Image "), SerializeField] Image C_ammoImage;
         [Rename("Distance Between Bullets")]
-        List<Image> lC_bulletUIPool;
+        List<Image> lC_bulletUIPool = null;
         int i_currentBullet = 0;
         [Rename("Ammo Animation Curve Fire"), SerializeField] AnimationCurve C_bulletAnimationCurveFire;
         [Rename("Ammo Animation Curve Reload"), SerializeField] AnimationCurve C_bulletAnimationCurveReload;
@@ -106,8 +107,9 @@ namespace Managers
             {
                 for (int i = 0; i < lC_bulletUIPool.Count; i++)
                 {
-                    Destroy(lC_bulletUIPool[lC_bulletUIPool.Count - 1].gameObject);
+                    Destroy(lC_bulletUIPool[lC_bulletUIPool.Count - 1 - i].gameObject);
                 }
+                lC_bulletUIPool = null;
             }
             lC_bulletUIPool = new List<Image>();
             for (int i = 0; i < newBulletCount; i++)
@@ -119,16 +121,62 @@ namespace Managers
             i_currentBullet = lC_bulletUIPool.Count;
         }
 
+
+        //TO DO FIX THIS ASAP
         public void UpdateBulletCount(int newBulletCount)
         {
-            int currentBulletCount = lC_bulletUIPool.Count;
+            HardReloadUI();
+            int difference = newBulletCount - i_currentBullet;
 
-            int difference = newBulletCount - currentBulletCount;
-
-            List<Vector3> originalPositions = new List<Vector3>();
-            for (int i = 0; i < (lC_bulletUIPool.Count - 1) - i_currentBullet; i++)
+            //if the difference is 0 do nothing
+            if(difference == 0)
             {
-                originalPositions.Add(lC_bulletUIPool[lC_bulletUIPool.Count - 1 - i].transform.position);
+                return;
+            }
+
+            //if it is greater than 0, instantiate the difference and add it to the list
+            if(difference > 0)
+            {
+                for (int i = 0; i < difference; i++)
+                {
+                    GameObject ammoPiece = Instantiate(C_ammoImage, C_bulletStartTransform.transform).gameObject;
+                    ammoPiece.transform.localPosition = new Vector3(0, (((-i_currentBullet - i) * 10)), 0);
+                    lC_bulletUIPool.Add(ammoPiece.GetComponent<Image>());
+                }
+            }
+            //if it is less than 0, destroy the image, then remove it from the end of the list
+            else
+            {
+                for (int i = 0; i < -difference; i++)
+                {
+                    Destroy(lC_bulletUIPool[lC_bulletUIPool.Count - 1].gameObject);
+                    lC_bulletUIPool.RemoveAt(lC_bulletUIPool.Count - 1);
+                }
+            }
+
+            i_currentBullet = lC_bulletUIPool.Count;
+
+        }
+
+        public void BulletFireUI()
+        {
+            StartCoroutine(FireBulletCoroutine(lC_bulletUIPool[i_currentBullet - 1].rectTransform));
+        }
+
+        public void ReloadBulletUI()
+        {
+            StartCoroutine(ReloadBulletCoroutine());
+        }
+
+        public void HardReloadUI()
+        {
+            int currentBullet = i_currentBullet;
+
+            //set them to their original position
+            List<Vector3> originalPositions = new List<Vector3>();
+            for (int i = 0; i < lC_bulletUIPool.Count - currentBullet; i++)
+            {
+                originalPositions.Add(lC_bulletUIPool[lC_bulletUIPool.Count - i - 1].transform.position);
             }
             List<Vector3> goalPositions = new List<Vector3>();
             for (int i = 0; i < originalPositions.Count; i++)
@@ -140,34 +188,8 @@ namespace Managers
                 lC_bulletUIPool[lC_bulletUIPool.Count - i - 1].transform.position = goalPositions[i];
             }
 
-            if (difference > 0)
-            {
-                for (int i = 0; i < difference; i++)
-                {
-                    GameObject ammoPiece = Instantiate(C_ammoImage, C_bulletStartTransform.transform).gameObject;
-                    ammoPiece.transform.localPosition = new Vector3(0, (((-currentBulletCount - i) * 10)), 0);
-                    lC_bulletUIPool.Add(ammoPiece.GetComponent<Image>());
-                }
-            }
-            else
-            {
-                for (int i = 0; i < -difference; i++)
-                {
-                    Destroy(lC_bulletUIPool[lC_bulletUIPool.Count - 1].gameObject);
-                    lC_bulletUIPool.RemoveAt(lC_bulletUIPool.Count - 1);
-                }
-            }
+            //then, get the difference between the two
             i_currentBullet = lC_bulletUIPool.Count;
-        }
-
-        public void BulletFireUI()
-        {
-            StartCoroutine(FireBulletCoroutine(lC_bulletUIPool[i_currentBullet - 1].rectTransform));
-        }
-
-        public void ReloadBulletUI()
-        {
-            StartCoroutine(ReloadBulletCoroutine());
         }
 
         public static void TurnOnGunModuleCard(GunModule module)

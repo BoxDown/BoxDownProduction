@@ -125,28 +125,7 @@ namespace Managers
         //TO DO FIX THIS ASAP
         public void UpdateBulletCount(int newBulletCount)
         {
-
-            int currentBullet = i_currentBullet;
-
-            //set them to their original position
-            List<Vector3> originalPositions = new List<Vector3>();
-            for (int i = 0; i < lC_bulletUIPool.Count - currentBullet; i++)
-            {
-                originalPositions.Add(lC_bulletUIPool[lC_bulletUIPool.Count - i - 1].transform.position);
-            }
-            List<Vector3> goalPositions = new List<Vector3>();
-            for (int i = 0; i < originalPositions.Count; i++)
-            {
-                goalPositions.Add(originalPositions[i] + new Vector3(-150, 0, 0));
-            }
-            for (int i = 0; i < originalPositions.Count; i++)
-            {
-                lC_bulletUIPool[lC_bulletUIPool.Count - i - 1].transform.position = goalPositions[i];
-            }
-
-            //then, get the difference between the two
-            i_currentBullet = lC_bulletUIPool.Count;
-
+            HardReloadUI();
             int difference = newBulletCount - i_currentBullet;
 
             //if the difference is 0 do nothing
@@ -187,6 +166,30 @@ namespace Managers
         public void ReloadBulletUI()
         {
             StartCoroutine(ReloadBulletCoroutine());
+        }
+
+        public void HardReloadUI()
+        {
+            int currentBullet = i_currentBullet;
+
+            //set them to their original position
+            List<Vector3> originalPositions = new List<Vector3>();
+            for (int i = 0; i < lC_bulletUIPool.Count - currentBullet; i++)
+            {
+                originalPositions.Add(lC_bulletUIPool[lC_bulletUIPool.Count - i - 1].transform.position);
+            }
+            List<Vector3> goalPositions = new List<Vector3>();
+            for (int i = 0; i < originalPositions.Count; i++)
+            {
+                goalPositions.Add(originalPositions[i] + new Vector3(-150, 0, 0));
+            }
+            for (int i = 0; i < originalPositions.Count; i++)
+            {
+                lC_bulletUIPool[lC_bulletUIPool.Count - i - 1].transform.position = goalPositions[i];
+            }
+
+            //then, get the difference between the two
+            i_currentBullet = lC_bulletUIPool.Count;
         }
 
         public static void TurnOnGunModuleCard(GunModule module)

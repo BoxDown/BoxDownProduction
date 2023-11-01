@@ -214,7 +214,7 @@ namespace Managers
             int roomNumberToLoad = 0;
             if (i_currentRoom < i_easyRooms)
             {
-                roomNumberToLoad = Random.Range(0, ls_easyLevels.Count());
+                roomNumberToLoad = Random.Range(0, ls_easyLevels.Count() - 1);
                 while (ls_easyLevels[roomNumberToLoad] == SceneManager.GetActiveScene().name)
                 {
                     roomNumberToLoad = Random.Range(0, ls_easyLevels.Count());
@@ -231,7 +231,7 @@ namespace Managers
                     IncrementRoom();
                     return;
                 }
-                roomNumberToLoad = Random.Range(0, ls_easyLevels.Count());
+                roomNumberToLoad = Random.Range(0, ls_easyLevels.Count() - 1);
                 while (ls_mediumLevels[roomNumberToLoad] == SceneManager.GetActiveScene().name)
                 {
                     roomNumberToLoad = Random.Range(0, ls_mediumLevels.Count());
@@ -249,7 +249,7 @@ namespace Managers
                     IncrementRoom();
                     return;
                 }
-                roomNumberToLoad = Random.Range(0, ls_easyLevels.Count());
+                roomNumberToLoad = Random.Range(0, ls_easyLevels.Count() - 1);
                 while (ls_hardLevels[roomNumberToLoad] == SceneManager.GetActiveScene().name)
                 {
                     roomNumberToLoad = Random.Range(0, ls_hardLevels.Count());
@@ -745,6 +745,7 @@ namespace Managers
             if (C_player != null)
             {
                 SwitchToInGameActions();
+                C_player.C_ownedGun.HardReload();
             }
         }
 

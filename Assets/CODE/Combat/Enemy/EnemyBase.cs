@@ -21,8 +21,8 @@ namespace Enemy
         [Rename("Death VFX"), SerializeField] protected GameObject C_deathEffects = null;
         [Rename("Gut Bag VFX"), SerializeField] protected GameObject C_gutBag = null;
         [Rename("Spawn VFX"), SerializeField] protected GameObject C_spawnEffects = null;
-        protected float f_spawnTime = 1.25f;
         [Rename("Gut Bag After Seconds"), SerializeField] protected float f_gutBagTime = 1.0f;
+        protected float f_spawnTime = 1.25f;
         [Rename("Spawn Effect Delay"), SerializeField] protected float f_spawnEffectDelay = 0;
         [Rename("Spawn Effect Offset"), SerializeField] protected Vector3 f_spawnEffectOffset = Vector3.zero;
 
@@ -43,6 +43,7 @@ namespace Enemy
             {
                 Spawn();
             }
+            C_ownedGun.InitialiseGun();
         }
 
         protected override void Update()
@@ -69,7 +70,7 @@ namespace Enemy
         protected virtual IEnumerator PlaySpawnEffect(float spawnDelay)
         {
             yield return new WaitForSeconds(spawnDelay);
-            Destroy(Instantiate(C_spawnEffects, transform.position + f_spawnEffectOffset, Quaternion.identity));
+            Destroy(Instantiate(C_spawnEffects, transform.position + f_spawnEffectOffset, Quaternion.identity),5f);
         }
 
         protected bool PlayerLineOfSightCheck()
@@ -85,7 +86,7 @@ namespace Enemy
         }
 
 
-        public virtual void LookAtPlayer()
+        public void LookAtPlayer()
         {
             if (C_player != null)
             {
@@ -127,7 +128,7 @@ namespace Enemy
                 effect.GetComponentInChildren<VisualEffect>().Play();
                 Destroy(effect, 4f);
             }
-            if (C_gutBag)
+            if (C_gutBag != null)
             {
                 StartCoroutine(SpawnGutBag());
             }
@@ -191,10 +192,11 @@ namespace Enemy
             f_currentTimeBetweenSounds = Random.Range(f_minTimeBetweenSound, f_maxTimeBetweenSound);
         }
 
-        private IEnumerator SpawnGutBag()
+        protected IEnumerator SpawnGutBag()
         {
-            yield return new WaitForSeconds(f_gutBagTime);
-            Destroy(Instantiate(C_gutBag), 5.0f);
+            yield return new WaitForSeconds(f_gutBagTime - (Time.deltaTime * 2.0f));
+            GameObject newGutBag = Instantiate(C_gutBag, transform.position + (Vector3.up * f_size), Quaternion.identity);
+            Destroy(newGutBag, 5.0f);
         }
 
         protected void SetMaterialUVOffset(GunModule.BulletEffect bulletEffect)

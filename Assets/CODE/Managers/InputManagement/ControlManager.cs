@@ -52,20 +52,26 @@ namespace Managers
                         //correct name
                         case "Sony Interactive Entertainement":
                             e_currentControlDevice = ControllerType.Playstation;
+                            Cursor.visible = false;
+
                             return;
                         //correct name
                         case "Nintendo Co., Ltd.":
                             e_currentControlDevice = ControllerType.Switch;
+                            Cursor.visible = false;
+
                             return;
                         default:
                             //xbox manufacturer returns empty but so do keyboard and mice
                             if (InputSystem.devices[0].description.product.Contains("XBox"))
                             {
                                 e_currentControlDevice = ControllerType.Xbox;
+                                Cursor.visible = false;
                             }
                             else
                             {
                                 e_currentControlDevice = ControllerType.KeyboardMouse;
+                                Cursor.visible = true;
                             }
                             return;
                     }
@@ -123,6 +129,7 @@ namespace Managers
 
         public static void ChangeInputDevice(string controlScheme)
         {
+
             switch (controlScheme)
             {
                 //correct name
@@ -140,11 +147,6 @@ namespace Managers
                     controlManager.e_currentControlDevice = ControllerType.KeyboardMouse;
                     return;
             }
-        }
-
-        private void ChangeControlImages(ControllerType type)
-        {
-
         }
     }
 }

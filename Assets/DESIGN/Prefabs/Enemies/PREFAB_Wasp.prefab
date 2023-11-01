@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   f_maxSpeed: 3
-  f_maxAcceleration: 5
+  f_maxAcceleration: 4.5
   C_accelerationCurve:
     serializedVersion: 2
     m_Curve:
@@ -124,7 +124,6 @@ MonoBehaviour:
   f_respawnTime: 5
   C_onHitEffects: {fileID: 0}
   C_onHealEffects: {fileID: 0}
-  C_renderer: {fileID: 8323805549533280383}
   b_infiniteHealth: 0
   e_combatState: 0
   b_isDead: 0
@@ -132,13 +131,17 @@ MonoBehaviour:
   f_aimRange: 12
   f_fireRange: 10
   f_meleeDamage: 5
-  f_meleeKnockback: 12
+  f_meleeKnockback: 10
   C_deathEffects: {fileID: 2388571588587728514, guid: 595b37fb51237cd41b78cade71e72652,
     type: 3}
-  C_spawnEffects: {fileID: 0}
+  C_gutBag: {fileID: 4352715433920084601, guid: 24e9267bc6642234f8a0a9280fc245b9,
+    type: 3}
+  C_spawnEffects: {fileID: 7392189860468970978, guid: 446ebbedc916b2e4bbcd68e807323f43,
+    type: 3}
+  f_gutBagTime: 1
   f_spawnEffectDelay: 0
   f_spawnEffectOffset: {x: 0, y: 0, z: 0}
-  f_fleeDistance: 4.5
+  f_fleeDistance: 3.5
 --- !u!1 &8176362473282986587
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,7 +167,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8176362473282986587}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.55, z: 0.32}
+  m_LocalPosition: {x: 0, y: 0.63, z: 0.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -184,6 +187,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   C_muzzle: {fileID: 0}
+  C_light: {fileID: 0}
+  f_lightOffTime: 0.024
   C_trigger: {fileID: 0}
   C_clip: {fileID: 0}
   C_barrel: {fileID: 0}
@@ -325,12 +330,6 @@ PrefabInstance:
 --- !u!4 &6974813256640278381 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 637b1440aca4456458c2e2884e32b7cb,
-    type: 3}
-  m_PrefabInstance: {fileID: 7440292718347536518}
-  m_PrefabAsset: {fileID: 0}
---- !u!137 &8323805549533280383 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 1496641780880044281, guid: 637b1440aca4456458c2e2884e32b7cb,
     type: 3}
   m_PrefabInstance: {fileID: 7440292718347536518}
   m_PrefabAsset: {fileID: 0}

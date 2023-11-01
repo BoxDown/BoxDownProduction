@@ -43,7 +43,7 @@ namespace Gun
 
         [Rename("Muzzle Transform")] public Transform C_muzzle;
         [Rename("Muzzle Light Flash")] public Light C_light;
-        private float f_lightIntensity;
+        [Rename("Light Off Time")] public float f_lightOffTime = 0.024f;
         [Space(10)]
 
         [Header("LEAVE NULL UNLESS PLAYER")]
@@ -109,9 +109,10 @@ namespace Gun
         [Rename("Bullet Ice Hit Effect")] public GameObject C_iceBulletHit;
         [Rename("Bullet Lightning Hit Effect")] public GameObject C_lightningBulletHit;
         [Rename("Bullet Vampire Hit Effect")] public GameObject C_vampireBulletHit;
-        Bullet.BulletBaseInfo S_bulletInfo { get { return new Bullet.BulletBaseInfo(C_gunHolder, S_muzzlePosition, C_gunHolder.transform.forward, f_bulletRange, f_baseDamage, f_bulletSpeed, f_bulletSize, f_knockBack); } }
+        Bullet.BulletBaseInfo S_bulletInfo { get { return new Bullet.BulletBaseInfo(C_gunHolder, S_muzzlePosition, C_muzzle == null ?  transform.forward : C_muzzle.transform.up, f_bulletRange, f_baseDamage, f_bulletSpeed, f_bulletSize, f_knockBack); ; } }
 
-        private void Awake()
+
+        public void InitialiseGun()
         {
             GameObject bulletPool = new GameObject();
             if (C_gunHolder.CompareTag("Player"))
@@ -128,12 +129,8 @@ namespace Gun
             }
 
             i_currentAmmo = i_clipSize;
-            if (C_light != null)
-            {
-                f_lightIntensity = C_light.intensity;
-                C_light.intensity = 0;
-            }
         }
+
         private void Update()
         {
             if (b_isFiring && !b_reloading)
@@ -151,10 +148,6 @@ namespace Gun
                 {
                     UpdateGunStats(aC_moduleArray[i]);
                 }
-            }
-            if (C_light != null)
-            {
-                C_light.intensity = Mathf.MoveTowards(C_light.intensity, 0, 25 * Time.fixedDeltaTime);
             }
         }
         public void StartFire()
@@ -215,6 +208,11 @@ namespace Gun
                     TurnOnLight();
                 }
 
+                if (C_gunHolder.CompareTag("Player"))
+                {
+                    GameManager.GetCamera().ShakeCamera(0.2f);
+                    InGameUI.gameUI.BulletFireUI();
+                }
                 C_gunHolder.GetComponent<Combatant>().AddVelocity(recoil);
                 SpawnBulletShells();
 
@@ -248,6 +246,10 @@ namespace Gun
         public void HardReload()
         {
             i_currentAmmo = i_clipSize;
+            if (C_gunHolder.CompareTag("Player"))
+            {
+                InGameUI.gameUI.HardReloadUI();
+            }
         }
 
         /// <summary>
@@ -486,7 +488,8 @@ namespace Gun
 
         private void TurnOnLight()
         {
-            C_light.intensity = f_lightIntensity;
+            C_light.gameObject.SetActive(true);
+            StartCoroutine(TurnOffLight());
         }
 
         private void ChangeLightColour(Color color)
@@ -521,15 +524,18 @@ namespace Gun
         {
             InGameUI.gameUI.SetMaxAmmo(i_clipSize);
             InGameUI.gameUI.SetCurrentAmmo(i_currentAmmo);
-            InGameUI.gameUI.UpdateAmmoSlider();
             InGameUI.gameUI.UpdateAmmoText();
         }
         //reload all at once
         private IEnumerator ReloadAfterTime()
         {
+            if (b_reloading)
+            {
+                yield break;
+            }
             if (C_gunHolder.CompareTag("Player"))
             {
-                InGameUI.gameUI.TurnOnReloadingText();
+                InGameUI.gameUI.ReloadBulletUI();
             }
             b_reloading = true;
             yield return new WaitForSeconds(f_reloadSpeed / 2.0f);
@@ -539,32 +545,14 @@ namespace Gun
             }
             yield return new WaitForSeconds(f_reloadSpeed / 2.0f);
             HardReload();
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.3f);
             b_reloading = false;
-            if (C_gunHolder.CompareTag("Player"))
-            {
-                InGameUI.gameUI.TurnOffReloadingText();
-            }
         }
-        //reload one bullet at a time
-        private IEnumerator ReloadOverTime()
+
+        private IEnumerator TurnOffLight()
         {
-            if (C_gunHolder.CompareTag("Player"))
-            {
-                InGameUI.gameUI.TurnOnReloadingText();
-            }
-            b_reloading = true;
-            float reloadRate = i_clipSize / f_reloadSpeed;
-            while (i_currentAmmo != i_clipSize)
-            {
-                yield return new WaitForSeconds(reloadRate);
-                i_currentAmmo++;
-            }
-            b_reloading = false;
-            if (C_gunHolder.CompareTag("Player"))
-            {
-                InGameUI.gameUI.TurnOffReloadingText();
-            }
+            yield return new WaitForSeconds(f_lightOffTime);
+            C_light.gameObject.SetActive(false);
         }
 
     }

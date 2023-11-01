@@ -52,6 +52,7 @@ public class PlayerController : Combatant
         // reference control manager
         GameManager.SetPlayer(this);
         GameManager.SwitchToInGameActions();
+        C_ownedGun.InitialiseGun();
     }
 
     protected override void Update()
@@ -62,6 +63,43 @@ public class PlayerController : Combatant
             SetRotationDirection(Vector2.ClampMagnitude(S_movementVec2Direction, f_controllerDeadZone * 0.9f));
         }
         InGameUI.gameUI.UpdateHealthSlider();
+
+        float closestDistance = float.MaxValue;
+        int closestCollisionReference = 0;
+        Collider[] collisions = Physics.OverlapSphere(transform.position, f_interactRange);
+        if (collisions.Length == 0)
+        {
+            InGameUI.TurnOffGunModuleCard();
+            return;
+        }
+        for (int i = 0; i < collisions.Length; i++)
+        {
+            if (collisions[i].transform == transform)
+            {
+                continue;
+            }
+            if (!collisions[i].isTrigger)
+            {
+                continue;
+            }
+            float distance = Vector3.Distance(collisions[i].ClosestPoint(transform.position), transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestCollisionReference = i;
+            }
+        }
+
+        Transform closestTransform = collisions[closestCollisionReference].transform;
+
+        if (closestTransform.tag == "Gun Module")
+        {
+            InGameUI.TurnOnGunModuleCard(GunModuleSpawner.GetGunModule(closestTransform.name));
+        }
+        else
+        {
+            InGameUI.TurnOffGunModuleCard();
+        }
     }
 
     protected override void FixedUpdate()
@@ -148,6 +186,7 @@ public class PlayerController : Combatant
         base.Damage(damage);
         StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, f_invincibleTime));
         AudioManager.PlayFmodEvent("SFX/Player/Player_Hit", transform.position);
+        GameManager.GetCamera().ShakeCamera(0.5f);
         GameManager.IncrementDamageTaken(damage);
     }
     public override void Heal(float heal)
@@ -253,11 +292,6 @@ public class PlayerController : Combatant
         InGameUI.gameUI.UpdateHealthSlider();
     }
 
-    //needed because we want to clean up the object pool as well
-    private void OnDestroy()
-    {
-        //Destroy(C_ownedGun.C_bulletPool.gameObject);
-    }
 
     private IEnumerator ActivateLoseAfterSeconds(float time)
     {

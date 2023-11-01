@@ -2,6 +2,7 @@ using UnityEngine;
 using Utility;
 using Managers;
 using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Camera))]
 public class CameraDolly : MonoBehaviour
@@ -25,8 +26,13 @@ public class CameraDolly : MonoBehaviour
     private Vector3 S_currentFocus;
     private Vector3 S_nextFocus;
 
-    private bool b_cameraShaking;
+    private int i_currentActiveCameraShakes = 0;
     private Vector3 S_shakeOffset = Vector3.zero;
+    private List<Vector3> lS_shakeOffsets = new List<Vector3>();
+    private bool b_shaking
+    {
+        get { return S_shakeOffset == Vector3.zero ? false : true; }
+    }
 
     int i_originalCullingMask;
 
@@ -44,17 +50,6 @@ public class CameraDolly : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        if (!GameManager.gameManager.b_cull)
-        {
-            C_camera.cullingMatrix = Matrix4x4.Ortho(-99999, 99999, -99999, 99999, 0.001f, 99999) *
-                                Matrix4x4.Translate(Vector3.forward * -99999 / 2f) *
-                                C_camera.worldToCameraMatrix;
-            C_camera.cullingMask = 0b0111111111111111111111111111111;
-        }
-        else
-        {
-            ResetFrustumCulling();
-        }
         if (PauseMenu.pauseMenu.b_gamePaused)
         {
             return;
@@ -64,64 +59,84 @@ public class CameraDolly : MonoBehaviour
             S_playerPosition = C_targetPlayer.transform.position;
             S_playerLookDirection = C_targetPlayer.S_cameraDirection;
 
+            if (i_currentActiveCameraShakes > 0)
+            {
+                float highestMagnitude = -1;
+
+                foreach (Vector3 offset in lS_shakeOffsets)
+                {
+                    if(offset.magnitude > highestMagnitude)
+                    {
+                        continue;
+                    }
+                    highestMagnitude = offset.magnitude;
+                    S_shakeOffset = offset;
+                }
+            }
+
             Vector3 lookOffset = S_playerPosition + (S_playerLookDirection * f_lookSrength);
-            Vector3 nextCameraPos = b_cameraShaking ? S_offsetVector + lookOffset + S_shakeOffset : S_offsetVector + lookOffset;
+            Vector3 nextCameraPos = b_shaking ? S_offsetVector + lookOffset + S_shakeOffset : S_offsetVector + lookOffset;
 
             S_currentFocus = transform.position - S_offsetVector;
             S_nextFocus = lookOffset;
-            if (b_cameraShaking)
+            if (b_shaking)
             {
-                C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime / 100.0f);
+                MoveCameraShakeTowardsZero();
+                C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime / 10.0f);
+                GameManager.gameManager.b_cullLastFrame = GameManager.gameManager.b_cull;
+                return;
             }
             else if (Vector3.Distance(S_nextFocus, S_currentFocus) > f_focusRadius)
             {
                 C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime);
+                S_shakeOffset = Vector3.zero;
             }
             else
             {
                 S_velocity = Vector3.MoveTowards(S_velocity, Vector3.zero, Time.deltaTime / 10.0f);
+                S_shakeOffset = Vector3.zero;
             }
 
         }
         GameManager.gameManager.b_cullLastFrame = GameManager.gameManager.b_cull;
     }
 
-    void ResetFrustumCulling()
+    public void ShakeCamera(float shakeIntensity)
     {
-        C_camera.ResetCullingMatrix();
-        C_camera.cullingMask = i_originalCullingMask;
-    }
-
-    public void ShakeCamera(float shakeIntensity, float shakeTime)
-    {
-        StartCoroutine(ShakeCameraRoutine(shakeIntensity, shakeTime));
-    }
-
-    private IEnumerator ShakeCameraRoutine(float shakeIntensity, float shakeTime)
-    {
-        b_cameraShaking = true;
-        int frameCounter = 0;
-        float startTime = Time.time;
-        float randomXStart = Random.Range(-shakeIntensity, shakeIntensity);
-        float randomZStart = Random.Range(-shakeIntensity, shakeIntensity);
-        S_shakeOffset = Vector3.zero;
-        while (Time.time - startTime < shakeTime)
+        if(S_shakeOffset.magnitude > shakeIntensity)
         {
-            if(frameCounter % 30 == 0)
-            {
-                float xCopy = randomXStart;
-                randomXStart = randomZStart;
-                randomZStart = xCopy;
-            }
-            randomXStart = -randomXStart;
-            randomZStart = -randomZStart;
-            float timePercentage = (Time.time - startTime) / shakeTime;
-            S_shakeOffset.x = randomXStart = Mathf.MoveTowards(S_shakeOffset.x, randomXStart * (1 - timePercentage), (shakeIntensity / 2.0f) * Time.deltaTime);
-            S_shakeOffset.z = randomZStart = Mathf.MoveTowards(S_shakeOffset.z, randomZStart * (1 - timePercentage), (shakeIntensity / 2.0f) * Time.deltaTime);
-            yield return 0;
-            frameCounter++;
+            return;
         }
-        b_cameraShaking = false;
+
+        if(S_shakeOffset != Vector3.zero)
+        {
+            S_shakeOffset += S_shakeOffset.normalized * shakeIntensity;
+            S_shakeOffset = Vector3.ClampMagnitude(S_shakeOffset, shakeIntensity);
+        }
+        else
+        {
+            float randomXStart = Random.Range(-shakeIntensity, shakeIntensity);
+            float randomZStart = Random.Range(-shakeIntensity, shakeIntensity);
+            S_shakeOffset = new Vector3(randomXStart, 0, randomZStart);
+        }
     }
 
+    public void MoveCameraShakeTowardsZero()
+    {
+        if (Time.frameCount % 3 == 0)
+        {
+            float xCopy = S_shakeOffset.x;
+            S_shakeOffset.x = S_shakeOffset.z;
+            S_shakeOffset.z = xCopy;
+        }
+        S_shakeOffset.x = -S_shakeOffset.x;
+        S_shakeOffset.z = -S_shakeOffset.z;
+
+        S_shakeOffset = Vector3.MoveTowards(S_shakeOffset, Vector3.zero, Time.deltaTime);
+    }
+
+    public void SetCameraFocus(Vector3 position)
+    {
+        transform.position = position + S_offsetVector;
+    }
 }

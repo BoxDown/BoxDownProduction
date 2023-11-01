@@ -292,11 +292,6 @@ public class PlayerController : Combatant
         InGameUI.gameUI.UpdateHealthSlider();
     }
 
-    //needed because we want to clean up the object pool as well
-    private void OnDestroy()
-    {
-        //Destroy(C_ownedGun.C_bulletPool.gameObject);
-    }
 
     private IEnumerator ActivateLoseAfterSeconds(float time)
     {

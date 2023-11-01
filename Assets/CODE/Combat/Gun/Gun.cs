@@ -109,7 +109,7 @@ namespace Gun
         [Rename("Bullet Ice Hit Effect")] public GameObject C_iceBulletHit;
         [Rename("Bullet Lightning Hit Effect")] public GameObject C_lightningBulletHit;
         [Rename("Bullet Vampire Hit Effect")] public GameObject C_vampireBulletHit;
-        Bullet.BulletBaseInfo S_bulletInfo { get { return new Bullet.BulletBaseInfo(C_gunHolder, S_muzzlePosition, C_gunHolder.transform.forward, f_bulletRange, f_baseDamage, f_bulletSpeed, f_bulletSize, f_knockBack); } }
+        Bullet.BulletBaseInfo S_bulletInfo { get { return new Bullet.BulletBaseInfo(C_gunHolder, S_muzzlePosition, C_muzzle == null ?  transform.forward : C_muzzle.transform.up, f_bulletRange, f_baseDamage, f_bulletSpeed, f_bulletSize, f_knockBack); ; } }
 
 
         public void InitialiseGun()
@@ -246,6 +246,10 @@ namespace Gun
         public void HardReload()
         {
             i_currentAmmo = i_clipSize;
+            if (C_gunHolder.CompareTag("Player"))
+            {
+                InGameUI.gameUI.HardReloadUI();
+            }
         }
 
         /// <summary>
@@ -541,10 +545,10 @@ namespace Gun
             }
             yield return new WaitForSeconds(f_reloadSpeed / 2.0f);
             HardReload();
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.3f);
             b_reloading = false;
         }
-        
+
         private IEnumerator TurnOffLight()
         {
             yield return new WaitForSeconds(f_lightOffTime);

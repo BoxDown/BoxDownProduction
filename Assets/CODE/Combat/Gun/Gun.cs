@@ -210,7 +210,7 @@ namespace Gun
 
                 if (C_gunHolder.CompareTag("Player"))
                 {
-                    GameManager.GetCamera().ShakeCamera(0.2f);
+                    GameManager.GetCamera().GunshotCameraShake();
                     InGameUI.gameUI.BulletFireUI();
                 }
                 C_gunHolder.GetComponent<Combatant>().AddVelocity(recoil);

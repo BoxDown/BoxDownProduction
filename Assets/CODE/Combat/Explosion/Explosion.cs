@@ -37,7 +37,7 @@ namespace Explosion
             //shockwave start size radius * 1.2f
             shockwaveParticle.startSize = (f_explosionSize / 2) * 1.2f;
 
-            FindObjectOfType<CameraDolly>().ShakeCamera(f_explosionSize / 10.0f);
+            FindObjectOfType<CameraDolly>().ExplosionCameraShake();
             AudioManager.PlayFmodEvent("Explosion", transform.position);
 
         }

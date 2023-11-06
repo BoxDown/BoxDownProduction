@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8945659a36ce7a43a8defef3334e1ff, type: 3}
-  m_Name: P_GunModule2
+  m_Name: P_GunModule3 1
   m_EditorClassIdentifier: 
-  C_meshPrefab: {fileID: 4768195238487112641, guid: 58c414753f50d5948a3ccfdf3604c39c,
+  C_meshPrefab: {fileID: 4993059843325046500, guid: 5d175a2f3c677e04b9a27db5b7800db1,
     type: 3}
-  s_moduleName: Buck Multi
-  e_moduleType: 2
+  s_moduleName: Explosion
+  e_moduleType: 0
   f_moduleStrength: 50
-  f_baseDamage: 0
-  f_fireRate: 0
-  f_bulletSpeed: 0
-  f_knockBack: 0
+  f_baseDamage: 3.5
+  f_fireRate: 11
+  f_bulletSpeed: 11
+  f_knockBack: 0.5
   S_bulletEffectInformation:
     e_bulletEffect: 0
     f_effectTime: 0
@@ -34,23 +34,24 @@ MonoBehaviour:
   f_movementPenalty: 0
   i_clipSize: 0
   S_bulletTraitInformation:
-    e_bulletTrait: 0
-    i_pierceCount: 0
-    i_ricochetCount: 0
-    C_explosionPrefab: {fileID: 0}
-    f_explosionSize: 0
-    f_explosionDamage: 0
-    f_explosionKnockbackDistance: 0
-    f_explosionLifeTime: 0
+    e_bulletTrait: 3
+    i_pierceCount: 2
+    i_ricochetCount: 4
+    C_explosionPrefab: {fileID: 9198468734860294505, guid: e0bdd7450572f6c4b8b8b35f5228405a,
+      type: 3}
+    f_explosionSize: 3
+    f_explosionDamage: 2
+    f_explosionKnockbackDistance: 1
+    f_explosionLifeTime: 0.4
     f_homingStrength: 0
     f_homingDelayTime: 0
-  f_bulletSize: 0.25
-  f_bulletRange: 4.25
-  f_recoil: 1
+  f_bulletSize: 0
+  f_bulletRange: 0
+  f_recoil: 0
   S_shotPatternInformation:
-    e_shotPattern: 2
-    b_randomSpread: 1
-    i_shotCount: 5
+    e_shotPattern: 0
+    b_randomSpread: 0
+    i_shotCount: 0
     f_multiShotDistance: 0
-    f_maxAngle: 65
+    f_maxAngle: 0
     f_waveSpeed: 0

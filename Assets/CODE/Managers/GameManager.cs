@@ -988,6 +988,7 @@ namespace Managers
         public static void IncrementRoomsCleared()
         {
             gameManager.i_roomsCleared += 1;
+            InGameUI.UpdateRoomCountText();
         }
         public static void IncrementExplosionCount()
         {

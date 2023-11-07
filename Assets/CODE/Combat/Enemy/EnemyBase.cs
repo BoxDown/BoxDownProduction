@@ -30,6 +30,10 @@ namespace Enemy
         protected float f_maxTimeBetweenSound = 15;
         protected float f_currentTimeBetweenSounds;
 
+        [Header("Eyeball Look At Variables")]
+        [Rename("Eyeball Object"), SerializeField] protected Transform C_eyeballTransform;
+        [Rename("Eyeball Look At Strength"), Range(0, 1), SerializeField] protected float f_eyeLookAtStrength = 0.25f;
+
         //runtime variables
         protected PlayerController C_player;
         protected bool b_spawning;
@@ -70,7 +74,7 @@ namespace Enemy
         protected virtual IEnumerator PlaySpawnEffect(float spawnDelay)
         {
             yield return new WaitForSeconds(spawnDelay);
-            Destroy(Instantiate(C_spawnEffects, transform.position + f_spawnEffectOffset, Quaternion.identity),5f);
+            Destroy(Instantiate(C_spawnEffects, transform.position + f_spawnEffectOffset, Quaternion.identity), 5f);
         }
 
         protected bool PlayerLineOfSightCheck()
@@ -91,6 +95,7 @@ namespace Enemy
             if (C_player != null)
             {
                 SetRotationDirection(Vector2.ClampMagnitude(DirectionOfPlayer(), 0.1f));
+                EyeballLookAtPlayer();
             }
         }
         public float f_distanceToPlayer
@@ -184,6 +189,7 @@ namespace Enemy
             {
                 yield return new WaitForSeconds(time);
             }
+            ClearLightningHits();
             gameObject.SetActive(false);
         }
 
@@ -234,6 +240,12 @@ namespace Enemy
                     }
                     break;
             }
+        }
+
+        protected void EyeballLookAtPlayer()
+        {
+            C_eyeballTransform.LookAt(C_player.transform);
+            C_eyeballTransform.rotation *= Quaternion.Euler(0, 90, 90 * f_eyeLookAtStrength);
         }
 
     }

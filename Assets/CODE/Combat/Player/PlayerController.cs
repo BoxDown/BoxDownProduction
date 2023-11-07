@@ -62,6 +62,14 @@ public class PlayerController : Combatant
         {
             SetRotationDirection(Vector2.ClampMagnitude(S_movementVec2Direction, f_controllerDeadZone * 0.9f));
         }
+        if(S_rotationVec2Direction.magnitude > 0.8f)
+        {
+            FireGun();
+        }
+        else
+        {
+            CancelGun();
+        }
         InGameUI.gameUI.UpdateHealthSlider();
 
         float closestDistance = float.MaxValue;
@@ -186,7 +194,7 @@ public class PlayerController : Combatant
         base.Damage(damage);
         StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, f_invincibleTime));
         AudioManager.PlayFmodEvent("SFX/Player/Player_Hit", transform.position);
-        GameManager.GetCamera().ShakeCamera(0.5f);
+        GameManager.GetCamera().PlayerHurtCameraShake();
         GameManager.IncrementDamageTaken(damage);
     }
     public override void Heal(float heal)

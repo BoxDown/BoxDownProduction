@@ -65,6 +65,7 @@ namespace Enemy
             else
             {
                 FireGun();
+                EyeballLookAtPlayer();
             }
         }
         public override void Damage(float damage)

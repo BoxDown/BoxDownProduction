@@ -37,13 +37,16 @@ namespace Managers
         int i_currentBullet = 0;
         [Rename("Ammo Animation Curve Fire"), SerializeField] AnimationCurve C_bulletAnimationCurveFire;
         [Rename("Ammo Animation Curve Reload"), SerializeField] AnimationCurve C_bulletAnimationCurveReload;
+        [Rename("Ammo Text"), SerializeField] TextMeshProUGUI C_ammoText;
         [Space(10)]
 
         [Header("Gun Module Card")]
         [Rename("Gun Module Card"), SerializeField] GunModuleCard C_gunModuleCard;
         [Rename("Single Module Transform"), SerializeField] Transform C_gunModuleTransform;
 
-        [Rename("Ammo Text"), SerializeField] TextMeshProUGUI C_ammoText;
+        [Header("Stat Texts")]
+        [Rename("Room Count Text"), SerializeField] TextMeshProUGUI C_roomCountText;
+        [Rename("Enemy Count Text"), SerializeField] TextMeshProUGUI C_enemyCountText;
 
         private string s_currentActiveModuleName;
         private bool b_bulletsReloaded = false;
@@ -273,6 +276,23 @@ namespace Managers
             b_bulletsReloaded = false;
         }
 
+        void ShowEnemyCount()
+        {
+            C_enemyCountText.gameObject.SetActive(true);
+        }
+        void HideEnemyCount()
+        {
+            C_enemyCountText.gameObject.SetActive(true);
+        }
+        public static void UpdateEnemyCountText(float enemyCount)
+        {
+            gameUI.C_enemyCountText.text = $"Enemies Remaining: \n {enemyCount}";
+        }
+        public static void UpdateRoomCountText()
+        {
+            gameUI.C_roomCountText.text = $"Current Room:" +
+                $"Rooms Cleared: {GameManager.GetRoomsCleared()}";
+        }
 
     }
 }

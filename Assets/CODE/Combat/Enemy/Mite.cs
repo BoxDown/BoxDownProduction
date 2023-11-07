@@ -48,6 +48,7 @@ namespace Enemy
                 return;
             }
             MeleeDamage();
+            EyeballLookAtPlayer();
             if (f_distanceToPlayer < f_aimRange && b_lookAtPlayer)
             {
                 LookAtPlayer();

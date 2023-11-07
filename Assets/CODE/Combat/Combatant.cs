@@ -65,6 +65,7 @@ public class Combatant : MonoBehaviour
     [Rename("Hit VFX")] public GameObject C_onHitEffects;
     [Rename("Heal VFX")] public GameObject C_onHealEffects;
     protected Renderer[] C_renderer;
+    [Rename("Lightning Lines Materials")] public Material C_lightningMaterial;
 
 
     [Header("Cheats")]
@@ -95,6 +96,7 @@ public class Combatant : MonoBehaviour
     protected bool b_hasAnimator = false;
     protected Animator C_animator = null;
     protected List<Material> C_material = new List<Material>();
+    protected List<LineRenderer> lC_lineRenderers = new List<LineRenderer>();
 
 
 
@@ -653,16 +655,32 @@ public class Combatant : MonoBehaviour
                 combatant.SetLightningEffected(true);
                 StartCoroutine(combatant.ClearLightningChainAfterSeconds(effectTime));
                 lC_lightningHits.Add(combatant.transform);
-                //TO DO
                 //SPAWN LIGHNING EFFECT
+                GameObject lightningChainObject = new GameObject();
+                LineRenderer lR = lightningChainObject.AddComponent<LineRenderer>();
+                lR.positionCount = 2;
+                lR.startWidth = chainDamage;
+                lR.endWidth = chainDamage * 0.2f;
+                lR.SetPosition(0, transform.position + (Vector3.up * f_size));
+                lR.SetPosition(1, combatant.transform.position + (Vector3.up * f_size));
+                if(C_lightningMaterial != null)
+                {
+                    lR.material = C_lightningMaterial;
+                }
+                lC_lineRenderers.Add(lR);
             }
         }
     }
 
     public void ClearLightningHits()
     {
-        SetLightningEffected(false);
+        for (int i = 0; i < lC_lineRenderers.Count; i++)
+        {
+            DestroyImmediate(lC_lineRenderers[i].gameObject);
+        }
+        lC_lineRenderers.Clear();
         lC_lightningHits.Clear();
+        SetLightningEffected(false);
     }
 
     //Shader Functions

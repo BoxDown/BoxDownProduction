@@ -29,6 +29,7 @@ namespace Managers
         [Rename("Enemy Wave Delay (Seconds)")] public float f_spawnDelayTime;
         [HideInInspector] public PolyBrushManager C_manager;
         private bool b_endTriggered = false;
+        EnemyBase C_lastAliveEnemy = null;
 
         private int i_currentWave = 0;
         private Door[] aC_doorsInLevel;
@@ -154,6 +155,10 @@ namespace Managers
 
         private void SpawnReward()
         {
+            if(C_lastAliveEnemy != null)
+            {
+                GameManager.gameManager.UpdateRewardPoint(C_lastAliveEnemy.transform.position);
+            }
             GameManager.gameManager.SpawnNextReward();
         }
         private void UnlockAllDoors()
@@ -194,6 +199,7 @@ namespace Managers
                 if (!aC_enemyWaveList[i_currentWave].aC_enemies[i].b_isDead)
                 {
                     enemyCount++;
+                    C_lastAliveEnemy = aC_enemyWaveList[i_currentWave].aC_enemies[i];
                 }
             }
             InGameUI.UpdateEnemyCountText(enemyCount);

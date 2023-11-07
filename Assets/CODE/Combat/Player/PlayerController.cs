@@ -62,6 +62,14 @@ public class PlayerController : Combatant
         {
             SetRotationDirection(Vector2.ClampMagnitude(S_movementVec2Direction, f_controllerDeadZone * 0.9f));
         }
+        if(S_rotationVec2Direction.magnitude > 0.8f)
+        {
+            FireGun();
+        }
+        else
+        {
+            CancelGun();
+        }
         InGameUI.gameUI.UpdateHealthSlider();
 
         float closestDistance = float.MaxValue;

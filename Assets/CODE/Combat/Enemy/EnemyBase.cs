@@ -189,6 +189,7 @@ namespace Enemy
             {
                 yield return new WaitForSeconds(time);
             }
+            ClearLightningHits();
             gameObject.SetActive(false);
         }
 

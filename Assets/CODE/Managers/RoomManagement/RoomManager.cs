@@ -29,9 +29,12 @@ namespace Managers
         [Rename("Enemy Wave Delay (Seconds)")] public float f_spawnDelayTime;
         [HideInInspector] public PolyBrushManager C_manager;
         private bool b_endTriggered = false;
+        EnemyBase C_lastAliveEnemy = null;
 
         private int i_currentWave = 0;
-        private Door[] aC_doorsInLevel;        
+        private Door[] aC_doorsInLevel;
+
+        private int i_currentEnemiesLeft = 0;
 
         private void Start()
         {
@@ -80,6 +83,7 @@ namespace Managers
 
         private void FixedUpdate()
         {
+            UpdateEnemiesAlive();
             if (!CheckWaveDead())
             {
                 return;
@@ -144,11 +148,17 @@ namespace Managers
                     aC_enemyWaveList[i_currentWave].aC_enemies[i].gameObject.SetActive(true);
                     aC_enemyWaveList[i_currentWave].aC_enemies[i].Spawn();
                 }
+                i_currentEnemiesLeft = aC_enemyWaveList[i_currentWave].aC_enemies.Length;
             }
+
         }
 
         private void SpawnReward()
         {
+            if(C_lastAliveEnemy != null)
+            {
+                GameManager.gameManager.UpdateRewardPoint(C_lastAliveEnemy.transform.position);
+            }
             GameManager.gameManager.SpawnNextReward();
         }
         private void UnlockAllDoors()
@@ -169,6 +179,30 @@ namespace Managers
         private void IncrementWave()
         {
             i_currentWave++;
+        }
+
+        private void UpdateEnemiesAlive()
+        {
+            float enemyCount = 0;
+            if(aC_enemyWaveList.Length == 0)
+            {
+                InGameUI.UpdateEnemyCountText(enemyCount);
+                return;
+            }
+            else if(aC_enemyWaveList[i_currentWave].aC_enemies.Length == 0)
+            {
+                InGameUI.UpdateEnemyCountText(enemyCount);
+                return;
+            }
+            for (int i = 0; i < aC_enemyWaveList[i_currentWave].aC_enemies.Length; i++)
+            {
+                if (!aC_enemyWaveList[i_currentWave].aC_enemies[i].b_isDead)
+                {
+                    enemyCount++;
+                    C_lastAliveEnemy = aC_enemyWaveList[i_currentWave].aC_enemies[i];
+                }
+            }
+            InGameUI.UpdateEnemyCountText(enemyCount);
         }
 
     }

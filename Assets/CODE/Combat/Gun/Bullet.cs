@@ -427,7 +427,8 @@ namespace Gun
                 {
                     if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, S_baseInformation.f_size, ~LayerMask.GetMask("Bullet")))
                     {
-                        transform.forward = Vector3.Reflect(transform.forward, hit.normal);
+                        Vector3 reflection = Vector3.Reflect(transform.forward, hit.normal);
+                        transform.forward = new Vector3(reflection.x, 0, reflection.z);
                         i_ricochetCount += 1;
                     }
                     return false;

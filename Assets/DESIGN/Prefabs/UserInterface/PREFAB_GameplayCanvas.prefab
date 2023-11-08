@@ -652,6 +652,7 @@ GameObject:
   - component: {fileID: 2459707825719427451}
   - component: {fileID: 8474645386139549677}
   - component: {fileID: 5281693608721748625}
+  - component: {fileID: 6850955573387766900}
   m_Layer: 0
   m_Name: TEXT_UI_CurrentRoom
   m_TagString: Untagged
@@ -777,6 +778,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!225 &6850955573387766900
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4768916560162460881}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4987944707292478538
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,7 +960,9 @@ MonoBehaviour:
   C_gunModuleCard: {fileID: 7566947705694141799}
   C_gunModuleTransform: {fileID: 0}
   C_roomCountText: {fileID: 5281693608721748625}
+  C_roomCountGroup: {fileID: 6850955573387766900}
   C_enemyCountText: {fileID: 2510099491904524050}
+  C_enemyCountGroup: {fileID: 4245651291557724739}
 --- !u!1 &5756114723987899348
 GameObject:
   m_ObjectHideFlags: 0
@@ -959,6 +974,7 @@ GameObject:
   - component: {fileID: 8858715984894646304}
   - component: {fileID: 8360407540466901099}
   - component: {fileID: 2510099491904524050}
+  - component: {fileID: 4245651291557724739}
   m_Layer: 0
   m_Name: TEXT_UI_RemainingEnemies
   m_TagString: Untagged
@@ -1084,6 +1100,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!225 &4245651291557724739
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5756114723987899348}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5963406551328485665
 GameObject:
   m_ObjectHideFlags: 0

@@ -62,13 +62,16 @@ public class PlayerController : Combatant
         {
             SetRotationDirection(Vector2.ClampMagnitude(S_movementVec2Direction, f_controllerDeadZone * 0.9f));
         }
-        if(S_rotationVec2Direction.magnitude > 0.8f)
+        if (ControlManager.GetControllerType() != ControlManager.ControllerType.KeyboardMouse)
         {
-            FireGun();
-        }
-        else
-        {
-            CancelGun();
+            if (S_rotationVec2Direction.magnitude > 0.95f)
+            {
+                FireGun();
+            }
+            else
+            {
+                CancelGun();
+            }
         }
         InGameUI.gameUI.UpdateHealthSlider();
 
@@ -148,7 +151,13 @@ public class PlayerController : Combatant
         else
         {
             if (inputValue.magnitude > f_controllerDeadZone)
+            {
                 SetRotationDirection(inputValue);
+            }
+            else
+            {
+                SetRotationDirection(inputValue * 0.2f);
+            }
             S_cameraDirection = new Vector3(inputValue.x, 0, inputValue.y);
         }
     }
@@ -212,7 +221,7 @@ public class PlayerController : Combatant
         {
             GameManager.IncrementDodges();
         }
-        base.Dodge();        
+        base.Dodge();
     }
     public override void Die()
     {
@@ -310,13 +319,13 @@ public class PlayerController : Combatant
 
     private void FootStepCheck()
     {
-        if(S_velocity == Vector3.zero || C_leftFoot == null || C_rightFoot == null)
+        if (S_velocity == Vector3.zero || C_leftFoot == null || C_rightFoot == null)
         {
             return;
         }
         RaycastHit hit;
         // left foot check,
-        if(Physics.Raycast(C_leftFoot.position, Vector3.down, out hit, 0.01f, i_bulletLayerMask))
+        if (Physics.Raycast(C_leftFoot.position, Vector3.down, out hit, 0.01f, i_bulletLayerMask))
         {
             AudioManager.PlayFmodEvent("SFX/Player/Footsteps", hit.point);
             return;

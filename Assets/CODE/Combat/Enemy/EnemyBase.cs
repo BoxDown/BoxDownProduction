@@ -62,6 +62,7 @@ namespace Enemy
 
         protected virtual IEnumerator SpawnRoutine()
         {
+            GetComponent<Collider>().enabled = false;
             b_spawning = true;
             StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, f_spawnTime));
             if (C_spawnEffects != null)
@@ -70,6 +71,7 @@ namespace Enemy
             }
             yield return new WaitForSeconds(f_spawnTime);
             b_spawning = false;
+            GetComponent<Collider>().enabled = true;
         }
         protected virtual IEnumerator PlaySpawnEffect(float spawnDelay)
         {
@@ -153,6 +155,10 @@ namespace Enemy
             base.Move();
         }
 
+        protected override void CheckCollisions()
+        {
+            base.CheckCollisions();
+        }
 
 
         protected virtual void MeleeDamage()

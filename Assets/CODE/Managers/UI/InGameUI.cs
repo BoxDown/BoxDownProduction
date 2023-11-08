@@ -46,7 +46,9 @@ namespace Managers
 
         [Header("Stat Texts")]
         [Rename("Room Count Text"), SerializeField] TextMeshProUGUI C_roomCountText;
+        [Rename("Room Count Group"), SerializeField] CanvasGroup C_roomCountGroup;
         [Rename("Enemy Count Text"), SerializeField] TextMeshProUGUI C_enemyCountText;
+        [Rename("Enemy Count Group"), SerializeField] CanvasGroup C_enemyCountGroup;
 
         private string s_currentActiveModuleName;
         private bool b_bulletsReloaded = false;
@@ -276,17 +278,33 @@ namespace Managers
             b_bulletsReloaded = false;
         }
 
-        void ShowEnemyCount()
+        
+        public static void FadeInRoomCount()
         {
-            C_enemyCountText.gameObject.SetActive(true);
+            gameUI.StartCoroutine(gameUI.FadeRoomCountIn());
         }
-        void HideEnemyCount()
+        public static void FadeOutRoomCount()
         {
-            C_enemyCountText.gameObject.SetActive(true);
+            gameUI.StartCoroutine(gameUI.FadeRoomCountOut());
         }
-        public static void UpdateEnemyCountText(float enemyCount)
+        public static void FadeInEnemyCount()
         {
-            gameUI.C_enemyCountText.text = $"Enemies Remaining: \n {enemyCount}";
+            gameUI.StartCoroutine(gameUI.FadeEnemyCountIn());
+        }
+        public static void FadeOutEnemyCount()
+        {
+            gameUI.StartCoroutine(gameUI.FadeEnemyCountOut());
+        }
+
+
+        public static void UpdateEnemyCountText(float enemyCount, bool finalWave, int waveNumber)
+        {
+            if (finalWave)
+            {
+                gameUI.C_enemyCountText.text = $"Final Wave! \nEnemies Remaining: \n {enemyCount}";
+                return;
+            }
+            gameUI.C_enemyCountText.text = $"Wave: {waveNumber}! \nEnemies Remaining: \n {enemyCount}";
         }
         public static void UpdateRoomCountText()
         {
@@ -294,5 +312,51 @@ namespace Managers
                 $"Rooms Cleared: {GameManager.GetRoomsCleared()}";
         }
 
+        private IEnumerator FadeRoomCountIn()
+        {
+            float time = 0;
+            while (time < 0.5f)
+            {
+                C_roomCountGroup.alpha = Mathf.Lerp(0, 1, time / 0.5f);
+                yield return 0;
+                time += Time.deltaTime;
+            }
+            C_roomCountGroup.alpha = 1;
+        }
+
+        private IEnumerator FadeRoomCountOut()
+        {
+            float time = 0;
+            while (time < 2)
+            {
+                C_roomCountGroup.alpha = Mathf.Lerp(1, 0, time / 2);
+                yield return 0;
+                time += Time.deltaTime;
+            }
+            C_roomCountGroup.alpha = 0;
+        }
+        private IEnumerator FadeEnemyCountIn()
+        {
+            float time = 0;
+            while (time < 0.5f)
+            {
+                C_enemyCountGroup.alpha = Mathf.Lerp(0, 1, time / 0.5f);
+                yield return 0;
+                time += Time.deltaTime;
+            }
+            C_enemyCountGroup.alpha = 1;
+        }
+
+        private IEnumerator FadeEnemyCountOut()
+        {
+            float time = 0;
+            while (time < 2)
+            {
+                C_enemyCountGroup.alpha = Mathf.Lerp(1, 0, time / 2);
+                yield return 0;
+                time += Time.deltaTime;
+            }
+            C_enemyCountGroup.alpha = 0;
+        }
     }
 }

@@ -62,13 +62,14 @@ public class PlayerController : Combatant
         {
             SetRotationDirection(Vector2.ClampMagnitude(S_movementVec2Direction, f_controllerDeadZone * 0.9f));
         }
+
         if (ControlManager.GetControllerType() != ControlManager.ControllerType.KeyboardMouse)
         {
             if (S_rotationVec2Direction.magnitude > 0.95f)
             {
                 FireGun();
             }
-            else
+            else if(S_rotationVec2Direction.magnitude == 0)
             {
                 CancelGun();
             }

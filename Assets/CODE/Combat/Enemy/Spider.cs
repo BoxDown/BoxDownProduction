@@ -31,7 +31,7 @@ namespace Enemy
             PlayAudio();
 
             // behaviour
-            if (b_spawning || !PlayerLineOfSightCheck())
+            if (b_spawning || !PlayerLineOfSightCheck() || e_combatState == CombatState.Frozen || b_isDead)
             {
                 CancelGun();
                 return;

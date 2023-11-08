@@ -151,7 +151,13 @@ public class PlayerController : Combatant
         else
         {
             if (inputValue.magnitude > f_controllerDeadZone)
+            {
                 SetRotationDirection(inputValue);
+            }
+            else
+            {
+                SetRotationDirection(inputValue * 0.2f);
+            }
             S_cameraDirection = new Vector3(inputValue.x, 0, inputValue.y);
         }
     }

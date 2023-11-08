@@ -79,7 +79,7 @@ public class GunModuleUIAnimations : MonoBehaviour
 
         C_triggerTransform.parent = C_triggerJoint;
         C_triggerTransform.localPosition = Vector3.zero;
-        C_triggerTransform.localRotation = Quaternion.Euler(new Vector3(0, 0, 90));
+        C_triggerTransform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
         C_triggerTransform.localScale = Vector3.one;
     }
     public void SwapClipMesh(GunModule gunModule)
@@ -98,7 +98,7 @@ public class GunModuleUIAnimations : MonoBehaviour
 
         C_clipTransform.parent = C_clipJoint;
         C_clipTransform.localPosition = Vector3.zero;
-        C_clipTransform.localRotation = Quaternion.Euler(new Vector3(0, 0, 90));
+        C_clipTransform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
         C_clipTransform.localScale = Vector3.one;
     }
     public void SwapBarrelMesh(GunModule gunModule)
@@ -117,7 +117,7 @@ public class GunModuleUIAnimations : MonoBehaviour
 
         C_barrelTransform.parent = C_barrelJoint;
         C_barrelTransform.localPosition = Vector3.zero;
-        C_barrelTransform.localRotation = Quaternion.Euler(new Vector3(0, 0, 90));
+        C_barrelTransform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
         C_barrelTransform.localScale = Vector3.one;
     }
     public void SwapSwappingMesh(GunModule gunModule)
@@ -136,7 +136,7 @@ public class GunModuleUIAnimations : MonoBehaviour
 
         C_swappingTransform.parent = C_swappingJoint;
         C_swappingTransform.localPosition = Vector3.zero;
-        C_swappingTransform.localRotation = Quaternion.Euler(new Vector3(0, 0, 90));
+        C_swappingTransform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
         C_swappingTransform.localScale = Vector3.one;
     }
 

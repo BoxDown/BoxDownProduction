@@ -29,6 +29,8 @@ public class PlayerController : Combatant
 
     [HideInInspector] public Vector3 S_cameraDirection;
 
+    private bool b_firingWithTrigger = false;
+
 
     ///<summary>
     /// Player methods, the method name should be self explanitory if not there is reference 
@@ -69,7 +71,7 @@ public class PlayerController : Combatant
             {
                 FireGun();
             }
-            else if(S_rotationVec2Direction.magnitude == 0)
+            else if(S_rotationVec2Direction.magnitude < f_controllerDeadZone && !b_firingWithTrigger)
             {
                 CancelGun();
             }
@@ -159,16 +161,23 @@ public class PlayerController : Combatant
             {
                 SetRotationDirection(inputValue * 0.2f);
             }
+            Debug.Log($"Rotation Direction: {S_rotationVec2Direction}");
             S_cameraDirection = new Vector3(inputValue.x, 0, inputValue.y);
         }
+    }
+    public void RotationStop(InputAction.CallbackContext context)
+    {
+        S_rotationVec2Direction *= 0.01f;
     }
     public void Fire(InputAction.CallbackContext context)
     {
         FireGun();
+        b_firingWithTrigger = true;
     }
     public void CancelFire(InputAction.CallbackContext context)
     {
         CancelGun();
+        b_firingWithTrigger = false;
     }
     public void Dodge(InputAction.CallbackContext context)
     {

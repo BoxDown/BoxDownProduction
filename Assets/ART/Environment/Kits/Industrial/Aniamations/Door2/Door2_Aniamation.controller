@@ -9,7 +9,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: DoorClosed
+    m_ConditionEvent: Door_Closed
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6894674460918952488}
@@ -34,7 +34,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: DoorOpen
+    m_ConditionEvent: Door_Open
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4074228768624707402}
@@ -82,7 +82,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Door2_Open
+  m_Name: Door_Open
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -111,13 +111,13 @@ AnimatorController:
   m_Name: Door2_Aniamation
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: DoorOpen
+  - m_Name: Door_Open
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: DoorClosed
+  - m_Name: Door_Closed
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -143,7 +143,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Door2_Close
+  m_Name: Door_Close
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:

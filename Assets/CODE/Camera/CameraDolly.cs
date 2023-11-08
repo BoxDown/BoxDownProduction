@@ -79,7 +79,7 @@ public class CameraDolly : MonoBehaviour
             if (b_shaking)
             {
                 MoveCameraShakeTowardsZero();
-                C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime / 10.0f);
+                C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime / 100.0f);
                 GameManager.gameManager.b_cullLastFrame = GameManager.gameManager.b_cull;
                 return;
             }
@@ -130,8 +130,14 @@ public class CameraDolly : MonoBehaviour
 
     public void MoveCameraShakeTowardsZero()
     {
-        f_shakeFrequency = Mathf.MoveTowards(f_shakeFrequency, 0, (1 / f_shakeFrequency) * Time.deltaTime);
-        f_shakeAmplitude = Mathf.MoveTowards(f_shakeAmplitude, 0, (1 / f_shakeAmplitude) * Time.deltaTime);
+        if(f_shakeFrequency != 0)
+        {
+            f_shakeFrequency = Mathf.MoveTowards(f_shakeFrequency, 0, (1 / f_shakeFrequency) * Time.deltaTime);
+        }
+        if(f_shakeAmplitude != 0)
+        {
+            f_shakeAmplitude = Mathf.MoveTowards(f_shakeAmplitude, 0, (1 / f_shakeAmplitude) * Time.deltaTime);
+        }
     }
 
     public void SetCameraFocus(Vector3 position)

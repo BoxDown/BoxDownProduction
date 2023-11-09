@@ -41,7 +41,7 @@ namespace Enemy
 
             // behaviour
 
-            if (b_spawning || C_player.b_isDead)
+            if (b_spawning || C_player.b_isDead || e_combatState == CombatState.Frozen || b_isDead)
             {
                 CancelGun();
                 return;
@@ -65,6 +65,7 @@ namespace Enemy
             else
             {
                 FireGun();
+                EyeballLookAtPlayer();
             }
         }
         public override void Damage(float damage)

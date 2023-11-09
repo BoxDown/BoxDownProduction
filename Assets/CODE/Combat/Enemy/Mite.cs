@@ -42,12 +42,13 @@ namespace Enemy
             PlayAudio();
 
             // behaviour
-            if (b_spawning)
+            if (b_spawning || e_combatState == CombatState.Frozen || b_isDead)
             {
                 CancelGun();
                 return;
             }
             MeleeDamage();
+            EyeballLookAtPlayer();
             if (f_distanceToPlayer < f_aimRange && b_lookAtPlayer)
             {
                 LookAtPlayer();

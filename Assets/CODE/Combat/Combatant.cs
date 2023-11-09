@@ -62,9 +62,9 @@ public class Combatant : MonoBehaviour
     [Space(4)]
 
     [Header("Visuals")]
-    [Rename("Hit VFX")] public GameObject C_onHitEffects;
-    [Rename("Heal VFX")] public GameObject C_onHealEffects;
+    [Rename("After VFX")] public VisualEffect C_afterEffects;
     protected Renderer[] C_renderer;
+    [Rename("Lightning Lines Materials")] public Material C_lightningMaterial;
 
 
     [Header("Cheats")]
@@ -95,6 +95,7 @@ public class Combatant : MonoBehaviour
     protected bool b_hasAnimator = false;
     protected Animator C_animator = null;
     protected List<Material> C_material = new List<Material>();
+    protected List<LineRenderer> lC_lineRenderers = new List<LineRenderer>();
 
 
 
@@ -142,7 +143,7 @@ public class Combatant : MonoBehaviour
         {
             b_hasAnimator = true;
         }
-        if(C_renderer != null)
+        if (C_renderer != null)
         {
             return;
         }
@@ -154,6 +155,8 @@ public class Combatant : MonoBehaviour
             C_renderer[i].material = new Material(C_renderer[i].material);
             C_material.Add(C_renderer[i].material);
         }
+        C_afterEffects.transform.localPosition = new Vector3(0, f_size, 0);
+        ClearEffects();
 
     }
 
@@ -448,11 +451,8 @@ public class Combatant : MonoBehaviour
         f_currentHealth += heal;
         f_currentHealth = Mathf.Clamp(f_currentHealth, 0, f_maxHealth);
         SetHealthAmount(Utility.ExtraMaths.Map(0, 1, 0.6f, 1, (heal / f_maxHealth)));
+        PlayHealEffect(1f);
         StartCoroutine(StopHealAfterSeconds(1f));
-        if (C_onHealEffects != null)
-        {
-            Destroy(Instantiate(C_onHealEffects), 2.0f);
-        }
     }
 
     public virtual void Die()
@@ -587,6 +587,7 @@ public class Combatant : MonoBehaviour
             case GunModule.BulletEffect.None:
                 break;
             case GunModule.BulletEffect.Fire:
+                PlayFireEffect(bulletEffectInfo.f_effectTime);
                 if (e_combatState != CombatState.Burn)
                 {
                     TurnOnFire();
@@ -594,6 +595,7 @@ public class Combatant : MonoBehaviour
                 }
                 break;
             case GunModule.BulletEffect.Ice:
+                PlayIceEffect(bulletEffectInfo.f_effectTime);
                 if (e_combatState == CombatState.Frozen)
                 {
                     break;
@@ -618,6 +620,7 @@ public class Combatant : MonoBehaviour
                 break;
             case GunModule.BulletEffect.Lightning:
                 SetLightningEffected(true);
+                PlayElectricEffect(bulletEffectInfo.f_effectTime);
                 if (baseInfo.b_playerOwned)
                 {
                     LightningChainCheck(bulletEffectInfo.f_chainLength, bulletEffectInfo.f_chainDamagePercent * baseInfo.f_damage, bulletEffectInfo.f_effectTime);
@@ -653,16 +656,35 @@ public class Combatant : MonoBehaviour
                 combatant.SetLightningEffected(true);
                 StartCoroutine(combatant.ClearLightningChainAfterSeconds(effectTime));
                 lC_lightningHits.Add(combatant.transform);
-                //TO DO
                 //SPAWN LIGHNING EFFECT
+                GameObject lightningChainObject = new GameObject();
+                LineRenderer lR = lightningChainObject.AddComponent<LineRenderer>();
+                lR.positionCount = 10;
+                lR.startWidth = f_size * 4;
+                lR.endWidth = f_size * 4 * 0.2f;
+                lR.textureMode = LineTextureMode.Tile;
+                for (int j = 0; j < lR.positionCount; j++)
+                {
+                    lR.SetPosition(j, Vector3.Lerp(transform.position, combatant.transform.position, ((j + 1) / 10)));
+                }
+                if (C_lightningMaterial != null)
+                {
+                    lR.material = C_lightningMaterial;
+                }
+                lC_lineRenderers.Add(lR);
             }
         }
     }
 
     public void ClearLightningHits()
     {
-        SetLightningEffected(false);
+        for (int i = 0; i < lC_lineRenderers.Count; i++)
+        {
+            DestroyImmediate(lC_lineRenderers[i].gameObject);
+        }
+        lC_lineRenderers.Clear();
         lC_lightningHits.Clear();
+        SetLightningEffected(false);
     }
 
     //Shader Functions
@@ -785,6 +807,74 @@ public class Combatant : MonoBehaviour
         TurnOffFrozen();
         TurnOffElectric();
         TurnOffVampire();
+    }
+
+    #endregion
+
+    #region AfterEffectFunctions
+
+    private void ClearEffects()
+    {
+        C_afterEffects.SetFloat("IceSpawnRate", 0);
+        C_afterEffects.SetFloat("FireSpawnRate", 0);
+        C_afterEffects.SetFloat("ElectricSpawnRate", 0);
+        C_afterEffects.SetFloat("HealingUpSpecs", 0);
+        C_afterEffects.SetFloat("HealingDownSpecs", 0);
+        C_afterEffects.SetFloat("HealingUpOrb", 0);
+        C_afterEffects.SetFloat("HealingDownorb", 0);
+        C_afterEffects.SetFloat("Scale", f_size * 2.0f);
+    }
+
+    private void PlayIceEffect(float seconds)
+    {
+        C_afterEffects.SetFloat("IceSpawnRate", 10);
+        C_afterEffects.SetFloat("Scale", f_size * 2.0f);
+        Invoke("ClearIceEffect", seconds);
+    }
+    private void PlayFireEffect(float seconds)
+    {
+        C_afterEffects.SetFloat("FireSpawnRate", 16);
+        C_afterEffects.SetFloat("Scale", f_size * 2.0f);
+        Invoke("ClearFireEffect", seconds);
+    }
+    private void PlayElectricEffect(float seconds)
+    {
+        C_afterEffects.SetFloat("ElectricSpawnRate", 1400);
+        C_afterEffects.SetFloat("Scale", f_size * 2.0f);
+        Invoke("ClearElectricEffect", seconds);
+    }
+    private void PlayHealEffect(float seconds)
+    {
+        C_afterEffects.SetFloat("HealingUpSpecs", 16);
+        C_afterEffects.SetFloat("HealingDownSpecs", 16);
+        C_afterEffects.SetFloat("HealingUpOrb", 1282);
+        C_afterEffects.SetFloat("HealingDownorb", 1282);
+        C_afterEffects.SetFloat("Scale", f_size * 2.0f);
+        Invoke("ClearHealEffect", seconds);
+    }
+
+    private void ClearIceEffect()
+    {
+        C_afterEffects.SetFloat("IceSpawnRate", 0);
+        C_afterEffects.Stop();
+    }
+    private void ClearFireEffect()
+    {
+        C_afterEffects.SetFloat("FireSpawnRate", 0);
+        C_afterEffects.Stop();
+    }
+    private void ClearElectricEffect()
+    {
+        C_afterEffects.SetFloat("ElectricSpawnRate", 0);
+        C_afterEffects.Stop();
+    }
+    private void ClearHealEffect()
+    {
+        C_afterEffects.SetFloat("HealingUpSpecs", 0);
+        C_afterEffects.SetFloat("HealingDownSpecs", 0);
+        C_afterEffects.SetFloat("HealingUpOrb", 0);
+        C_afterEffects.SetFloat("HealingDownorb", 0);
+        C_afterEffects.Stop();
     }
 
     #endregion

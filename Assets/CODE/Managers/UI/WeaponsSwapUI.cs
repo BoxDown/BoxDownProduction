@@ -94,8 +94,8 @@ namespace Managers
             GameManager.gameManager.C_gunModuleUI.PlayTriggerIdle();
             //Set Positions
             C_clipCard.transform.localPosition = S_left;
-            C_swapCard.transform.localPosition = S_middleLeft;
-            C_triggerCard.transform.localPosition = S_middleRight;
+            C_triggerCard.transform.localPosition = S_middleLeft;
+            C_swapCard.transform.localPosition = S_middleRight;
             C_barrelCard.transform.localPosition = S_right;
         }
         private void ReadySwapClip()
@@ -103,8 +103,8 @@ namespace Managers
             GameManager.gameManager.C_gunModuleUI.PlayClipIdle();
             //Set Positions
             C_triggerCard.transform.localPosition = S_left;
-            C_swapCard.transform.localPosition = S_middleLeft;
-            C_clipCard.transform.localPosition = S_middleRight;
+            C_clipCard.transform.localPosition = S_middleLeft;
+            C_swapCard.transform.localPosition = S_middleRight;
             C_barrelCard.transform.localPosition = S_right;
         }
         private void ReadySwapBarrel()
@@ -112,8 +112,8 @@ namespace Managers
             GameManager.gameManager.C_gunModuleUI.PlayBarrelIdle();
             //Set Positions
             C_triggerCard.transform.localPosition = S_left;
-            C_swapCard.transform.localPosition = S_middleLeft;
-            C_barrelCard.transform.localPosition = S_middleRight;
+            C_barrelCard.transform.localPosition = S_middleLeft;
+            C_swapCard.transform.localPosition = S_middleRight;
             C_clipCard.transform.localPosition = S_right;
         }
         private void UpdateGunModels(GunModule swappingModule)

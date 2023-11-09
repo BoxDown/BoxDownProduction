@@ -29,6 +29,7 @@ namespace Managers
         [Rename("Enemy Wave Delay (Seconds)")] public float f_spawnDelayTime;
         [HideInInspector] public PolyBrushManager C_manager;
         private bool b_endTriggered = false;
+        EnemyBase C_lastAliveEnemy = null;
 
         private int i_currentWave = 0;
         private Door[] aC_doorsInLevel;
@@ -78,6 +79,8 @@ namespace Managers
             i_currentWave = 0;
             StartCoroutine(SpawnNextWave());
             AudioManager.SetBattleMusicHighIntensity();
+            InGameUI.FadeInEnemyCount();
+            InGameUI.FadeOutRoomCount();
         }
 
         private void FixedUpdate()
@@ -92,6 +95,7 @@ namespace Managers
                 if (!b_endTriggered)
                 {
                     GameManager.IncrementRoomsCleared();
+                    InGameUI.FadeInRoomCount();
                     SpawnReward();
                     UnlockAllDoors();
                     if (C_manager != null)
@@ -100,6 +104,7 @@ namespace Managers
                         AudioManager.SetBattleMusicLowIntensity();
                     }
                     b_endTriggered = true;
+                    InGameUI.FadeOutEnemyCount();
                 }
                 return;
             }
@@ -154,6 +159,10 @@ namespace Managers
 
         private void SpawnReward()
         {
+            if(C_lastAliveEnemy != null)
+            {
+                GameManager.gameManager.UpdateRewardPoint(C_lastAliveEnemy.transform.position);
+            }
             GameManager.gameManager.SpawnNextReward();
         }
         private void UnlockAllDoors()
@@ -181,12 +190,12 @@ namespace Managers
             float enemyCount = 0;
             if(aC_enemyWaveList.Length == 0)
             {
-                InGameUI.UpdateEnemyCountText(enemyCount);
+                InGameUI.UpdateEnemyCountText(enemyCount, i_currentWave + 1 == aC_enemyWaveList.Length ? true : false,i_currentWave + 1);
                 return;
             }
             else if(aC_enemyWaveList[i_currentWave].aC_enemies.Length == 0)
             {
-                InGameUI.UpdateEnemyCountText(enemyCount);
+                InGameUI.UpdateEnemyCountText(enemyCount, i_currentWave + 1 == aC_enemyWaveList.Length ? true : false,i_currentWave + 1);
                 return;
             }
             for (int i = 0; i < aC_enemyWaveList[i_currentWave].aC_enemies.Length; i++)
@@ -194,9 +203,10 @@ namespace Managers
                 if (!aC_enemyWaveList[i_currentWave].aC_enemies[i].b_isDead)
                 {
                     enemyCount++;
+                    C_lastAliveEnemy = aC_enemyWaveList[i_currentWave].aC_enemies[i];
                 }
             }
-            InGameUI.UpdateEnemyCountText(enemyCount);
+            InGameUI.UpdateEnemyCountText(enemyCount, i_currentWave + 1 == aC_enemyWaveList.Length ? true : false, i_currentWave + 1);
         }
 
     }

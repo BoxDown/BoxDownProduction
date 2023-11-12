@@ -42,7 +42,7 @@ namespace Enemy
             PlayAudio();
 
             // behaviour
-            if (b_spawning)
+            if (b_spawning || e_combatState == CombatState.Frozen || b_isDead)
             {
                 CancelGun();
                 return;

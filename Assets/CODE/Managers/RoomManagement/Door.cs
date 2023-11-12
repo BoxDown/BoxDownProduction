@@ -20,6 +20,7 @@ public class Door : MonoBehaviour
     [Rename("Random Cone Material"), SerializeField] private Material C_randomConeMat;
     [Rename("Random Projection Material"), SerializeField] private Material C_randomProjectionMat;
     private List<Door> lC_doors = new List<Door>();
+    Animator C_doorAnimator = null;
 
     public enum RoomType
     {
@@ -44,6 +45,7 @@ public class Door : MonoBehaviour
         UpdateDoorVisuals();
         C_coneTransform.gameObject.SetActive(false);
         C_projectionTransform.gameObject.SetActive(false);
+        C_doorAnimator = GetComponentInChildren<Animator>();
     }
 
     public void GetAllDoors()
@@ -128,10 +130,35 @@ public class Door : MonoBehaviour
     {
         return b_locked;
     }
-    
+
     public IEnumerator PlayCloseDoorSound()
     {
         yield return new WaitForSeconds(0.9f);
         AudioManager.PlayFmodEvent("SFX/Environment/Door_Close", GameManager.GetPlayer().transform.position);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (b_locked)
+        {
+            return;
+        }
+        if (other.CompareTag("Player"))
+        {
+            C_doorAnimator.SetBool("Door_Closed", false);
+            C_doorAnimator.SetBool("Door_Open", true);
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (b_locked)
+        {
+            return;
+        }
+        if (other.CompareTag("Player"))
+        {
+            C_doorAnimator.SetBool("Door_Open", false);
+            C_doorAnimator.SetBool("Door_Closed", true);
+        }
     }
 }

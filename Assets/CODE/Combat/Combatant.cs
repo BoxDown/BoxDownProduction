@@ -166,7 +166,7 @@ public class Combatant : MonoBehaviour
         {
             MoveTowardAimAnimation();
         }
-        else if (b_hasAnimator)
+        else if (b_hasAnimator && S_rotationVec2Direction.magnitude > C_animator.GetFloat("Recoil"))
         {
             C_animator.SetFloat("Recoil", S_rotationVec2Direction.magnitude);
         }
@@ -501,10 +501,6 @@ public class Combatant : MonoBehaviour
                 return;
             }
             C_ownedGun.StartFire();
-            if (b_hasAnimator)
-            {
-                C_animator.SetFloat("Recoil", 1);
-            }
         }
     }
 

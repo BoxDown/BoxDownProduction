@@ -152,8 +152,7 @@ namespace Gun
         }
         public void StartFire()
         {
-            f_timeUntilNextFire = 0;
-            b_isFiring = true;
+            StartCoroutine(StartFireRoutine());
         }
         private void Fire()
         {
@@ -553,6 +552,17 @@ namespace Gun
         {
             yield return new WaitForSeconds(f_lightOffTime);
             C_light.gameObject.SetActive(false);
+        }
+
+        //wait threee frames to fire this is to fix animations
+        private IEnumerator StartFireRoutine()
+        {
+            yield return 0;
+            yield return 0;
+            yield return 0;
+
+            f_timeUntilNextFire = 0;
+            b_isFiring = true;
         }
 
     }

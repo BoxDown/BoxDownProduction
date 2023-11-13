@@ -27,6 +27,7 @@ namespace Managers
         [Rename("Entrance Direction")] public EntranceDirection e_entranceDirection;
         [Rename("Spawn Position")] public Vector3 S_spawnPosition;
         [Rename("Enemy Wave Delay (Seconds)")] public float f_spawnDelayTime;
+        [Rename("Final Level")] public bool b_finalLevel = false;
         [HideInInspector] public PolyBrushManager C_manager;
         private bool b_endTriggered = false;
         EnemyBase C_lastAliveEnemy = null;
@@ -94,6 +95,11 @@ namespace Managers
             {
                 if (!b_endTriggered)
                 {
+                    if (b_finalLevel)
+                    {
+                        InGameUI.DeactivateInGameUI();
+                        ResultsUI.ActivateWin();
+                    }
                     GameManager.IncrementRoomsCleared();
                     InGameUI.FadeInRoomCount();
                     SpawnReward();

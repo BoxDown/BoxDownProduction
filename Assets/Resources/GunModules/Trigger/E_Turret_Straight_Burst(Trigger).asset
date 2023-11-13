@@ -20,7 +20,7 @@ MonoBehaviour:
   f_baseDamage: 5
   f_fireRate: 5
   f_bulletSpeed: 5
-  f_knockBack: 1
+  f_knockBack: 15
   S_bulletEffectInformation:
     e_bulletEffect: 0
     f_effectTime: 0
@@ -39,6 +39,12 @@ MonoBehaviour:
     i_ricochetCount: 0
     C_explosionPrefab: {fileID: 0}
     f_explosionSize: 0
+    C_sizeOverLifetimeCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     f_explosionDamage: 0
     f_explosionKnockbackDistance: 0
     f_explosionLifeTime: 0

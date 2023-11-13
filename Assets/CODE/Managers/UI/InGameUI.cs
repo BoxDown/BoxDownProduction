@@ -304,12 +304,11 @@ namespace Managers
                 gameUI.C_enemyCountText.text = $"Final Wave! \nEnemies Remaining: \n {enemyCount}";
                 return;
             }
-            gameUI.C_enemyCountText.text = $"Wave: {waveNumber}! \nEnemies Remaining: \n {enemyCount}";
+            gameUI.C_enemyCountText.text = $"Waves Remaining: {waveNumber}! \nEnemies Remaining: \n {enemyCount}";
         }
         public static void UpdateRoomCountText()
         {
-            gameUI.C_roomCountText.text = $"Current Room:" +
-                $"Rooms Cleared: {GameManager.GetRoomsCleared()}";
+            gameUI.C_roomCountText.text = $"Rooms Cleared: {GameManager.GetRoomsCleared()}";
         }
 
         private IEnumerator FadeRoomCountIn()

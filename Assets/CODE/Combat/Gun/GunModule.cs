@@ -62,6 +62,7 @@ namespace Gun
             [Rename("Ricochet Count")] public int i_ricochetCount;
             [Rename("Explosion Prefab")] public GameObject C_explosionPrefab;
             [Rename("Explosion Diameter")] public float f_explosionSize;
+            [Rename("Explosion Size Over Lifetime")] public AnimationCurve C_sizeOverLifetimeCurve;
             [Rename("Explosion Damage")] public float f_explosionDamage;
             [Rename("Explosion Knockback Distance")] public float f_explosionKnockbackDistance;
             [Rename("Explosion Life Time")] public float f_explosionLifeTime;
@@ -214,6 +215,7 @@ namespace Guns.CustomEditor
 
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("S_bulletTraitInformation").FindPropertyRelative("f_explosionDamage"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("S_bulletTraitInformation").FindPropertyRelative("f_explosionSize"));
+                            EditorGUILayout.PropertyField(serializedObject.FindProperty("S_bulletTraitInformation").FindPropertyRelative("C_sizeOverLifetimeCurve"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("S_bulletTraitInformation").FindPropertyRelative("f_explosionKnockbackDistance"));
                             EditorGUILayout.PropertyField(serializedObject.FindProperty("S_bulletTraitInformation").FindPropertyRelative("f_explosionLifeTime"));
 

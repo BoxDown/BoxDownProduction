@@ -23,9 +23,9 @@ MonoBehaviour:
   f_knockBack: 0
   S_bulletEffectInformation:
     e_bulletEffect: 1
-    f_effectTime: 4
-    f_tickDamage: 3
-    i_amountOfTicks: 4
+    f_effectTime: 3
+    f_tickDamage: 0.75
+    i_amountOfTicks: 3
     f_slowPercent: 0
     f_chainLength: 0
     f_chainDamagePercent: 0
@@ -39,6 +39,12 @@ MonoBehaviour:
     i_ricochetCount: 0
     C_explosionPrefab: {fileID: 0}
     f_explosionSize: 0
+    C_sizeOverLifetimeCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     f_explosionDamage: 0
     f_explosionKnockbackDistance: 0
     f_explosionLifeTime: 0

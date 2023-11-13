@@ -184,9 +184,22 @@ namespace Gun
             {
                 float closestEnemyRotation = float.MaxValue;
                 int closestEnemy = int.MaxValue;
-                EnemyBase[] enemiesOnScreen = FindObjectsOfType<EnemyBase>();
+                Collider[] collisions = Physics.OverlapSphere(transform.position, S_baseInformation.f_range - f_distanceTravelled);
+                List<EnemyBase> enemiesOnScreen = new List<EnemyBase>();
+                for (int i = 0; i < collisions.Length; i++)
+                {
+                    if (collisions[i].GetComponent<EnemyBase>() != null)
+                    {
+                        enemiesOnScreen.Add(collisions[i].GetComponent<EnemyBase>());
+                    }
+                }
 
-                for (int i = 0; i < enemiesOnScreen.Length; i++)
+                if(enemiesOnScreen.Count == 0)
+                {
+                    return;
+                }
+
+                for (int i = 0; i < enemiesOnScreen.Count; i++)
                 {
                     Vector3 toEnemy = (transform.position - enemiesOnScreen[i].transform.position).normalized;
                     float angleToTarget = Vector3.Angle(toEnemy, transform.forward);
@@ -530,6 +543,7 @@ namespace Gun
                         DoBaseHit(combatant);
                         //create explosion with explosion size for amount of time and then
                         ExplosionGenerator.MakeExplosion(transform.position, S_bulletTrait.C_explosionPrefab, S_bulletTrait.f_explosionSize, S_bulletTrait.f_explosionDamage, S_bulletTrait.f_explosionKnockbackDistance, S_bulletTrait.f_explosionLifeTime, S_bulletTrait.C_sizeOverLifetimeCurve);
+                        FindObjectOfType<CameraDolly>().GunExplosionCameraShake();
                         C_poolOwner.MoveToOpen(this);
                         return true;
                     }

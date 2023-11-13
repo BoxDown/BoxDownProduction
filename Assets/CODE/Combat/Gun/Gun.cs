@@ -557,10 +557,11 @@ namespace Gun
         //wait threee frames to fire this is to fix animations
         private IEnumerator StartFireRoutine()
         {
+            C_gunHolder.ShotFired();
             yield return 0;
             yield return 0;
             yield return 0;
-
+            yield return 0;
             f_timeUntilNextFire = 0;
             b_isFiring = true;
         }

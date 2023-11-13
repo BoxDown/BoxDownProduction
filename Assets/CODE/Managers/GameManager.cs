@@ -801,6 +801,7 @@ namespace Managers
             actionMap.FindAction("Movement").performed += gameManager.C_player.MoveInput;
             actionMap.FindAction("Movement").canceled += gameManager.C_player.StopMove;
             actionMap.FindAction("Rotate").performed += gameManager.C_player.RotationSet;
+            actionMap.FindAction("Rotate").canceled += gameManager.C_player.RotationStop;
             actionMap.FindAction("Dodge").performed += gameManager.C_player.Dodge;
             actionMap.FindAction("Interact").performed += gameManager.C_player.Interact;
             actionMap.FindAction("Fire").performed += gameManager.C_player.Fire;
@@ -816,6 +817,7 @@ namespace Managers
             actionMap.FindAction("Movement").performed -= gameManager.C_player.MoveInput;
             actionMap.FindAction("Movement").canceled -= gameManager.C_player.StopMove;
             actionMap.FindAction("Rotate").performed -= gameManager.C_player.RotationSet;
+            actionMap.FindAction("Rotate").canceled -= gameManager.C_player.RotationStop;
             actionMap.FindAction("Dodge").performed -= gameManager.C_player.Dodge;
             actionMap.FindAction("Interact").performed -= gameManager.C_player.Interact;
             actionMap.FindAction("Fire").performed -= gameManager.C_player.Fire;
@@ -988,6 +990,7 @@ namespace Managers
         public static void IncrementRoomsCleared()
         {
             gameManager.i_roomsCleared += 1;
+            InGameUI.UpdateRoomCountText();
         }
         public static void IncrementExplosionCount()
         {

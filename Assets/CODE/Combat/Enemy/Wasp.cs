@@ -27,6 +27,12 @@ namespace Enemy
         {
             base.Update();
 
+            if(e_combatState == CombatState.Frozen || b_isDead)
+            {
+                CancelGun();
+                return;
+            }
+
             //audio
             PlayAudio();
 

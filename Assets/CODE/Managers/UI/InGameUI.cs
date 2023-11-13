@@ -37,13 +37,18 @@ namespace Managers
         int i_currentBullet = 0;
         [Rename("Ammo Animation Curve Fire"), SerializeField] AnimationCurve C_bulletAnimationCurveFire;
         [Rename("Ammo Animation Curve Reload"), SerializeField] AnimationCurve C_bulletAnimationCurveReload;
+        [Rename("Ammo Text"), SerializeField] TextMeshProUGUI C_ammoText;
         [Space(10)]
 
         [Header("Gun Module Card")]
         [Rename("Gun Module Card"), SerializeField] GunModuleCard C_gunModuleCard;
         [Rename("Single Module Transform"), SerializeField] Transform C_gunModuleTransform;
 
-        [Rename("Ammo Text"), SerializeField] TextMeshProUGUI C_ammoText;
+        [Header("Stat Texts")]
+        [Rename("Room Count Text"), SerializeField] TextMeshProUGUI C_roomCountText;
+        [Rename("Room Count Group"), SerializeField] CanvasGroup C_roomCountGroup;
+        [Rename("Enemy Count Text"), SerializeField] TextMeshProUGUI C_enemyCountText;
+        [Rename("Enemy Count Group"), SerializeField] CanvasGroup C_enemyCountGroup;
 
         private string s_currentActiveModuleName;
         private bool b_bulletsReloaded = false;
@@ -273,6 +278,85 @@ namespace Managers
             b_bulletsReloaded = false;
         }
 
+        
+        public static void FadeInRoomCount()
+        {
+            gameUI.StartCoroutine(gameUI.FadeRoomCountIn());
+        }
+        public static void FadeOutRoomCount()
+        {
+            gameUI.StartCoroutine(gameUI.FadeRoomCountOut());
+        }
+        public static void FadeInEnemyCount()
+        {
+            gameUI.StartCoroutine(gameUI.FadeEnemyCountIn());
+        }
+        public static void FadeOutEnemyCount()
+        {
+            gameUI.StartCoroutine(gameUI.FadeEnemyCountOut());
+        }
 
+
+        public static void UpdateEnemyCountText(float enemyCount, bool finalWave, int waveNumber)
+        {
+            if (finalWave)
+            {
+                gameUI.C_enemyCountText.text = $"Final Wave! \nEnemies Remaining: \n {enemyCount}";
+                return;
+            }
+            gameUI.C_enemyCountText.text = $"Wave: {waveNumber}! \nEnemies Remaining: \n {enemyCount}";
+        }
+        public static void UpdateRoomCountText()
+        {
+            gameUI.C_roomCountText.text = $"Current Room:" +
+                $"Rooms Cleared: {GameManager.GetRoomsCleared()}";
+        }
+
+        private IEnumerator FadeRoomCountIn()
+        {
+            float time = 0;
+            while (time < 0.5f)
+            {
+                C_roomCountGroup.alpha = Mathf.Lerp(0, 1, time / 0.5f);
+                yield return 0;
+                time += Time.deltaTime;
+            }
+            C_roomCountGroup.alpha = 1;
+        }
+
+        private IEnumerator FadeRoomCountOut()
+        {
+            float time = 0;
+            while (time < 2)
+            {
+                C_roomCountGroup.alpha = Mathf.Lerp(1, 0, time / 2);
+                yield return 0;
+                time += Time.deltaTime;
+            }
+            C_roomCountGroup.alpha = 0;
+        }
+        private IEnumerator FadeEnemyCountIn()
+        {
+            float time = 0;
+            while (time < 0.5f)
+            {
+                C_enemyCountGroup.alpha = Mathf.Lerp(0, 1, time / 0.5f);
+                yield return 0;
+                time += Time.deltaTime;
+            }
+            C_enemyCountGroup.alpha = 1;
+        }
+
+        private IEnumerator FadeEnemyCountOut()
+        {
+            float time = 0;
+            while (time < 2)
+            {
+                C_enemyCountGroup.alpha = Mathf.Lerp(1, 0, time / 2);
+                yield return 0;
+                time += Time.deltaTime;
+            }
+            C_enemyCountGroup.alpha = 0;
+        }
     }
 }

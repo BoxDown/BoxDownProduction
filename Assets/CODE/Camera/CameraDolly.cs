@@ -16,6 +16,18 @@ public class CameraDolly : MonoBehaviour
     [Rename("Focus Radius")] public float f_focusRadius;
     [Rename("Offset")] public Vector3 S_offsetVector;
 
+    [Header("Explosion Shake Variables")]
+    [Rename("Explosion Shake Amplitude")] public float f_explosionShakeAmplitude = 2;
+    [Rename("Explosion Shake Frequency")] public float f_explosionShakeFrequency = 3;
+
+    [Header("Gunshot Shake Variables")]
+    [Rename("Gunshot Shake Amplitude")] public float f_gunshotShakeAmplitude = 0.2f;
+    [Rename("Gunshot Shake Frequency")] public float f_gunshotShakeFrequency = 15f;
+
+    [Header("Player Hurt Shake Variables")]
+    [Rename("Player Hurt Shake Amplitude")] public float f_playerHurtShakeAmplitude = 0.8f;
+    [Rename("Player Hurt Shake Frequency")] public float f_playerHurtShakeFrequency = 6;
+
 
 
     [HideInInspector] public Camera C_camera;
@@ -26,13 +38,13 @@ public class CameraDolly : MonoBehaviour
     private Vector3 S_currentFocus;
     private Vector3 S_nextFocus;
 
-    private int i_currentActiveCameraShakes = 0;
-    private Vector3 S_shakeOffset = Vector3.zero;
-    private List<Vector3> lS_shakeOffsets = new List<Vector3>();
     private bool b_shaking
     {
-        get { return S_shakeOffset == Vector3.zero ? false : true; }
+        get { return (f_shakeAmplitude == 0 && f_shakeFrequency == 0) ? false : true; }
     }
+
+    private float f_shakeAmplitude = 0;
+    private float f_shakeFrequency = 0;
 
     int i_originalCullingMask;
 
@@ -59,80 +71,73 @@ public class CameraDolly : MonoBehaviour
             S_playerPosition = C_targetPlayer.transform.position;
             S_playerLookDirection = C_targetPlayer.S_cameraDirection;
 
-            if (i_currentActiveCameraShakes > 0)
-            {
-                float highestMagnitude = -1;
-
-                foreach (Vector3 offset in lS_shakeOffsets)
-                {
-                    if(offset.magnitude > highestMagnitude)
-                    {
-                        continue;
-                    }
-                    highestMagnitude = offset.magnitude;
-                    S_shakeOffset = offset;
-                }
-            }
-
             Vector3 lookOffset = S_playerPosition + (S_playerLookDirection * f_lookSrength);
-            Vector3 nextCameraPos = b_shaking ? S_offsetVector + lookOffset + S_shakeOffset : S_offsetVector + lookOffset;
+            Vector3 nextCameraPos = b_shaking ? S_offsetVector + lookOffset + new Vector3(f_shakeAmplitude * Mathf.Sin(Time.time * f_shakeFrequency), 0, -f_shakeAmplitude * Mathf.Cos(Time.time * f_shakeFrequency)) : S_offsetVector + lookOffset;
 
             S_currentFocus = transform.position - S_offsetVector;
             S_nextFocus = lookOffset;
             if (b_shaking)
             {
                 MoveCameraShakeTowardsZero();
-                C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime / 10.0f);
+                C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime / 100.0f);
                 GameManager.gameManager.b_cullLastFrame = GameManager.gameManager.b_cull;
                 return;
             }
             else if (Vector3.Distance(S_nextFocus, S_currentFocus) > f_focusRadius)
             {
                 C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime);
-                S_shakeOffset = Vector3.zero;
             }
             else
             {
                 S_velocity = Vector3.MoveTowards(S_velocity, Vector3.zero, Time.deltaTime / 10.0f);
-                S_shakeOffset = Vector3.zero;
             }
 
         }
         GameManager.gameManager.b_cullLastFrame = GameManager.gameManager.b_cull;
     }
 
-    public void ShakeCamera(float shakeIntensity)
+    public void ExplosionCameraShake()
     {
-        if(S_shakeOffset.magnitude > shakeIntensity)
+        ShakeCamera(f_explosionShakeAmplitude, f_explosionShakeFrequency);
+    }
+    public void GunshotCameraShake()
+    {
+        ShakeCamera(f_gunshotShakeAmplitude, f_gunshotShakeFrequency);
+    }
+    public void PlayerHurtCameraShake()
+    {
+        ShakeCamera(f_playerHurtShakeAmplitude, f_playerHurtShakeFrequency);
+    }
+
+
+    private void ShakeCamera(float shakeAmplitude, float shakeFrequency)
+    {
+        if (f_shakeAmplitude > shakeAmplitude)
+        {
+            return;
+        }
+        else if (f_shakeFrequency > shakeFrequency)
         {
             return;
         }
 
-        if(S_shakeOffset != Vector3.zero)
-        {
-            S_shakeOffset += S_shakeOffset.normalized * shakeIntensity;
-            S_shakeOffset = Vector3.ClampMagnitude(S_shakeOffset, shakeIntensity);
-        }
-        else
-        {
-            float randomXStart = Random.Range(-shakeIntensity, shakeIntensity);
-            float randomZStart = Random.Range(-shakeIntensity, shakeIntensity);
-            S_shakeOffset = new Vector3(randomXStart, 0, randomZStart);
-        }
+        f_shakeAmplitude += shakeAmplitude;
+        f_shakeAmplitude = Mathf.Clamp(f_shakeAmplitude, 0, shakeAmplitude);
+
+        f_shakeFrequency += shakeFrequency;
+        f_shakeFrequency = Mathf.Clamp(f_shakeFrequency, 0, shakeFrequency);
     }
 
     public void MoveCameraShakeTowardsZero()
     {
-        if (Time.frameCount % 3 == 0)
+        if(f_shakeFrequency != 0)
         {
-            float xCopy = S_shakeOffset.x;
-            S_shakeOffset.x = S_shakeOffset.z;
-            S_shakeOffset.z = xCopy;
+            f_shakeFrequency = Mathf.MoveTowards(f_shakeFrequency, 0, (1 / f_shakeFrequency) * Time.deltaTime);
         }
-        S_shakeOffset.x = -S_shakeOffset.x;
-        S_shakeOffset.z = -S_shakeOffset.z;
-
-        S_shakeOffset = Vector3.MoveTowards(S_shakeOffset, Vector3.zero, Time.deltaTime);
+        if(f_shakeAmplitude != 0)
+        {
+            f_shakeAmplitude = Mathf.MoveTowards(f_shakeAmplitude, 0, (1 / f_shakeAmplitude) * Time.deltaTime);
+        }
     }
 
     public void SetCameraFocus(Vector3 position)

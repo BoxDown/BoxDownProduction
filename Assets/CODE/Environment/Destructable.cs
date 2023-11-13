@@ -15,6 +15,7 @@ public class Destructable : MonoBehaviour
     [Rename("Explosive")] public bool b_explosive = false;
     [Rename("Explosion Damage")] public float f_damage = 10;
     [Rename("Explosion Size")] public float f_size = 1.5f;
+    [Rename("Explosion Size Over Lifetime")] public AnimationCurve C_sizeOverLifetimeCurve;
     [Rename("Explosion Duration")] public float f_length = 1f;
     [Rename("Explosion Knockback")] public float f_knockback = 1f;
     [Rename("Explosion Effect")] public GameObject C_explosionEffect = null;
@@ -49,7 +50,7 @@ public class Destructable : MonoBehaviour
         //Destroy(Instantiate(C_grabBag), 2.0f)
         if (b_explosive && C_explosionEffect)
         {
-            Explosion.ExplosionGenerator.MakeExplosion(transform.position, C_explosionEffect, f_size, f_damage, f_knockback, f_length);
+            Explosion.ExplosionGenerator.MakeExplosion(transform.position, C_explosionEffect, f_size, f_damage, f_knockback, f_length, C_sizeOverLifetimeCurve);
         }
         GameManager.IncrementEnvironmentDestroyed();
         if(f_healthDropPercent == 0)

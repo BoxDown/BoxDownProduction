@@ -159,15 +159,14 @@ public class PlayerController : Combatant
             }
             else
             {
-                SetRotationDirection(inputValue * 0.2f);
+                SetRotationDirection(Vector2.ClampMagnitude(inputValue, 0.01f));
             }
-            Debug.Log($"Rotation Direction: {S_rotationVec2Direction}");
             S_cameraDirection = new Vector3(inputValue.x, 0, inputValue.y);
         }
     }
     public void RotationStop(InputAction.CallbackContext context)
     {
-        S_rotationVec2Direction *= 0.01f;
+        SetRotationDirection(Vector2.ClampMagnitude(S_rotationVec2Direction, 0.01f));
     }
     public void Fire(InputAction.CallbackContext context)
     {

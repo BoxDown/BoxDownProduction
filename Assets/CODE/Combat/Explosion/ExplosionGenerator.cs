@@ -8,7 +8,7 @@ namespace Explosion
     public static class ExplosionGenerator
     {
         public static void MakeExplosion(Vector3 position, GameObject prefab,
-            float size, float damage, float knockbackStrength, float lifeTime, GunModule gunModule = null)
+            float size, float damage, float knockbackStrength, float lifeTime, AnimationCurve sizeCurve, GunModule gunModule = null)
         {
             GameObject newExplosion = Transform.Instantiate(prefab, position, Quaternion.Euler(0, ExtraMaths.FloatRandom(0, 360), 0));
             newExplosion.name = "Explosion";
@@ -19,6 +19,7 @@ namespace Explosion
             explosionRef.f_explosionDamage = damage;
             explosionRef.f_explosionKnockbackStrength = knockbackStrength;
             explosionRef.f_explosionLifeTime = lifeTime;
+            explosionRef.C_sizeOverLifeTimeCurve = sizeCurve;
             explosionRef.InitialiseExplosion();            
         }
     }

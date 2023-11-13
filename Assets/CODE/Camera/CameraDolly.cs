@@ -20,6 +20,10 @@ public class CameraDolly : MonoBehaviour
     [Rename("Explosion Shake Amplitude")] public float f_explosionShakeAmplitude = 2;
     [Rename("Explosion Shake Frequency")] public float f_explosionShakeFrequency = 3;
 
+    [Header("Gun Explosion Shake Variables")]
+    [Rename("Gun Explosion Shake Amplitude")] public float f_gunExplosionShakeAmplitude = 1;
+    [Rename("Gun Explosion Shake Frequency")] public float f_gunExplosionShakeFrequency = 5;
+
     [Header("Gunshot Shake Variables")]
     [Rename("Gunshot Shake Amplitude")] public float f_gunshotShakeAmplitude = 0.2f;
     [Rename("Gunshot Shake Frequency")] public float f_gunshotShakeFrequency = 15f;
@@ -100,6 +104,10 @@ public class CameraDolly : MonoBehaviour
     {
         ShakeCamera(f_explosionShakeAmplitude, f_explosionShakeFrequency);
     }
+    public void GunExplosionCameraShake()
+    {
+        ShakeCamera(f_gunExplosionShakeAmplitude, f_gunExplosionShakeFrequency);
+    }
     public void GunshotCameraShake()
     {
         ShakeCamera(f_gunshotShakeAmplitude, f_gunshotShakeFrequency);
@@ -112,12 +120,20 @@ public class CameraDolly : MonoBehaviour
 
     private void ShakeCamera(float shakeAmplitude, float shakeFrequency)
     {
-        if (f_shakeAmplitude > shakeAmplitude)
+        if (f_shakeAmplitude > shakeAmplitude && f_shakeFrequency > shakeFrequency)
         {
             return;
         }
-        else if (f_shakeFrequency > shakeFrequency)
+        if (f_shakeAmplitude > shakeAmplitude && f_shakeFrequency < shakeFrequency)
         {
+            f_shakeFrequency += shakeFrequency;
+            f_shakeFrequency = Mathf.Clamp(f_shakeFrequency, 0, shakeFrequency);
+            return;
+        }
+        else if (f_shakeFrequency > shakeFrequency && f_shakeAmplitude < shakeAmplitude)
+        {
+            f_shakeAmplitude += shakeAmplitude;
+            f_shakeAmplitude = Mathf.Clamp(f_shakeAmplitude, 0, shakeAmplitude);
             return;
         }
 
@@ -130,13 +146,15 @@ public class CameraDolly : MonoBehaviour
 
     public void MoveCameraShakeTowardsZero()
     {
-        if(f_shakeFrequency != 0)
+        int negativeFrequency = Time.frameCount % 15 == 0 ? -1 : 1; 
+        int negativeAmplitude = Time.frameCount % 30 == 0 ? -1 : 1; 
+        if (f_shakeFrequency != 0)
         {
-            f_shakeFrequency = Mathf.MoveTowards(f_shakeFrequency, 0, (1 / f_shakeFrequency) * Time.deltaTime);
+            f_shakeFrequency = Mathf.MoveTowards(f_shakeFrequency, 0, (1 / f_shakeFrequency * negativeFrequency) * Time.deltaTime);
         }
-        if(f_shakeAmplitude != 0)
+        if (f_shakeAmplitude != 0)
         {
-            f_shakeAmplitude = Mathf.MoveTowards(f_shakeAmplitude, 0, (1 / f_shakeAmplitude) * Time.deltaTime);
+            f_shakeAmplitude = Mathf.MoveTowards(f_shakeAmplitude, 0, (1 / f_shakeAmplitude * negativeAmplitude) * Time.deltaTime);
         }
     }
 

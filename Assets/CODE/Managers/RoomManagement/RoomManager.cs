@@ -190,12 +190,12 @@ namespace Managers
             float enemyCount = 0;
             if(aC_enemyWaveList.Length == 0)
             {
-                InGameUI.UpdateEnemyCountText(enemyCount, i_currentWave + 1 == aC_enemyWaveList.Length ? true : false,i_currentWave + 1);
+                InGameUI.UpdateEnemyCountText(enemyCount, i_currentWave  == aC_enemyWaveList.Length - 1 ? true : false, aC_enemyWaveList.Length - i_currentWave - 1);
                 return;
             }
             else if(aC_enemyWaveList[i_currentWave].aC_enemies.Length == 0)
             {
-                InGameUI.UpdateEnemyCountText(enemyCount, i_currentWave + 1 == aC_enemyWaveList.Length ? true : false,i_currentWave + 1);
+                InGameUI.UpdateEnemyCountText(enemyCount, i_currentWave  == aC_enemyWaveList.Length - 1 ? true : false,aC_enemyWaveList.Length - i_currentWave - 1);
                 return;
             }
             for (int i = 0; i < aC_enemyWaveList[i_currentWave].aC_enemies.Length; i++)
@@ -206,7 +206,7 @@ namespace Managers
                     C_lastAliveEnemy = aC_enemyWaveList[i_currentWave].aC_enemies[i];
                 }
             }
-            InGameUI.UpdateEnemyCountText(enemyCount, i_currentWave + 1 == aC_enemyWaveList.Length ? true : false, i_currentWave + 1);
+            InGameUI.UpdateEnemyCountText(enemyCount, i_currentWave == aC_enemyWaveList.Length - 1 ? true : false, aC_enemyWaveList.Length - i_currentWave - 1);
         }
 
     }

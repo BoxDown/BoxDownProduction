@@ -435,7 +435,7 @@ namespace Gun
                 }
                 else if (S_bulletTrait.e_bulletTrait == BulletTrait.Explosive)
                 {
-                    ExplosionGenerator.MakeExplosion(transform.position, S_bulletTrait.C_explosionPrefab, S_bulletTrait.f_explosionSize, S_bulletTrait.f_explosionDamage, S_bulletTrait.f_explosionKnockbackDistance, S_bulletTrait.f_explosionLifeTime);
+                    ExplosionGenerator.MakeExplosion(transform.position, S_bulletTrait.C_explosionPrefab, S_bulletTrait.f_explosionSize, S_bulletTrait.f_explosionDamage, S_bulletTrait.f_explosionKnockbackDistance, S_bulletTrait.f_explosionLifeTime, S_bulletTrait.C_sizeOverLifetimeCurve);
                 }
                 SpawnHitEffect(transform.position);
                 AudioManager.PlayFmodEvent("SFX/Environment/Wall_Ping", transform.position);
@@ -529,7 +529,7 @@ namespace Gun
                     {
                         DoBaseHit(combatant);
                         //create explosion with explosion size for amount of time and then
-                        ExplosionGenerator.MakeExplosion(transform.position, S_bulletTrait.C_explosionPrefab, S_bulletTrait.f_explosionSize, S_bulletTrait.f_explosionDamage, S_bulletTrait.f_explosionKnockbackDistance, S_bulletTrait.f_explosionLifeTime);
+                        ExplosionGenerator.MakeExplosion(transform.position, S_bulletTrait.C_explosionPrefab, S_bulletTrait.f_explosionSize, S_bulletTrait.f_explosionDamage, S_bulletTrait.f_explosionKnockbackDistance, S_bulletTrait.f_explosionLifeTime, S_bulletTrait.C_sizeOverLifetimeCurve);
                         C_poolOwner.MoveToOpen(this);
                         return true;
                     }

@@ -39,7 +39,6 @@ namespace Explosion
             //shockwave start size radius * 1.2f
             shockwaveParticle.startSize = (f_explosionSize / 2) * 1.2f;
 
-            FindObjectOfType<CameraDolly>().ExplosionCameraShake();
             AudioManager.PlayFmodEvent("Explosion", transform.position);
 
         }
@@ -52,6 +51,7 @@ namespace Explosion
             }
             CheckCollisions();
             transform.localScale = Vector3.one * (C_sizeOverLifeTimeCurve.Evaluate(f_lifeTime / f_explosionLifeTime) * f_explosionSize);
+            f_lifeTime += Time.deltaTime;
         }
 
         private void CheckCollisions()

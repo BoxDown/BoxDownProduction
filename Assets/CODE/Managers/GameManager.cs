@@ -23,10 +23,9 @@ namespace Managers
         }
 
         [Rename("Rewards Per Room"), SerializeField] private int i_rewardsPerRoom = 1;
-        [Rename("Amount Of Easy Rooms"), SerializeField] private int i_easyRooms = 3;
-        [Rename("Amount Of Medium Rooms"), SerializeField] private int i_mediumRooms = 3;
-        [Rename("Amount Of Hard Rooms"), SerializeField] private int i_hardRooms = 5;
-        [Rename("Endless Mode"), SerializeField] private bool b_endlessMode = false;
+        [Rename("Amount Of Easy Rooms"), SerializeField] private int i_easyRooms = 2;
+        [Rename("Amount Of Medium Rooms"), SerializeField] private int i_mediumRooms = 2;
+        [Rename("Amount Of Hard Rooms"), SerializeField] private int i_hardRooms = 2;
 
         [Rename("Player Input")] private PlayerInput C_playerInput;
 
@@ -34,6 +33,8 @@ namespace Managers
         [Rename("Debug Game"), SerializeField] public bool b_debugMode;
         [Rename("Spawn All Modules"), SerializeField] public bool b_spawnAllModules;
         [Rename("Music On/Off"), SerializeField] public bool b_musicOnOff;
+        [Rename("Music Volume"), Range(0,1),SerializeField] private float f_musicVolume = 0.1f;
+        [Rename("Sound Volume"), Range(0,1),SerializeField] private float f_soundVolume = 0.8f;
 
         [Space(10)]
         [Header("Plug in documents from assets folder")]
@@ -53,6 +54,7 @@ namespace Managers
         [Rename("Trigger Module Spawn Effect"), SerializeField] private GameObject C_triggerSpawnVFX;
         [Rename("Clip Module Spawn Effect"), SerializeField] private GameObject C_clipSpawnVFX;
         [Rename("Barrel Module Spawn Effect"), SerializeField] private GameObject C_barrelSpawnVFX;
+
 
         private EventSystem C_eventSystem;
 
@@ -95,6 +97,11 @@ namespace Managers
                 ControlManager.ChangeInputDevice(C_playerInput.currentControlScheme);
             }
             CurrentSelectionCheck();
+
+            //TO DO, WHEN WE FIND AN APPROPRIATE LEVEL DELETE THIS ON UPDATE
+            AudioManager.SetMusicVolume(f_musicVolume);
+            AudioManager.SetSoundVolume(f_soundVolume);
+
         }
 
 
@@ -223,14 +230,8 @@ namespace Managers
                 StartCoroutine(SceneTransition(ls_easyLevels[roomNumberToLoad]));
                 return;
             }
-            else if (i_currentRoom < i_easyRooms + 1 + i_mediumRooms)
+            else if (i_currentRoom < i_easyRooms + i_mediumRooms)
             {
-                if (i_currentRoom == i_easyRooms)
-                {
-                    StartCoroutine(SceneTransition("EasyBreakRoom"));
-                    IncrementRoom();
-                    return;
-                }
                 roomNumberToLoad = Random.Range(0, ls_easyLevels.Count() - 1);
                 while (ls_mediumLevels[roomNumberToLoad] == SceneManager.GetActiveScene().name)
                 {
@@ -241,11 +242,11 @@ namespace Managers
 
                 return;
             }
-            else if (b_endlessMode || i_currentRoom < i_easyRooms + 1 + i_mediumRooms + 1 + i_hardRooms + 1)
+            else if (i_currentRoom < i_easyRooms + i_mediumRooms + i_hardRooms + 1)
             {
-                if (i_currentRoom == i_easyRooms + 1 + i_mediumRooms)
+                if (i_currentRoom == i_easyRooms + i_mediumRooms + 1 + i_hardRooms)
                 {
-                    StartCoroutine(SceneTransition("MediumBreakRoom"));
+                    StartCoroutine(SceneTransition("HardBreakRoom"));
                     IncrementRoom();
                     return;
                 }
@@ -258,11 +259,9 @@ namespace Managers
                 StartCoroutine(SceneTransition(ls_hardLevels[roomNumberToLoad]));
                 return;
             }
-            else if (i_currentRoom == i_easyRooms + 1 + i_mediumRooms + 1 + i_hardRooms)
+            else 
             {
-                StartCoroutine(SceneTransition("HardBreakRoom"));
-                IncrementRoom();
-                return;
+                StartCoroutine(SceneTransition("FinalLevel"));
             }
         }
         private void DeclareAllLevels()
@@ -493,9 +492,8 @@ namespace Managers
             b_cull = cullingOnOff;
         }
 
-        public static void StartGameEndless()
+        public static void StartGame()
         {
-            gameManager.b_endlessMode = true;
             gameManager.ResetAllStats();
             gameManager.i_currentRoom = 0;
             gameManager.e_currentRewardType = Door.RoomType.None;
@@ -527,7 +525,7 @@ namespace Managers
             AudioManager.TransitionToBattleTheme();
             gameManager.RemovePlayer();
             gameManager.RemoveCamera();
-            StartGameEndless();
+            StartGame();
         }
         //deactivate all menus then back to main menu scene to have an empty scene with nothing but the menu
         public static void BackToMainMenu()
@@ -590,6 +588,8 @@ namespace Managers
                     AudioManager.StartMusicLoop();
                     AudioManager.TransitionToBattleTheme();
                     AudioManager.SetBattleMusicLowIntensity();
+                    AudioManager.SetMusicVolume(0.1f);
+                    AudioManager.SetSoundVolume(1.0f);
                 }
             }
             else

@@ -22,6 +22,7 @@ public class AudioManager : MonoBehaviour
         {
             audioManager = this;
         }
+
     }
 
     FMOD.Studio.EventInstance S_musicLoop;
@@ -65,6 +66,15 @@ public class AudioManager : MonoBehaviour
                 break;
         }
         eventInstance.start();
+    }
+
+    public static void SetMusicVolume(float vol)
+    {
+        RuntimeManager.GetBus("bus:/Music").setVolume(vol);
+    }
+    public static void SetSoundVolume(float vol)
+    {
+        RuntimeManager.GetBus("bus:/SFX").setVolume(vol);
     }
 
 

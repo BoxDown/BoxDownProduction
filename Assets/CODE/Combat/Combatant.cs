@@ -200,6 +200,7 @@ public class Combatant : MonoBehaviour
 
     protected virtual void Move()
     {
+
         // move
         transform.localPosition += S_velocity * Time.fixedDeltaTime;
 
@@ -282,8 +283,8 @@ public class Combatant : MonoBehaviour
                 C_animator.SetBool("Movement", false);
             }
         }
-
         CheckCollisions();
+
     }
 
     protected void ChangeMovementDirection(Vector2 input)
@@ -383,28 +384,28 @@ public class Combatant : MonoBehaviour
     protected virtual void CheckCollisions()
     {
         RaycastHit hit;
-        if (Physics.SphereCast(transform.localPosition, f_size, Vector3.right, out hit, f_size / 2.0f, i_bulletLayerMask) && S_velocity.x > 0)
+        if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, Vector3.right, out hit, f_size, i_bulletLayerMask) && S_velocity.x > 0)
         {
             if (!hit.collider.isTrigger)
             {
                 S_velocity.x = -S_velocity.x * f_collisionBounciness;
             }
         }
-        else if (Physics.SphereCast(transform.localPosition, f_size, -Vector3.right, out hit, f_size / 2.0f, i_bulletLayerMask) && S_velocity.x < 0)
+        else if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, -Vector3.right, out hit, f_size, i_bulletLayerMask) && S_velocity.x < 0)
         {
             if (!hit.collider.isTrigger)
             {
                 S_velocity.x = -S_velocity.x * f_collisionBounciness;
             }
         }
-        if (Physics.SphereCast(transform.localPosition, f_size, Vector3.forward, out hit, f_size / 2.0f, i_bulletLayerMask) && S_velocity.z > 0)
+        if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, Vector3.forward, out hit, f_size, i_bulletLayerMask) && S_velocity.z > 0)
         {
             if (!hit.collider.isTrigger)
             {
                 S_velocity.z = -S_velocity.z * f_collisionBounciness;
             }
         }
-        else if (Physics.SphereCast(transform.localPosition, f_size, -Vector3.forward, out hit, f_size / 2.0f, i_bulletLayerMask) && S_velocity.z < 0)
+        else if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, -Vector3.forward, out hit, f_size, i_bulletLayerMask) && S_velocity.z < 0)
         {
             if (!hit.collider.isTrigger)
             {

@@ -496,7 +496,7 @@ namespace Managers
         {
             gameManager.ResetAllStats();
             gameManager.i_currentRoom = 0;
-            gameManager.e_currentRewardType = Door.RoomType.None;
+            gameManager.e_currentRewardType = Door.RoomType.RandomModule;
             DeactivateMainMenu();
             ResultsUI.DeactivateResults();
             SetStartTime();

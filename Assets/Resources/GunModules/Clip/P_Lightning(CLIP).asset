@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   C_meshPrefab: {fileID: 2937610793356552440, guid: ff11095e1b5efe74c84f863a96de2e2f,
     type: 3}
-  s_moduleName: Lightning
+  s_moduleName: Zapper
   e_moduleType: 1
-  f_moduleStrength: 100
+  f_moduleStrength: 25
   f_baseDamage: 0
   f_fireRate: 0
   f_bulletSpeed: 0
@@ -30,15 +30,21 @@ MonoBehaviour:
     f_chainLength: 4.5
     f_chainDamagePercent: 0.25
     f_vampirePercent: 0
-  f_reloadSpeed: 2.5
+  f_reloadSpeed: 1.5
   f_movementPenalty: 0
-  i_clipSize: 48
+  i_clipSize: 24
   S_bulletTraitInformation:
     e_bulletTrait: 0
     i_pierceCount: 0
     i_ricochetCount: 0
     C_explosionPrefab: {fileID: 0}
     f_explosionSize: 0
+    C_sizeOverLifetimeCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     f_explosionDamage: 0
     f_explosionKnockbackDistance: 0
     f_explosionLifeTime: 0

@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   C_meshPrefab: {fileID: 5210535950026647208, guid: 34399dc15b890a64d90b2aa76fc57dda,
     type: 3}
-  s_moduleName: Standard Clip
+  s_moduleName: Drum Mag
   e_moduleType: 1
-  f_moduleStrength: 100
+  f_moduleStrength: 25
   f_baseDamage: 0
   f_fireRate: 0
   f_bulletSpeed: 0
@@ -30,15 +30,21 @@ MonoBehaviour:
     f_chainLength: 0
     f_chainDamagePercent: 0
     f_vampirePercent: 0
-  f_reloadSpeed: 2.5
-  f_movementPenalty: 0
-  i_clipSize: 48
+  f_reloadSpeed: 3
+  f_movementPenalty: 1.5
+  i_clipSize: 60
   S_bulletTraitInformation:
     e_bulletTrait: 0
     i_pierceCount: 0
     i_ricochetCount: 0
     C_explosionPrefab: {fileID: 0}
     f_explosionSize: 0
+    C_sizeOverLifetimeCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     f_explosionDamage: 0
     f_explosionKnockbackDistance: 0
     f_explosionLifeTime: 0

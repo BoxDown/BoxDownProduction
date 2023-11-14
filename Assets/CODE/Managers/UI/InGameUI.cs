@@ -316,7 +316,7 @@ namespace Managers
             gameUI.C_roomCountText.text = $"Rooms Cleared: {GameManager.GetRoomsCleared()}";
         }
 
-        #region 
+        #region FadeCoroutines
 
         private IEnumerator FadeRoomCountIn()
         {
@@ -363,6 +363,6 @@ namespace Managers
             C_enemyCountGroup.alpha = 0;
         }
 
-
+        #endregion
     }
 }

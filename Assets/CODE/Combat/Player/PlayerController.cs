@@ -107,12 +107,16 @@ public class PlayerController : Combatant
         Transform closestTransform = collisions[closestCollisionReference].transform;
 
         if (closestTransform.tag == "Gun Module")
+        {            
+            InGameUI.SetClosestInteractable(closestTransform);
+        }
+        else if(closestTransform.tag == "Door" && !closestTransform.GetComponent<Door>().IsLocked())
         {
-            InGameUI.TurnOnGunModuleCard(GunModuleSpawner.GetGunModule(closestTransform.name));
+            InGameUI.SetClosestInteractable(closestTransform);
         }
         else
         {
-            InGameUI.TurnOffGunModuleCard();
+            InGameUI.SetClosestInteractable(null);
         }
     }
 

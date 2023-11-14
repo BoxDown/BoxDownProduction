@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8945659a36ce7a43a8defef3334e1ff, type: 3}
-  m_Name: P_Standard(trigger)
+  m_Name: P_Ricochet(trigger)
   m_EditorClassIdentifier: 
-  C_meshPrefab: {fileID: 1913882017038557141, guid: 625a6f5245122604cbf0dfcaf310908c,
+  C_meshPrefab: {fileID: 6395798570204831009, guid: b0b237eb53844df4085035e197b9bb9f,
     type: 3}
-  s_moduleName: Explosion
+  s_moduleName: Ricochet
   e_moduleType: 0
-  f_moduleStrength: 50
-  f_baseDamage: 5
-  f_fireRate: 15
-  f_bulletSpeed: 15
-  f_knockBack: 0.5
+  f_moduleStrength: 30
+  f_baseDamage: 4
+  f_fireRate: 10
+  f_bulletSpeed: 10
+  f_knockBack: 0.1
   S_bulletEffectInformation:
     e_bulletEffect: 0
     f_effectTime: 0
@@ -34,15 +34,20 @@ MonoBehaviour:
   f_movementPenalty: 0
   i_clipSize: 0
   S_bulletTraitInformation:
-    e_bulletTrait: 0
+    e_bulletTrait: 2
     i_pierceCount: 2
     i_ricochetCount: 4
-    C_explosionPrefab: {fileID: 9198468734860294505, guid: e0bdd7450572f6c4b8b8b35f5228405a,
-      type: 3}
-    f_explosionSize: 4
-    f_explosionDamage: 4
-    f_explosionKnockbackDistance: 1.5
-    f_explosionLifeTime: 0.4
+    C_explosionPrefab: {fileID: 0}
+    f_explosionSize: 0
+    C_sizeOverLifetimeCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    f_explosionDamage: 0
+    f_explosionKnockbackDistance: 0
+    f_explosionLifeTime: 0
     f_homingStrength: 0
     f_homingDelayTime: 0
   f_bulletSize: 0

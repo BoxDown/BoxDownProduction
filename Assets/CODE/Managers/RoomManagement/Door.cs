@@ -32,7 +32,7 @@ public class Door : MonoBehaviour
         Count
     }
 
-    private RoomType e_roomType = RoomType.None;
+    [HideInInspector] public RoomType e_roomType = RoomType.None;
 
 
     // Start is called before the first frame update

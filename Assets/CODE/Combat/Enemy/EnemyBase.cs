@@ -207,7 +207,7 @@ namespace Enemy
         protected IEnumerator SpawnGutBag()
         {
             yield return new WaitForSeconds(f_gutBagTime - (Time.deltaTime * 2.0f));
-            GameObject newGutBag = Instantiate(C_gutBag, transform.position + (Vector3.up * f_size), Quaternion.identity);
+            GameObject newGutBag = Instantiate(C_gutBag, transform.position + (Vector3.up * f_size), C_gutBag.transform.rotation);
             Destroy(newGutBag, 5.0f);
         }
 

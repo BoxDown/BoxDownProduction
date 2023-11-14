@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   C_meshPrefab: {fileID: 4993059843325046500, guid: 5d175a2f3c677e04b9a27db5b7800db1,
     type: 3}
-  s_moduleName: Homing
+  s_moduleName: Homer
   e_moduleType: 0
-  f_moduleStrength: 50
-  f_baseDamage: 8
-  f_fireRate: 5
-  f_bulletSpeed: 10
-  f_knockBack: 0.5
+  f_moduleStrength: 40
+  f_baseDamage: 7
+  f_fireRate: 12
+  f_bulletSpeed: 4.5
+  f_knockBack: 0
   S_bulletEffectInformation:
     e_bulletEffect: 0
     f_effectTime: 0
@@ -40,10 +40,16 @@ MonoBehaviour:
     C_explosionPrefab: {fileID: 9198468734860294505, guid: e0bdd7450572f6c4b8b8b35f5228405a,
       type: 3}
     f_explosionSize: 5
+    C_sizeOverLifetimeCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     f_explosionDamage: 2
     f_explosionKnockbackDistance: 1
     f_explosionLifeTime: 0.4
-    f_homingStrength: 0.5
+    f_homingStrength: 0.75
     f_homingDelayTime: 0.15
   f_bulletSize: 0
   f_bulletRange: 0

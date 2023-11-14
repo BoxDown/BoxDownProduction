@@ -47,11 +47,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   f_health: 35
-  C_halfDestroyedObject: {fileID: 0}
-  C_grabBag: {fileID: 0}
+  C_meshTransform: {fileID: 8354197259817006860}
+  C_halfDestroyedObject: {fileID: 9143793188218807375, guid: 253a8dc7d156b99438b67b7a37a3a6f3,
+    type: 3}
+  C_grabBag: {fileID: 919132149155446097, guid: 009a66b66646ad549b42e93c786b4413,
+    type: 3}
+  S_grabBagOffset: {x: 0, y: 0.4, z: 0}
   b_explosive: 0
   f_damage: 0
   f_size: 0
+  C_sizeOverLifetimeCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   f_length: 0
   f_knockback: 0
   C_explosionEffect: {fileID: 0}
@@ -264,6 +274,12 @@ PrefabInstance:
 --- !u!4 &4848993237420527044 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 85e5cd58218c6f044b7f83066a6ea0ff,
+    type: 3}
+  m_PrefabInstance: {fileID: 4954431100006279727}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8354197259817006860 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -5246202149638333149, guid: 85e5cd58218c6f044b7f83066a6ea0ff,
     type: 3}
   m_PrefabInstance: {fileID: 4954431100006279727}
   m_PrefabAsset: {fileID: 0}

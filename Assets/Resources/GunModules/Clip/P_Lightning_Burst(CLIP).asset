@@ -10,35 +10,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8945659a36ce7a43a8defef3334e1ff, type: 3}
-  m_Name: P_Fire_2(CLIP)
+  m_Name: P_Lightning_Burst(CLIP)
   m_EditorClassIdentifier: 
-  C_meshPrefab: {fileID: 1931246083192038663, guid: 65f1e05396886b347abc9c25e532d924,
+  C_meshPrefab: {fileID: 2937610793356552440, guid: ff11095e1b5efe74c84f863a96de2e2f,
     type: 3}
-  s_moduleName: Fire
+  s_moduleName: Lightning
   e_moduleType: 1
-  f_moduleStrength: 100
+  f_moduleStrength: 25
   f_baseDamage: 0
   f_fireRate: 0
   f_bulletSpeed: 0
   f_knockBack: 0
   S_bulletEffectInformation:
-    e_bulletEffect: 1
-    f_effectTime: 5
-    f_tickDamage: 1.5
-    i_amountOfTicks: 4
-    f_slowPercent: 0
-    f_chainLength: 0
-    f_chainDamagePercent: 0
+    e_bulletEffect: 3
+    f_effectTime: 1.5
+    f_tickDamage: 2
+    i_amountOfTicks: 3
+    f_slowPercent: 0.25
+    f_chainLength: 4.5
+    f_chainDamagePercent: 1
     f_vampirePercent: 0
-  f_reloadSpeed: 2.5
-  f_movementPenalty: 2
-  i_clipSize: 50
+  f_reloadSpeed: 0.3
+  f_movementPenalty: 0
+  i_clipSize: 8
   S_bulletTraitInformation:
     e_bulletTrait: 0
     i_pierceCount: 0
     i_ricochetCount: 0
     C_explosionPrefab: {fileID: 0}
     f_explosionSize: 0
+    C_sizeOverLifetimeCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     f_explosionDamage: 0
     f_explosionKnockbackDistance: 0
     f_explosionLifeTime: 0

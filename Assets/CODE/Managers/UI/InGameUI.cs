@@ -50,6 +50,11 @@ namespace Managers
         [Rename("Enemy Count Text"), SerializeField] TextMeshProUGUI C_enemyCountText;
         [Rename("Enemy Count Group"), SerializeField] CanvasGroup C_enemyCountGroup;
 
+        [Header("Interactable UI")]
+        [Rename("Interaction Button"), SerializeField] Image C_interactionButtonImage;
+        [Rename("Interaction Text"), SerializeField] TextMeshProUGUI C_interactionText;
+        
+
         private string s_currentActiveModuleName;
         private bool b_bulletsReloaded = false;
 
@@ -311,6 +316,8 @@ namespace Managers
             gameUI.C_roomCountText.text = $"Rooms Cleared: {GameManager.GetRoomsCleared()}";
         }
 
+        #region 
+
         private IEnumerator FadeRoomCountIn()
         {
             float time = 0;
@@ -322,7 +329,6 @@ namespace Managers
             }
             C_roomCountGroup.alpha = 1;
         }
-
         private IEnumerator FadeRoomCountOut()
         {
             float time = 0;
@@ -345,7 +351,6 @@ namespace Managers
             }
             C_enemyCountGroup.alpha = 1;
         }
-
         private IEnumerator FadeEnemyCountOut()
         {
             float time = 0;
@@ -357,5 +362,7 @@ namespace Managers
             }
             C_enemyCountGroup.alpha = 0;
         }
+
+
     }
 }

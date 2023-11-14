@@ -51,8 +51,11 @@ namespace Managers
         [Rename("Enemy Count Group"), SerializeField] CanvasGroup C_enemyCountGroup;
 
         [Header("Interactable UI")]
+        [Rename("Interaction Group"), SerializeField] Transform C_interactionGroup;
         [Rename("Interaction Button"), SerializeField] Image C_interactionButtonImage;
         [Rename("Interaction Text"), SerializeField] TextMeshProUGUI C_interactionText;
+        private Transform C_closestInteractable;
+        private Transform C_closestInteractablelastFrame;
         
 
         private string s_currentActiveModuleName;
@@ -71,6 +74,23 @@ namespace Managers
             {
                 gameUI = this;
             }
+        }
+
+        private void FixedUpdate()
+        {
+            if (C_closestInteractable == null)
+            {
+                TurnOffButtonPrompt();
+                TurnOffGunModuleCard();
+                C_closestInteractablelastFrame = C_closestInteractable;
+                return;
+            }
+            else if (!C_interactionGroup.gameObject.activeInHierarchy)
+            {
+                TurnOnButtonPrompt();
+            }
+            UpdateButtonPrompt();
+            C_closestInteractablelastFrame = C_closestInteractable;
         }
 
         public static void ActivateInGameUI()
@@ -283,7 +303,7 @@ namespace Managers
             b_bulletsReloaded = false;
         }
 
-        
+        #region RoomEnemyInformation
         public static void FadeInRoomCount()
         {
             gameUI.StartCoroutine(gameUI.FadeRoomCountIn());
@@ -364,5 +384,72 @@ namespace Managers
         }
 
         #endregion
+        #endregion
+
+        public static void SetClosestInteractable(Transform newTransform)
+        {
+            gameUI.C_closestInteractable = newTransform;
+        }
+
+
+        public static void TurnOnButtonPrompt()
+        {
+            if (gameUI.C_interactionButtonImage.gameObject.activeInHierarchy)
+            {
+                return;
+            }
+            gameUI.C_interactionGroup.gameObject.SetActive(true);
+        }
+
+        public void UpdateButtonPrompt()
+        {
+            if(C_closestInteractable != null)
+            {
+                Vector3 targetPosition = Camera.main.WorldToScreenPoint(C_closestInteractable.GetComponent<Collider>().ClosestPoint(GameManager.GetPlayer().transform.position) - Vector3.up);
+                gameUI.C_interactionGroup.transform.position = Vector3.Lerp(gameUI.C_interactionGroup.transform.position, targetPosition, Vector3.Distance(gameUI.C_interactionGroup.transform.position, targetPosition));
+                if(C_closestInteractablelastFrame != C_closestInteractable)
+                {
+                    if (C_closestInteractable.tag == "Gun Module")
+                    {
+                        ChangeButtonPromptText(false);
+                        TurnOnGunModuleCard(GunModuleSpawner.GetGunModule(C_closestInteractable.name));
+                    }
+                    else if (C_closestInteractable.tag == "Door")
+                    {
+                        ChangeButtonPromptText(true, C_closestInteractable.GetComponent<Door>().e_roomType);
+                        TurnOffGunModuleCard();
+                    }
+                }
+            }
+        }
+
+        public static void ChangeButtonPromptText(bool isDoor, Door.RoomType roomType = Door.RoomType.None)
+        {
+            if (!isDoor)
+            {
+                gameUI.C_interactionText.text = "Swap Module";
+                return;
+            }
+            else
+            {
+                if(roomType == Door.RoomType.RandomModule)
+                {
+                    gameUI.C_interactionText.text = $"Enter Random Room";
+                    return;
+                }
+                gameUI.C_interactionText.text = roomType == Door.RoomType.None ? "Enter Room" : $"Enter {roomType} Room";
+            }
+        }
+
+        public static void TurnOffButtonPrompt()
+        {
+            if (!gameUI.C_interactionButtonImage.gameObject.activeInHierarchy)
+            {
+                return;
+            }
+            gameUI.C_interactionGroup.gameObject.SetActive(false);
+        }
+
+
     }
 }

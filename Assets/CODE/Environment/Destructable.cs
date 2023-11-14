@@ -89,7 +89,7 @@ public class Destructable : MonoBehaviour
     {
         if (C_grabBag != null)
         {
-            Destroy(Instantiate(C_grabBag, transform.position + S_grabBagOffset, Quaternion.identity), 2.0f);
+            Destroy(Instantiate(C_grabBag, transform.position + S_grabBagOffset, C_grabBag.transform.rotation), 2.0f);
         }
     }
 }

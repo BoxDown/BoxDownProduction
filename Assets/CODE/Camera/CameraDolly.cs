@@ -124,24 +124,16 @@ public class CameraDolly : MonoBehaviour
         {
             return;
         }
-        if (f_shakeAmplitude > shakeAmplitude && f_shakeFrequency < shakeFrequency)
+        if (f_shakeFrequency < shakeFrequency)
         {
             f_shakeFrequency += shakeFrequency;
             f_shakeFrequency = Mathf.Clamp(f_shakeFrequency, 0, shakeFrequency);
-            return;
         }
-        else if (f_shakeFrequency > shakeFrequency && f_shakeAmplitude < shakeAmplitude)
+        if (f_shakeAmplitude < shakeAmplitude)
         {
             f_shakeAmplitude += shakeAmplitude;
             f_shakeAmplitude = Mathf.Clamp(f_shakeAmplitude, 0, shakeAmplitude);
-            return;
         }
-
-        f_shakeAmplitude += shakeAmplitude;
-        f_shakeAmplitude = Mathf.Clamp(f_shakeAmplitude, 0, shakeAmplitude);
-
-        f_shakeFrequency += shakeFrequency;
-        f_shakeFrequency = Mathf.Clamp(f_shakeFrequency, 0, shakeFrequency);
     }
 
     public void MoveCameraShakeTowardsZero()
@@ -150,11 +142,11 @@ public class CameraDolly : MonoBehaviour
         int negativeAmplitude = Time.frameCount % 30 == 0 ? -1 : 1; 
         if (f_shakeFrequency != 0)
         {
-            f_shakeFrequency = Mathf.MoveTowards(f_shakeFrequency, 0, (1 / f_shakeFrequency * negativeFrequency) * Time.deltaTime);
+            f_shakeFrequency = Mathf.MoveTowards(f_shakeFrequency, 0, Mathf.Clamp(f_shakeFrequency, 1, f_shakeFrequency) * Time.deltaTime);
         }
         if (f_shakeAmplitude != 0)
         {
-            f_shakeAmplitude = Mathf.MoveTowards(f_shakeAmplitude, 0, (1 / f_shakeAmplitude * negativeAmplitude) * Time.deltaTime);
+            f_shakeAmplitude = Mathf.MoveTowards(f_shakeAmplitude, 0, Mathf.Clamp(f_shakeAmplitude, 1, f_shakeAmplitude) * Time.deltaTime);
         }
     }
 

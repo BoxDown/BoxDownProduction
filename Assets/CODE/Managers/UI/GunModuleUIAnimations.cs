@@ -77,6 +77,8 @@ public class GunModuleUIAnimations : MonoBehaviour
             Destroy(C_triggerTransform.GetComponent<Collider>());
         }
 
+        Destroy(C_triggerTransform.Find("ModuleEffects").gameObject);
+
         C_triggerTransform.parent = C_triggerJoint;
         C_triggerTransform.localPosition = Vector3.zero;
         C_triggerTransform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
@@ -95,6 +97,9 @@ public class GunModuleUIAnimations : MonoBehaviour
         {
             Destroy(C_clipTransform.GetComponent<Collider>());
         }
+
+        Destroy(C_clipTransform.Find("ModuleEffects").gameObject);
+
 
         C_clipTransform.parent = C_clipJoint;
         C_clipTransform.localPosition = Vector3.zero;
@@ -115,6 +120,9 @@ public class GunModuleUIAnimations : MonoBehaviour
             Destroy(C_barrelTransform.GetComponent<Collider>());
         }
 
+        Destroy(C_barrelTransform.Find("ModuleEffects").gameObject);
+
+
         C_barrelTransform.parent = C_barrelJoint;
         C_barrelTransform.localPosition = Vector3.zero;
         C_barrelTransform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
@@ -133,6 +141,9 @@ public class GunModuleUIAnimations : MonoBehaviour
         {
             Destroy(C_swappingTransform.GetComponent<Collider>());
         }
+
+        Destroy(C_swappingTransform.Find("ModuleEffects").gameObject);
+
 
         C_swappingTransform.parent = C_swappingJoint;
         C_swappingTransform.localPosition = Vector3.zero;

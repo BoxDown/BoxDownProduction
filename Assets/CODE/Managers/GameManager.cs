@@ -472,15 +472,15 @@ namespace Managers
 
         public void SpawnTriggerVFX(Vector3 position)
         {
-            Instantiate(gameManager.C_triggerSpawnVFX, position, Quaternion.identity);
+            Destroy(Instantiate(gameManager.C_triggerSpawnVFX, position, Quaternion.identity), 5);
         }
         public void SpawnClipVFX(Vector3 position)
         {
-            Instantiate(gameManager.C_clipSpawnVFX, position, Quaternion.identity);
+            Destroy(Instantiate(gameManager.C_clipSpawnVFX, position, Quaternion.identity), 5);
         }
         public void SpawnBarrelVFX(Vector3 position)
         {
-            Instantiate(gameManager.C_barrelSpawnVFX, position, Quaternion.identity);
+            Destroy(Instantiate(gameManager.C_barrelSpawnVFX, position, Quaternion.identity), 5);
         }
         #endregion
 

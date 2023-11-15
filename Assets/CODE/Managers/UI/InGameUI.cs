@@ -235,6 +235,8 @@ namespace Managers
 
             Destroy(gameUI.C_gunModuleTransform.gameObject);
             gameUI.C_gunModuleTransform = Instantiate(module.C_meshPrefab, gameUI.transform).transform;
+            Destroy(gameUI.C_gunModuleTransform.Find("ModuleEffects").gameObject);
+
             gameUI.C_gunModuleTransform.position = modulePosition;
             if (gameUI.C_gunModuleTransform.GetComponent<Collider>() != null)
             {

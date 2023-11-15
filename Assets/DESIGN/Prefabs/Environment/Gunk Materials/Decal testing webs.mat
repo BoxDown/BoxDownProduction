@@ -23,7 +23,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Decal level 4
+  m_Name: Decal testing webs
   m_Shader: {fileID: -6465566751694194690, guid: a94c48197f03f5147b227ffb9730acef,
     type: 3}
   m_ValidKeywords:
@@ -47,7 +47,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Edge_texture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 3c974571cf7ce94458a6156d4ca42643, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Emissive:
@@ -55,7 +55,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GunkAlpha:
-        m_Texture: {fileID: 2800000, guid: e541b930b69166e49bd29a031c58fd3d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3a2b8a3e0926a9048822fadee11aeff0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GunkTexture:
@@ -141,41 +141,44 @@ Material:
     - _DecalStencilRef: 16
     - _DecalStencilWriteMask: 16
     - _DecayScale: 1.71
-    - _Decay_Amount: 0
+    - _Decay_Amount: 0.057
     - _Decay_edge_size: 2.5
     - _Displacement: 0
     - _Displacement_Scale: 0.54
     - _DrawOrder: 0
     - _EdgeNormalStrength: 0.22
-    - _EdgeScale: 45.8
-    - _EdgeSpeed: 0.5
-    - _EdgeStrength: 1.5
+    - _EdgeScale: 191.4
+    - _EdgeSpeed: 0.16
+    - _EdgeStrength: 17
     - _Edge_Smoothstep_max: 0.79
     - _Edge_Smoothstep_min: 0.4
+    - _Edge_Voronoi_or_Texture: 1
     - _Edge_scale: 0.45
     - _Edge_speed: 0.5
     - _Edge_texture_size: 0.25
     - _Edge_wiggle: 252.49
     - _Emissive_multiplier: 0
     - _FadeSize_Careful: 1
-    - _Float: 0.68
+    - _Float: 1
     - _Float_1: 0.61
     - _GunkTextureScale: 7.84
     - _GunkTextureSpeed: 0.01
     - _GunkTextureStrength: 1
-    - _Gunk_Amount: 1.8
+    - _Gunk_Amount: 3.5
     - _Gunk_Map_scale: 0.12
     - _Gunk_Metallic: 0
     - _Gunk_Outness: 0.137
     - _Gunk_Smoothness: 0.491
     - _Gunk_Surface_normal_size: 0.07
+    - _Gunk_Texture_On_Off: 1
     - _Gunk_surface_normal_strength: 0.02
-    - _InnerVoronoiMultiply: 1.1
-    - _InnerVoronoiScale: 33.82
-    - _MaxSize: 25.1
+    - _InnerVoronoiMultiply: 0.9
+    - _InnerVoronoiScale: 59.86
+    - _Inside_Voronoi_or_texture: 0
+    - _MaxSize: 17.96
     - _Metallic: 0
     - _Metallic_Multiplier: 0
-    - _OverlayNoiseScale: 34.5
+    - _OverlayNoiseScale: 50
     - _OverlayNormalScale: 0.36
     - _OverlayNormalStrength: 0.12
     - _Overlay_Texture_size: 1.38
@@ -183,38 +186,38 @@ Material:
     - _ParallaxAmount: 30
     - _Secondary_Decay_size: 1
     - _Secondary_Edge_size: 0.1
-    - _Simple_colour_scale: 10.56
-    - _Smoothness: 0.489
+    - _Simple_colour_scale: 82.3
+    - _Smoothness: 0.706
+    - _Smoothstep_max: 0.79
+    - _Smoothstep_min: 0.01
     - _USE_GRADIENT_FOR_OVERLAY: 0
     - _USE_GRADIENT_FOR_SECONDARY: 1
     - _USE_VORONOI_FOR_TEXTURE: 0
     - _Use_Flat_Colour: 0
-    - _Use_Gunk_Texture: 1
-    - _Use_Voronoi_Edge: 0
-    - _Use_Voronoi_Inside: 0
     - _Use_voronoi_for_edge: 0.326
-    - _Webbing_Smoothness: 1
-    - _Webbing_Wiggle_Scale: 1
-    - _Webbing_Wiggle_speed: 1
+    - _Webbing_Smoothness: 0.012
+    - _Webbing_Wiggle_Scale: 20
+    - _Webbing_Wiggle_speed: 0.1
     - _Webbing_Wiggle_strength: 1
-    - _Webbing_normal: 0.01
+    - _Webbing_normal: 0.002
     - _Wiggle_amount: 3.13
     - _norm_strength: 0.08
     m_Colors:
     - _Center: {r: 45, g: 25, b: 0, a: 0}
+    - _Colour: {r: 0.18247548, g: 0.04258634, b: 0.31132078, a: 0}
     - _Corruption_Base_2: {r: 0.1981132, g: 0.03457636, b: 0.1855334, a: 0}
     - _Corruption_base: {r: 0.22980429, g: 0.18164827, b: 0.24528301, a: 0}
-    - _DecayStartPosition: {r: 20.94, g: -1.16, b: 0, a: 0}
-    - _Decay_Remap: {r: 0, g: 88.3, b: 0, a: 0}
-    - _Decay_Where_From: {r: 27.27, g: -3.7, b: 0, a: 0}
-    - _EdgeColour: {r: 0.25661153, g: 0.16006574, b: 0.31132075, a: 0}
+    - _DecayStartPosition: {r: -1.93, g: 18.23, b: 0, a: 0}
+    - _Decay_Remap: {r: 0, g: 191.1, b: 0, a: 0}
+    - _Decay_Where_From: {r: -0.07, g: 8.69, b: 0, a: 0}
+    - _EdgeColour: {r: 0.25661156, g: 0.16006577, b: 0.31132078, a: 0}
     - _Edge_scale: {r: 0.45, g: 0.3, b: 0, a: 0}
     - _Flat_Color: {r: 0.39288208, g: 0.43396226, b: 0.23131007, a: 0}
-    - _GunkColour: {r: 0.6037736, g: 0.3958704, b: 0.55179775, a: 0}
-    - _Gunk_Where: {r: 15.34, g: 9.2, b: 0, a: 0}
+    - _GunkColour: {r: 0.5943396, g: 0.4177198, b: 0.5448861, a: 0}
+    - _Gunk_Where: {r: 3.04, g: 44.5, b: 0, a: 0}
     - _Gunk_map_scale: {r: 0.12, g: 0.12, b: 0, a: 0}
     - _Gunk_remap: {r: 0, g: 10.7, b: 0, a: 0}
     - _Overlay_Colour_Var: {r: 0.24528301, g: 0.1214845, b: 0.24528301, a: 0}
     - _Overlay_colour: {r: 0.115699545, g: 0.061899252, b: 0.122641504, a: 0}
-    - _Webbing_colour: {r: 0, g: 0, b: 0, a: 0}
+    - _Webbing_colour: {r: 0.03773582, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

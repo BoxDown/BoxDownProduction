@@ -295,6 +295,9 @@ namespace Gun
                     Destroy(C_trigger.GetComponent<Collider>());
                 }
 
+                Destroy(C_trigger.Find("ModuleEffects").gameObject);
+
+
                 C_trigger.parent = C_triggerJoint;
                 C_trigger.localPosition = Vector3.zero;
                 C_trigger.localRotation = Quaternion.Euler(new Vector3(0, 0, 90));
@@ -327,6 +330,9 @@ namespace Gun
                 {
                     Destroy(C_clip.GetComponent<Collider>());
                 }
+
+                Destroy(C_clip.Find("ModuleEffects").gameObject);
+
 
                 C_clip.parent = C_clipJoint;
                 C_clip.localPosition = Vector3.zero;
@@ -383,6 +389,8 @@ namespace Gun
                 {
                     Destroy(C_barrel.GetComponent<Collider>());
                 }
+
+                Destroy(C_barrel.Find("ModuleEffects").gameObject);
 
                 C_barrel.parent = C_barrelJoint;
                 C_barrel.localPosition = Vector3.zero;

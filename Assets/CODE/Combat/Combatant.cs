@@ -384,28 +384,28 @@ public class Combatant : MonoBehaviour
     protected virtual void CheckCollisions()
     {
         RaycastHit hit;
-        if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, Vector3.right, out hit, f_size, i_bulletLayerMask) && S_velocity.x > 0)
+        if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, Vector3.right, out hit, f_size + (S_velocity.magnitude * Time.deltaTime), i_bulletLayerMask) && S_velocity.x > 0)
         {
             if (!hit.collider.isTrigger)
             {
                 S_velocity.x = -S_velocity.x * f_collisionBounciness;
             }
         }
-        else if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, -Vector3.right, out hit, f_size, i_bulletLayerMask) && S_velocity.x < 0)
+        else if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, -Vector3.right, out hit, f_size + (S_velocity.magnitude * Time.deltaTime), i_bulletLayerMask) && S_velocity.x < 0)
         {
             if (!hit.collider.isTrigger)
             {
                 S_velocity.x = -S_velocity.x * f_collisionBounciness;
             }
         }
-        if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, Vector3.forward, out hit, f_size, i_bulletLayerMask) && S_velocity.z > 0)
+        if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, Vector3.forward, out hit, f_size + (S_velocity.magnitude * Time.deltaTime), i_bulletLayerMask) && S_velocity.z > 0)
         {
             if (!hit.collider.isTrigger)
             {
                 S_velocity.z = -S_velocity.z * f_collisionBounciness;
             }
         }
-        else if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, -Vector3.forward, out hit, f_size, i_bulletLayerMask) && S_velocity.z < 0)
+        else if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, -Vector3.forward, out hit, f_size + (S_velocity.magnitude * Time.deltaTime), i_bulletLayerMask) && S_velocity.z < 0)
         {
             if (!hit.collider.isTrigger)
             {

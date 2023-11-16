@@ -42,7 +42,7 @@ public class Door : MonoBehaviour
     {
         b_locked = true;
         GetComponent<BoxCollider>().isTrigger = true;
-        if (GameManager.gameManager.i_currentRoom != 7)
+        if (GameManager.gameManager.i_currentRoom != 6)
         {
             GetAllDoors();
             RandomiseRoomType();
@@ -94,8 +94,8 @@ public class Door : MonoBehaviour
         switch (e_roomType)
         {
             case RoomType.None:
-                C_coneTransform.GetComponent<MeshRenderer>().material = C_triggerConeMat;
-                C_projectionTransform.GetComponent<MeshRenderer>().material = C_triggerProjectionMat;
+                C_coneTransform.GetComponent<MeshRenderer>().material = C_bossConeMat;
+                C_projectionTransform.GetComponent<MeshRenderer>().material = C_bossProjectionMat;
                 break;
             case RoomType.Trigger:
                 C_coneTransform.GetComponent<MeshRenderer>().material = C_triggerConeMat;

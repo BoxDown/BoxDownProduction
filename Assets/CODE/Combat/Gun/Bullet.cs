@@ -428,7 +428,7 @@ namespace Gun
 
             if (combatant == null)
             {
-                if (objectHit.GetComponent<Collider>().isTrigger)
+                if (objectHit.GetComponent<Collider>().isTrigger || objectHit.gameObject.layer == 9)
                 {
                     return false;
                 }

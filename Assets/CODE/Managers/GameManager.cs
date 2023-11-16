@@ -33,8 +33,8 @@ namespace Managers
         [Rename("Debug Game"), SerializeField] public bool b_debugMode;
         [Rename("Spawn All Modules"), SerializeField] public bool b_spawnAllModules;
         [Rename("Music On/Off"), SerializeField] public bool b_musicOnOff;
-        [Rename("Music Volume"), Range(0,1),SerializeField] private float f_musicVolume = 0.1f;
-        [Rename("Sound Volume"), Range(0,1),SerializeField] private float f_soundVolume = 0.8f;
+        [Rename("Music Volume"), Range(0, 1), SerializeField] private float f_musicVolume = 0.1f;
+        [Rename("Sound Volume"), Range(0, 1), SerializeField] private float f_soundVolume = 0.8f;
 
         [Space(10)]
         [Header("Plug in documents from assets folder")]
@@ -242,14 +242,9 @@ namespace Managers
 
                 return;
             }
-            else if (i_currentRoom < i_easyRooms + i_mediumRooms + i_hardRooms + 1)
+            else if (i_currentRoom < i_easyRooms + i_mediumRooms + i_hardRooms)
             {
-                if (i_currentRoom == i_easyRooms + i_mediumRooms + 1 + i_hardRooms)
-                {
-                    StartCoroutine(SceneTransition("HardBreakRoom"));
-                    IncrementRoom();
-                    return;
-                }
+
                 roomNumberToLoad = Random.Range(0, ls_easyLevels.Count() - 1);
                 while (ls_hardLevels[roomNumberToLoad] == SceneManager.GetActiveScene().name)
                 {
@@ -259,7 +254,13 @@ namespace Managers
                 StartCoroutine(SceneTransition(ls_hardLevels[roomNumberToLoad]));
                 return;
             }
-            else 
+            else if (i_currentRoom == i_easyRooms + i_mediumRooms + i_hardRooms)
+            {
+                StartCoroutine(SceneTransition("HardBreakRoom"));
+                IncrementRoom();
+                return;
+            }
+            else
             {
                 StartCoroutine(SceneTransition("FinalLevel"));
             }

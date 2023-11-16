@@ -916,6 +916,8 @@ public class Combatant : MonoBehaviour
     //set state to normal
     private IEnumerator DodgeRoutine()
     {
+        //Pre Dodge, if no input direction do nothing, delay dodge before use
+
         if (S_movementInputDirection == Vector3.zero)
         {
             yield break;
@@ -923,6 +925,7 @@ public class Combatant : MonoBehaviour
         yield return new WaitForSeconds(f_dodgeStartDelay);
         i_currentDodgeCount--;
 
+        //Audio And Visual Setup of Dodge
         bool firingAtStartOfDodge = C_ownedGun.b_isFiring;
         if (firingAtStartOfDodge)
         {
@@ -943,17 +946,105 @@ public class Combatant : MonoBehaviour
         float dodgeDistance = f_dodgeLength * f_slowMultiplier;
         float dodgeTime = f_dodgeTime;
         float timeSinceStart = 0;
+        Vector3 goalPosition = Vector3.zero;
 
+        //What needs to happen: We need to be able to dodge through certain objects, anything on a certain layer and any enemies
+        //calculate goal position
         RaycastHit hit;
-        if (Physics.SphereCast(transform.position + Vector3.up, f_size, S_movementInputDirection, out hit, dodgeDistance, i_bulletLayerMask))
+        //cast to see what I am about to hit
+        if (Physics.SphereCast(transform.position + (Vector3.up * f_size * 1.1f), f_size, S_movementInputDirection, out hit, dodgeDistance, i_bulletLayerMask))
         {
-            dodgeDistance = hit.distance - f_size;
-            float dodgePercentage = dodgeDistance / f_dodgeLength;
-            dodgeTime = f_dodgeTime * dodgePercentage;
+            //if I hit the dodge layer
+            if (hit.transform.gameObject.layer == 9)
+            {
+                //check for collisions at the target destination, if none, set the target destination
+                Collider[] collisions = Physics.OverlapSphere(transform.position + (S_movementInputDirection.normalized * dodgeDistance) + (Vector3.up * f_size * 1.1f), f_size, i_bulletLayerMask);
+                bool isCollidingWithWall = false;
+                bool isCollidingWithDodgeObject = false;
+
+                for (int i = 0; i < collisions.Length; i++)
+                {
+                    if (collisions[i].transform.gameObject.layer == 9)
+                    {
+                        isCollidingWithDodgeObject = true;
+                    }
+                    else
+                    {
+                        isCollidingWithWall = true;
+                    }
+                }
+
+                if (isCollidingWithWall)
+                {
+                    Physics.SphereCast(transform.position + (S_movementInputDirection.normalized * dodgeDistance) + (Vector3.up * f_size * 1.1f), f_size, -S_movementInputDirection, out RaycastHit backHit, dodgeDistance, i_bulletLayerMask);
+                    if (backHit.transform.gameObject.layer == 9)
+                    {
+                        goalPosition = transform.position + (S_movementInputDirection.normalized * (dodgeDistance - backHit.distance));
+                    }
+                    else
+                    {
+                        dodgeDistance = hit.distance - f_size;
+                        float dodgePercentage = dodgeDistance / f_dodgeLength;
+                        dodgeTime = f_dodgeTime * dodgePercentage;
+                        goalPosition = transform.position + (S_movementInputDirection.normalized * dodgeDistance);
+                    }
+                }
+                else if (isCollidingWithDodgeObject)
+                {
+                    Collider[] newLocationCollisions = Physics.OverlapSphere(transform.position + (S_movementInputDirection.normalized * dodgeDistance * 1.5f) + (Vector3.up * f_size * 1.1f), f_size, i_bulletLayerMask);
+                    if (newLocationCollisions.Length == 0)
+                    {
+                        Physics.SphereCast(transform.position + (S_movementInputDirection.normalized * dodgeDistance) + (Vector3.up * f_size * 1.1f), f_size, -S_movementInputDirection, out RaycastHit backHit, dodgeDistance, i_bulletLayerMask);
+                        if (backHit.transform.gameObject.layer == 9)
+                        {
+                            goalPosition = transform.position + (S_movementInputDirection.normalized * (dodgeDistance - backHit.distance));
+                        }
+                        else
+                        {
+                            dodgeDistance = hit.distance - f_size;
+                            float dodgePercentage = dodgeDistance / f_dodgeLength;
+                            dodgeTime = f_dodgeTime * dodgePercentage;
+                            goalPosition = transform.position + (S_movementInputDirection.normalized * dodgeDistance);
+                        }
+                    }
+                    else
+                    {
+                        dodgeDistance = hit.distance - f_size;
+                        float dodgePercentage = dodgeDistance / f_dodgeLength;
+                        dodgeTime = f_dodgeTime * dodgePercentage;
+                        goalPosition = transform.position + (S_movementInputDirection.normalized * dodgeDistance);
+                    }
+                }
+                else
+                {
+                    goalPosition = transform.position + (S_movementInputDirection.normalized * dodgeDistance);
+                }
+            }
+            //if I hit an enemy
+            else if (hit.transform.GetComponent<Combatant>() != null)
+            {
+                float remainingDodgeDistance = f_dodgeLength - hit.distance;
+                if(Physics.SphereCast(hit.point, f_size, S_movementInputDirection, out RaycastHit wallCheck, remainingDodgeDistance, i_bulletLayerMask))
+                {
+                    dodgeDistance = (hit.distance + wallCheck.distance) - f_size;
+                    float dodgePercentage = dodgeDistance / f_dodgeLength;
+                    dodgeTime = f_dodgeTime * dodgePercentage;
+                }
+                goalPosition = transform.position + (S_movementInputDirection.normalized * dodgeDistance);                
+            }
+            //if I hit anything else
+            else
+            {
+                dodgeDistance = hit.distance - f_size;
+                float dodgePercentage = dodgeDistance / f_dodgeLength;
+                dodgeTime = f_dodgeTime * dodgePercentage;
+                goalPosition = transform.position + (S_movementInputDirection.normalized * dodgeDistance);
+            }
         }
-
-        Vector3 goalPosition = transform.position + (S_movementInputDirection.normalized * dodgeDistance);
-
+        else
+        {
+            goalPosition = transform.position + (S_movementInputDirection.normalized * dodgeDistance);
+        }
 
         while (dodgeTime > timeSinceStart && !b_dodgeCanceled)
         {

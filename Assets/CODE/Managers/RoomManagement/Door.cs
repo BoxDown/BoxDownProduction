@@ -19,6 +19,8 @@ public class Door : MonoBehaviour
     [Rename("Barrel Projection Material"), SerializeField] private Material C_barrelProjectionMat;
     [Rename("Random Cone Material"), SerializeField] private Material C_randomConeMat;
     [Rename("Random Projection Material"), SerializeField] private Material C_randomProjectionMat;
+    [Rename("Boss Cone Material"), SerializeField] private Material C_bossConeMat;
+    [Rename("Boss Projection Material"), SerializeField] private Material C_bossProjectionMat;
     private List<Door> lC_doors = new List<Door>();
     Animator C_doorAnimator = null;
 
@@ -40,8 +42,15 @@ public class Door : MonoBehaviour
     {
         b_locked = true;
         GetComponent<BoxCollider>().isTrigger = true;
-        GetAllDoors();
-        RandomiseRoomType();
+        if (GameManager.gameManager.i_currentRoom != 7)
+        {
+            GetAllDoors();
+            RandomiseRoomType();
+        }
+        else
+        {
+            e_roomType = RoomType.None;
+        }
         UpdateDoorVisuals();
         C_coneTransform.gameObject.SetActive(false);
         C_projectionTransform.gameObject.SetActive(false);
@@ -85,6 +94,8 @@ public class Door : MonoBehaviour
         switch (e_roomType)
         {
             case RoomType.None:
+                C_coneTransform.GetComponent<MeshRenderer>().material = C_triggerConeMat;
+                C_projectionTransform.GetComponent<MeshRenderer>().material = C_triggerProjectionMat;
                 break;
             case RoomType.Trigger:
                 C_coneTransform.GetComponent<MeshRenderer>().material = C_triggerConeMat;

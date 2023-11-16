@@ -64,7 +64,7 @@ public class CameraDolly : MonoBehaviour
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void FixedUpdate()
     {
         if (PauseMenu.pauseMenu.b_gamePaused)
         {
@@ -72,24 +72,30 @@ public class CameraDolly : MonoBehaviour
         }
         if (C_targetPlayer != null)
         {
+            //grab pos + look direction
             S_playerPosition = C_targetPlayer.transform.position;
             S_playerLookDirection = C_targetPlayer.S_cameraDirection;
 
-            Vector3 lookOffset = S_playerPosition + (S_playerLookDirection * f_lookSrength);
-            Vector3 nextCameraPos = b_shaking ? S_offsetVector + lookOffset + new Vector3(f_shakeAmplitude * Mathf.Sin(Time.time * f_shakeFrequency), 0, -f_shakeAmplitude * Mathf.Cos(Time.time * f_shakeFrequency)) : S_offsetVector + lookOffset;
 
+            //theoretical next camera point
+            Vector3 playerLookOffset = S_playerPosition + (S_playerLookDirection * f_lookSrength);
+            //actual next camera point
+            Vector3 nextCameraPos = b_shaking ? S_offsetVector + playerLookOffset + new Vector3(f_shakeAmplitude * Mathf.Sin(Time.time * f_shakeFrequency), 0, -f_shakeAmplitude * Mathf.Cos(Time.time * f_shakeFrequency)) : S_offsetVector + playerLookOffset;
+
+            float distanceAwayFromCenter = Vector3.Distance(S_nextFocus, S_currentFocus);
             S_currentFocus = transform.position - S_offsetVector;
-            S_nextFocus = lookOffset;
+            S_nextFocus = playerLookOffset;
             if (b_shaking)
             {
                 MoveCameraShakeTowardsZero();
-                C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime / 100.0f);
+                C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime / 10.0f);
                 GameManager.gameManager.b_cullLastFrame = GameManager.gameManager.b_cull;
                 return;
             }
-            else if (Vector3.Distance(S_nextFocus, S_currentFocus) > f_focusRadius)
+            //problem child
+            else if (distanceAwayFromCenter > f_focusRadius)
             {
-                C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime);
+                C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime - ((distanceAwayFromCenter - f_focusRadius) * Time.fixedDeltaTime));
             }
             else
             {
@@ -142,11 +148,11 @@ public class CameraDolly : MonoBehaviour
         int negativeAmplitude = Time.frameCount % 30 == 0 ? -1 : 1; 
         if (f_shakeFrequency != 0)
         {
-            f_shakeFrequency = Mathf.MoveTowards(f_shakeFrequency, 0, Mathf.Clamp(f_shakeFrequency, 1, f_shakeFrequency) * Time.deltaTime);
+            f_shakeFrequency = Mathf.MoveTowards(f_shakeFrequency, 0, Mathf.Clamp(f_shakeFrequency, 1, f_shakeFrequency) * Time.fixedDeltaTime);
         }
         if (f_shakeAmplitude != 0)
         {
-            f_shakeAmplitude = Mathf.MoveTowards(f_shakeAmplitude, 0, Mathf.Clamp(f_shakeAmplitude, 1, f_shakeAmplitude) * Time.deltaTime);
+            f_shakeAmplitude = Mathf.MoveTowards(f_shakeAmplitude, 0, Mathf.Clamp(f_shakeAmplitude, 1, f_shakeAmplitude) * Time.fixedDeltaTime);
         }
     }
 

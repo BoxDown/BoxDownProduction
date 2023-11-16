@@ -152,7 +152,9 @@ namespace Gun
         }
         public void StartFire()
         {
-            StartCoroutine(StartFireRoutine());
+            C_gunHolder.ShotFired();
+            f_timeUntilNextFire = f_timeBetweenBulletShots;
+            b_isFiring = true;
         }
         private void Fire()
         {
@@ -368,9 +370,6 @@ namespace Gun
                     ChangeLightColour(S_vampireColour);
                     break;
             }
-
-
-
         }
         private void UpdateBarrelStats(GunModule gunModule)
         {
@@ -560,18 +559,6 @@ namespace Gun
         {
             yield return new WaitForSeconds(f_lightOffTime);
             C_light.gameObject.SetActive(false);
-        }
-
-        //wait threee frames to fire this is to fix animations
-        private IEnumerator StartFireRoutine()
-        {
-            C_gunHolder.ShotFired();
-            yield return 0;
-            yield return 0;
-            yield return 0;
-            yield return 0;
-            f_timeUntilNextFire = 0;
-            b_isFiring = true;
         }
 
     }

@@ -102,7 +102,7 @@ public class Combatant : MonoBehaviour
     #region RuntimeMovement
     protected Vector2 S_movementVec2Direction;
     protected Vector2 S_movementVec2DirectionLastFrame;
-    protected Vector3 S_movementInputDirection
+    public Vector3 S_movementInputDirection
     {
         get { return new Vector3(S_movementVec2Direction.x, 0, S_movementVec2Direction.y); }
     }
@@ -166,7 +166,7 @@ public class Combatant : MonoBehaviour
         {
             MoveTowardAimAnimation();
         }
-        else if (b_hasAnimator && S_rotationVec2Direction.magnitude > C_animator.GetFloat("Recoil"))
+        else if (b_hasAnimator)
         {
             C_animator.SetFloat("Recoil", S_rotationVec2Direction.magnitude);
         }

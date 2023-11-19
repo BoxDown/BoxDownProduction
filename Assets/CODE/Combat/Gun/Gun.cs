@@ -152,7 +152,9 @@ namespace Gun
         }
         public void StartFire()
         {
-            StartCoroutine(StartFireRoutine());
+            C_gunHolder.ShotFired();
+            f_timeUntilNextFire = f_timeBetweenBulletShots;
+            b_isFiring = true;
         }
         private void Fire()
         {
@@ -295,6 +297,9 @@ namespace Gun
                     Destroy(C_trigger.GetComponent<Collider>());
                 }
 
+                Destroy(C_trigger.Find("ModuleEffects").gameObject);
+
+
                 C_trigger.parent = C_triggerJoint;
                 C_trigger.localPosition = Vector3.zero;
                 C_trigger.localRotation = Quaternion.Euler(new Vector3(0, 0, 90));
@@ -327,6 +332,9 @@ namespace Gun
                 {
                     Destroy(C_clip.GetComponent<Collider>());
                 }
+
+                Destroy(C_clip.Find("ModuleEffects").gameObject);
+
 
                 C_clip.parent = C_clipJoint;
                 C_clip.localPosition = Vector3.zero;
@@ -362,9 +370,6 @@ namespace Gun
                     ChangeLightColour(S_vampireColour);
                     break;
             }
-
-
-
         }
         private void UpdateBarrelStats(GunModule gunModule)
         {
@@ -383,6 +388,8 @@ namespace Gun
                 {
                     Destroy(C_barrel.GetComponent<Collider>());
                 }
+
+                Destroy(C_barrel.Find("ModuleEffects").gameObject);
 
                 C_barrel.parent = C_barrelJoint;
                 C_barrel.localPosition = Vector3.zero;
@@ -552,18 +559,6 @@ namespace Gun
         {
             yield return new WaitForSeconds(f_lightOffTime);
             C_light.gameObject.SetActive(false);
-        }
-
-        //wait threee frames to fire this is to fix animations
-        private IEnumerator StartFireRoutine()
-        {
-            C_gunHolder.ShotFired();
-            yield return 0;
-            yield return 0;
-            yield return 0;
-            yield return 0;
-            f_timeUntilNextFire = 0;
-            b_isFiring = true;
         }
 
     }

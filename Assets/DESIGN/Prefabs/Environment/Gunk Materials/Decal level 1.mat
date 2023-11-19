@@ -141,15 +141,18 @@ Material:
     - _DecalStencilRef: 16
     - _DecalStencilWriteMask: 16
     - _DecayScale: 1.71
-    - _Decay_Amount: 0.9966771
+    - _Decay_Amount: 0
     - _Decay_edge_size: 2.5
     - _Displacement: 0
     - _Displacement_Scale: 0.54
     - _DrawOrder: 0
     - _EdgeNormalStrength: 0.22
-    - _EdgeScale: 79.59
+    - _EdgeScale: 19.46
     - _EdgeSpeed: 0.5
     - _EdgeStrength: 1.5
+    - _Edge_Smoothstep_max: 0.79
+    - _Edge_Smoothstep_min: 0.4
+    - _Edge_Voronoi_or_Texture: 0
     - _Edge_scale: 0.45
     - _Edge_speed: 0.5
     - _Edge_texture_size: 0.25
@@ -167,26 +170,39 @@ Material:
     - _Gunk_Outness: 0.137
     - _Gunk_Smoothness: 0.491
     - _Gunk_Surface_normal_size: 0.07
+    - _Gunk_Texture_On_Off: 0
     - _Gunk_surface_normal_strength: 0.02
     - _InnerVoronoiMultiply: 1
-    - _InnerVoronoiScale: 35.5
+    - _InnerVoronoiScale: 9.8
+    - _Inside_Voronoi_or_texture: 1
     - _MaxSize: 12
     - _Metallic: 0
     - _Metallic_Multiplier: 0
     - _OverlayNoiseScale: 50
     - _OverlayNormalScale: 0.36
-    - _OverlayNormalStrength: 0.12
+    - _OverlayNormalStrength: 0.03
     - _Overlay_Texture_size: 1.38
     - _Overlay_var_speed: 0.2
     - _ParallaxAmount: 30
     - _Secondary_Decay_size: 1
     - _Secondary_Edge_size: 0.1
+    - _Simple_colour_scale: 22.94
     - _Smoothness: 0.489
+    - _Smoothstep_max: 0.79
+    - _Smoothstep_min: 0.4
     - _USE_GRADIENT_FOR_OVERLAY: 0
     - _USE_GRADIENT_FOR_SECONDARY: 1
     - _USE_VORONOI_FOR_TEXTURE: 0
     - _Use_Flat_Colour: 0
+    - _Use_Gunk_Texture: 1
+    - _Use_Voronoi_Edge: 0
+    - _Use_Voronoi_Inside: 0
     - _Use_voronoi_for_edge: 0.326
+    - _Webbing_Smoothness: 1
+    - _Webbing_Wiggle_Scale: 1
+    - _Webbing_Wiggle_speed: 1
+    - _Webbing_Wiggle_strength: 1
+    - _Webbing_normal: 0
     - _Wiggle_amount: 3.13
     - _norm_strength: 0.08
     m_Colors:
@@ -205,4 +221,5 @@ Material:
     - _Gunk_remap: {r: 0, g: 10.7, b: 0, a: 0}
     - _Overlay_Colour_Var: {r: 0.24528301, g: 0.1214845, b: 0.24528301, a: 0}
     - _Overlay_colour: {r: 0.115699545, g: 0.061899252, b: 0.122641504, a: 0}
+    - _Webbing_colour: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

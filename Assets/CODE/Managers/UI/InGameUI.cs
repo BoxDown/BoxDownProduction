@@ -388,6 +388,8 @@ namespace Managers
         #endregion
         #endregion
 
+        #region Interactable
+
         public static void SetClosestInteractable(Transform newTransform)
         {
             gameUI.C_closestInteractable = newTransform;
@@ -451,6 +453,15 @@ namespace Managers
             }
             gameUI.C_interactionGroup.gameObject.SetActive(false);
         }
+        #endregion
+
+        #region LevelProgressionUI
+
+
+         
+
+
+        #endregion
 
 
     }

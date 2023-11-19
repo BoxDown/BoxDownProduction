@@ -64,7 +64,7 @@ public class CameraDolly : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void LateUpdate()
     {
         if (PauseMenu.pauseMenu.b_gamePaused)
         {
@@ -95,7 +95,7 @@ public class CameraDolly : MonoBehaviour
             //problem child
             else if (distanceAwayFromCenter > f_focusRadius)
             {
-                C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime - ((distanceAwayFromCenter - f_focusRadius) * Time.fixedDeltaTime));
+                C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime - ((distanceAwayFromCenter - f_focusRadius) * Time.deltaTime));
             }
             else
             {
@@ -148,11 +148,11 @@ public class CameraDolly : MonoBehaviour
         int negativeAmplitude = Time.frameCount % 30 == 0 ? -1 : 1; 
         if (f_shakeFrequency != 0)
         {
-            f_shakeFrequency = Mathf.MoveTowards(f_shakeFrequency, 0, Mathf.Clamp(f_shakeFrequency, 1, f_shakeFrequency) * Time.fixedDeltaTime);
+            f_shakeFrequency = Mathf.MoveTowards(f_shakeFrequency, 0, Mathf.Clamp(f_shakeFrequency, 1, f_shakeFrequency) * Time.deltaTime);
         }
         if (f_shakeAmplitude != 0)
         {
-            f_shakeAmplitude = Mathf.MoveTowards(f_shakeAmplitude, 0, Mathf.Clamp(f_shakeAmplitude, 1, f_shakeAmplitude) * Time.fixedDeltaTime);
+            f_shakeAmplitude = Mathf.MoveTowards(f_shakeAmplitude, 0, Mathf.Clamp(f_shakeAmplitude, 1, f_shakeAmplitude) * Time.deltaTime);
         }
     }
 

@@ -42,7 +42,7 @@ public class Door : MonoBehaviour
     {
         b_locked = true;
         GetComponent<BoxCollider>().isTrigger = true;
-        if (GameManager.gameManager.i_currentRoom != 6)
+        if (GameManager.gameManager.i_currentRoom != 7)
         {
             GetAllDoors();
             RandomiseRoomType();

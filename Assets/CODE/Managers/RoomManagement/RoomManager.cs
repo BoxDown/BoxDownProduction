@@ -39,6 +39,7 @@ namespace Managers
 
         private void Start()
         {
+            InGameUI.ProgressLevel();
             GameManager.gameManager.UpdateRewardPoint(S_rewardPosition);
             PlayerController player = FindObjectOfType<PlayerController>();
             C_manager = GetComponent<PolyBrushManager>();
@@ -101,7 +102,6 @@ namespace Managers
                         ResultsUI.ActivateWin();
                     }
                     GameManager.IncrementRoomsCleared();
-                    InGameUI.FadeInRoomCount();
                     SpawnReward();
                     UnlockAllDoors();
                     if (C_manager != null)
@@ -110,7 +110,11 @@ namespace Managers
                         AudioManager.SetBattleMusicLowIntensity();
                     }
                     b_endTriggered = true;
-                    InGameUI.FadeOutEnemyCount();
+                    if (InGameUI.gameUI.gameObject.activeInHierarchy)
+                    {
+                        InGameUI.FadeInRoomCount();
+                        InGameUI.FadeOutEnemyCount();
+                    }
                 }
                 return;
             }
@@ -165,7 +169,7 @@ namespace Managers
 
         private void SpawnReward()
         {
-            if(C_lastAliveEnemy != null)
+            if (C_lastAliveEnemy != null)
             {
                 GameManager.gameManager.UpdateRewardPoint(C_lastAliveEnemy.transform.position);
             }
@@ -194,14 +198,14 @@ namespace Managers
         private void UpdateEnemiesAlive()
         {
             float enemyCount = 0;
-            if(aC_enemyWaveList.Length == 0)
+            if (aC_enemyWaveList.Length == 0)
             {
-                InGameUI.UpdateEnemyCountText(enemyCount, i_currentWave  == aC_enemyWaveList.Length - 1 ? true : false, aC_enemyWaveList.Length - i_currentWave - 1);
+                InGameUI.UpdateEnemyCountText(enemyCount, i_currentWave == aC_enemyWaveList.Length - 1 ? true : false, aC_enemyWaveList.Length - i_currentWave - 1);
                 return;
             }
-            else if(aC_enemyWaveList[i_currentWave].aC_enemies.Length == 0)
+            else if (aC_enemyWaveList[i_currentWave].aC_enemies.Length == 0)
             {
-                InGameUI.UpdateEnemyCountText(enemyCount, i_currentWave  == aC_enemyWaveList.Length - 1 ? true : false,aC_enemyWaveList.Length - i_currentWave - 1);
+                InGameUI.UpdateEnemyCountText(enemyCount, i_currentWave == aC_enemyWaveList.Length - 1 ? true : false, aC_enemyWaveList.Length - i_currentWave - 1);
                 return;
             }
             for (int i = 0; i < aC_enemyWaveList[i_currentWave].aC_enemies.Length; i++)

@@ -44,6 +44,7 @@ namespace Managers
         public static void ActivateLose()
         {
             InGameUI.DeactivateInGameUI();
+            resultsUI.C_winResult.gameObject.SetActive(false);
             resultsUI.C_loseResult.gameObject.SetActive(true);
             GameManager.CurrentSelectionResultsMenu();
             resultsUI.C_statsText.text =
@@ -58,6 +59,7 @@ namespace Managers
         public static void ActivateWin()
         {
             InGameUI.DeactivateInGameUI();
+            resultsUI.C_loseResult.gameObject.SetActive(false);
             resultsUI.C_winResult.gameObject.SetActive(true);
             GameManager.CurrentSelectionResultsMenu();
             resultsUI.C_statsText.text =

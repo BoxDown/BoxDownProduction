@@ -228,6 +228,7 @@ GameObject:
   - component: {fileID: 5601549827048869362}
   - component: {fileID: 635995768042981309}
   - component: {fileID: 2007548048}
+  - component: {fileID: 8099611751573295371}
   m_Layer: 0
   m_Name: PREFAB_Player
   m_TagString: Player
@@ -265,7 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a59337340013dcd4996a08720bca8caa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  f_maxSpeed: 7.5
+  f_maxSpeed: 8.5
   f_maxAcceleration: 65
   C_accelerationCurve:
     serializedVersion: 2
@@ -291,10 +292,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  f_rotationTime: 0.1
+  f_rotationTime: 0.015
   f_dodgeStartDelay: 0.03
-  f_dodgeLength: 2.5
-  f_dodgeTime: 0.2
+  f_dodgeLength: 4
+  f_dodgeTime: 0.25
   C_dodgeCurve:
     serializedVersion: 2
     m_Curve:
@@ -338,10 +339,10 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   f_dodgeRecoveryTime: 0.35
-  f_size: 0.35
+  f_size: 0.225
   f_collisionBounciness: 0.285
   f_maxHealth: 100
-  f_invincibleTime: 0.15
+  f_invincibleTime: 0.5
   C_ownedGun: {fileID: 5266124872177242341}
   b_debugRespawn: 0
   f_respawnTime: 1
@@ -356,6 +357,20 @@ MonoBehaviour:
   C_rightFoot: {fileID: 0}
   S_cameraDirection: {x: 0, y: 0, z: 0}
 --- !u!136 &2007548048
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6313259657333278374}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.225
+  m_Height: 1.19
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.59, z: 0}
+--- !u!136 &8099611751573295371
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -679,6 +694,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PREFAB_VFX_AfterEffects
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160873319928863101, guid: 7a078a83e30c5544aa0395f7b92ba902,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a078a83e30c5544aa0395f7b92ba902, type: 3}

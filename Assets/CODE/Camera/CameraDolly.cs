@@ -20,6 +20,10 @@ public class CameraDolly : MonoBehaviour
     [Rename("Explosion Shake Amplitude")] public float f_explosionShakeAmplitude = 2;
     [Rename("Explosion Shake Frequency")] public float f_explosionShakeFrequency = 3;
 
+    [Header("Gun Explosion Shake Variables")]
+    [Rename("Gun Explosion Shake Amplitude")] public float f_gunExplosionShakeAmplitude = 1;
+    [Rename("Gun Explosion Shake Frequency")] public float f_gunExplosionShakeFrequency = 5;
+
     [Header("Gunshot Shake Variables")]
     [Rename("Gunshot Shake Amplitude")] public float f_gunshotShakeAmplitude = 0.2f;
     [Rename("Gunshot Shake Frequency")] public float f_gunshotShakeFrequency = 15f;
@@ -68,24 +72,30 @@ public class CameraDolly : MonoBehaviour
         }
         if (C_targetPlayer != null)
         {
+            //grab pos + look direction
             S_playerPosition = C_targetPlayer.transform.position;
             S_playerLookDirection = C_targetPlayer.S_cameraDirection;
 
-            Vector3 lookOffset = S_playerPosition + (S_playerLookDirection * f_lookSrength);
-            Vector3 nextCameraPos = b_shaking ? S_offsetVector + lookOffset + new Vector3(f_shakeAmplitude * Mathf.Sin(Time.time * f_shakeFrequency), 0, -f_shakeAmplitude * Mathf.Cos(Time.time * f_shakeFrequency)) : S_offsetVector + lookOffset;
 
+            //theoretical next camera point
+            Vector3 playerLookOffset = S_playerPosition + (S_playerLookDirection * f_lookSrength);
+            //actual next camera point
+            Vector3 nextCameraPos = b_shaking ? S_offsetVector + playerLookOffset + new Vector3(f_shakeAmplitude * Mathf.Sin(Time.time * f_shakeFrequency), 0, -f_shakeAmplitude * Mathf.Cos(Time.time * f_shakeFrequency)) : S_offsetVector + playerLookOffset;
+
+            float distanceAwayFromCenter = Vector3.Distance(S_nextFocus, S_currentFocus);
             S_currentFocus = transform.position - S_offsetVector;
-            S_nextFocus = lookOffset;
+            S_nextFocus = playerLookOffset;
             if (b_shaking)
             {
                 MoveCameraShakeTowardsZero();
-                C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime / 100.0f);
+                C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime / 10.0f);
                 GameManager.gameManager.b_cullLastFrame = GameManager.gameManager.b_cull;
                 return;
             }
-            else if (Vector3.Distance(S_nextFocus, S_currentFocus) > f_focusRadius)
+            //problem child
+            else if (distanceAwayFromCenter > f_focusRadius)
             {
-                C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime);
+                C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime - ((distanceAwayFromCenter - f_focusRadius) * Time.deltaTime));
             }
             else
             {
@@ -100,6 +110,10 @@ public class CameraDolly : MonoBehaviour
     {
         ShakeCamera(f_explosionShakeAmplitude, f_explosionShakeFrequency);
     }
+    public void GunExplosionCameraShake()
+    {
+        ShakeCamera(f_gunExplosionShakeAmplitude, f_gunExplosionShakeFrequency);
+    }
     public void GunshotCameraShake()
     {
         ShakeCamera(f_gunshotShakeAmplitude, f_gunshotShakeFrequency);
@@ -112,31 +126,33 @@ public class CameraDolly : MonoBehaviour
 
     private void ShakeCamera(float shakeAmplitude, float shakeFrequency)
     {
-        if (f_shakeAmplitude > shakeAmplitude)
+        if (f_shakeAmplitude > shakeAmplitude && f_shakeFrequency > shakeFrequency)
         {
             return;
         }
-        else if (f_shakeFrequency > shakeFrequency)
+        if (f_shakeFrequency < shakeFrequency)
         {
-            return;
+            f_shakeFrequency += shakeFrequency;
+            f_shakeFrequency = Mathf.Clamp(f_shakeFrequency, 0, shakeFrequency);
         }
-
-        f_shakeAmplitude += shakeAmplitude;
-        f_shakeAmplitude = Mathf.Clamp(f_shakeAmplitude, 0, shakeAmplitude);
-
-        f_shakeFrequency += shakeFrequency;
-        f_shakeFrequency = Mathf.Clamp(f_shakeFrequency, 0, shakeFrequency);
+        if (f_shakeAmplitude < shakeAmplitude)
+        {
+            f_shakeAmplitude += shakeAmplitude;
+            f_shakeAmplitude = Mathf.Clamp(f_shakeAmplitude, 0, shakeAmplitude);
+        }
     }
 
     public void MoveCameraShakeTowardsZero()
     {
-        if(f_shakeFrequency != 0)
+        int negativeFrequency = Time.frameCount % 15 == 0 ? -1 : 1; 
+        int negativeAmplitude = Time.frameCount % 30 == 0 ? -1 : 1; 
+        if (f_shakeFrequency != 0)
         {
-            f_shakeFrequency = Mathf.MoveTowards(f_shakeFrequency, 0, (1 / f_shakeFrequency) * Time.deltaTime);
+            f_shakeFrequency = Mathf.MoveTowards(f_shakeFrequency, 0, Mathf.Clamp(f_shakeFrequency, 1, f_shakeFrequency) * Time.deltaTime);
         }
-        if(f_shakeAmplitude != 0)
+        if (f_shakeAmplitude != 0)
         {
-            f_shakeAmplitude = Mathf.MoveTowards(f_shakeAmplitude, 0, (1 / f_shakeAmplitude) * Time.deltaTime);
+            f_shakeAmplitude = Mathf.MoveTowards(f_shakeAmplitude, 0, Mathf.Clamp(f_shakeAmplitude, 1, f_shakeAmplitude) * Time.deltaTime);
         }
     }
 

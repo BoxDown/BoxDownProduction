@@ -94,11 +94,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   f_health: 15
-  C_halfDestroyedObject: {fileID: 0}
-  C_grabBag: {fileID: 0}
+  C_meshTransform: {fileID: 5634840868983264491}
+  C_halfDestroyedObject: {fileID: 3428903185333593287, guid: a01a5acb511b59b41965bdb2a2ba491d,
+    type: 3}
+  C_grabBag: {fileID: 3633369475504369105, guid: 72119df5aec5bb54ca5adac708b6beaa,
+    type: 3}
+  S_grabBagOffset: {x: 0, y: 0.4, z: 0}
   b_explosive: 1
   f_damage: 20
   f_size: 4
+  C_sizeOverLifetimeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   f_length: 1
   f_knockback: 1
   C_explosionEffect: {fileID: 9198468734860294505, guid: 2e9cbdddc48dff340b51083b4dc79e55,
@@ -250,7 +278,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: b8fa1e8fc8a62c14ea1671f822a62a06,
         type: 3}
       propertyPath: m_RenderingLayerMask
-      value: 1
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: b8fa1e8fc8a62c14ea1671f822a62a06,
         type: 3}

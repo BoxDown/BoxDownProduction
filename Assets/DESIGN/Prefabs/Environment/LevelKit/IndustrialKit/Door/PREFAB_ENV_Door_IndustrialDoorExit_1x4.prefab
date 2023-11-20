@@ -157,6 +157,9 @@ MonoBehaviour:
   C_randomConeMat: {fileID: 2100000, guid: 1b16811e48ad9f14197c12612695d072, type: 2}
   C_randomProjectionMat: {fileID: 2100000, guid: 45275ecc1e957bb4da072a237dd4d0a1,
     type: 2}
+  C_bossConeMat: {fileID: 2100000, guid: 8f095d5c88d7ff44b9cb49dc6d74ffeb, type: 2}
+  C_bossProjectionMat: {fileID: 2100000, guid: 846efb7b802e2914096edbacd418dbe1, type: 2}
+  e_roomType: 0
 --- !u!54 &2904833764344847339
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -433,6 +436,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: b5f37b6c92d3be5499f4b2437ac88afb, type: 2}
     - target: {fileID: -1778501999058770960, guid: 163d93b43b4735f41a497f6276536ef7,
         type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 259
+      objectReference: {fileID: 0}
+    - target: {fileID: -1778501999058770960, guid: 163d93b43b4735f41a497f6276536ef7,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b5f37b6c92d3be5499f4b2437ac88afb, type: 2}
@@ -446,6 +454,11 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: b234ce5618f4a7645938e5b1a00b165f, type: 2}
+    - target: {fileID: 8941124844280086939, guid: 163d93b43b4735f41a497f6276536ef7,
+        type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 259
+      objectReference: {fileID: 0}
     - target: {fileID: 8941124844280086939, guid: 163d93b43b4735f41a497f6276536ef7,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

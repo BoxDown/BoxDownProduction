@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   C_meshPrefab: {fileID: 1913882017038557141, guid: 625a6f5245122604cbf0dfcaf310908c,
     type: 3}
-  s_moduleName: Standard Trig
+  s_moduleName: Base Trig
   e_moduleType: 0
   f_moduleStrength: 100
-  f_baseDamage: 4
-  f_fireRate: 13
+  f_baseDamage: 7
+  f_fireRate: 9
   f_bulletSpeed: 14
-  f_knockBack: 0
+  f_knockBack: 0.1
   S_bulletEffectInformation:
     e_bulletEffect: 0
     f_effectTime: 0
@@ -39,6 +39,12 @@ MonoBehaviour:
     i_ricochetCount: 0
     C_explosionPrefab: {fileID: 0}
     f_explosionSize: 0
+    C_sizeOverLifetimeCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     f_explosionDamage: 0
     f_explosionKnockbackDistance: 0
     f_explosionLifeTime: 0

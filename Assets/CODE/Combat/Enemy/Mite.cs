@@ -55,7 +55,7 @@ namespace Enemy
             }
             if (!b_chasePlayer)
             {
-                if (Physics.SphereCast(transform.position, f_size, transform.forward, out RaycastHit hit, f_size * 2, i_bulletLayerMask))
+                if (Physics.SphereCast(transform.position, f_size, transform.forward, out RaycastHit hit, f_size * 2 + (S_velocity.magnitude * Time.deltaTime), i_bulletLayerMask))
                 {
                     if (hit.transform.GetComponent<Combatant>() != null)
                     {
@@ -82,35 +82,6 @@ namespace Enemy
             {
                 base.CheckCollisions();
                 return;
-            }
-            RaycastHit hit;
-            if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, Vector3.right, out hit, f_size, i_bulletLayerMask) && S_velocity.x > 0)
-            {
-                if (hit.transform.GetComponent<Combatant>() == null && !hit.collider.isTrigger)
-                {
-                    S_velocity.x = -S_velocity.x * f_collisionBounciness;
-                }
-            }
-            else if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, -Vector3.right, out hit, f_size, i_bulletLayerMask) && S_velocity.x < 0)
-            {
-                if (hit.transform.GetComponent<Combatant>() == null && !hit.collider.isTrigger)
-                {
-                    S_velocity.x = -S_velocity.x * f_collisionBounciness;
-                }
-            }
-            if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, Vector3.forward, out hit, f_size, i_bulletLayerMask) && S_velocity.z > 0)
-            {
-                if (hit.transform.GetComponent<Combatant>() == null && !hit.collider.isTrigger)
-                {
-                    S_velocity.z = -S_velocity.z * f_collisionBounciness;
-                }
-            }
-            else if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, -Vector3.forward, out hit, f_size, i_bulletLayerMask) && S_velocity.z < 0)
-            {
-                if (hit.transform.GetComponent<Combatant>() == null && !hit.collider.isTrigger)
-                {
-                    S_velocity.z = -S_velocity.z * f_collisionBounciness;
-                }
             }
         }
         public override void Die()

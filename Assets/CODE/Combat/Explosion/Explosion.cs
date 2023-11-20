@@ -15,9 +15,11 @@ namespace Explosion
         public float f_explosionDamage;
         public float f_explosionKnockbackStrength;
         public float f_explosionLifeTime;
+        public AnimationCurve C_sizeOverLifeTimeCurve;
         private float f_lifeTime;
         List<Transform> lC_alreadyCollided = new List<Transform>();
         VisualEffect C_explosionEffect;
+
 
         public void InitialiseExplosion()
         {
@@ -37,7 +39,6 @@ namespace Explosion
             //shockwave start size radius * 1.2f
             shockwaveParticle.startSize = (f_explosionSize / 2) * 1.2f;
 
-            FindObjectOfType<CameraDolly>().ExplosionCameraShake();
             AudioManager.PlayFmodEvent("Explosion", transform.position);
 
         }
@@ -49,7 +50,7 @@ namespace Explosion
                 Destroy(gameObject);
             }
             CheckCollisions();
-            transform.localScale = Vector3.Lerp(Vector3.zero, new Vector3(f_explosionSize * 2.0f, f_explosionSize * 2.0f, f_explosionSize * 2.0f), f_lifeTime / f_explosionLifeTime);
+            transform.localScale = Vector3.one * (C_sizeOverLifeTimeCurve.Evaluate(f_lifeTime / f_explosionLifeTime) * f_explosionSize);
             f_lifeTime += Time.deltaTime;
         }
 

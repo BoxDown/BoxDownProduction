@@ -12,26 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8945659a36ce7a43a8defef3334e1ff, type: 3}
   m_Name: P_Vamp(CLIP)
   m_EditorClassIdentifier: 
-  C_meshPrefab: {fileID: 5210535950026647208, guid: 34399dc15b890a64d90b2aa76fc57dda,
+  C_meshPrefab: {fileID: 4647910514058293417, guid: c1b6d9a8e4044d04485f7b93c972b304,
     type: 3}
   s_moduleName: Vamp
   e_moduleType: 1
-  f_moduleStrength: 100
+  f_moduleStrength: 25
   f_baseDamage: 0
   f_fireRate: 0
   f_bulletSpeed: 0
   f_knockBack: 0
   S_bulletEffectInformation:
     e_bulletEffect: 4
-    f_effectTime: 1.5
+    f_effectTime: 1.25
     f_tickDamage: 2
     i_amountOfTicks: 3
     f_slowPercent: 0.25
     f_chainLength: 4.5
     f_chainDamagePercent: 0.25
-    f_vampirePercent: 0.15
-  f_reloadSpeed: 2.5
-  f_movementPenalty: 0
+    f_vampirePercent: 0.1
+  f_reloadSpeed: 3
+  f_movementPenalty: 1.75
   i_clipSize: 48
   S_bulletTraitInformation:
     e_bulletTrait: 0
@@ -39,6 +39,12 @@ MonoBehaviour:
     i_ricochetCount: 0
     C_explosionPrefab: {fileID: 0}
     f_explosionSize: 0
+    C_sizeOverLifetimeCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     f_explosionDamage: 0
     f_explosionKnockbackDistance: 0
     f_explosionLifeTime: 0

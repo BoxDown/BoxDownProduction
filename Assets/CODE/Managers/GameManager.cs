@@ -256,12 +256,13 @@ namespace Managers
             }
             else if (i_currentRoom == i_easyRooms + i_mediumRooms + i_hardRooms)
             {
-                StartCoroutine(SceneTransition("HardBreakRoom"));
                 IncrementRoom();
+                StartCoroutine(SceneTransition("HardBreakRoom"));
                 return;
             }
             else
             {
+                IncrementRoom();
                 StartCoroutine(SceneTransition("FinalLevel"));
             }
         }
@@ -504,6 +505,7 @@ namespace Managers
             gameManager.StartCoroutine(gameManager.SceneTransition("StartBreakRoom"));
             InGameUI.ActivateInGameUI();
             AudioManager.TransitionToBattleTheme();
+            InGameUI.ResetLevelProgression();
         }
         public static void OpenCreditsMenu()
         {
@@ -524,6 +526,7 @@ namespace Managers
         {
             //AudioManager.StartMusicLoop();
             AudioManager.TransitionToBattleTheme();
+            InGameUI.ResetLevelProgression();
             gameManager.RemovePlayer();
             gameManager.RemoveCamera();
             StartGame();

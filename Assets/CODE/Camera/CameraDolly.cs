@@ -13,7 +13,6 @@ public class CameraDolly : MonoBehaviour
     [Header("Modifier Varaibles")]
     [Rename("Look Strength")] public float f_lookSrength;
     [Rename("Smooth Time")] public float f_smoothTime = 0.2f;
-    [Rename("Focus Radius")] public float f_focusRadius;
     [Rename("Offset")] public Vector3 S_offsetVector;
 
     [Header("Explosion Shake Variables")]
@@ -92,14 +91,9 @@ public class CameraDolly : MonoBehaviour
                 GameManager.gameManager.b_cullLastFrame = GameManager.gameManager.b_cull;
                 return;
             }
-            //problem child
-            else if (distanceAwayFromCenter > f_focusRadius)
-            {
-                C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime - ((distanceAwayFromCenter - f_focusRadius) * Time.deltaTime));
-            }
             else
             {
-                S_velocity = Vector3.MoveTowards(S_velocity, Vector3.zero, Time.deltaTime / 10.0f);
+                C_camera.transform.position = Vector3.SmoothDamp(C_camera.transform.position, nextCameraPos, ref S_velocity, f_smoothTime);
             }
 
         }

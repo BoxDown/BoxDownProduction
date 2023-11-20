@@ -321,6 +321,11 @@ namespace Managers
                     lC_bulletUIPool[lC_bulletUIPool.Count - i - 1].transform.position = positionToSet;
                 }
             }
+            for (int i = 0; i < originalPositions.Count; i++)
+            {
+                Vector3 positionToSet = goalPositions[i];
+                lC_bulletUIPool[lC_bulletUIPool.Count - i - 1].transform.position = positionToSet;
+            }
             i_currentBullet = lC_bulletUIPool.Count;
             b_bulletsReloaded = false;
         }

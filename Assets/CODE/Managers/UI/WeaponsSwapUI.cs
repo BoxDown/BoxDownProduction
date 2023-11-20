@@ -21,11 +21,18 @@ namespace Managers
         [Rename("Barrel Module Card"), SerializeField] private GunModuleCard C_barrelCard;
         [Rename("Swap Module Card"), SerializeField] private GunModuleCard C_swapCard;
 
+        [Rename("Buttons Transform"), SerializeField] private Transform C_buttonTransform;
+
         // magic numbers -700 -225 255 700
-        Vector2 S_left = new Vector2(-700,-150);
+        Vector2 S_left = new Vector2(-700, 0);
         Vector2 S_middleLeft = new Vector2(-255, 0);
         Vector2 S_middleRight = new Vector2(255, 0);
-        Vector2 S_right = new Vector2(700, -150);
+        Vector2 S_right = new Vector2(700, 0);
+        Vector2 S_verticalOffset = new Vector2(0, -150);
+
+        Vector2 S_triggerButtonPos = new Vector2(-455, -540);
+        Vector2 S_clipButtonPos = new Vector2(0, -540);
+        Vector2 S_barrelButtonPos = new Vector2(455, -540);
 
 
 
@@ -93,28 +100,34 @@ namespace Managers
         {
             GameManager.gameManager.C_gunModuleUI.PlayTriggerIdle();
             //Set Positions
-            C_clipCard.transform.localPosition = S_left;
-            C_triggerCard.transform.localPosition = S_middleLeft;
-            C_swapCard.transform.localPosition = S_middleRight;
-            C_barrelCard.transform.localPosition = S_right;
+            C_triggerCard.transform.localPosition = S_left;
+            C_swapCard.transform.localPosition = S_middleLeft;
+            C_clipCard.transform.localPosition = S_middleRight + S_verticalOffset;
+            C_barrelCard.transform.localPosition = S_right + S_verticalOffset;
+
+            C_buttonTransform.localPosition = S_triggerButtonPos;
         }
         private void ReadySwapClip()
         {
             GameManager.gameManager.C_gunModuleUI.PlayClipIdle();
             //Set Positions
-            C_triggerCard.transform.localPosition = S_left;
+            C_triggerCard.transform.localPosition = S_left + S_verticalOffset;
             C_clipCard.transform.localPosition = S_middleLeft;
             C_swapCard.transform.localPosition = S_middleRight;
-            C_barrelCard.transform.localPosition = S_right;
+            C_barrelCard.transform.localPosition = S_right + S_verticalOffset;
+
+            C_buttonTransform.localPosition = S_clipButtonPos;
         }
         private void ReadySwapBarrel()
         {
             GameManager.gameManager.C_gunModuleUI.PlayBarrelIdle();
             //Set Positions
-            C_triggerCard.transform.localPosition = S_left;
-            C_barrelCard.transform.localPosition = S_middleLeft;
-            C_swapCard.transform.localPosition = S_middleRight;
-            C_clipCard.transform.localPosition = S_right;
+            C_triggerCard.transform.localPosition = S_left + S_verticalOffset;
+            C_clipCard.transform.localPosition = S_middleLeft + S_verticalOffset;
+            C_barrelCard.transform.localPosition = S_middleRight;
+            C_swapCard.transform.localPosition = S_right;
+
+            C_buttonTransform.localPosition = S_barrelButtonPos;
         }
         private void UpdateGunModels(GunModule swappingModule)
         {

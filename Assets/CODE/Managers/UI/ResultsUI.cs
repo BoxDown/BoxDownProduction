@@ -32,7 +32,7 @@ namespace Managers
         [Rename("Button Group")] public Transform C_buttonGroup;
 
         [Header("Animation Variables")]
-        [Rename("Time Between Animations")] public float f_waitTime;
+        [Rename("Time Between Animations")] public float f_waitTime = 1;
         [Rename("Text Size Animation Curve")] public AnimationCurve C_scaleCurve;
 
 
@@ -73,25 +73,17 @@ namespace Managers
             resultsUI.C_stat2Value.text = (GameManager.GetSpidersKilled() + GameManager.GetMitesKilled() + GameManager.GetSlugsKilled() + GameManager.GetWaspsKilled()).ToString();
             resultsUI.C_stat3Name.text = "Bullets Fired:";
             resultsUI.C_stat3Value.text = GameManager.GetBulletsFired().ToString();
-            resultsUI.C_stat4Name.text = "This God Damn Stat";
+            resultsUI.C_stat4Name.text = "Time:";
             resultsUI.C_stat4Value.text = $"{((int)(GameManager.GetTimeTaken() / 60)).ToString("0")}m { (GameManager.GetTimeTaken() % 60).ToString("f2")}s";
         }
 
         public static void ActivateLose()
         {
-            InGameUI.DeactivateInGameUI();
-            resultsUI.C_winResult.gameObject.SetActive(false);
-            resultsUI.C_loseResult.gameObject.SetActive(true);
-            UpdateStats();
-            GameManager.CurrentSelectionResultsMenu();
+            resultsUI.StartCoroutine(resultsUI.ResultsAppearOverTime(false));
         }
         public static void ActivateWin()
         {
-            InGameUI.DeactivateInGameUI();
-            resultsUI.C_loseResult.gameObject.SetActive(false);
-            resultsUI.C_winResult.gameObject.SetActive(true);
-            UpdateStats();
-            GameManager.CurrentSelectionResultsMenu();
+            resultsUI.StartCoroutine(resultsUI.ResultsAppearOverTime(true));
         }
         public static void DeactivateLose()
         {
@@ -106,9 +98,100 @@ namespace Managers
             GameManager.BackToMainMenu();
         }
 
+        public static void ResetResults()
+        {
+            resultsUI.C_winResult.gameObject.SetActive(false);
+            resultsUI.C_loseResult.gameObject.SetActive(false);
+            resultsUI.C_statGroupTransform.gameObject.SetActive(false);
+            resultsUI.C_statGroup2Transform.gameObject.SetActive(false);
+            resultsUI.C_gunGroup.gameObject.SetActive(false);
+            resultsUI.C_buttonGroup.gameObject.SetActive(false);
+
+        }
+
         public IEnumerator ResultsAppearOverTime(bool win)
         {
-            yield return 0;
+            UpdateStats();
+            InGameUI.DeactivateInGameUI();
+
+            float gameOverStartTime = Time.time;
+            if (win)
+            {
+                resultsUI.C_loseResult.gameObject.SetActive(false);
+                resultsUI.C_winResult.gameObject.SetActive(true);
+                while (Time.time - gameOverStartTime < f_waitTime)
+                {
+                    float percentage = (Time.time - gameOverStartTime) / f_waitTime;
+                    float scale = C_scaleCurve.Evaluate(percentage);
+                    resultsUI.C_winResult.transform.localScale = Vector3.one * scale;
+                    yield return 0;
+                }
+            }
+            else
+            {
+                resultsUI.C_winResult.gameObject.SetActive(false);
+                resultsUI.C_loseResult.gameObject.SetActive(true);
+                while (Time.time - gameOverStartTime < f_waitTime)
+                {
+                    float percentage = (Time.time - gameOverStartTime) / f_waitTime;
+                    float scale = C_scaleCurve.Evaluate(percentage);
+                    resultsUI.C_loseResult.transform.localScale = Vector3.one * scale;
+                    yield return 0;
+                }
+            }
+
+            float group1StartTime = Time.time;
+            C_statGroupTransform.gameObject.SetActive(true);
+            while (Time.time - group1StartTime < f_waitTime)
+            {
+                float percentage = (Time.time - group1StartTime) / f_waitTime;
+                float scale = C_scaleCurve.Evaluate(percentage);
+                C_stat1Name.transform.localScale = Vector3.one * scale;
+                C_stat2Name.transform.localScale = Vector3.one * scale;
+                yield return 0;
+            }
+            C_stat1Name.transform.localScale = Vector3.one;
+            C_stat2Name.transform.localScale = Vector3.one;
+
+
+
+            float group2StartTime = Time.time;
+            C_statGroup2Transform.gameObject.SetActive(true);
+            while (Time.time - group2StartTime < f_waitTime)
+            {
+                float percentage = (Time.time - group2StartTime) / f_waitTime;
+                float scale = C_scaleCurve.Evaluate(percentage);
+                C_stat3Name.transform.localScale = Vector3.one * scale;
+                C_stat4Name.transform.localScale = Vector3.one * scale;
+                yield return 0;
+            }
+            C_stat3Name.transform.localScale = Vector3.one;
+            C_stat4Name.transform.localScale = Vector3.one;
+
+
+            float group3StartTime = Time.time;
+            C_gunGroup.gameObject.SetActive(true);
+            while (Time.time - group3StartTime < f_waitTime)
+            {
+                float percentage = (Time.time - group3StartTime) / f_waitTime;
+                float scale = C_scaleCurve.Evaluate(percentage);
+                C_gunGroup.transform.localScale = Vector3.one * scale;
+                yield return 0;
+            }
+            C_gunGroup.transform.localScale = Vector3.one;
+
+            float group4StartTime = Time.time;
+            C_buttonGroup.gameObject.SetActive(true);
+            while (Time.time - group4StartTime < f_waitTime)
+            {
+                float percentage = (Time.time - group4StartTime) / f_waitTime;
+                float scale = C_scaleCurve.Evaluate(percentage);
+                C_buttonGroup.transform.localScale = Vector3.one * scale;
+                yield return 0;
+            }
+            C_buttonGroup.transform.localScale = Vector3.one;
+
+            GameManager.CurrentSelectionResultsMenu();
         }
     }
 }

@@ -56,7 +56,27 @@ namespace Managers
         [Rename("Interaction Text"), SerializeField] TextMeshProUGUI C_interactionText;
         private Transform C_closestInteractable;
         private Transform C_closestInteractablelastFrame;
-        
+
+        [Header("Level Progression Images")]
+        [Rename("In Scene Room Images"), SerializeField] Image[] aC_roomImages;
+
+        [Header("Level Progression Sprites")]
+        [Rename("Room Finished Sprite"), SerializeField] Sprite C_roomFinishedSprite;
+        [Rename("Easy Current Sprite"), SerializeField] Sprite C_easyCurrentSprite;
+        [Rename("Medium Current Sprite"), SerializeField] Sprite C_mediumCurrentSprite;
+        [Rename("Hard Current Sprite"), SerializeField] Sprite C_hardCurrentSprite;
+        [Rename("Boss Current Sprite"), SerializeField] Sprite C_bossCurrentSprite;
+        [Rename("Transition Current Sprite"), SerializeField] Sprite C_transitionCurrentSprite;
+        [Rename("Transition Finished Sprite"), SerializeField] Sprite C_transitionFinishedSprite;
+
+        [Header("Level Reset")]
+        [Rename("Easy Room Sprite"), SerializeField] Sprite C_easyRoomSprite;
+        [Rename("Medium Room Sprite"), SerializeField] Sprite C_mediumRoomSprite;
+        [Rename("Hard Room Sprite"), SerializeField] Sprite C_hardRoomSprite;
+        [Rename("Transition Sprite"), SerializeField] Sprite C_transitionRoomSprite;
+        [Rename("Boss Room Sprite"), SerializeField] Sprite C_bossRoomSprite;
+
+
 
         private string s_currentActiveModuleName;
         private bool b_bulletsReloaded = false;
@@ -159,13 +179,13 @@ namespace Managers
             int difference = newBulletCount - i_currentBullet;
 
             //if the difference is 0 do nothing
-            if(difference == 0)
+            if (difference == 0)
             {
                 return;
             }
 
             //if it is greater than 0, instantiate the difference and add it to the list
-            if(difference > 0)
+            if (difference > 0)
             {
                 for (int i = 0; i < difference; i++)
                 {
@@ -407,11 +427,11 @@ namespace Managers
 
         public void UpdateButtonPrompt()
         {
-            if(C_closestInteractable != null)
+            if (C_closestInteractable != null)
             {
                 Vector3 targetPosition = Camera.main.WorldToScreenPoint(C_closestInteractable.GetComponent<Collider>().ClosestPoint(GameManager.GetPlayer().transform.position) - Vector3.up);
                 gameUI.C_interactionGroup.transform.position = Vector3.Lerp(gameUI.C_interactionGroup.transform.position, targetPosition, Vector3.Distance(gameUI.C_interactionGroup.transform.position, targetPosition));
-                if(C_closestInteractablelastFrame != C_closestInteractable)
+                if (C_closestInteractablelastFrame != C_closestInteractable)
                 {
                     if (C_closestInteractable.tag == "Gun Module")
                     {
@@ -436,7 +456,7 @@ namespace Managers
             }
             else
             {
-                if(roomType == Door.RoomType.RandomModule)
+                if (roomType == Door.RoomType.RandomModule)
                 {
                     gameUI.C_interactionText.text = $"Enter Random Room";
                     return;
@@ -457,8 +477,58 @@ namespace Managers
 
         #region LevelProgressionUI
 
+        public static void ResetLevelProgression()
+        {
+            gameUI.aC_roomImages[0].sprite = gameUI.C_easyRoomSprite;
+            gameUI.aC_roomImages[1].sprite = gameUI.C_easyRoomSprite;
+            gameUI.aC_roomImages[2].sprite = gameUI.C_mediumRoomSprite;
+            gameUI.aC_roomImages[3].sprite = gameUI.C_mediumRoomSprite;
+            gameUI.aC_roomImages[4].sprite = gameUI.C_hardRoomSprite;
+            gameUI.aC_roomImages[5].sprite = gameUI.C_hardRoomSprite;
+            gameUI.aC_roomImages[6].sprite = gameUI.C_transitionRoomSprite;
+            gameUI.aC_roomImages[7].sprite = gameUI.C_bossRoomSprite;
+        }
 
-         
+        public static void ProgressLevel()
+        {
+            switch (GameManager.gameManager.i_currentRoom)
+            {
+                case 1:
+                    gameUI.aC_roomImages[0].sprite = gameUI.C_easyCurrentSprite;
+                    break;
+                case 2:
+                    gameUI.aC_roomImages[0].sprite = gameUI.C_roomFinishedSprite;
+                    gameUI.aC_roomImages[1].sprite = gameUI.C_easyCurrentSprite;
+                    break;
+                case 3:
+                    gameUI.aC_roomImages[1].sprite = gameUI.C_roomFinishedSprite;
+                    gameUI.aC_roomImages[2].sprite = gameUI.C_mediumCurrentSprite;
+                    break;
+                case 4:
+                    gameUI.aC_roomImages[2].sprite = gameUI.C_roomFinishedSprite;
+                    gameUI.aC_roomImages[3].sprite = gameUI.C_mediumCurrentSprite;
+                    break;
+                case 5:
+                    gameUI.aC_roomImages[3].sprite = gameUI.C_roomFinishedSprite;
+                    gameUI.aC_roomImages[4].sprite = gameUI.C_hardCurrentSprite;
+                    break;
+                case 6:
+                    gameUI.aC_roomImages[4].sprite = gameUI.C_roomFinishedSprite;
+                    gameUI.aC_roomImages[5].sprite = gameUI.C_hardCurrentSprite;
+                    break;
+                case 7:
+                    gameUI.aC_roomImages[5].sprite = gameUI.C_roomFinishedSprite;
+                    gameUI.aC_roomImages[6].sprite = gameUI.C_transitionCurrentSprite;
+                    break;
+                case 8:
+                    gameUI.aC_roomImages[6].sprite = gameUI.C_transitionFinishedSprite;
+                    gameUI.aC_roomImages[7].sprite = gameUI.C_bossCurrentSprite;
+                    break;
+                case 9:
+                    gameUI.aC_roomImages[7].sprite = gameUI.C_roomFinishedSprite;
+                    break;
+            }
+        }
 
 
         #endregion

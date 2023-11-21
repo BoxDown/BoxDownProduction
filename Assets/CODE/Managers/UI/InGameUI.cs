@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using TMPro;
 using Utility;
 using Gun;
-using System.Linq;
 
 namespace Managers
 {

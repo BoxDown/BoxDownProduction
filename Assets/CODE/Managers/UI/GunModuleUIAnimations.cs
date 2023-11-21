@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using Utility;
 using TMPro;
 using Gun;
+using Managers;
 
 [RequireComponent(typeof(Animator))]
 public class GunModuleUIAnimations : MonoBehaviour
@@ -61,6 +62,14 @@ public class GunModuleUIAnimations : MonoBehaviour
     public void PlayBarrelSwap()
     {
         C_animator.SetFloat("Barrel", 2.0f);
+    }
+
+    public void SetGunBuiltIdle()
+    {
+        SwapTriggerMesh(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[0]);
+        SwapClipMesh(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[1]);
+        SwapBarrelMesh(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[2]);
+        C_animator.Play("Gun_Idle");
     }
 
     public void SwapTriggerMesh(GunModule gunModule)

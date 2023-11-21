@@ -826,18 +826,21 @@ public class Combatant : MonoBehaviour
     {
         C_afterEffects.SetFloat("IceSpawnRate", 10);
         C_afterEffects.SetFloat("Scale", f_size * 2.0f);
+        C_afterEffects.Play();
         Invoke("ClearIceEffect", seconds);
     }
     private void PlayFireEffect(float seconds)
     {
         C_afterEffects.SetFloat("FireSpawnRate", 16);
         C_afterEffects.SetFloat("Scale", f_size * 2.0f);
+        C_afterEffects.Play();
         Invoke("ClearFireEffect", seconds);
     }
     private void PlayElectricEffect(float seconds)
     {
         C_afterEffects.SetFloat("ElectricSpawnRate", 1400);
         C_afterEffects.SetFloat("Scale", f_size * 2.0f);
+        C_afterEffects.Play();
         Invoke("ClearElectricEffect", seconds);
     }
     private void PlayHealEffect(float seconds)
@@ -847,6 +850,7 @@ public class Combatant : MonoBehaviour
         C_afterEffects.SetFloat("HealingUpOrb", 1282);
         C_afterEffects.SetFloat("HealingDownorb", 1282);
         C_afterEffects.SetFloat("Scale", f_size * 2.0f);
+        C_afterEffects.Play();
         Invoke("ClearHealEffect", seconds);
     }
 

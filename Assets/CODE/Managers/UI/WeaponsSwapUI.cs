@@ -21,6 +21,8 @@ namespace Managers
         [Rename("Barrel Module Card"), SerializeField] private GunModuleCard C_barrelCard;
         [Rename("Swap Module Card"), SerializeField] private GunModuleCard C_swapCard;
 
+        [Rename("Button Group"), SerializeField] private CanvasGroup C_buttonGroup;
+
         [Rename("Buttons Transform"), SerializeField] private Transform C_buttonTransform;
 
         // magic numbers -700 -225 255 700
@@ -105,6 +107,7 @@ namespace Managers
             C_clipCard.transform.localPosition = S_middleRight + S_verticalOffset;
             C_barrelCard.transform.localPosition = S_right + S_verticalOffset;
 
+            C_buttonGroup.alpha = 1;
             C_buttonTransform.localPosition = S_triggerButtonPos;
         }
         private void ReadySwapClip()
@@ -116,6 +119,7 @@ namespace Managers
             C_swapCard.transform.localPosition = S_middleRight;
             C_barrelCard.transform.localPosition = S_right + S_verticalOffset;
 
+            C_buttonGroup.alpha = 1;
             C_buttonTransform.localPosition = S_clipButtonPos;
         }
         private void ReadySwapBarrel()
@@ -127,6 +131,7 @@ namespace Managers
             C_barrelCard.transform.localPosition = S_middleRight;
             C_swapCard.transform.localPosition = S_right;
 
+            C_buttonGroup.alpha = 1;
             C_buttonTransform.localPosition = S_barrelButtonPos;
         }
         private void UpdateGunModels(GunModule swappingModule)
@@ -144,13 +149,18 @@ namespace Managers
         private IEnumerator WeaponSwapRoutine()
         {
             GameManager.GetPlayer().SwapModule(C_swappingModuleTransform);
-
+            float startTime = Time.time;
             C_triggerCard.Fade();
             C_clipCard.Fade();
             C_barrelCard.Fade();
             C_swapCard.Fade();
+            while (Time.time - startTime < C_clipCard.f_fadeTime)
+            {
+                C_buttonGroup.alpha = 1 - ((Time.time - startTime) / C_clipCard.f_fadeTime);
+                yield return 0;
+            }
+            C_buttonGroup.alpha = 0;
 
-            yield return new WaitForSeconds(C_clipCard.f_fadeTime);
             switch (swapUI.C_swappingModule.e_moduleType)
             {
                 case GunModule.ModuleSection.Trigger:
@@ -166,7 +176,7 @@ namespace Managers
             yield return new WaitForSeconds(1.3f);
             AudioManager.PlayFmodEvent("SFX/Player/Gun_Change", GameManager.GetCamera().transform.position);
 
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.5f);
             TurnOff();
         }
     }

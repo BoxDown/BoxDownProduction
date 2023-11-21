@@ -72,7 +72,7 @@ public class GunModuleCard : MonoBehaviour
                 C_moduleStat3Name.text = "Bullet Speed:";
                 C_moduleStat4Name.text = "Bullet Type:";
                 //Values scale on x axis for horizontal fill, magic numbers at the start of maps are minimum and maximum
-                C_statValueBar1.transform.localScale = new Vector3(ExtraMaths.Map(3f, 21f, 0.1f, 0.9f, C_gunModuleReference.f_baseDamage), 1, 1);
+                C_statValueBar1.transform.localScale = new Vector3(ExtraMaths.Map(3f, 21f, 0.1f, 0.9f, C_gunModuleReference.f_baseDamage + C_gunModuleReference.S_bulletTraitInformation.f_explosionDamage), 1, 1);
                 C_statValueBar1.color = C_statBarGradient.Evaluate(C_statValueBar1.transform.localScale.x);
                 C_statValueBar2.transform.localScale = new Vector3(ExtraMaths.Map(3f, 13f, 0.1f, 0.9f, C_gunModuleReference.f_fireRate), 1, 1);
                 C_statValueBar2.color = C_statBarGradient.Evaluate(C_statValueBar2.transform.localScale.x);

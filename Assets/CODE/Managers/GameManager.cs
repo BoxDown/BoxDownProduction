@@ -55,6 +55,10 @@ namespace Managers
         [Rename("Clip Module Spawn Effect"), SerializeField] private GameObject C_clipSpawnVFX;
         [Rename("Barrel Module Spawn Effect"), SerializeField] private GameObject C_barrelSpawnVFX;
 
+        [Space(10)]
+        [Rename("Outline Material"), SerializeField] private Material C_outlineMaterial;
+
+
 
         private EventSystem C_eventSystem;
 
@@ -97,13 +101,7 @@ namespace Managers
                 ControlManager.ChangeInputDevice(C_playerInput.currentControlScheme);
             }
             CurrentSelectionCheck();
-
-            //TO DO, WHEN WE FIND AN APPROPRIATE LEVEL DELETE THIS ON UPDATE
-            AudioManager.SetMusicVolume(f_musicVolume);
-            AudioManager.SetSoundVolume(f_soundVolume);
-
         }
-
 
         #region GamePlayFunctons
         // Start is called before the first frame update
@@ -122,28 +120,20 @@ namespace Managers
             {
                 Initialise();
             }
+            AudioManager.SetMusicVolume(f_musicVolume);
+            AudioManager.SetSoundVolume(f_soundVolume);
+        }
+
+        public static void SetOutlineMaterialColour(Color color)
+        {
+            gameManager.C_outlineMaterial.SetColor("_OuterColor", color);
         }
 
         public void SpawnNextReward()
         {
             for (int i = 0; i < i_rewardsPerRoom; i++)
             {
-                switch (e_currentRewardType)
-                {
-                    // For Debug without weapon modules in project COMMENT THESE OUT
-                    case Door.RoomType.Trigger:
-                        GetRandomModule(e_currentRewardType);
-                        break;
-                    case Door.RoomType.Clip:
-                        GetRandomModule(e_currentRewardType);
-                        break;
-                    case Door.RoomType.Barrel:
-                        GetRandomModule(e_currentRewardType);
-                        break;
-                    case Door.RoomType.RandomModule:
-                        GetRandomModule(e_currentRewardType);
-                        break;
-                }
+                GetRandomModule(e_currentRewardType);
             }
         }
 
@@ -496,6 +486,11 @@ namespace Managers
 
         public static void StartGame()
         {
+            gameManager.StartCoroutine(gameManager.StartGameCoroutine());
+        }
+
+        public IEnumerator StartGameCoroutine()
+        {
             gameManager.ResetAllStats();
             gameManager.i_currentRoom = 0;
             gameManager.e_currentRewardType = Door.RoomType.RandomModule;
@@ -503,11 +498,13 @@ namespace Managers
             ResultsUI.DeactivateResults();
             SetStartTime();
             gameManager.StartCoroutine(gameManager.SceneTransition("StartBreakRoom"));
-            InGameUI.ActivateInGameUI();
             AudioManager.TransitionToBattleTheme();
             InGameUI.ResetLevelProgression();
             ResultsUI.ResetResults();
+            yield return new WaitForSeconds(f_sceneTransitionTime);
+            InGameUI.ActivateInGameUI();
         }
+
         public static void OpenCreditsMenu()
         {
             CreditsMenu.Activate();

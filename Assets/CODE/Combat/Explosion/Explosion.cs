@@ -17,6 +17,7 @@ namespace Explosion
         public float f_explosionLifeTime;
         public AnimationCurve C_sizeOverLifeTimeCurve;
         private float f_lifeTime;
+        bool b_lifeTimeReached = false;
         List<Transform> lC_alreadyCollided = new List<Transform>();
         VisualEffect C_explosionEffect;
 
@@ -32,22 +33,15 @@ namespace Explosion
             }
             GameManager.IncrementExplosionCount();
 
-            ParticleSystem smokeParticle = transform.Find("PREFAB_VFX_Smoke").GetComponent<ParticleSystem>();
-            ParticleSystem shockwaveParticle = transform.Find("PREFAB_VFX_Shockwave").GetComponent<ParticleSystem>();
-            //smoke start speed needs to be radius
-            smokeParticle.startSpeed = (f_explosionSize / 2);
-            //shockwave start size radius * 1.2f
-            shockwaveParticle.startSize = (f_explosionSize / 2) * 1.2f;
-
             AudioManager.PlayFmodEvent("Explosion", transform.position);
 
         }
 
         private void Update()
         {
-            if (LifeTimeCheck())
+            if (LifeTimeCheck() || b_lifeTimeReached)
             {
-                Destroy(gameObject);
+                return;
             }
             CheckCollisions();
             transform.localScale = Vector3.one * (C_sizeOverLifeTimeCurve.Evaluate(f_lifeTime / f_explosionLifeTime) * f_explosionSize);
@@ -111,14 +105,10 @@ namespace Explosion
             {
                 return false;
             }
+            Destroy(gameObject, 5);
+            b_lifeTimeReached = true;
             return true;
         }
-
-        private void ApplyElementDamage()
-        {
-
-        }
-
 
         private void OnDrawGizmos()
         {

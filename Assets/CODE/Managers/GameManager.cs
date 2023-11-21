@@ -126,7 +126,6 @@ namespace Managers
 
         public static void SetOutlineMaterialColour(Color color)
         {
-            Debug.Log($"Colour {color}");
             gameManager.C_outlineMaterial.SetColor("_OuterColor", color);
         }
 
@@ -134,22 +133,7 @@ namespace Managers
         {
             for (int i = 0; i < i_rewardsPerRoom; i++)
             {
-                switch (e_currentRewardType)
-                {
-                    // For Debug without weapon modules in project COMMENT THESE OUT
-                    case Door.RoomType.Trigger:
-                        GetRandomModule(e_currentRewardType);
-                        break;
-                    case Door.RoomType.Clip:
-                        GetRandomModule(e_currentRewardType);
-                        break;
-                    case Door.RoomType.Barrel:
-                        GetRandomModule(e_currentRewardType);
-                        break;
-                    case Door.RoomType.RandomModule:
-                        GetRandomModule(e_currentRewardType);
-                        break;
-                }
+                GetRandomModule(e_currentRewardType);
             }
         }
 
@@ -502,6 +486,11 @@ namespace Managers
 
         public static void StartGame()
         {
+            gameManager.StartCoroutine(gameManager.StartGameCoroutine());
+        }
+
+        public IEnumerator StartGameCoroutine()
+        {
             gameManager.ResetAllStats();
             gameManager.i_currentRoom = 0;
             gameManager.e_currentRewardType = Door.RoomType.RandomModule;
@@ -509,11 +498,13 @@ namespace Managers
             ResultsUI.DeactivateResults();
             SetStartTime();
             gameManager.StartCoroutine(gameManager.SceneTransition("StartBreakRoom"));
-            InGameUI.ActivateInGameUI();
             AudioManager.TransitionToBattleTheme();
             InGameUI.ResetLevelProgression();
             ResultsUI.ResetResults();
+            yield return new WaitForSeconds(f_sceneTransitionTime);
+            InGameUI.ActivateInGameUI();
         }
+
         public static void OpenCreditsMenu()
         {
             CreditsMenu.Activate();

@@ -114,6 +114,7 @@ namespace Managers
         {
             UpdateStats();
             InGameUI.DeactivateInGameUI();
+            GameManager.gameManager.C_gunModuleUI.SetGunBuiltIdle();
 
             float gameOverStartTime = Time.time;
             if (win)

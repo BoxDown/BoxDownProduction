@@ -228,7 +228,6 @@ GameObject:
   - component: {fileID: 5601549827048869362}
   - component: {fileID: 635995768042981309}
   - component: {fileID: 2007548048}
-  - component: {fileID: 8099611751573295371}
   m_Layer: 0
   m_Name: PREFAB_Player
   m_TagString: Player
@@ -266,7 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a59337340013dcd4996a08720bca8caa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  f_maxSpeed: 8.5
+  f_maxSpeed: 8
   f_maxAcceleration: 65
   C_accelerationCurve:
     serializedVersion: 2
@@ -293,9 +292,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   f_rotationTime: 0.015
-  f_dodgeStartDelay: 0.03
+  f_dodgeStartDelay: 0.02
   f_dodgeLength: 4
-  f_dodgeTime: 0.25
+  f_dodgeTime: 0.135
   C_dodgeCurve:
     serializedVersion: 2
     m_Curve:
@@ -307,38 +306,20 @@ MonoBehaviour:
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.12610997
-      value: 0.12610997
-      inSlope: 0.038617976
-      outSlope: 0.038617976
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.10688098
-    - serializedVersion: 3
-      time: 0.43842894
-      value: 0.96770805
-      inSlope: 0.3011983
-      outSlope: 0.3011983
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.18017702
+      outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0.057502873
-      outSlope: 0.057502873
+      inSlope: 1
+      outSlope: 1
       tangentMode: 34
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  f_dodgeRecoveryTime: 0.35
+  f_dodgeRecoveryTime: 0.275
   f_size: 0.225
   f_collisionBounciness: 0.285
   f_maxHealth: 100
@@ -367,20 +348,6 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.225
-  m_Height: 1.19
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.59, z: 0}
---- !u!136 &8099611751573295371
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6313259657333278374}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.35
   m_Height: 1.19
   m_Direction: 1
   m_Center: {x: 0, y: 0.59, z: 0}
@@ -698,7 +665,7 @@ PrefabInstance:
     - target: {fileID: 8160873319928863101, guid: 7a078a83e30c5544aa0395f7b92ba902,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a078a83e30c5544aa0395f7b92ba902, type: 3}

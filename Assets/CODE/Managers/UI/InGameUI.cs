@@ -27,6 +27,7 @@ namespace Managers
 
         [Header("Health")]
         [Rename("Health Slider"), SerializeField] Image C_healthSlider;
+        [Rename("Vignette Group"), SerializeField] private CanvasGroup C_vignetteGroup;
         [Space(10)]
 
         [Header("Bullet UI Variables")]
@@ -111,6 +112,11 @@ namespace Managers
             }
             UpdateButtonPrompt();
             C_closestInteractablelastFrame = C_closestInteractable;
+
+        }
+        private void Update()
+        {
+            C_vignetteGroup.alpha = Mathf.MoveTowards(C_vignetteGroup.alpha, 1 - (f_currentHealth / f_maxHealth), Time.deltaTime);
         }
 
         public static void ActivateInGameUI()
@@ -320,6 +326,11 @@ namespace Managers
                     Vector3 positionToSet = Vector3.Lerp(originalPositions[i], goalPositions[i], C_bulletAnimationCurveReload.Evaluate((Time.time - startTime) / reloadTime));
                     lC_bulletUIPool[lC_bulletUIPool.Count - i - 1].transform.position = positionToSet;
                 }
+            }
+            for (int i = 0; i < originalPositions.Count; i++)
+            {
+                Vector3 positionToSet = goalPositions[i];
+                lC_bulletUIPool[lC_bulletUIPool.Count - i - 1].transform.position = positionToSet;
             }
             i_currentBullet = lC_bulletUIPool.Count;
             b_bulletsReloaded = false;

@@ -506,6 +506,7 @@ namespace Managers
             InGameUI.ActivateInGameUI();
             AudioManager.TransitionToBattleTheme();
             InGameUI.ResetLevelProgression();
+            ResultsUI.ResetResults();
         }
         public static void OpenCreditsMenu()
         {
@@ -529,6 +530,7 @@ namespace Managers
             InGameUI.ResetLevelProgression();
             gameManager.RemovePlayer();
             gameManager.RemoveCamera();
+            ResultsUI.ResetResults();
             StartGame();
         }
         //deactivate all menus then back to main menu scene to have an empty scene with nothing but the menu

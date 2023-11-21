@@ -16,7 +16,8 @@ public class PlayerController : Combatant
     [Header("Player Variables:")]
     [Space(1)]
     [Header("Control")]
-    [Rename("Controller Dead Zone Percentage"), Range(0, 1), SerializeField] private float f_controllerDeadZone = 0.15f;
+    [Rename("Left Controller Dead Zone Percentage"), Range(0, 1), SerializeField] private float f_controllerLeftDeadZone = 0.15f;
+    [Rename("Right Controller Dead Zone Percentage"), Range(0, 1), SerializeField] private float f_controllerRightDeadZone = 0.15f;
 
 
     [Header("Game Variables")]
@@ -60,9 +61,9 @@ public class PlayerController : Combatant
     protected override void Update()
     {
         base.Update();
-        if (S_rotationVec2Direction.magnitude < f_controllerDeadZone && S_movementVec2Direction != Vector2.zero)
+        if (S_rotationVec2Direction.magnitude < f_controllerRightDeadZone && S_movementVec2Direction != Vector2.zero)
         {
-            SetRotationDirection(Vector2.ClampMagnitude(S_movementVec2Direction, f_controllerDeadZone * 0.9f));
+            SetRotationDirection(Vector2.ClampMagnitude(S_movementVec2Direction, f_controllerRightDeadZone * 0.9f));
         }
 
         if (ControlManager.GetControllerType() != ControlManager.ControllerType.KeyboardMouse)
@@ -71,12 +72,11 @@ public class PlayerController : Combatant
             {
                 FireGun();
             }
-            else if(S_rotationVec2Direction.magnitude < f_controllerDeadZone && !b_firingWithTrigger)
+            else if(S_rotationVec2Direction.magnitude < f_controllerRightDeadZone && !b_firingWithTrigger)
             {
                 CancelGun();
             }
         }
-        InGameUI.gameUI.UpdateHealthSlider();
 
         float closestDistance = float.MaxValue;
         int closestCollisionReference = 0;
@@ -137,7 +137,7 @@ public class PlayerController : Combatant
     public void MoveInput(InputAction.CallbackContext context)
     {
         Vector2 inputValue = context.ReadValue<Vector2>();
-        if (inputValue.magnitude > f_controllerDeadZone)
+        if (inputValue.magnitude > f_controllerLeftDeadZone)
             ChangeMovementDirection(inputValue);
     }
     public void StopMove(InputAction.CallbackContext context)
@@ -157,7 +157,7 @@ public class PlayerController : Combatant
         }
         else
         {
-            if (inputValue.magnitude > f_controllerDeadZone)
+            if (inputValue.magnitude > f_controllerRightDeadZone)
             {
                 SetRotationDirection(inputValue);
             }
@@ -319,7 +319,6 @@ public class PlayerController : Combatant
     {
         InGameUI.gameUI.SetMaxHealth(f_maxHealth);
         InGameUI.gameUI.SetCurrentHealth(f_currentHealth);
-        InGameUI.gameUI.UpdateHealthSlider();
     }
 
 

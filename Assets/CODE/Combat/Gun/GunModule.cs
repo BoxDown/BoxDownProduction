@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using Utility;
+using Managers;
 
 namespace Gun
 {
@@ -140,16 +141,22 @@ namespace Gun
             {
                 case ModuleSection.Trigger:
                     newGunModule.name = $"Trigger\\{name}";
+                    GameManager.SetOutlineMaterialColour(new Color(0 / 255f, 255 / 255f, 120 / 255f));
                     break;
                 case ModuleSection.Clip:
                     newGunModule.name = $"Clip\\{name}";
+                    GameManager.SetOutlineMaterialColour(new Color(255 / 255f, 53 / 255f, 103 / 255f));
                     break;
                 case ModuleSection.Barrel:
                     newGunModule.name = $"Barrel\\{name}";
+                    GameManager.SetOutlineMaterialColour(new Color(255 / 255f, 115 / 255f, 0 / 255f));
                     break;
             }
             newGunModule.tag = "Gun Module";
             newGunModule.layer = 6;
+
+            newGunModule.transform.Find("GunOutline").gameObject.SetActive(true);
+            
 
         }
 

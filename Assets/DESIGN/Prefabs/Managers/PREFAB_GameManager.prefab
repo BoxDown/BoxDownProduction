@@ -1429,6 +1429,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2704795882765962930, guid: 4a7766f3c50c72d44aa1449ba620e2fc,
         type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704795882765962930, guid: 4a7766f3c50c72d44aa1449ba620e2fc,
+        type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
@@ -1583,50 +1588,70 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6265601799127092917, guid: c76a7552dcf71d54cb58e0dc2c50251d,
+        type: 3}
+      propertyPath: C_scaleCurve.m_Curve.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265601799127092917, guid: c76a7552dcf71d54cb58e0dc2c50251d,
+        type: 3}
+      propertyPath: C_scaleCurve.m_Curve.Array.data[1].time
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265601799127092917, guid: c76a7552dcf71d54cb58e0dc2c50251d,
+        type: 3}
+      propertyPath: C_scaleCurve.m_Curve.Array.data[2].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265601799127092917, guid: c76a7552dcf71d54cb58e0dc2c50251d,
+        type: 3}
+      propertyPath: C_scaleCurve.m_Curve.Array.data[3].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265601799127092917, guid: c76a7552dcf71d54cb58e0dc2c50251d,
+        type: 3}
+      propertyPath: C_scaleCurve.m_Curve.Array.data[2].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265601799127092917, guid: c76a7552dcf71d54cb58e0dc2c50251d,
+        type: 3}
+      propertyPath: C_scaleCurve.m_Curve.Array.data[1].inSlope
+      value: -0.9538604
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265601799127092917, guid: c76a7552dcf71d54cb58e0dc2c50251d,
+        type: 3}
+      propertyPath: C_scaleCurve.m_Curve.Array.data[2].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265601799127092917, guid: c76a7552dcf71d54cb58e0dc2c50251d,
+        type: 3}
+      propertyPath: C_scaleCurve.m_Curve.Array.data[1].outSlope
+      value: -0.9538604
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265601799127092917, guid: c76a7552dcf71d54cb58e0dc2c50251d,
+        type: 3}
+      propertyPath: C_scaleCurve.m_Curve.Array.data[2].inWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265601799127092917, guid: c76a7552dcf71d54cb58e0dc2c50251d,
+        type: 3}
+      propertyPath: C_scaleCurve.m_Curve.Array.data[2].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265601799127092917, guid: c76a7552dcf71d54cb58e0dc2c50251d,
+        type: 3}
+      propertyPath: C_scaleCurve.m_Curve.Array.data[1].outWeight
+      value: 0.10815307
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265601799127092917, guid: c76a7552dcf71d54cb58e0dc2c50251d,
+        type: 3}
+      propertyPath: C_scaleCurve.m_Curve.Array.data[2].outWeight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6265601799127092919, guid: c76a7552dcf71d54cb58e0dc2c50251d,
         type: 3}
       propertyPath: m_Name
       value: PREFAB_ResultsCanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 6265601799127092919, guid: c76a7552dcf71d54cb58e0dc2c50251d,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6265601799594813351, guid: c76a7552dcf71d54cb58e0dc2c50251d,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 3270678607891845959}
-    - target: {fileID: 6265601799594813351, guid: c76a7552dcf71d54cb58e0dc2c50251d,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: RestartGame
-      objectReference: {fileID: 0}
-    - target: {fileID: 6265601799594813351, guid: c76a7552dcf71d54cb58e0dc2c50251d,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Managers.GameManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 6265601799594813351, guid: c76a7552dcf71d54cb58e0dc2c50251d,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 6265601800053692740, guid: c76a7552dcf71d54cb58e0dc2c50251d,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 3270678607891845959}
-    - target: {fileID: 6265601800053692740, guid: c76a7552dcf71d54cb58e0dc2c50251d,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: BackToMainMenu
-      objectReference: {fileID: 0}
-    - target: {fileID: 6265601800053692740, guid: c76a7552dcf71d54cb58e0dc2c50251d,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Managers.GameManager, Assembly-CSharp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c76a7552dcf71d54cb58e0dc2c50251d, type: 3}

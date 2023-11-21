@@ -5,31 +5,40 @@ using Utility;
 using TMPro;
 using Gun;
 using Managers;
+using System.Net.Http.Headers;
 
 public class GunModuleCard : MonoBehaviour
 {
     [Rename("Canvas Group")] public CanvasGroup C_canvasGroup;
+    [Rename("Text Mesh Emojis")] public TMP_SpriteAsset C_spriteAsset;
     [HideInInspector] public GunModule C_gunModuleReference;
+
+    [Header("Background Images")]
     [Rename("Background Image"), SerializeField] private Image C_backgroundImage;
     [Rename("Trigger Sprite"), SerializeField] private Sprite C_triggerSprite;
     [Rename("Clip Sprite"), SerializeField] private Sprite C_clipSprite;
     [Rename("Barrel Sprite"), SerializeField] private Sprite C_barrelSprite;
-    [Rename("Stat Bar Gradient")] public Gradient C_statBarGradient;
-    [Rename("Gun Module Transform")] public Transform C_gunModuleTransform;
-    [Rename("Gun Module Name")] public TextMeshProUGUI C_gunModuleName;
+
+    
+
+    [Header("Stat Names:")]
     [Rename("Module Stat 1 Name")] public TextMeshProUGUI C_moduleStat1Name;
     [Rename("Module Stat 2 Name")] public TextMeshProUGUI C_moduleStat2Name;
     [Rename("Module Stat 3 Name")] public TextMeshProUGUI C_moduleStat3Name;
     [Rename("Module Stat 4 Name")] public TextMeshProUGUI C_moduleStat4Name;
-
+    
+    [Header("Stat Values:")]
     [Rename("Stat 1 Value Bar")] public Image C_statValueBar1;
     [Rename("Stat 2 Value Bar")] public Image C_statValueBar2;
     [Rename("Stat 3 Value Bar")] public Image C_statValueBar3;
     [Rename("Stat 4 String")] public TextMeshProUGUI C_statString;
 
+    [Header("Other Variables:")]
     [Rename("Card Fade Time")] public float f_fadeTime = 0.2f;
-
     [Rename("Swap Mesh On/Off")] public bool b_swapMeshOnOff = true;
+    [Rename("Stat Bar Gradient")] public Gradient C_statBarGradient;
+    [Rename("Gun Module Transform")] public Transform C_gunModuleTransform;
+    [Rename("Gun Module Name")] public TextMeshProUGUI C_gunModuleName;
 
     public void UpdateGunModule(GunModule gunModuleToSet, bool swappingModule)
     {
@@ -69,7 +78,25 @@ public class GunModuleCard : MonoBehaviour
                 C_statValueBar2.color = C_statBarGradient.Evaluate(C_statValueBar2.transform.localScale.x);
                 C_statValueBar3.transform.localScale = new Vector3(ExtraMaths.Map(4.5f, 20f, 0.1f, 0.9f, C_gunModuleReference.f_bulletSpeed), 1, 1);
                 C_statValueBar3.color = C_statBarGradient.Evaluate(C_statValueBar3.transform.localScale.x);
-                C_statString.text = C_gunModuleReference.S_bulletTraitInformation.e_bulletTrait.ToString();
+                switch (C_gunModuleReference.S_bulletTraitInformation.e_bulletTrait)
+                {
+                    case GunModule.BulletTrait.Standard:
+                        C_statString.text = C_gunModuleReference.S_bulletTraitInformation.e_bulletTrait.ToString();
+                        break;
+                    case GunModule.BulletTrait.Pierce:
+                        C_statString.text = C_gunModuleReference.S_bulletTraitInformation.e_bulletTrait.ToString() + "<sprite index= " + 5 + ">";
+                        break;
+                    case GunModule.BulletTrait.Ricochet:
+                        C_statString.text = C_gunModuleReference.S_bulletTraitInformation.e_bulletTrait.ToString() + "<sprite index= " + 6 + ">";
+                        break;
+                    case GunModule.BulletTrait.Explosive:
+                        C_statString.text = C_gunModuleReference.S_bulletTraitInformation.e_bulletTrait.ToString() + "<sprite index= " + 4 + ">";
+                        break;
+                    case GunModule.BulletTrait.Homing:
+                        C_statString.text = C_gunModuleReference.S_bulletTraitInformation.e_bulletTrait.ToString() + "<sprite index= " + 7 + ">";
+                        break;
+                }
+
                 break;
 
             case GunModule.ModuleSection.Clip:
@@ -99,6 +126,27 @@ public class GunModuleCard : MonoBehaviour
                 C_statValueBar3.transform.localScale = new Vector3(ExtraMaths.Map(0, 2f, 0.1f, 0.9f, C_gunModuleReference.f_movementPenalty), 1, 1);
                 C_statValueBar3.color = C_statBarGradient.Evaluate(1 - C_statValueBar3.transform.localScale.x);
                 C_statString.text = C_gunModuleReference.S_bulletEffectInformation.e_bulletEffect.ToString();
+                switch (C_gunModuleReference.S_bulletEffectInformation.e_bulletEffect)
+                {
+                    case GunModule.BulletEffect.None:
+                        C_statString.text = C_gunModuleReference.S_bulletEffectInformation.e_bulletEffect.ToString();
+                        break;
+                    case GunModule.BulletEffect.Fire:
+                        C_statString.text = C_gunModuleReference.S_bulletEffectInformation.e_bulletEffect.ToString() + "<sprite index= " + 0 + ">";
+                        break;
+                    case GunModule.BulletEffect.Ice:
+                        C_statString.text = C_gunModuleReference.S_bulletEffectInformation.e_bulletEffect.ToString() + "<sprite index= " + 2 + ">";
+
+                        break;
+                    case GunModule.BulletEffect.Lightning:
+                        C_statString.text = C_gunModuleReference.S_bulletEffectInformation.e_bulletEffect.ToString() + "<sprite index= " + 1 + ">";
+
+                        break;
+                    case GunModule.BulletEffect.Vampire:
+                        C_statString.text = C_gunModuleReference.S_bulletEffectInformation.e_bulletEffect.ToString() + "<sprite index= " + 3 + ">";
+
+                        break;
+                }
                 break;
 
             case GunModule.ModuleSection.Barrel:
@@ -127,7 +175,25 @@ public class GunModuleCard : MonoBehaviour
                 C_statValueBar2.color = C_statBarGradient.Evaluate(C_statValueBar2.transform.localScale.x);
                 C_statValueBar3.transform.localScale = new Vector3(ExtraMaths.Map(0, 3.5f, 0.1f, 0.9f, C_gunModuleReference.f_recoil), 1, 1);
                 C_statValueBar3.color = C_statBarGradient.Evaluate(1 - C_statValueBar3.transform.localScale.x);
-                C_statString.text = C_gunModuleReference.S_shotPatternInformation.e_shotPattern.ToString();
+
+                switch (C_gunModuleReference.S_shotPatternInformation.e_shotPattern)
+                {
+                    case GunModule.ShotPattern.Straight:
+                        C_statString.text = C_gunModuleReference.S_shotPatternInformation.e_shotPattern.ToString() + "<sprite index= " + 8 + ">";
+                        break;
+                    case GunModule.ShotPattern.Multishot:
+                        C_statString.text = C_gunModuleReference.S_shotPatternInformation.e_shotPattern.ToString() + "<sprite index= " + 10 + ">";
+                        break;
+                    case GunModule.ShotPattern.Buckshot:
+                        C_statString.text = C_gunModuleReference.S_shotPatternInformation.e_shotPattern.ToString() + "<sprite index= " + 9 + ">";
+                        break;
+                    case GunModule.ShotPattern.Spray:
+                        C_statString.text = C_gunModuleReference.S_shotPatternInformation.e_shotPattern.ToString();
+                        break;
+                    case GunModule.ShotPattern.Wave:
+                        C_statString.text = C_gunModuleReference.S_shotPatternInformation.e_shotPattern.ToString();
+                        break;
+                }
                 break;
         }
     }

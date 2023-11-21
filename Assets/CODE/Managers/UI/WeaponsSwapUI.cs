@@ -166,7 +166,7 @@ namespace Managers
             yield return new WaitForSeconds(1.3f);
             AudioManager.PlayFmodEvent("SFX/Player/Gun_Change", GameManager.GetCamera().transform.position);
 
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.5f);
             TurnOff();
         }
     }

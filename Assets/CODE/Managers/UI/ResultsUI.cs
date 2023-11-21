@@ -67,14 +67,15 @@ namespace Managers
 
         public static void UpdateStats()
         {
-            resultsUI.C_stat1Name.text = "Rooms Cleared:";
-            resultsUI.C_stat1Value.text = GameManager.GetRoomsCleared().ToString();
+
+            resultsUI.C_stat1Name.text = "Time:";
+            resultsUI.C_stat1Value.text = $"{((int)(GameManager.GetTimeTaken() / 60)).ToString("0")} m {(GameManager.GetTimeTaken() % 60).ToString("0")} s";
             resultsUI.C_stat2Name.text = "Enemies Killed:";
             resultsUI.C_stat2Value.text = (GameManager.GetSpidersKilled() + GameManager.GetMitesKilled() + GameManager.GetSlugsKilled() + GameManager.GetWaspsKilled()).ToString();
             resultsUI.C_stat3Name.text = "Bullets Fired:";
             resultsUI.C_stat3Value.text = GameManager.GetBulletsFired().ToString();
-            resultsUI.C_stat4Name.text = "Time:";
-            resultsUI.C_stat4Value.text = $"{((int)(GameManager.GetTimeTaken() / 60)).ToString("0")}m { (GameManager.GetTimeTaken() % 60).ToString("f2")}s";
+            resultsUI.C_stat4Name.text = "Modules Swapped:";
+            resultsUI.C_stat4Value.text = (GameManager.GetBarrelSwaps() + GameManager.GetClipSwaps() + GameManager.GetTriggerSwaps()).ToString();
         }
 
         public static void ActivateLose()

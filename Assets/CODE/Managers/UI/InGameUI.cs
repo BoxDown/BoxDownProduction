@@ -27,6 +27,7 @@ namespace Managers
 
         [Header("Health")]
         [Rename("Health Slider"), SerializeField] Image C_healthSlider;
+        [Rename("Vignette Group"), SerializeField] private CanvasGroup C_vignetteGroup;
         [Space(10)]
 
         [Header("Bullet UI Variables")]
@@ -111,6 +112,11 @@ namespace Managers
             }
             UpdateButtonPrompt();
             C_closestInteractablelastFrame = C_closestInteractable;
+
+        }
+        private void Update()
+        {
+            C_vignetteGroup.alpha = Mathf.MoveTowards(C_vignetteGroup.alpha, 1 - (f_currentHealth / f_maxHealth), Time.deltaTime);
         }
 
         public static void ActivateInGameUI()

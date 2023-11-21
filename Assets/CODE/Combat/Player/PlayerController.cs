@@ -77,7 +77,6 @@ public class PlayerController : Combatant
                 CancelGun();
             }
         }
-        InGameUI.gameUI.UpdateHealthSlider();
 
         float closestDistance = float.MaxValue;
         int closestCollisionReference = 0;
@@ -320,7 +319,6 @@ public class PlayerController : Combatant
     {
         InGameUI.gameUI.SetMaxHealth(f_maxHealth);
         InGameUI.gameUI.SetCurrentHealth(f_currentHealth);
-        InGameUI.gameUI.UpdateHealthSlider();
     }
 
 

@@ -55,6 +55,10 @@ namespace Managers
         [Rename("Clip Module Spawn Effect"), SerializeField] private GameObject C_clipSpawnVFX;
         [Rename("Barrel Module Spawn Effect"), SerializeField] private GameObject C_barrelSpawnVFX;
 
+        [Space(10)]
+        [Rename("Outline Material"), SerializeField] private Material C_outlineMaterial;
+
+
 
         private EventSystem C_eventSystem;
 
@@ -97,13 +101,7 @@ namespace Managers
                 ControlManager.ChangeInputDevice(C_playerInput.currentControlScheme);
             }
             CurrentSelectionCheck();
-
-            //TO DO, WHEN WE FIND AN APPROPRIATE LEVEL DELETE THIS ON UPDATE
-            AudioManager.SetMusicVolume(f_musicVolume);
-            AudioManager.SetSoundVolume(f_soundVolume);
-
         }
-
 
         #region GamePlayFunctons
         // Start is called before the first frame update
@@ -122,6 +120,14 @@ namespace Managers
             {
                 Initialise();
             }
+            AudioManager.SetMusicVolume(f_musicVolume);
+            AudioManager.SetSoundVolume(f_soundVolume);
+        }
+
+        public static void SetOutlineMaterialColour(Color color)
+        {
+            Debug.Log($"Colour {color}");
+            gameManager.C_outlineMaterial.SetColor("_OuterColor", color);
         }
 
         public void SpawnNextReward()

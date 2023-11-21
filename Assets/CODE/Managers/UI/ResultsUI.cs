@@ -80,10 +80,12 @@ namespace Managers
 
         public static void ActivateLose()
         {
+            ActivateResults();
             resultsUI.StartCoroutine(resultsUI.ResultsAppearOverTime(false));
         }
         public static void ActivateWin()
         {
+            ActivateResults();
             resultsUI.StartCoroutine(resultsUI.ResultsAppearOverTime(true));
         }
         public static void DeactivateLose()

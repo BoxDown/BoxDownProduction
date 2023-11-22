@@ -109,6 +109,14 @@ namespace Gun
         [Rename("Bullet Ice Hit Effect")] public GameObject C_iceBulletHit;
         [Rename("Bullet Lightning Hit Effect")] public GameObject C_lightningBulletHit;
         [Rename("Bullet Vampire Hit Effect")] public GameObject C_vampireBulletHit;
+
+        [Header("Muzzle VFX")]
+        [Rename("Muzzle Particle System")] public ParticleSystem C_muzzleFlashParticle;
+        [Rename("Standard Muzzle Material")] public Material C_standardMuzzleMaterial;
+        [Rename("Fire Muzzle Material")] public Material C_fireMuzzleMaterial;
+        [Rename("Ice Muzzle Material")] public Material C_iceMuzzleMaterial;
+        [Rename("Electric Muzzle Material")] public Material C_electricMuzzleMaterial;
+        [Rename("Vampire Muzzle Material")] public Material C_vampireMuzzleMaterial;
         Bullet.BulletBaseInfo S_bulletInfo { get { return new Bullet.BulletBaseInfo(C_gunHolder, S_muzzlePosition, C_muzzle == null ?  transform.forward : C_muzzle.transform.up, f_bulletRange, f_baseDamage, f_bulletSpeed, f_bulletSize, f_knockBack); ; } }
 
 
@@ -207,6 +215,11 @@ namespace Gun
                 if (C_light)
                 {
                     TurnOnLight();
+                }
+                if (C_muzzleFlashParticle)
+                {
+                    C_muzzleFlashParticle.startRotation = (C_gunHolder.transform.rotation.eulerAngles.y - 90) * Mathf.Deg2Rad;
+                    C_muzzleFlashParticle.Play();
                 }
 
                 if (C_gunHolder.CompareTag("Player"))
@@ -348,6 +361,7 @@ namespace Gun
 
             S_bulletEffectInfo = gunModule.S_bulletEffectInformation;
 
+            ChangeMuzzleFlashMaterial(S_bulletEffectInfo.e_bulletEffect);
             if (C_light == null)
             {
                 return;
@@ -496,6 +510,32 @@ namespace Gun
         {
             C_light.gameObject.SetActive(true);
             StartCoroutine(TurnOffLight());
+        }
+
+        private void ChangeMuzzleFlashMaterial(GunModule.BulletEffect bulletEffect)
+        {
+            if(C_muzzleFlashParticle == null)
+            {
+                return;
+            }
+            switch (bulletEffect)
+            {
+                case GunModule.BulletEffect.None:
+                    C_muzzleFlashParticle.GetComponent<ParticleSystemRenderer>().material = C_standardMuzzleMaterial;
+                    break;
+                case GunModule.BulletEffect.Fire:
+                    C_muzzleFlashParticle.GetComponent<ParticleSystemRenderer>().material = C_fireMuzzleMaterial;
+                    break;
+                case GunModule.BulletEffect.Ice:
+                    C_muzzleFlashParticle.GetComponent<ParticleSystemRenderer>().material = C_iceMuzzleMaterial;
+                    break;
+                case GunModule.BulletEffect.Lightning:
+                    C_muzzleFlashParticle.GetComponent<ParticleSystemRenderer>().material = C_electricMuzzleMaterial;
+                    break;
+                case GunModule.BulletEffect.Vampire:
+                    C_muzzleFlashParticle.GetComponent<ParticleSystemRenderer>().material = C_vampireMuzzleMaterial;
+                    break;
+            }
         }
 
         private void ChangeLightColour(Color color)

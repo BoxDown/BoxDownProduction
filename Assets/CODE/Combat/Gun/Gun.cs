@@ -591,8 +591,8 @@ namespace Gun
             }
             yield return new WaitForSeconds(f_reloadSpeed / 2.0f);
             HardReload();
-            yield return new WaitForSeconds(0.3f);
             b_reloading = false;
+            f_timeUntilNextFire = f_timeBetweenBulletShots * 2.0f;
         }
 
         private IEnumerator TurnOffLight()

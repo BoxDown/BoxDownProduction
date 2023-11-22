@@ -4,6 +4,7 @@ using Utility;
 using Gun;
 using System.Collections.Generic;
 using UnityEngine.VFX;
+using System.Net.Sockets;
 
 public class Combatant : MonoBehaviour
 {
@@ -65,6 +66,12 @@ public class Combatant : MonoBehaviour
     [Rename("After VFX")] public VisualEffect C_afterEffects;
     protected Renderer[] C_renderer;
     [Rename("Lightning Lines Materials")] public Material C_lightningMaterial;
+    [Header("Dodge Visuals")]
+    [Rename("Dodge Effects Particles")] public ParticleSystem C_dodgeEffects;
+    [Rename("Dodge Pulse Particles")] public ParticleSystem C_dodgePulse;
+    [Rename("Dodge Line Particles")] public Transform C_dodgeLine;
+    private ParticleSystem[] aC_dodgeLineParticles;
+    [Rename("Dodge Thrust Particles (Players)")] public ParticleSystem[] aC_dodgeThrustParticles;
 
 
     [Header("Cheats")]
@@ -106,6 +113,11 @@ public class Combatant : MonoBehaviour
     {
         get { return new Vector3(S_movementVec2Direction.x, 0, S_movementVec2Direction.y); }
     }
+    protected float f_currentMovementAngle
+    {
+        get { return (-Mathf.Atan2(S_velocity.normalized.z, S_velocity.normalized.x) * Mathf.Rad2Deg) + 90; }
+    }
+
     protected Vector3 S_acceleration;
     protected Vector3 S_velocity = Vector3.zero;
     [Range(0, 1)] protected float f_slowMultiplier = 1;
@@ -157,6 +169,11 @@ public class Combatant : MonoBehaviour
         }
         C_afterEffects.transform.localPosition = new Vector3(0, f_size, 0);
         ClearEffects();
+
+        if (C_dodgeLine != null)
+        {
+            aC_dodgeLineParticles = C_dodgeLine.GetComponentsInChildren<ParticleSystem>();
+        }
 
     }
 
@@ -381,31 +398,59 @@ public class Combatant : MonoBehaviour
         return new Vector3(S_rotationVec2Direction.x, 0, S_rotationVec2Direction.y);
     }
 
+    public Vector3 GetRotatedVelocity()
+    {
+        Vector2 aimVector = new Vector2(transform.forward.x, transform.forward.z);
+
+        float aimBearing = 0;
+        if (aimVector != Vector2.zero)
+        {
+            aimBearing = Mathf.Atan2(aimVector.y, aimVector.x) * Mathf.Rad2Deg;
+        }
+
+        Vector2 moveVector = new Vector2(S_velocity.x, S_velocity.z);
+
+        float moveBearing = 0;
+        if (moveVector != Vector2.zero)
+        {
+            moveBearing = Mathf.Atan2(moveVector.y, moveVector.x) * Mathf.Rad2Deg;
+        }
+
+        float angleDifference = aimBearing - moveBearing;
+
+        if (angleDifference < -180) angleDifference += 360;
+        if (angleDifference > 180) angleDifference -= 360;
+
+        //angleDifference should be used to play the right animation based on quadrants
+
+        return Quaternion.AngleAxis(angleDifference, Vector3.up) * Vector3.forward;
+    }
+
     protected virtual void CheckCollisions()
     {
         RaycastHit hit;
-        if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, Vector3.right, out hit, f_size + (S_velocity.magnitude * Time.deltaTime), i_bulletLayerMask) && S_velocity.x > 0)
+        if (Physics.SphereCast(transform.position + Vector3.up * f_size, f_size, Vector3.right, out hit, f_size + (S_velocity.magnitude * Time.deltaTime), i_bulletLayerMask) && S_velocity.x > 0)
         {
             if (!hit.collider.isTrigger)
             {
                 S_velocity.x = -S_velocity.x * f_collisionBounciness;
             }
         }
-        else if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, -Vector3.right, out hit, f_size + (S_velocity.magnitude * Time.deltaTime), i_bulletLayerMask) && S_velocity.x < 0)
+        else if (Physics.SphereCast(transform.position + Vector3.up * f_size, f_size, -Vector3.right, out hit, f_size + (S_velocity.magnitude * Time.deltaTime), i_bulletLayerMask) && S_velocity.x < 0)
         {
             if (!hit.collider.isTrigger)
             {
                 S_velocity.x = -S_velocity.x * f_collisionBounciness;
             }
         }
-        if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, Vector3.forward, out hit, f_size + (S_velocity.magnitude * Time.deltaTime), i_bulletLayerMask) && S_velocity.z > 0)
+        if (Physics.SphereCast(transform.position + Vector3.up * f_size, f_size, Vector3.forward, out hit, f_size + (S_velocity.magnitude * Time.deltaTime), i_bulletLayerMask) && S_velocity.z > 0)
         {
             if (!hit.collider.isTrigger)
             {
                 S_velocity.z = -S_velocity.z * f_collisionBounciness;
             }
         }
-        else if (Physics.SphereCast(transform.localPosition + Vector3.up * f_size, f_size, -Vector3.forward, out hit, f_size + (S_velocity.magnitude * Time.deltaTime), i_bulletLayerMask) && S_velocity.z < 0)
+        else if (Physics.SphereCast(transform.position + Vector3.up * f_size, f_size, -Vector3.forward, out hit, f_size + (S_velocity.magnitude * Time.deltaTime), i_bulletLayerMask) && S_velocity.z < 0)
         {
             if (!hit.collider.isTrigger)
             {
@@ -451,7 +496,7 @@ public class Combatant : MonoBehaviour
 
         f_currentHealth += heal;
         f_currentHealth = Mathf.Clamp(f_currentHealth, 0, f_maxHealth);
-        SetHealthAmount(Utility.ExtraMaths.Map(0, 1, 0.6f, 1, (heal / f_maxHealth)));
+        SetHealthAmount(ExtraMaths.Map(0, 1, 0.6f, 1, (heal / f_maxHealth)));
         PlayHealEffect(1f);
         StartCoroutine(StopHealAfterSeconds(1f));
     }
@@ -631,6 +676,7 @@ public class Combatant : MonoBehaviour
             case GunModule.BulletEffect.Vampire:
                 baseInfo.C_bulletOwner.Heal(baseInfo.f_damage * bulletEffectInfo.f_vampirePercent);
                 TurnOnVampire();
+                PlayVampireEffect(1f);
                 StartCoroutine(StopVampireAfterSeconds(1f));
                 break;
         }
@@ -843,12 +889,19 @@ public class Combatant : MonoBehaviour
         C_afterEffects.Play();
         Invoke("ClearElectricEffect", seconds);
     }
+    private void PlayVampireEffect(float seconds)
+    {
+        C_afterEffects.SetFloat("HealingDownSpecs", 16);
+        C_afterEffects.SetFloat("HealingDownorb", 1282);
+        C_afterEffects.SetFloat("Scale", f_size * 2.0f);
+        C_afterEffects.Play();
+        Invoke("ClearVampireEffect", seconds);
+    }
+
     private void PlayHealEffect(float seconds)
     {
         C_afterEffects.SetFloat("HealingUpSpecs", 16);
-        C_afterEffects.SetFloat("HealingDownSpecs", 16);
         C_afterEffects.SetFloat("HealingUpOrb", 1282);
-        C_afterEffects.SetFloat("HealingDownorb", 1282);
         C_afterEffects.SetFloat("Scale", f_size * 2.0f);
         C_afterEffects.Play();
         Invoke("ClearHealEffect", seconds);
@@ -869,12 +922,16 @@ public class Combatant : MonoBehaviour
         C_afterEffects.SetFloat("ElectricSpawnRate", 0);
         C_afterEffects.Stop();
     }
+    private void ClearVampireEffect()
+    {
+        C_afterEffects.SetFloat("HealingDownSpecs", 0);
+        C_afterEffects.SetFloat("HealingDownorb", 0);
+        C_afterEffects.Stop();
+    }
     private void ClearHealEffect()
     {
         C_afterEffects.SetFloat("HealingUpSpecs", 0);
-        C_afterEffects.SetFloat("HealingDownSpecs", 0);
         C_afterEffects.SetFloat("HealingUpOrb", 0);
-        C_afterEffects.SetFloat("HealingDownorb", 0);
         C_afterEffects.Stop();
     }
 
@@ -936,6 +993,28 @@ public class Combatant : MonoBehaviour
             C_ownedGun.CancelFire();
         }
         AudioManager.PlayFmodEvent("SFX/Player/Dash", transform.position);
+
+        //Implementing Effects For Player
+        if (CompareTag("Player"))
+        {
+            //Effects To Implement
+            //C_dodgeEffects            C_dodgeLines            C_dodgeThrustParticles
+            C_dodgeEffects.Play();
+            C_dodgePulse.Play();
+            
+            C_dodgeLine.localPosition = -GetRotatedVelocity().normalized + (Vector3.up * 0.3f);
+            for (int i = 0; i < aC_dodgeThrustParticles.Length; i++)
+            {
+                aC_dodgeThrustParticles[i].startRotation = ((f_desiredRotationAngle + 90) - 15 + (i * 30)) * Mathf.Deg2Rad;
+                aC_dodgeThrustParticles[i].Play();
+            }
+            //C_dodgeLine.localRotation = Quaternion.Euler(new Vector3(0, -transform.rotation.eulerAngles.y, 0));
+            foreach (ParticleSystem pS in aC_dodgeLineParticles)
+            {
+                pS.startRotation3D = new Vector3(pS.startRotation3D.x, ((f_currentMovementAngle + 90) * Mathf.Deg2Rad), pS.startRotation3D.z);
+                pS.Play();
+            }
+        }
 
         //Visual
         TurnOnDodge();
@@ -1028,13 +1107,13 @@ public class Combatant : MonoBehaviour
             else if (hit.transform.GetComponent<Combatant>() != null)
             {
                 float remainingDodgeDistance = f_dodgeLength - hit.distance;
-                if(Physics.SphereCast(hit.point, f_size, S_movementInputDirection, out RaycastHit wallCheck, remainingDodgeDistance, i_bulletLayerMask))
+                if (Physics.SphereCast(hit.point, f_size, S_movementInputDirection, out RaycastHit wallCheck, remainingDodgeDistance, i_bulletLayerMask))
                 {
                     dodgeDistance = (hit.distance + wallCheck.distance) - f_size;
                     float dodgePercentage = dodgeDistance / f_dodgeLength;
                     dodgeTime = f_dodgeTime * dodgePercentage;
                 }
-                goalPosition = transform.position + (S_movementInputDirection.normalized * dodgeDistance);                
+                goalPosition = transform.position + (S_movementInputDirection.normalized * dodgeDistance);
             }
             //if I hit anything else
             else

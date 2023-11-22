@@ -105,6 +105,7 @@ namespace Managers
         public void TurnOff()
         {
             GameManager.SwitchToInGameActions();
+            GameManager.gameManager.C_gunModuleUI.SetGunBuiltIdle();
             swapUI.C_swappingModuleTransform = null;
             swapUI.C_swappingModule = null;
             Deactivate();

@@ -250,6 +250,10 @@ namespace Enemy
 
         protected void EyeballLookAtPlayer()
         {
+            if(C_player == null)
+            {
+                return;
+            }
             C_eyeballTransform.LookAt(C_player.transform);
             C_eyeballTransform.rotation *= Quaternion.Euler(0, 90, 90 * f_eyeLookAtStrength);
         }

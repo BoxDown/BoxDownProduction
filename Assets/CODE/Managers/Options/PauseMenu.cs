@@ -63,6 +63,7 @@ namespace Managers
         static public void UnpauseGame()
         {
             DeactivatePause();
+            GameManager.gameManager.C_gunModuleUI.SetGunBuiltIdle();
             pauseMenu.b_gamePaused = false;
             if (!WeaponsSwapUI.swapUI.gameObject.activeInHierarchy)
             {

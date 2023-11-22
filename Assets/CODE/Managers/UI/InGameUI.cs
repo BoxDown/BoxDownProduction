@@ -115,7 +115,7 @@ namespace Managers
         }
         private void Update()
         {
-            C_vignetteGroup.alpha = Mathf.MoveTowards(C_vignetteGroup.alpha, 1 - (f_currentHealth / f_maxHealth), Time.deltaTime);
+            C_vignetteGroup.alpha = Mathf.MoveTowards(C_vignetteGroup.alpha, Mathf.Clamp01(1 - (f_currentHealth / (f_maxHealth * 0.75f))), Time.deltaTime);
         }
 
         public static void ActivateInGameUI()

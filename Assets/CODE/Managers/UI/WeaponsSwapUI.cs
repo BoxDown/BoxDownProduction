@@ -4,6 +4,7 @@ using UnityEngine;
 using Utility;
 using Gun;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.HighDefinition;
 
 namespace Managers
 {
@@ -54,6 +55,12 @@ namespace Managers
         }
         public static void Activate(GunModule gunModule, Transform swappingModule)
         {
+            CustomPassVolume volume = FindObjectOfType<CustomPassVolume>();
+            if (volume != null)
+            {
+                volume.enabled = false;
+            }
+
             GameManager.gameManager.SetCulling(false);
             GameManager.SwitchToSwapUIActions();
             switch (gunModule.e_moduleType)
@@ -86,6 +93,11 @@ namespace Managers
 
         public static void Deactivate()
         {
+            CustomPassVolume volume = FindObjectOfType<CustomPassVolume>();
+            if (volume != null)
+            {
+                volume.enabled = true;
+            }
             swapUI.gameObject.SetActive(false);
             GameManager.gameManager.SetCulling(true);
         }

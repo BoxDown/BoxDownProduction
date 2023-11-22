@@ -113,7 +113,7 @@ namespace Explosion
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawSphere(transform.position, f_explosionSize / 2.0f);
+            Gizmos.DrawSphere(transform.position, f_explosionSize);
         }
     }
 

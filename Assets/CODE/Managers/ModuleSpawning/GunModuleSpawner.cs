@@ -19,7 +19,7 @@ namespace Gun
             }
             moduleToLoad.Spawn(worldPos);
             GameManager.SpawnModuleVFX(moduleToLoad.e_moduleType, worldPos);
-            AudioManager.PlayFmodEvent("SFX/Environment/Module_Crate_Spawn", worldPos);
+            AudioManager.PlayFmodEvent("SFX/ModuleSpawn", worldPos);
         }
 
         public static void DeclareAllGunModules()

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using Utility;
-using UnityEngine.VFX;
+using Enemy;
 
 namespace Gun
 {
@@ -211,7 +211,6 @@ namespace Gun
                 }
                 timesFiredThisFrame += 1;
                 Vector3 recoil = -C_gunHolder.transform.forward * Mathf.Clamp(f_recoil - f_movementPenalty, 0, f_recoil);
-                AudioManager.FireBulletSound(S_bulletEffectInfo.e_bulletEffect, S_muzzlePosition);
                 if (C_light)
                 {
                     TurnOnLight();
@@ -226,6 +225,15 @@ namespace Gun
                 {
                     GameManager.GetCamera().GunshotCameraShake();
                     InGameUI.gameUI.BulletFireUI();
+                    AudioManager.FireBulletSound(S_bulletEffectInfo.e_bulletEffect, S_muzzlePosition);
+                }
+                else if(C_gunHolder.transform.GetComponent<Mite>() != null || C_gunHolder.transform.GetComponent<Wasp>())
+                {
+                    AudioManager.PlayFmodEvent("SFX/SmallEnemyShot", S_muzzlePosition);
+                }
+                else
+                {
+                    AudioManager.PlayFmodEvent("SFX/SLargeEnemyShot", S_muzzlePosition);
                 }
                 C_gunHolder.GetComponent<Combatant>().AddVelocity(recoil);
                 SpawnBulletShells();
@@ -563,6 +571,7 @@ namespace Gun
                 rigidbody.AddForce(-C_gunHolder.transform.forward * Random.Range(2.0f, 4.0f), ForceMode.Impulse);
                 rigidbody.AddTorque(new Vector3(1, 0.8f, 0) * Random.Range(1.0f, 6.0f), ForceMode.Impulse);
             }
+            AudioManager.PlayFmodEvent("SFX/ShellDrop", newShell.transform.position);
             Destroy(newShell, 4);
         }
 
@@ -587,7 +596,7 @@ namespace Gun
             yield return new WaitForSeconds(f_reloadSpeed / 2.0f);
             if (C_gunHolder.CompareTag("Player"))
             {
-                AudioManager.PlayFmodEvent("SFX/Player/Reload", transform.position);
+                AudioManager.PlayFmodEvent("SFX/PlayerReload", transform.position);
             }
             yield return new WaitForSeconds(f_reloadSpeed / 2.0f);
             HardReload();

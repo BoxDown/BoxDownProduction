@@ -1,6 +1,5 @@
 using System.Collections;
 using TMPro;
-using UnityEditor.Build;
 using UnityEngine;
 using Utility;
 
@@ -56,7 +55,7 @@ namespace Managers
 
         public static void ActivateResults()
         {
-            resultsUI.gameObject.SetActive(true);
+            resultsUI.gameObject.SetActive(true);            
         }
         public static void DeactivateResults()
         {
@@ -193,6 +192,7 @@ namespace Managers
             }
             C_buttonGroup.transform.localScale = Vector3.one;
 
+            GameManager.SwitchToUIActions();
             GameManager.CurrentSelectionResultsMenu();
         }
     }

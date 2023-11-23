@@ -296,6 +296,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PREFAB_ENV_Floor_IndustrialFloor1_1x1 (458)
       objectReference: {fileID: 0}
+    - target: {fileID: 7425661717308455915, guid: 5e5f2951e9584a64b82b4c0280624cf7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e5f2951e9584a64b82b4c0280624cf7, type: 3}
 --- !u!4 &56487469 stripped
@@ -7513,7 +7518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 300
+  m_Intensity: 150
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -7635,7 +7640,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 88.715126
+  m_Intensity: 44.357563
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -7766,6 +7771,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PREFAB_ENV_Floor_IndustrialFloor1_1x1 (472)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7425661717308455915, guid: 5e5f2951e9584a64b82b4c0280624cf7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e5f2951e9584a64b82b4c0280624cf7, type: 3}
@@ -8119,6 +8129,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PREFAB_ENV_Floor_IndustrialFloor1_1x1 (470)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7425661717308455915, guid: 5e5f2951e9584a64b82b4c0280624cf7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e5f2951e9584a64b82b4c0280624cf7, type: 3}
@@ -8570,6 +8585,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PREFAB_ENV_Floor_IndustrialFloor1_1x1 (457)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7425661717308455915, guid: 5e5f2951e9584a64b82b4c0280624cf7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e5f2951e9584a64b82b4c0280624cf7, type: 3}
@@ -9894,7 +9914,7 @@ PrefabInstance:
     - target: {fileID: 1869892078059894570, guid: 5e5f2951e9584a64b82b4c0280624cf7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 20.151
+      value: 20.179
       objectReference: {fileID: 0}
     - target: {fileID: 1869892078059894570, guid: 5e5f2951e9584a64b82b4c0280624cf7,
         type: 3}
@@ -10229,7 +10249,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1046031624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10242,7 +10262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 5000
+  m_Intensity: 4000
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -10363,9 +10383,9 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 1, g: 0.1273585, b: 0.6465746, a: 1}
-  m_Intensity: 397.88736
-  m_Range: 30
+  m_Color: {r: 0.12549019, g: 0.89396596, b: 1, a: 1}
+  m_Intensity: 318.30988
+  m_Range: 20
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -10409,7 +10429,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 1
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 20}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0.1
@@ -10421,14 +10441,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1046031623}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 29.19, y: 0.471, z: 5.45}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 29.1, y: 1.01, z: 3.52}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1001 &1060193374
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10727,6 +10747,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PREFAB_ENV_Floor_IndustrialFloor1_1x1 (456)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7425661717308455915, guid: 5e5f2951e9584a64b82b4c0280624cf7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e5f2951e9584a64b82b4c0280624cf7, type: 3}
@@ -11433,7 +11458,7 @@ PrefabInstance:
     - target: {fileID: 1869892078059894570, guid: 5e5f2951e9584a64b82b4c0280624cf7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 20.151
+      value: 20.179
       objectReference: {fileID: 0}
     - target: {fileID: 1869892078059894570, guid: 5e5f2951e9584a64b82b4c0280624cf7,
         type: 3}
@@ -11979,7 +12004,7 @@ PrefabInstance:
     - target: {fileID: 1869892078059894570, guid: 5e5f2951e9584a64b82b4c0280624cf7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 20.151
+      value: 20.179
       objectReference: {fileID: 0}
     - target: {fileID: 1869892078059894570, guid: 5e5f2951e9584a64b82b4c0280624cf7,
         type: 3}
@@ -14416,6 +14441,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PREFAB_ENV_Floor_IndustrialFloor1_1x1 (466)
       objectReference: {fileID: 0}
+    - target: {fileID: 7425661717308455915, guid: 5e5f2951e9584a64b82b4c0280624cf7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e5f2951e9584a64b82b4c0280624cf7, type: 3}
 --- !u!4 &1609094045 stripped
@@ -15497,6 +15527,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PREFAB_ENV_Floor_IndustrialFloor1_1x1 (453)
       objectReference: {fileID: 0}
+    - target: {fileID: 7425661717308455915, guid: 5e5f2951e9584a64b82b4c0280624cf7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e5f2951e9584a64b82b4c0280624cf7, type: 3}
 --- !u!4 &1867067743 stripped
@@ -15520,7 +15555,7 @@ PrefabInstance:
     - target: {fileID: 1869892078059894570, guid: 5e5f2951e9584a64b82b4c0280624cf7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 20.151
+      value: 20.179
       objectReference: {fileID: 0}
     - target: {fileID: 1869892078059894570, guid: 5e5f2951e9584a64b82b4c0280624cf7,
         type: 3}
@@ -17012,6 +17047,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PREFAB_ENV_Floor_IndustrialFloor1_1x1 (454)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7425661717308455915, guid: 5e5f2951e9584a64b82b4c0280624cf7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e5f2951e9584a64b82b4c0280624cf7, type: 3}
@@ -22468,7 +22508,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!23 &2776586422091523598
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22489,7 +22529,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8e216f1352636e646b9051ca559bfa1a, type: 2}
+  - {fileID: 2100000, guid: 3e2d638eef982a04ab870f1260d1abe2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -24647,7 +24687,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2766738589171732618}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 23, y: -0.51, z: 8}
+  m_LocalPosition: {x: 23.01, y: -0.26, z: 8}
   m_LocalScale: {x: 5.152926, y: 6.872922, z: 5.5165997}
   m_ConstrainProportionsScale: 0
   m_Children: []

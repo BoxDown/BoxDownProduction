@@ -22,6 +22,9 @@ namespace Managers
 
         PlayerInput C_playerInputs;
         ControllerType e_currentControlDevice = ControllerType.KeyboardMouse;
+        float f_currentLeftVibration = 0;
+        float f_currentRightVibration = 0;
+        float f_currentVibrationTime = 0;
 
         private void Awake()
         {
@@ -34,6 +37,17 @@ namespace Managers
             {
                 controlManager = this;
             }
+        }
+
+        private void Update()
+        {
+            if (f_currentVibrationTime <= 0)
+            {
+                f_currentVibrationTime = 0;
+                StopControllerVibration();
+                return;
+            }
+            f_currentVibrationTime -= Time.deltaTime;
         }
 
         private static void EnableListeners()
@@ -147,6 +161,36 @@ namespace Managers
                     controlManager.e_currentControlDevice = ControllerType.KeyboardMouse;
                     return;
             }
+        }
+
+        public static void VibrateController(float leftMotorSpeed, float rightMotorSpeed, float time)
+        {
+            switch (controlManager.e_currentControlDevice)
+            {
+                case ControllerType.KeyboardMouse:
+                    return;
+                default:
+                    if (controlManager.f_currentLeftVibration <= leftMotorSpeed)
+                    {
+                        controlManager.f_currentLeftVibration = leftMotorSpeed;
+                    }
+                    if (controlManager.f_currentRightVibration <= rightMotorSpeed)
+                    {
+                        controlManager.f_currentRightVibration = rightMotorSpeed;
+                    }
+                    if (controlManager.f_currentVibrationTime < time)
+                    {
+                        controlManager.f_currentVibrationTime = time;
+                    }
+                    Gamepad.current.SetMotorSpeeds(Mathf.Clamp01(controlManager.f_currentLeftVibration), Mathf.Clamp01(controlManager.f_currentRightVibration));                    
+                    break;
+            }
+        }
+        public void StopControllerVibration()
+        {
+            InputSystem.ResetHaptics();
+            f_currentLeftVibration = 0;
+            f_currentRightVibration = 0;
         }
     }
 }

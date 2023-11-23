@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using Utility;
 using Managers;
-using System;
-using System.Runtime.CompilerServices;
+using System.Collections;
 
 namespace Enemy
 {
@@ -17,6 +16,12 @@ namespace Enemy
             base.Start();
             SetMaterialUVOffset(C_ownedGun.aC_moduleArray[1].S_bulletEffectInformation.e_bulletEffect);
 
+        }
+        protected override IEnumerator SpawnRoutine()
+        {
+            AudioManager.PlayFmodEvent("SFX/SlugSpawn", transform.position);
+            base.SpawnRoutine();
+            yield return null;
         }
 
         private void OnValidate()
@@ -35,9 +40,6 @@ namespace Enemy
         private void Update()
         {
             base.Update();
-
-            //audio
-            PlayAudio();
 
             // behaviour
 
@@ -75,22 +77,14 @@ namespace Enemy
             {
                 SetRotationDirection(Vector2.ClampMagnitude(DirectionOfPlayer(), 0.1f));
             }
-            AudioManager.PlayFmodEvent("SFX/Enemy/Worm/Worm_Hit", transform.position);
+            AudioManager.PlayFmodEvent("SFX/EnemyHit", transform.position);
         }
 
         public override void Die()
         {
             base.Die();
             GameManager.IncrementSlugKill();
-        }
-        private void PlayAudio()
-        {
-            if (f_currentTimeBetweenSounds < 0)
-            {
-                AudioManager.PlayFmodEvent("SFX/Enemy/Worm/Worm_Chatter", transform.position);
-                GetNewTimeBetweenSounds();
-            }
-            f_currentTimeBetweenSounds -= Time.deltaTime;
+            AudioManager.PlayFmodEvent("SFX/LargeEnemyDeath", transform.position);
         }
     }
 }

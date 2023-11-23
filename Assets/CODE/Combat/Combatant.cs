@@ -4,7 +4,6 @@ using Utility;
 using Gun;
 using System.Collections.Generic;
 using UnityEngine.VFX;
-using System.Net.Sockets;
 
 public class Combatant : MonoBehaviour
 {
@@ -992,7 +991,7 @@ public class Combatant : MonoBehaviour
         {
             C_ownedGun.CancelFire();
         }
-        AudioManager.PlayFmodEvent("SFX/Player/Dash", transform.position);
+        AudioManager.PlayFmodEvent("SFX/PlayerDash", transform.position);
 
         //Implementing Effects For Player
         if (CompareTag("Player"))

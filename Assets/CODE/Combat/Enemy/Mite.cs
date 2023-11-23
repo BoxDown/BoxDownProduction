@@ -20,6 +20,7 @@ namespace Enemy
 
         protected override IEnumerator SpawnRoutine()
         {
+            AudioManager.PlayFmodEvent("SFX/MiteSpawn", transform.position);
             b_spawning = true;
             StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, 2.5f));
             if (C_spawnEffects != null)
@@ -38,8 +39,6 @@ namespace Enemy
         {
             base.Update();
 
-            //audio
-            PlayAudio();
 
             // behaviour
             if (b_spawning || e_combatState == CombatState.Frozen || b_isDead)
@@ -88,22 +87,14 @@ namespace Enemy
         {
             base.Die();
             GameManager.IncrementMiteKill();
+            AudioManager.PlayFmodEvent("SFX/SmallEnemyDeath", transform.position);
         }
 
         public override void Damage(float damage)
         {
             base.Damage(damage);
-            AudioManager.PlayFmodEvent("SFX/Enemy/Mite/Mite_Hit", transform.position);
+            AudioManager.PlayFmodEvent("SFX/EnemyHit", transform.position);
         }
 
-        private void PlayAudio()
-        {
-            if (f_currentTimeBetweenSounds < 0)
-            {
-                AudioManager.PlayFmodEvent("SFX/Enemy/Mite/Mite_Chatter", transform.position);
-                GetNewTimeBetweenSounds();
-            }
-            f_currentTimeBetweenSounds -= Time.deltaTime;
-        }
     }
 }

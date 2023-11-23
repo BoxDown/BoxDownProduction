@@ -47,6 +47,7 @@ public class PlayerController : Combatant
         {
             Initialise();
         }
+        GameManager.gameManager.C_gunModuleUI.SetGunBuiltIdle();
         DontDestroyOnLoad(this);
     }
 
@@ -64,18 +65,6 @@ public class PlayerController : Combatant
         if (S_rotationVec2Direction.magnitude < f_controllerRightDeadZone && S_movementVec2Direction != Vector2.zero)
         {
             SetRotationDirection(Vector2.ClampMagnitude(S_movementVec2Direction, f_controllerRightDeadZone * 0.9f));
-        }
-
-        if (ControlManager.GetControllerType() != ControlManager.ControllerType.KeyboardMouse)
-        {
-            if (S_rotationVec2Direction.magnitude > 0.95f)
-            {
-                FireGun();
-            }
-            else if(S_rotationVec2Direction.magnitude < f_controllerRightDeadZone && !b_firingWithTrigger)
-            {
-                CancelGun();
-            }
         }
 
         float closestDistance = float.MaxValue;
@@ -175,12 +164,10 @@ public class PlayerController : Combatant
     public void Fire(InputAction.CallbackContext context)
     {
         FireGun();
-        b_firingWithTrigger = true;
     }
     public void CancelFire(InputAction.CallbackContext context)
     {
         CancelGun();
-        b_firingWithTrigger = false;
     }
     public void Dodge(InputAction.CallbackContext context)
     {
@@ -326,7 +313,7 @@ public class PlayerController : Combatant
     {
         GameManager.SwitchToUIActions();
         yield return new WaitForSeconds(time);
-        ResultsUI.ActivateResults();
+        ResultsUI.ActivateLose();
     }
 
     private void FootStepCheck()

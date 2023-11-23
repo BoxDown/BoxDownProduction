@@ -45,6 +45,7 @@ namespace Enemy
             if (b_spawning || !PlayerLineOfSightCheck())
             {
                 CancelGun();
+                ChangeMovementDirection(Vector2.zero);
                 return;
             }
             if (f_distanceToPlayer < f_aimRange)

@@ -24,10 +24,6 @@ public class PlayerController : Combatant
     [Rename("Interact Range")] public float f_interactRange = 3.0f;
     [Rename("Spawn Location")] Vector3 S_spawnLocation; // player set to this on start and before loading into new scene
 
-    [Header("Foot Bones")]
-    public Transform C_leftFoot;
-    public Transform C_rightFoot;
-
     [HideInInspector] public Vector3 S_cameraDirection;
 
     private bool b_firingWithTrigger = false;
@@ -112,7 +108,6 @@ public class PlayerController : Combatant
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-        FootStepCheck();
     }
 
     protected override void LateUpdate()
@@ -277,7 +272,6 @@ public class PlayerController : Combatant
         if (closestTransform.tag == "Gun Module")
         {
             WeaponsSwapUI.Activate(GunModuleSpawner.GetGunModule(closestTransform.name), closestTransform);
-            AudioManager.PlayFmodEvent("SFX/Environment/Module_Pickup", closestTransform.position);
         }
         else if (closestTransform.tag == "Door")
         {
@@ -314,27 +308,6 @@ public class PlayerController : Combatant
         GameManager.SwitchToUIActions();
         yield return new WaitForSeconds(time);
         ResultsUI.ActivateLose();
-    }
-
-    private void FootStepCheck()
-    {
-        if (S_velocity == Vector3.zero || C_leftFoot == null || C_rightFoot == null)
-        {
-            return;
-        }
-        RaycastHit hit;
-        // left foot check,
-        if (Physics.Raycast(C_leftFoot.position, Vector3.down, out hit, 0.01f, i_bulletLayerMask))
-        {
-            AudioManager.PlayFmodEvent("SFX/Player/Footsteps", hit.point);
-            return;
-        }
-        // right foot check
-        if (Physics.Raycast(C_rightFoot.position, Vector3.down, out hit, 0.01f, i_bulletLayerMask))
-        {
-            AudioManager.PlayFmodEvent("SFX/Player/Footsteps", hit.point);
-            return;
-        }
-    }
+    }   
 
 }

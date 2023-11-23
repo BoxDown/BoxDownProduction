@@ -510,7 +510,6 @@ namespace Managers
             CreditsMenu.Activate();
             CurrentSelectionCreditsMenu();
             DeactivateMainMenu();
-            PlayMenuTransitionSound();
         }
         public static void ActivateMainMenu()
         {
@@ -550,7 +549,6 @@ namespace Managers
             AudioManager.TransitionToMainMenu();
             SwitchToUIActions();
             CurrentSelectionMainMenu();
-            PlayMenuTransitionSound();
         }
 
         public static void ExitGame()
@@ -737,6 +735,7 @@ namespace Managers
         public IEnumerator SceneTransition(string sceneName)
         {
             StartTransitionAnimation();
+            AudioManager.PlayFmodEvent("SFX/DoorClose", Vector3.zero);
             if (C_player != null)
             {
                 SwitchOffInGameActions();
@@ -744,6 +743,7 @@ namespace Managers
             yield return new WaitForSeconds(f_sceneTransitionTime);
             SceneManager.LoadScene(sceneName);
             yield return new WaitForSeconds(f_sceneTransitionTime);
+            AudioManager.PlayFmodEvent("SFX/DoorOpen", Vector3.zero);
             FinishTransitionAnimation();
             if (C_player != null)
             {
@@ -899,43 +899,9 @@ namespace Managers
 
         #region Audio
 
-        public static void PlayUIHoverSound()
-        {
-            if (GetCamera() == null)
-            {
-                AudioManager.PlayFmodEvent("SFX/Menu_SFX/Button_Hover", FindObjectOfType<Camera>().transform.position);
-                return;
-            }
-            AudioManager.PlayFmodEvent("SFX/Menu_SFX/Button_Hover", GetCamera().transform.position);
-        }
 
-        public static void PlayUISelectSound()
-        {
-            if (GetCamera() == null)
-            {
-                AudioManager.PlayFmodEvent("SFX/Menu_SFX/Button_Select", FindObjectOfType<Camera>().transform.position);
-                return;
-            }
-            AudioManager.PlayFmodEvent("SFX/Menu_SFX/Button_Select", GetCamera().transform.position);
-        }
-        public static void PlayMenuTransitionSound()
-        {
-            if (GetCamera() == null)
-            {
-                AudioManager.PlayFmodEvent("SFX/Menu_SFX/Menu_Transition", FindObjectOfType<Camera>().transform.position);
-                return;
-            }
-            AudioManager.PlayFmodEvent("SFX/Menu_SFX/Menu_Transition", GetCamera().transform.position);
-        }
-        public static void PlayModuleSwapSound()
-        {
-            if (GetCamera() == null)
-            {
-                AudioManager.PlayFmodEvent("SFX/Menu_SFX/Module_Swap", FindObjectOfType<Camera>().transform.position);
-                return;
-            }
-            AudioManager.PlayFmodEvent("SFX/Menu_SFX/Module_Swap", GetCamera().transform.position);
-        }
+        
+        
 
         #endregion
 

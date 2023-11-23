@@ -2,6 +2,8 @@ using System.Collections;
 using Utility;
 using UnityEngine;
 using Managers;
+using FMOD;
+
 namespace GunkManager
 {
 
@@ -51,7 +53,7 @@ namespace GunkManager
 
         private IEnumerator ClearGoo()
         {
-            FMOD.Studio.EventInstance clearSound = AudioManager.StartFmodLoop("event:/SFX/Environment/Gunk_Clear");
+            AudioManager.PlayFmodEvent("SFX/GunkRetreat", transform.position);
             float timeClearing = 0;
             while (timeClearing < f_gooClearTime)
             {
@@ -66,7 +68,6 @@ namespace GunkManager
                 }
                 yield return 0;
             }
-            AudioManager.EndFmodLoop(clearSound);
         }
     }
 }

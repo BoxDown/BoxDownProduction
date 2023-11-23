@@ -451,7 +451,7 @@ namespace Gun
                     ExplosionGenerator.MakeExplosion(transform.position, S_bulletTrait.C_explosionPrefab, S_bulletTrait.f_explosionSize, S_bulletTrait.f_explosionDamage, S_bulletTrait.f_explosionKnockbackDistance, S_bulletTrait.f_explosionLifeTime, S_bulletTrait.C_sizeOverLifetimeCurve);
                 }
                 SpawnHitEffect(transform.position);
-                AudioManager.PlayFmodEvent("SFX/Environment/Wall_Ping", transform.position);
+                AudioManager.PlayFmodEvent("SFX/WallHit", transform.position);
                 C_poolOwner.MoveToOpen(this);
                 return true;
             }

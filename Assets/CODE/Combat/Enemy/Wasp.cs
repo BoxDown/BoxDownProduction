@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Utility;
 using Managers;
+using System.Collections;
 
 namespace Enemy
 {
@@ -23,6 +24,12 @@ namespace Enemy
             SetMaterialUVOffset(C_ownedGun.aC_moduleArray[1].S_bulletEffectInformation.e_bulletEffect);
 
         }
+        protected override IEnumerator SpawnRoutine()
+        {
+            AudioManager.PlayFmodEvent("SFX/WaspSpawn", transform.position);
+            base.SpawnRoutine();
+            yield return null;
+        }
         private void Update()
         {
             base.Update();
@@ -33,8 +40,6 @@ namespace Enemy
                 return;
             }
 
-            //audio
-            PlayAudio();
 
             // behaviour
             if (b_spawning || !PlayerLineOfSightCheck())
@@ -72,23 +77,16 @@ namespace Enemy
         {
             base.Die();
             GameManager.IncrementWaspKill();
+            AudioManager.PlayFmodEvent("SFX/SmallEnemyDeath", transform.position);
+
         }
 
         public override void Damage(float damage)
         {
             base.Damage(damage);
-            AudioManager.PlayFmodEvent("SFX/Enemy/Wasp/Wasp_Hit", transform.position);
+            AudioManager.PlayFmodEvent("SFX/EnemyHit", transform.position);
         }
 
-        private void PlayAudio()
-        {
-            if (f_currentTimeBetweenSounds < 0)
-            {
-                AudioManager.PlayFmodEvent("SFX/Enemy/Wasp/Wasp_Chatter", transform.position);
-                GetNewTimeBetweenSounds();
-            }
-            f_currentTimeBetweenSounds -= Time.deltaTime;
-        }
     }
 }
 

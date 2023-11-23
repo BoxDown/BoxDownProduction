@@ -33,7 +33,7 @@ namespace Explosion
             }
             GameManager.IncrementExplosionCount();
 
-            AudioManager.PlayFmodEvent("Explosion", transform.position);
+            AudioManager.PlayFmodEvent("SFX/Explosion", transform.position);
 
         }
 

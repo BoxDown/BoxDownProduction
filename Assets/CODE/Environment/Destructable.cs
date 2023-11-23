@@ -6,6 +6,7 @@ public class Destructable : MonoBehaviour
 {
     [Header("Object Variables")]
     [Rename("Object Health")] public float f_health = 100;
+    [Rename("Destructable Big?")] public bool b_bigDestructable = false;
     float f_currentHealth;
     [Rename("Mesh Transform")] public Transform C_meshTransform;
     [Rename("Half Destroyed Object")] public GameObject C_halfDestroyedObject;
@@ -53,7 +54,14 @@ public class Destructable : MonoBehaviour
 
     private void Break()
     {
-        AudioManager.PlayFmodEvent("SFX/Environment/Box_Break", transform.position);
+        if (b_bigDestructable)
+        {
+            AudioManager.PlayFmodEvent("SFX/DestructibleLarge", transform.position);
+        }
+        else
+        {
+            AudioManager.PlayFmodEvent("SFX/DestructibleSmall", transform.position);
+        }
         Destroy(gameObject);
         SpawnGutBag();
         if (b_explosive && C_explosionEffect)

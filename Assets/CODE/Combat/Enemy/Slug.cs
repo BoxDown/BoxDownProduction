@@ -15,7 +15,6 @@ namespace Enemy
         {
             base.Start();
             SetMaterialUVOffset(C_ownedGun.aC_moduleArray[1].S_bulletEffectInformation.e_bulletEffect);
-
         }
         protected override IEnumerator SpawnRoutine()
         {

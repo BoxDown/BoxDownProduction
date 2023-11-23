@@ -39,6 +39,7 @@ namespace Enemy
             if (b_spawning || !PlayerLineOfSightCheck() || e_combatState == CombatState.Frozen || b_isDead)
             {
                 CancelGun();
+                ChangeMovementDirection(Vector2.zero);
                 return;
             }
             if (f_distanceToPlayer < f_aimRange)

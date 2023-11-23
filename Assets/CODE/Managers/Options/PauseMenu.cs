@@ -56,7 +56,6 @@ namespace Managers
             ActivatePause();
             pauseMenu.b_gamePaused = true;
             GameManager.SwitchToUIActions();
-            GameManager.PlayMenuTransitionSound();
             Time.timeScale = 0;
         }
 

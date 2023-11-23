@@ -119,9 +119,7 @@ public class Door : MonoBehaviour
     public void OnEnterDoor()
     {
         GameManager.gameManager.UpdateRewardType(e_roomType);
-        AudioManager.PlayFmodEvent("SFX/Environment/Door_Open", transform.position);
         FindObjectOfType<RoomManager>().LockAllDoors();
-
         GameManager.gameManager.MoveToNextRoom();
     }
 
@@ -142,11 +140,6 @@ public class Door : MonoBehaviour
         return b_locked;
     }
 
-    public IEnumerator PlayCloseDoorSound()
-    {
-        yield return new WaitForSeconds(0.9f);
-        AudioManager.PlayFmodEvent("SFX/Environment/Door_Close", GameManager.GetPlayer().transform.position);
-    }
 
     private void OnTriggerEnter(Collider other)
     {

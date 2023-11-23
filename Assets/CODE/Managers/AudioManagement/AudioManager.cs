@@ -46,26 +46,24 @@ public class AudioManager : MonoBehaviour
 
     public static void FireBulletSound(GunModule.BulletEffect bulletType, Vector3 position)
     {
-        FMOD.Studio.EventInstance eventInstance = RuntimeManager.CreateInstance("event:/SFX/Player/Weapon_Shot");
         switch (bulletType)
         {
             case GunModule.BulletEffect.None:
-                eventInstance.setParameterByName("Weapon_Type", 0, true);
+                PlayFmodEvent("SFX/StandardShot", position);
                 break;
             case GunModule.BulletEffect.Fire:
-                eventInstance.setParameterByName("Weapon_Type", 1, true);
+                PlayFmodEvent("SFX/FireShot", position);
                 break;
             case GunModule.BulletEffect.Ice:
-                eventInstance.setParameterByName("Weapon_Type", 2, true);
+                PlayFmodEvent("SFX/IceShot", position);
                 break;
             case GunModule.BulletEffect.Lightning:
-                eventInstance.setParameterByName("Weapon_Type", 0, true);
+                PlayFmodEvent("SFX/ElectricShot", position);
                 break;
             case GunModule.BulletEffect.Vampire:
-                eventInstance.setParameterByName("Weapon_Type", 3, true);
+                PlayFmodEvent("SFX/VampireShot", position);
                 break;
         }
-        eventInstance.start();
     }
 
     public static void SetMusicVolume(float vol)

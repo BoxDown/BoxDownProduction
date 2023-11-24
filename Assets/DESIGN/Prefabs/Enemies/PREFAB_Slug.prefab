@@ -91,6 +91,12 @@ MonoBehaviour:
     type: 3}
   C_vampireBulletHit: {fileID: 6392675576400988270, guid: 025fe33178f17304999d3a292417d18a,
     type: 3}
+  C_muzzleFlashParticle: {fileID: 0}
+  C_standardMuzzleMaterial: {fileID: 0}
+  C_fireMuzzleMaterial: {fileID: 0}
+  C_iceMuzzleMaterial: {fileID: 0}
+  C_electricMuzzleMaterial: {fileID: 0}
+  C_vampireMuzzleMaterial: {fileID: 0}
 --- !u!1 &2066372186568422499
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,6 +221,10 @@ MonoBehaviour:
   f_respawnTime: 5
   C_afterEffects: {fileID: 4571204391541840131}
   C_lightningMaterial: {fileID: 2100000, guid: 36463ac55d91c444eb4b2251edd4f948, type: 2}
+  C_dodgeEffects: {fileID: 0}
+  C_dodgePulse: {fileID: 0}
+  C_dodgeLine: {fileID: 0}
+  aC_dodgeThrustParticles: []
   b_infiniteHealth: 0
   e_combatState: 0
   b_isDead: 0
@@ -228,7 +238,7 @@ MonoBehaviour:
   C_gutBag: {fileID: 0}
   C_spawnEffects: {fileID: 6987517116045560118, guid: 0f5b8d7d11686084e85c2a3e130c720a,
     type: 3}
-  f_gutBagTime: 1
+  f_gutBagTime: 1.5
   f_spawnEffectDelay: 0
   f_spawnEffectOffset: {x: 0, y: 0, z: 0}
   C_eyeballTransform: {fileID: 1787456607367846282}

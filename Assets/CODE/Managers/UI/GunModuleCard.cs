@@ -5,7 +5,6 @@ using Utility;
 using TMPro;
 using Gun;
 using Managers;
-using System.Net.Http.Headers;
 
 public class GunModuleCard : MonoBehaviour
 {

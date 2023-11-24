@@ -178,11 +178,11 @@ public class Combatant : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (b_hasAnimator && C_ownedGun.b_isFiring)
+        if (b_hasAnimator && C_ownedGun.b_isFiring && !b_isDead)
         {
             MoveTowardAimAnimation();
         }
-        else if (b_hasAnimator)
+        else if (b_hasAnimator && !b_isDead)
         {
             C_animator.SetFloat("Recoil", S_rotationVec2Direction.magnitude);
         }
@@ -288,8 +288,8 @@ public class Combatant : MonoBehaviour
             strafeToSet = rotatatedVelocity.x * S_velocity.magnitude;
             runToSet = rotatatedVelocity.z * S_velocity.magnitude;
 
-            C_animator.SetFloat("Strafe", strafeToSet);
-            C_animator.SetFloat("Run", runToSet);
+            C_animator.SetFloat("Strafe", strafeToSet / f_maxSpeed);
+            C_animator.SetFloat("Run", runToSet / f_maxSpeed);
             if (S_velocity != Vector3.zero)
             {
                 C_animator.SetBool("Movement", true);

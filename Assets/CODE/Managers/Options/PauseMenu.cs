@@ -77,14 +77,5 @@ namespace Managers
             Time.timeScale = 1;
         }
 
-
-        static public void OpenOptions()
-        {
-            OptionsMenu.Activate();
-        }
-        static public void CloseOptions()
-        {
-            OptionsMenu.Deactivate();
-        }
     }
 }

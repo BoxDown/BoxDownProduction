@@ -111,7 +111,6 @@ namespace Managers
 
         public IEnumerator ResultsAppearOverTime(bool win)
         {
-            UpdateStats();
             InGameUI.DeactivateInGameUI();
             GameManager.gameManager.C_gunModuleUI.SetGunBuiltIdle();
 
@@ -148,7 +147,9 @@ namespace Managers
                 float percentage = (Time.time - group1StartTime) / f_waitTime;
                 float scale = C_scaleCurve.Evaluate(percentage);
                 C_stat1Name.transform.localScale = Vector3.one * scale;
+                resultsUI.C_stat1Value.text = $"{((int)((GameManager.GetTimeTaken() * scale) / 60)).ToString("0")} m {((GameManager.GetTimeTaken() * scale) % 60).ToString("0")} s";
                 C_stat2Name.transform.localScale = Vector3.one * scale;
+                resultsUI.C_stat2Value.text = ((int)((GameManager.GetSpidersKilled() + GameManager.GetMitesKilled() + GameManager.GetSlugsKilled() + GameManager.GetWaspsKilled()) * scale)).ToString();
                 yield return 0;
             }
             C_stat1Name.transform.localScale = Vector3.one;
@@ -163,12 +164,15 @@ namespace Managers
                 float percentage = (Time.time - group2StartTime) / f_waitTime;
                 float scale = C_scaleCurve.Evaluate(percentage);
                 C_stat3Name.transform.localScale = Vector3.one * scale;
+                resultsUI.C_stat3Value.text = ((int)(GameManager.GetBulletsFired() * scale)).ToString();
                 C_stat4Name.transform.localScale = Vector3.one * scale;
+                resultsUI.C_stat4Value.text = ((int)((GameManager.GetBarrelSwaps() + GameManager.GetClipSwaps() + GameManager.GetTriggerSwaps()) * scale)).ToString();
                 yield return 0;
             }
             C_stat3Name.transform.localScale = Vector3.one;
             C_stat4Name.transform.localScale = Vector3.one;
 
+            UpdateStats();
 
             float group3StartTime = Time.time;
             C_gunGroup.gameObject.SetActive(true);

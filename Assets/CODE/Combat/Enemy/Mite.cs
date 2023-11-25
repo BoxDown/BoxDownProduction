@@ -12,10 +12,13 @@ namespace Enemy
         [Rename("Look At Player")] public bool b_lookAtPlayer = false;
         [Rename("Chase Distance")] public float f_chaseDistance = 3.5f;
         [Rename("Stop Chase Distance")] public float f_stopChaseDistance = 4.5f;
+        int combatantLayer = 11;
+        int combatantLayerMask;
 
         private void Start()
         {
             base.Start();
+            combatantLayerMask = 1 << combatantLayer;
         }
 
         protected override IEnumerator SpawnRoutine()
@@ -54,7 +57,7 @@ namespace Enemy
             }
             if (!b_chasePlayer)
             {
-                if (Physics.SphereCast(transform.position, f_size, transform.forward, out RaycastHit hit, f_size * 2 + (S_velocity.magnitude * Time.deltaTime), i_bulletLayerMask))
+                if (Physics.SphereCast(transform.position, f_size, transform.forward, out RaycastHit hit, f_size * 2 + (S_velocity.magnitude * Time.deltaTime), i_bulletLayerMask | combatantLayerMask))
                 {
                     if (hit.transform.GetComponent<Combatant>() != null)
                     {

@@ -91,6 +91,12 @@ MonoBehaviour:
     type: 3}
   C_vampireBulletHit: {fileID: 6392675576400988270, guid: 025fe33178f17304999d3a292417d18a,
     type: 3}
+  C_muzzleFlashParticle: {fileID: 0}
+  C_standardMuzzleMaterial: {fileID: 0}
+  C_fireMuzzleMaterial: {fileID: 0}
+  C_iceMuzzleMaterial: {fileID: 0}
+  C_electricMuzzleMaterial: {fileID: 0}
+  C_vampireMuzzleMaterial: {fileID: 0}
 --- !u!1 &9064917460186098008
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,7 +108,7 @@ GameObject:
   - component: {fileID: 9064917460186098007}
   - component: {fileID: 9064917460186098004}
   - component: {fileID: 8714987781131459112}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PREFAB_Spider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,6 +222,10 @@ MonoBehaviour:
   f_respawnTime: 5
   C_afterEffects: {fileID: 935122695211148574}
   C_lightningMaterial: {fileID: 2100000, guid: 36463ac55d91c444eb4b2251edd4f948, type: 2}
+  C_dodgeEffects: {fileID: 0}
+  C_dodgePulse: {fileID: 0}
+  C_dodgeLine: {fileID: 0}
+  aC_dodgeThrustParticles: []
   b_infiniteHealth: 0
   e_combatState: 0
   b_isDead: 0

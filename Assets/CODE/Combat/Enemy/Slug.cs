@@ -19,7 +19,7 @@ namespace Enemy
         protected override IEnumerator SpawnRoutine()
         {
             AudioManager.PlayFmodEvent("SFX/SlugSpawn", transform.position);
-            base.SpawnRoutine();
+            StartCoroutine(base.SpawnRoutine());
             yield return null;
         }
 

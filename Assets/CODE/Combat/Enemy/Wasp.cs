@@ -27,7 +27,7 @@ namespace Enemy
         protected override IEnumerator SpawnRoutine()
         {
             AudioManager.PlayFmodEvent("SFX/WaspSpawn", transform.position);
-            base.SpawnRoutine();
+            StartCoroutine(base.SpawnRoutine());
             yield return null;
         }
         private void Update()

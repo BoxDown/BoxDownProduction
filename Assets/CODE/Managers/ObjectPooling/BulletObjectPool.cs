@@ -19,7 +19,7 @@ namespace Gun
         {
             C_gun = gun;
             int shotCount = gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount == 0 ? 1 : gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount;
-            int bulletTravel = (int)((gun.aC_moduleArray[2].f_bulletRange / gun.aC_moduleArray[0].f_bulletSpeed) * gun.aC_moduleArray[0].f_fireRate);
+            int bulletTravel = (int)((gun.aC_moduleArray[2].f_bulletRange / gun.aC_moduleArray[0].f_bulletSpeed));
             bulletTravel = bulletTravel == 0 ? 1 : bulletTravel;
             int bulletAmount = gun.aC_moduleArray[1].i_clipSize * shotCount * bulletTravel;
             i_totalBullets = (int)(bulletAmount);
@@ -63,7 +63,7 @@ namespace Gun
         public void ResizePool(Gun gun)
         {
             int shotCount = gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount == 0 ? 1 : gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount;
-            int bulletTravel = (int)((gun.aC_moduleArray[2].f_bulletRange / gun.aC_moduleArray[0].f_bulletSpeed) * gun.aC_moduleArray[0].f_fireRate);
+            int bulletTravel = (int)((gun.aC_moduleArray[2].f_bulletRange / gun.aC_moduleArray[0].f_bulletSpeed));
             bulletTravel = bulletTravel == 0 ? 1 : bulletTravel;
             int bulletAmount = gun.aC_moduleArray[1].i_clipSize * shotCount * bulletTravel;
 

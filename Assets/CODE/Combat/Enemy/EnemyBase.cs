@@ -148,6 +148,8 @@ namespace Enemy
             float angle = (-Mathf.Atan2(reflectedAngle.y, reflectedAngle.x) * Mathf.Rad2Deg) + 90;
             int closest45Angle = ((int)(Mathf.RoundToInt(angle / 45f)) * 45);
             ChangeMovementDirection(new Vector2(Mathf.Sin(closest45Angle * Mathf.Deg2Rad), Mathf.Cos(closest45Angle * Mathf.Deg2Rad)));
+            SetRotationDirection(Vector2.ClampMagnitude(S_movementVec2Direction, 0.1f));
+            S_velocity = S_movementInputDirection * S_velocity.magnitude;
         }
 
         protected override void Move()

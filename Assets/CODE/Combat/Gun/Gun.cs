@@ -227,7 +227,7 @@ namespace Gun
                     InGameUI.gameUI.BulletFireUI();
                     AudioManager.FireBulletSound(S_bulletEffectInfo.e_bulletEffect, S_muzzlePosition);
                 }
-                else if(C_gunHolder.transform.GetComponent<Mite>() != null || C_gunHolder.transform.GetComponent<Wasp>())
+                else if(C_gunHolder.transform.GetComponent<Mite>() != null || C_gunHolder.transform.GetComponent<Wasp>() != null)
                 {
                     AudioManager.PlayFmodEvent("SFX/SmallEnemyShot", S_muzzlePosition);
                 }

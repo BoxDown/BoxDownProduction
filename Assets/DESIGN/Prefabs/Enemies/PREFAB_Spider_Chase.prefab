@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4936355548995289946}
   - component: {fileID: 4936355548995289947}
   - component: {fileID: 4936355548995289956}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PREFAB_Spider_Chase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,6 +125,10 @@ MonoBehaviour:
   f_respawnTime: 5
   C_afterEffects: {fileID: 2908179064052796300}
   C_lightningMaterial: {fileID: 2100000, guid: 36463ac55d91c444eb4b2251edd4f948, type: 2}
+  C_dodgeEffects: {fileID: 0}
+  C_dodgePulse: {fileID: 0}
+  C_dodgeLine: {fileID: 0}
+  aC_dodgeThrustParticles: []
   b_infiniteHealth: 0
   e_combatState: 0
   b_isDead: 0
@@ -235,6 +239,12 @@ MonoBehaviour:
     type: 3}
   C_vampireBulletHit: {fileID: 6392675576400988270, guid: 025fe33178f17304999d3a292417d18a,
     type: 3}
+  C_muzzleFlashParticle: {fileID: 0}
+  C_standardMuzzleMaterial: {fileID: 0}
+  C_fireMuzzleMaterial: {fileID: 0}
+  C_iceMuzzleMaterial: {fileID: 0}
+  C_electricMuzzleMaterial: {fileID: 0}
+  C_vampireMuzzleMaterial: {fileID: 0}
 --- !u!1001 &592283285001427663
 PrefabInstance:
   m_ObjectHideFlags: 0

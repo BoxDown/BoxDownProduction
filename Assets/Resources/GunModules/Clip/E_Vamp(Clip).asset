@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   C_meshPrefab: {fileID: 4647910514058293417, guid: 27ae8ab654a027641863c63cc17fa121,
     type: 3}
+  s_moduleName: 
   e_moduleType: 1
   f_moduleStrength: 0
   f_baseDamage: 0
@@ -29,7 +30,7 @@ MonoBehaviour:
     f_chainLength: 0
     f_chainDamagePercent: 0
     f_vampirePercent: 0.15
-  f_reloadSpeed: 1.85
+  f_reloadSpeed: 1
   f_movementPenalty: 0
   i_clipSize: 8
   S_bulletTraitInformation:
@@ -38,6 +39,12 @@ MonoBehaviour:
     i_ricochetCount: 0
     C_explosionPrefab: {fileID: 0}
     f_explosionSize: 0
+    C_sizeOverLifetimeCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     f_explosionDamage: 0
     f_explosionKnockbackDistance: 0
     f_explosionLifeTime: 0

@@ -221,7 +221,6 @@ public class PlayerController : Combatant
     public override void Die()
     {
         base.Die();
-        GameManager.SetStopTime();
         StartCoroutine(ActivateLoseAfterSeconds(2));
     }
 

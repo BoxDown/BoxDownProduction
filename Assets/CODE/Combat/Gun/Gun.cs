@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using Utility;
-using UnityEngine.VFX;
+using Enemy;
 
 namespace Gun
 {
@@ -109,6 +109,14 @@ namespace Gun
         [Rename("Bullet Ice Hit Effect")] public GameObject C_iceBulletHit;
         [Rename("Bullet Lightning Hit Effect")] public GameObject C_lightningBulletHit;
         [Rename("Bullet Vampire Hit Effect")] public GameObject C_vampireBulletHit;
+
+        [Header("Muzzle VFX")]
+        [Rename("Muzzle Particle System")] public ParticleSystem C_muzzleFlashParticle;
+        [Rename("Standard Muzzle Material")] public Material C_standardMuzzleMaterial;
+        [Rename("Fire Muzzle Material")] public Material C_fireMuzzleMaterial;
+        [Rename("Ice Muzzle Material")] public Material C_iceMuzzleMaterial;
+        [Rename("Electric Muzzle Material")] public Material C_electricMuzzleMaterial;
+        [Rename("Vampire Muzzle Material")] public Material C_vampireMuzzleMaterial;
         Bullet.BulletBaseInfo S_bulletInfo { get { return new Bullet.BulletBaseInfo(C_gunHolder, S_muzzlePosition, C_muzzle == null ?  transform.forward : C_muzzle.transform.up, f_bulletRange, f_baseDamage, f_bulletSpeed, f_bulletSize, f_knockBack); ; } }
 
 
@@ -203,16 +211,29 @@ namespace Gun
                 }
                 timesFiredThisFrame += 1;
                 Vector3 recoil = -C_gunHolder.transform.forward * Mathf.Clamp(f_recoil - f_movementPenalty, 0, f_recoil);
-                AudioManager.FireBulletSound(S_bulletEffectInfo.e_bulletEffect, S_muzzlePosition);
                 if (C_light)
                 {
                     TurnOnLight();
+                }
+                if (C_muzzleFlashParticle)
+                {
+                    C_muzzleFlashParticle.startRotation = (C_gunHolder.transform.rotation.eulerAngles.y - 90) * Mathf.Deg2Rad;
+                    C_muzzleFlashParticle.Play();
                 }
 
                 if (C_gunHolder.CompareTag("Player"))
                 {
                     GameManager.GetCamera().GunshotCameraShake();
                     InGameUI.gameUI.BulletFireUI();
+                    AudioManager.FireBulletSound(S_bulletEffectInfo.e_bulletEffect, S_muzzlePosition);
+                }
+                else if(C_gunHolder.transform.GetComponent<Mite>() != null || C_gunHolder.transform.GetComponent<Wasp>() != null)
+                {
+                    AudioManager.PlayFmodEvent("SFX/SmallEnemyShot", S_muzzlePosition);
+                }
+                else
+                {
+                    AudioManager.PlayFmodEvent("SFX/SLargeEnemyShot", S_muzzlePosition);
                 }
                 C_gunHolder.GetComponent<Combatant>().AddVelocity(recoil);
                 SpawnBulletShells();
@@ -348,6 +369,7 @@ namespace Gun
 
             S_bulletEffectInfo = gunModule.S_bulletEffectInformation;
 
+            ChangeMuzzleFlashMaterial(S_bulletEffectInfo.e_bulletEffect);
             if (C_light == null)
             {
                 return;
@@ -498,6 +520,32 @@ namespace Gun
             StartCoroutine(TurnOffLight());
         }
 
+        private void ChangeMuzzleFlashMaterial(GunModule.BulletEffect bulletEffect)
+        {
+            if(C_muzzleFlashParticle == null)
+            {
+                return;
+            }
+            switch (bulletEffect)
+            {
+                case GunModule.BulletEffect.None:
+                    C_muzzleFlashParticle.GetComponent<ParticleSystemRenderer>().material = C_standardMuzzleMaterial;
+                    break;
+                case GunModule.BulletEffect.Fire:
+                    C_muzzleFlashParticle.GetComponent<ParticleSystemRenderer>().material = C_fireMuzzleMaterial;
+                    break;
+                case GunModule.BulletEffect.Ice:
+                    C_muzzleFlashParticle.GetComponent<ParticleSystemRenderer>().material = C_iceMuzzleMaterial;
+                    break;
+                case GunModule.BulletEffect.Lightning:
+                    C_muzzleFlashParticle.GetComponent<ParticleSystemRenderer>().material = C_electricMuzzleMaterial;
+                    break;
+                case GunModule.BulletEffect.Vampire:
+                    C_muzzleFlashParticle.GetComponent<ParticleSystemRenderer>().material = C_vampireMuzzleMaterial;
+                    break;
+            }
+        }
+
         private void ChangeLightColour(Color color)
         {
             Vector3 normalizedColor = new Vector3(color.r, color.g, color.b).normalized;
@@ -523,6 +571,7 @@ namespace Gun
                 rigidbody.AddForce(-C_gunHolder.transform.forward * Random.Range(2.0f, 4.0f), ForceMode.Impulse);
                 rigidbody.AddTorque(new Vector3(1, 0.8f, 0) * Random.Range(1.0f, 6.0f), ForceMode.Impulse);
             }
+            AudioManager.PlayFmodEvent("SFX/ShellDrop", newShell.transform.position);
             Destroy(newShell, 4);
         }
 
@@ -547,12 +596,12 @@ namespace Gun
             yield return new WaitForSeconds(f_reloadSpeed / 2.0f);
             if (C_gunHolder.CompareTag("Player"))
             {
-                AudioManager.PlayFmodEvent("SFX/Player/Reload", transform.position);
+                AudioManager.PlayFmodEvent("SFX/PlayerReload", transform.position);
             }
             yield return new WaitForSeconds(f_reloadSpeed / 2.0f);
             HardReload();
-            yield return new WaitForSeconds(0.3f);
             b_reloading = false;
+            f_timeUntilNextFire = f_timeBetweenBulletShots * 2.0f;
         }
 
         private IEnumerator TurnOffLight()

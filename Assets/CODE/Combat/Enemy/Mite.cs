@@ -12,14 +12,18 @@ namespace Enemy
         [Rename("Look At Player")] public bool b_lookAtPlayer = false;
         [Rename("Chase Distance")] public float f_chaseDistance = 3.5f;
         [Rename("Stop Chase Distance")] public float f_stopChaseDistance = 4.5f;
+        int combatantLayer = 11;
+        int combatantLayerMask;
 
         private void Start()
         {
             base.Start();
+            combatantLayerMask = 1 << combatantLayer;
         }
 
         protected override IEnumerator SpawnRoutine()
         {
+            AudioManager.PlayFmodEvent("SFX/MiteSpawn", transform.position);
             b_spawning = true;
             StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, 2.5f));
             if (C_spawnEffects != null)
@@ -38,8 +42,6 @@ namespace Enemy
         {
             base.Update();
 
-            //audio
-            PlayAudio();
 
             // behaviour
             if (b_spawning || e_combatState == CombatState.Frozen || b_isDead)
@@ -55,7 +57,7 @@ namespace Enemy
             }
             if (!b_chasePlayer)
             {
-                if (Physics.SphereCast(transform.position, f_size, transform.forward, out RaycastHit hit, f_size * 2 + (S_velocity.magnitude * Time.deltaTime), i_bulletLayerMask))
+                if (Physics.SphereCast(transform.position, f_size, transform.forward, out RaycastHit hit, f_size * 2 + (S_velocity.magnitude * Time.deltaTime), i_bulletLayerMask | combatantLayerMask))
                 {
                     if (hit.transform.GetComponent<Combatant>() != null)
                     {
@@ -88,22 +90,14 @@ namespace Enemy
         {
             base.Die();
             GameManager.IncrementMiteKill();
+            AudioManager.PlayFmodEvent("SFX/SmallEnemyDeath", transform.position);
         }
 
         public override void Damage(float damage)
         {
             base.Damage(damage);
-            AudioManager.PlayFmodEvent("SFX/Enemy/Mite/Mite_Hit", transform.position);
+            AudioManager.PlayFmodEvent("SFX/EnemyHit", transform.position);
         }
 
-        private void PlayAudio()
-        {
-            if (f_currentTimeBetweenSounds < 0)
-            {
-                AudioManager.PlayFmodEvent("SFX/Enemy/Mite/Mite_Chatter", transform.position);
-                GetNewTimeBetweenSounds();
-            }
-            f_currentTimeBetweenSounds -= Time.deltaTime;
-        }
     }
 }

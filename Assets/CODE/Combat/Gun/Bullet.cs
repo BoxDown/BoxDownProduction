@@ -46,6 +46,7 @@ namespace Gun
         private Vector3 S_previousPosition;
         private float f_rotationalAcceleration;
         private float f_rotationalVelocity;
+        private bool b_noEnemyTargetInRange;
         private float f_desiredRotationAngle
         {
             get
@@ -147,6 +148,7 @@ namespace Gun
             f_distanceTravelled = 0;
             i_bulletPiercedCount = 0;
             i_ricochetCount = 0;
+            b_noEnemyTargetInRange = false;
             lC_combatantsHit.Clear();
 
             //move bullet to closed list
@@ -180,6 +182,10 @@ namespace Gun
         }
         void FindHomingTarget()
         {
+            if (b_noEnemyTargetInRange)
+            {
+                return;
+            }
             if (S_baseInformation.b_playerOwned)
             {
                 float closestEnemyRotation = float.MaxValue;
@@ -196,6 +202,7 @@ namespace Gun
 
                 if(enemiesOnScreen.Count == 0)
                 {
+                    b_noEnemyTargetInRange = true;
                     return;
                 }
 
@@ -451,7 +458,7 @@ namespace Gun
                     ExplosionGenerator.MakeExplosion(transform.position, S_bulletTrait.C_explosionPrefab, S_bulletTrait.f_explosionSize, S_bulletTrait.f_explosionDamage, S_bulletTrait.f_explosionKnockbackDistance, S_bulletTrait.f_explosionLifeTime, S_bulletTrait.C_sizeOverLifetimeCurve);
                 }
                 SpawnHitEffect(transform.position);
-                AudioManager.PlayFmodEvent("SFX/Environment/Wall_Ping", transform.position);
+                AudioManager.PlayFmodEvent("SFX/WallHit", transform.position);
                 C_poolOwner.MoveToOpen(this);
                 return true;
             }

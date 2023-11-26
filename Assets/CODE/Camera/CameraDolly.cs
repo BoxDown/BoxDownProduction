@@ -39,7 +39,7 @@ public class CameraDolly : MonoBehaviour
     private Vector3 S_velocity = Vector3.zero;
 
     private Vector3 S_currentFocus;
-    private Vector3 S_nextFocus;
+    private Vector3 S_nextFocus;    
 
     private bool b_shaking
     {
@@ -103,18 +103,22 @@ public class CameraDolly : MonoBehaviour
     public void ExplosionCameraShake()
     {
         ShakeCamera(f_explosionShakeAmplitude, f_explosionShakeFrequency);
+        ControlManager.VibrateController(0.6f, 0.4f, 0.5f);
     }
     public void GunExplosionCameraShake()
     {
         ShakeCamera(f_gunExplosionShakeAmplitude, f_gunExplosionShakeFrequency);
+        ControlManager.VibrateController(0.3f, 0.15f, 0.4f);
     }
     public void GunshotCameraShake()
     {
         ShakeCamera(f_gunshotShakeAmplitude, f_gunshotShakeFrequency);
+        ControlManager.VibrateController(0.0f, 0.05f, 0.2f);
     }
     public void PlayerHurtCameraShake()
     {
         ShakeCamera(f_playerHurtShakeAmplitude, f_playerHurtShakeFrequency);
+        ControlManager.VibrateController(0.8f, 0.8f, 0.8f);
     }
 
 

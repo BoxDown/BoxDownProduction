@@ -1,6 +1,7 @@
 ﻿using Utility;
 using UnityEngine;
 using Managers;
+using System.Collections;
 
 namespace Enemy
 {
@@ -22,18 +23,23 @@ namespace Enemy
             base.Start();
             SetMaterialUVOffset(C_ownedGun.aC_moduleArray[1].S_bulletEffectInformation.e_bulletEffect);
         }
+
+        protected override IEnumerator SpawnRoutine()
+        {
+            AudioManager.PlayFmodEvent("SFX/SpiderSpawn", transform.position);
+            StartCoroutine(base.SpawnRoutine());
+            yield return null;
+        }
         private void Update()
         {
             base.Update();
 
 
-            //audio
-            PlayAudio();
-
             // behaviour
             if (b_spawning || !PlayerLineOfSightCheck() || e_combatState == CombatState.Frozen || b_isDead)
             {
                 CancelGun();
+                ChangeMovementDirection(Vector2.zero);
                 return;
             }
             if (f_distanceToPlayer < f_aimRange)
@@ -71,20 +77,13 @@ namespace Enemy
         {
             base.Die();
             GameManager.IncrementSpiderKill();
+            AudioManager.PlayFmodEvent("SFX/LargeEnemyDeath", transform.position);
         }
         public override void Damage(float damage)
         {
             base.Damage(damage);
-            AudioManager.PlayFmodEvent("SFX/Enemy/Spider/Spider_Hit", transform.position);
-        }
-        private void PlayAudio()
-        {
-            if (f_currentTimeBetweenSounds < 0)
-            {
-                AudioManager.PlayFmodEvent("SFX/Enemy/Spider/Spider_Chatter", transform.position);
-                GetNewTimeBetweenSounds();
-            }
-            f_currentTimeBetweenSounds -= Time.deltaTime;
+            AudioManager.PlayFmodEvent("SFX/EnemyHit", transform.position);
+
         }
     }
 }

@@ -148,6 +148,8 @@ namespace Enemy
             float angle = (-Mathf.Atan2(reflectedAngle.y, reflectedAngle.x) * Mathf.Rad2Deg) + 90;
             int closest45Angle = ((int)(Mathf.RoundToInt(angle / 45f)) * 45);
             ChangeMovementDirection(new Vector2(Mathf.Sin(closest45Angle * Mathf.Deg2Rad), Mathf.Cos(closest45Angle * Mathf.Deg2Rad)));
+            SetRotationDirection(Vector2.ClampMagnitude(S_movementVec2Direction, 0.1f));
+            S_velocity = S_movementInputDirection * S_velocity.magnitude;
         }
 
         protected override void Move()
@@ -250,6 +252,10 @@ namespace Enemy
 
         protected void EyeballLookAtPlayer()
         {
+            if(C_player == null)
+            {
+                return;
+            }
             C_eyeballTransform.LookAt(C_player.transform);
             C_eyeballTransform.rotation *= Quaternion.Euler(0, 90, 90 * f_eyeLookAtStrength);
         }

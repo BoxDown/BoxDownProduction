@@ -55,7 +55,7 @@ namespace Managers
 
         public static void ActivateResults()
         {
-            resultsUI.gameObject.SetActive(true);            
+            resultsUI.gameObject.SetActive(true);
         }
         public static void DeactivateResults()
         {
@@ -78,11 +78,13 @@ namespace Managers
         public static void ActivateLose()
         {
             ActivateResults();
+            GameManager.SetStopTime();
             resultsUI.StartCoroutine(resultsUI.ResultsAppearOverTime(false));
         }
         public static void ActivateWin()
         {
             ActivateResults();
+            GameManager.SetStopTime();
             resultsUI.StartCoroutine(resultsUI.ResultsAppearOverTime(true));
         }
         public static void DeactivateLose()
@@ -142,12 +144,13 @@ namespace Managers
 
             float group1StartTime = Time.time;
             C_statGroupTransform.gameObject.SetActive(true);
+            float timeTaken = GameManager.GetTimeTaken();
             while (Time.time - group1StartTime < f_waitTime)
             {
                 float percentage = (Time.time - group1StartTime) / f_waitTime;
                 float scale = C_scaleCurve.Evaluate(percentage);
                 C_stat1Name.transform.localScale = Vector3.one * scale;
-                resultsUI.C_stat1Value.text = $"{((int)((GameManager.GetTimeTaken() * scale) / 60)).ToString("0")} m {((GameManager.GetTimeTaken() * scale) % 60).ToString("0")} s";
+                resultsUI.C_stat1Value.text = $"{((int)((timeTaken * scale) / 60)).ToString("0")} m {((timeTaken * scale) % 60).ToString("0")} s";
                 C_stat2Name.transform.localScale = Vector3.one * scale;
                 resultsUI.C_stat2Value.text = ((int)((GameManager.GetSpidersKilled() + GameManager.GetMitesKilled() + GameManager.GetSlugsKilled() + GameManager.GetWaspsKilled()) * scale)).ToString();
                 yield return 0;

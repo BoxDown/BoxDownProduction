@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8945659a36ce7a43a8defef3334e1ff, type: 3}
-  m_Name: E_Turret_Straight_Burst(Trigger) 1
+  m_Name: E_T_Cone_360(Barrel) 2
   m_EditorClassIdentifier: 
-  C_meshPrefab: {fileID: 4993059843325046500, guid: 5d175a2f3c677e04b9a27db5b7800db1,
+  C_meshPrefab: {fileID: 5663327767292064718, guid: 7c74ce9e7b7d67f4fb60c361419fcec4,
     type: 3}
   s_moduleName: 
-  e_moduleType: 0
+  e_moduleType: 2
   f_moduleStrength: 0
-  f_baseDamage: 9
-  f_fireRate: 10
-  f_bulletSpeed: 7
-  f_knockBack: 15
+  f_baseDamage: 0
+  f_fireRate: 0
+  f_bulletSpeed: 0
+  f_knockBack: 0
   S_bulletEffectInformation:
     e_bulletEffect: 0
     f_effectTime: 0
@@ -50,13 +50,13 @@ MonoBehaviour:
     f_explosionLifeTime: 0
     f_homingStrength: 0
     f_homingDelayTime: 0
-  f_bulletSize: 0
-  f_bulletRange: 0
+  f_bulletSize: 7
+  f_bulletRange: 9
   f_recoil: 0
   S_shotPatternInformation:
-    e_shotPattern: 0
-    b_randomSpread: 0
-    i_shotCount: 0
-    f_multiShotDistance: 0
-    f_maxAngle: 0
+    e_shotPattern: 2
+    b_randomSpread: 1
+    i_shotCount: 9
+    f_multiShotDistance: 1
+    f_maxAngle: 360
     f_waveSpeed: 0

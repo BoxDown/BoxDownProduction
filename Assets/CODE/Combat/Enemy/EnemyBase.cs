@@ -41,13 +41,16 @@ namespace Enemy
         private void Awake()
         {
             base.Start();
+            if (C_ownedGun != null)
+            {
+                C_ownedGun.InitialiseGun();
+            }
             C_player = FindObjectOfType<PlayerController>();
             SetRotationDirection(new Vector2(transform.forward.x, transform.forward.z));
             if (FindObjectOfType<RoomManager>() == null)
             {
                 Spawn();
             }
-            C_ownedGun.InitialiseGun();
         }
 
         protected override void Update()
@@ -63,6 +66,7 @@ namespace Enemy
         protected virtual IEnumerator SpawnRoutine()
         {
             GetComponent<Collider>().enabled = false;
+            
             b_spawning = true;
             StartCoroutine(ChangeStateForSeconds(CombatState.Invincible, f_spawnTime));
             if (C_spawnEffects != null)

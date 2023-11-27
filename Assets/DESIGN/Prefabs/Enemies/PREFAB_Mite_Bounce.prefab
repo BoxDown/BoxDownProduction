@@ -31,7 +31,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8740352557088927100}
-  - {fileID: 6616373417050219147}
   - {fileID: 6684233403462998492}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -120,7 +119,7 @@ MonoBehaviour:
   f_collisionBounciness: 1
   f_maxHealth: 10
   f_invincibleTime: 0.1
-  C_ownedGun: {fileID: 6616373417050219146}
+  C_ownedGun: {fileID: 0}
   b_debugRespawn: 0
   f_respawnTime: 5
   C_afterEffects: {fileID: 7607007319462332143}
@@ -151,103 +150,6 @@ MonoBehaviour:
   b_lookAtPlayer: 0
   f_chaseDistance: 0
   f_stopChaseDistance: 0
---- !u!1 &6616373417050219144
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6616373417050219147}
-  - component: {fileID: 6616373417050219146}
-  m_Layer: 0
-  m_Name: Mite_Gun
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6616373417050219147
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6616373417050219144}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.411, z: 0.351}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6616373416615973901}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6616373417050219146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6616373417050219144}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 653628d1cf0567646824d186733096e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  C_muzzle: {fileID: 0}
-  C_light: {fileID: 0}
-  f_lightOffTime: 0.024
-  C_trigger: {fileID: 0}
-  C_clip: {fileID: 0}
-  C_barrel: {fileID: 0}
-  C_triggerJoint: {fileID: 0}
-  C_clipJoint: {fileID: 0}
-  C_barrelJoint: {fileID: 0}
-  b_debugGun: 0
-  C_gunHolder: {fileID: 2825287412866642495}
-  aC_moduleArray:
-  - {fileID: 11400000, guid: 717101efd17aeea43a1b1a9030b88824, type: 2}
-  - {fileID: 11400000, guid: 376073378f495424f93238d830cb6339, type: 2}
-  - {fileID: 11400000, guid: 3b949c5c7141b9c4899d142076ba3344, type: 2}
-  b_isFiring: 0
-  C_bulletPool: {fileID: 0}
-  C_bulletMaterial: {fileID: 2100000, guid: f231a36aa5757064dabe5fab0ed89561, type: 2}
-  S_standardColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
-  S_fireColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
-  S_iceColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
-  S_lightningColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
-  S_vampireColour: {r: 4134.34, g: 45.432304, b: 8677.57, a: 1}
-  C_standardMesh: {fileID: 4289255759248854763, guid: 981b269f43fd66d47b6b6b0b01e2b274,
-    type: 3}
-  C_pierceMesh: {fileID: 7950570417774393746, guid: 50bc54d06fceff84393e1e36de1b48cb,
-    type: 3}
-  C_ricochetMesh: {fileID: -7192917853620844143, guid: 2d79d84372c7e754fab5beffd0b51221,
-    type: 3}
-  C_explosiveMesh: {fileID: -2166002888209138128, guid: 99bf2c23c26e04745a5616cf3ef5b1cf,
-    type: 3}
-  C_homingMesh: {fileID: -470265600441265283, guid: adda9a555dbf6d9458d3b932623716c2,
-    type: 3}
-  C_bulletTrail: {fileID: 1828411177140869346, guid: 97cb0a8249c5d3f4ebd1d6ecbcfbdfcd,
-    type: 3}
-  C_bulletShells: {fileID: 0}
-  C_bulletShellSpawn: {fileID: 0}
-  C_standardBulletHit: {fileID: 6146970164787930734, guid: c563c0e5232cd914eadefa21c278285b,
-    type: 3}
-  C_fireBulletHit: {fileID: 7556585713813658837, guid: da5037decf5be23408e8ab9dd15127a7,
-    type: 3}
-  C_iceBulletHit: {fileID: 3774707776410554271, guid: 7cb9955c75d8f8547a6b3f0377561850,
-    type: 3}
-  C_lightningBulletHit: {fileID: 3103112632970604423, guid: ed07bd5d05302fb4a8933c59289dda17,
-    type: 3}
-  C_vampireBulletHit: {fileID: 6392675576400988270, guid: 025fe33178f17304999d3a292417d18a,
-    type: 3}
-  C_muzzleFlashParticle: {fileID: 0}
-  C_standardMuzzleMaterial: {fileID: 0}
-  C_fireMuzzleMaterial: {fileID: 0}
-  C_iceMuzzleMaterial: {fileID: 0}
-  C_electricMuzzleMaterial: {fileID: 0}
-  C_vampireMuzzleMaterial: {fileID: 0}
 --- !u!1001 &6856021317343322115
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -258,7 +160,7 @@ PrefabInstance:
     - target: {fileID: 281001970116295135, guid: 7a078a83e30c5544aa0395f7b92ba902,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 281001970116295135, guid: 7a078a83e30c5544aa0395f7b92ba902,
         type: 3}

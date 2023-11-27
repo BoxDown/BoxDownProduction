@@ -88,6 +88,9 @@ namespace Managers
         private PlayerController C_player;
         private CameraDolly C_camera;
         private bool b_usingUIActions = true;
+
+        private BulletObjectPool C_bulletObjectPool;
+
         public GunModuleUIAnimations C_gunModuleUI
         {
             get;
@@ -107,6 +110,10 @@ namespace Managers
         // Start is called before the first frame update
         void Awake()
         {
+#if !UNITY_EDITOR
+        // fixes new Unity2021 bug where the secondary monitor was being chosen when the game launches in a release build
+        StartCoroutine("MoveToPrimaryDisplay");
+#endif
             if (gameManager != null && gameManager != this)
             {
                 Destroy(gameObject);
@@ -712,6 +719,7 @@ namespace Managers
 
         #endregion
 
+
         #region SceneTransitionAnimation
         [Header("Scene Transition Animations")]
         [Rename("Scene Transition Animator"), SerializeField] Animator C_sceneTransitionAnimator;
@@ -740,9 +748,9 @@ namespace Managers
             {
                 SwitchOffInGameActions();
             }
-            yield return new WaitForSeconds(f_sceneTransitionTime);
+            yield return new WaitForSeconds(f_sceneTransitionTime * 2f);
             SceneManager.LoadScene(sceneName);
-            yield return new WaitForSeconds(f_sceneTransitionTime);
+            yield return new WaitForSeconds(f_sceneTransitionTime * 2f);
             AudioManager.PlayFmodEvent("SFX/DoorOpen", Vector3.zero);
             FinishTransitionAnimation();
             if (C_player != null)
@@ -897,13 +905,17 @@ namespace Managers
         }
         #endregion
 
-        #region Audio
-
-
-        
-        
-
-        #endregion
+        //fix unity bug not targeting main monitor
+        IEnumerable MoveToPrimaryDisplay()
+        {
+            List<DisplayInfo> displays = new List<DisplayInfo>();
+            Screen.GetDisplayLayout(displays);
+            if (displays?.Count > 0)
+            {
+                var moveOperation = Screen.MoveMainWindowTo(displays[0], new Vector2Int(displays[0].width / 2, displays[0].height / 2));
+                yield return moveOperation;
+            }
+        }
 
         #region Stats
         int i_spidersKilled = 0;

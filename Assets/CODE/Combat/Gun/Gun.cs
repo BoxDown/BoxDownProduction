@@ -561,7 +561,7 @@ namespace Gun
 
             GameObject newShell = Instantiate(C_bulletShells, C_bulletShellSpawn.position, Quaternion.identity);
             newShell.transform.position += (C_gunHolder.transform.right / 10.0f);
-            newShell.transform.localScale = new Vector3(f_bulletSize * 0.7f, f_bulletSize * 0.7f, f_bulletSize * 0.7f);
+            newShell.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
             newShell.layer = 6;
             Rigidbody rigidbody = newShell.GetComponent<Rigidbody>();
             if (rigidbody != null)

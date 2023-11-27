@@ -18,12 +18,11 @@ namespace Gun
         public void CreatePool(Gun gun)
         {
             C_gun = gun;
-            int shotCount = gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount == 0 ? 1 : gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount;
-            float bulletTravel = gun.aC_moduleArray[0].f_bulletSpeed;
-            bulletTravel = bulletTravel == 0 ? 1 : bulletTravel;
-            int bulletAmount = (int)((shotCount * gun.aC_moduleArray[1].i_clipSize * (gun.aC_moduleArray[0].f_fireRate)) * 1.2f);
+            //int shotCount = gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount == 0 ? 1 : gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount;
+            //float bulletTravel = gun.aC_moduleArray[0].f_bulletSpeed;
+            //int bulletAmount = (int)((shotCount * gun.aC_moduleArray[1].i_clipSize * (gun.aC_moduleArray[0].f_fireRate)) * 1.4f);
 
-            i_totalBullets = (int)(bulletAmount);
+            i_totalBullets = (int)(170);
             C_bulletMaterial = new Material(C_gun.C_bulletMaterial);
             C_bulletMesh = new Mesh();
             C_bulletMesh.name = C_gun.C_gunHolder.name + ": Bullet Mesh";
@@ -63,59 +62,53 @@ namespace Gun
 
         public void ResizePool(Gun gun)
         {
-            int shotCount = gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount == 0 ? 1 : gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount;
-            float bulletTravel = ((gun.aC_moduleArray[2].f_bulletRange / gun.aC_moduleArray[0].f_bulletSpeed));
-            bulletTravel = bulletTravel == 0 ? 1 : bulletTravel;
-            int bulletAmount = (int)((shotCount * gun.aC_moduleArray[1].i_clipSize * (gun.aC_moduleArray[0].f_fireRate))  * 1.2f);
-
-
-            int countDifference = bulletAmount - i_totalBullets;
+            i_totalBullets = (int)(170);
             UpdateBulletGraphics();
-            if (countDifference == 0)
-            {
-                return;
-            }
-            if (countDifference < 0)
-            {
-                for (int i = 0; i < -countDifference; i++)
-                {
-                    Bullet bulletToRemove = lC_allBullets[lC_allBullets.Count - 1];
-                    lC_allBullets.Remove(bulletToRemove);
-                    if (bulletToRemove.gameObject.activeInHierarchy)
-                    {
-                        lC_inUseBullets.Remove(bulletToRemove);
-                        Destroy(bulletToRemove.gameObject);
-                    }
-                    else
-                    {
-                        lC_freeBullets.Remove(bulletToRemove);
-                        Destroy(bulletToRemove.gameObject);
-                    }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < countDifference; i++)
-                {
-                    GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                    obj.transform.parent = transform;
-                    obj.name = $"Bullet: {i_totalBullets + i + 1}";
-                    obj.layer = 6;
-                    Bullet bulletRef = obj.AddComponent<Bullet>();
-                    bulletRef.C_poolOwner = this;
-                    if (C_gun.C_bulletTrail != null)
-                    {
-                        bulletRef.C_trailEffect = Instantiate(C_gun.C_bulletTrail, obj.transform).GetComponentInChildren<VisualEffect>();
-                    }
-                    lC_allBullets.Add(bulletRef);
-                    lC_freeBullets.Add(bulletRef);
-                    obj.SetActive(false);
-                    bulletRef.C_hitEffect = C_gun.C_standardBulletHit;
-                    obj.GetComponent<MeshFilter>().sharedMesh = C_bulletMesh;
-                    obj.GetComponent<Renderer>().sharedMaterial = C_bulletMaterial;
-                }
-            }
-            i_totalBullets = lC_allBullets.Count;
+            //if (countDifference == 0)
+            //{
+            //    return;
+            //}
+            //if (countDifference < 0)
+            //{
+            //    for (int i = 0; i < -countDifference; i++)
+            //    {
+            //        Bullet bulletToRemove = lC_allBullets[lC_allBullets.Count - 1];
+            //        lC_allBullets.Remove(bulletToRemove);
+            //        if (bulletToRemove.gameObject.activeInHierarchy)
+            //        {
+            //            lC_inUseBullets.Remove(bulletToRemove);
+            //            Destroy(bulletToRemove.gameObject);
+            //        }
+            //        else
+            //        {
+            //            lC_freeBullets.Remove(bulletToRemove);
+            //            Destroy(bulletToRemove.gameObject);
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    for (int i = 0; i < countDifference; i++)
+            //    {
+            //        GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            //        obj.transform.parent = transform;
+            //        obj.name = $"Bullet: {i_totalBullets + i + 1}";
+            //        obj.layer = 6;
+            //        Bullet bulletRef = obj.AddComponent<Bullet>();
+            //        bulletRef.C_poolOwner = this;
+            //        if (C_gun.C_bulletTrail != null)
+            //        {
+            //            bulletRef.C_trailEffect = Instantiate(C_gun.C_bulletTrail, obj.transform).GetComponentInChildren<VisualEffect>();
+            //        }
+            //        lC_allBullets.Add(bulletRef);
+            //        lC_freeBullets.Add(bulletRef);
+            //        obj.SetActive(false);
+            //        bulletRef.C_hitEffect = C_gun.C_standardBulletHit;
+            //        obj.GetComponent<MeshFilter>().sharedMesh = C_bulletMesh;
+            //        obj.GetComponent<Renderer>().sharedMaterial = C_bulletMaterial;
+            //    }
+            //}
+            //i_totalBullets = lC_allBullets.Count;
 
             if (gun.C_gunHolder.CompareTag("Player"))
             {

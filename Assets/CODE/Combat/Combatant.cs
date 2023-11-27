@@ -178,9 +178,12 @@ public class Combatant : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (b_hasAnimator && C_ownedGun.b_isFiring && !b_isDead)
+        if (C_ownedGun != null)
         {
-            MoveTowardAimAnimation();
+            if (b_hasAnimator && C_ownedGun.b_isFiring && !b_isDead)
+            {
+                MoveTowardAimAnimation();
+            }
         }
         else if (b_hasAnimator && !b_isDead)
         {
@@ -513,7 +516,10 @@ public class Combatant : MonoBehaviour
             C_animator.SetFloat("Death", 1);
         }
         CancelDodge();
-        CancelGun();
+        if(C_ownedGun != null)
+        {
+            CancelGun();
+        }
         ClearAllEffects();
 
         if (b_debugRespawn)
@@ -1000,7 +1006,7 @@ public class Combatant : MonoBehaviour
             //C_dodgeEffects            C_dodgeLines            C_dodgeThrustParticles
             C_dodgeEffects.Play();
             C_dodgePulse.Play();
-            
+
             C_dodgeLine.localPosition = -GetRotatedVelocity().normalized + (Vector3.up * 0.3f);
             for (int i = 0; i < aC_dodgeThrustParticles.Length; i++)
             {

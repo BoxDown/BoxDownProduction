@@ -46,7 +46,6 @@ namespace Enemy
             // behaviour
             if (b_spawning || e_combatState == CombatState.Frozen || b_isDead)
             {
-                CancelGun();
                 return;
             }
             MeleeDamage();

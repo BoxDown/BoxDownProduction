@@ -19,9 +19,10 @@ namespace Gun
         {
             C_gun = gun;
             int shotCount = gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount == 0 ? 1 : gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount;
-            int bulletTravel = (int)((gun.aC_moduleArray[2].f_bulletRange / gun.aC_moduleArray[0].f_bulletSpeed));
+            float bulletTravel = gun.aC_moduleArray[0].f_bulletSpeed;
             bulletTravel = bulletTravel == 0 ? 1 : bulletTravel;
-            int bulletAmount = gun.aC_moduleArray[1].i_clipSize * shotCount * bulletTravel * 2;
+            int bulletAmount = (int)((shotCount * gun.aC_moduleArray[1].i_clipSize * (gun.aC_moduleArray[0].f_fireRate)) * 1.2f);
+
             i_totalBullets = (int)(bulletAmount);
             C_bulletMaterial = new Material(C_gun.C_bulletMaterial);
             C_bulletMesh = new Mesh();
@@ -63,9 +64,10 @@ namespace Gun
         public void ResizePool(Gun gun)
         {
             int shotCount = gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount == 0 ? 1 : gun.aC_moduleArray[2].S_shotPatternInformation.i_shotCount;
-            int bulletTravel = (int)((gun.aC_moduleArray[2].f_bulletRange / gun.aC_moduleArray[0].f_bulletSpeed));
+            float bulletTravel = ((gun.aC_moduleArray[2].f_bulletRange / gun.aC_moduleArray[0].f_bulletSpeed));
             bulletTravel = bulletTravel == 0 ? 1 : bulletTravel;
-            int bulletAmount = gun.aC_moduleArray[1].i_clipSize * shotCount * bulletTravel;
+            int bulletAmount = (int)((shotCount * gun.aC_moduleArray[1].i_clipSize * (gun.aC_moduleArray[0].f_fireRate))  * 1.2f);
+
 
             int countDifference = bulletAmount - i_totalBullets;
             UpdateBulletGraphics();

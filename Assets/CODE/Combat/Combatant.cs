@@ -601,7 +601,6 @@ public class Combatant : MonoBehaviour
         if (b_hasAnimator)
         {
             C_animator.SetFloat("Reload", 1);
-            C_animator.SetFloat("Recoil", 0);
             C_animator.speed = 1 / C_ownedGun.aC_moduleArray[1].f_reloadSpeed;
             StartCoroutine(StopReloadAnimationAfterSeconds(C_ownedGun.aC_moduleArray[1].f_reloadSpeed));
         }

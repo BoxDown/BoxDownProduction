@@ -161,6 +161,7 @@ namespace Managers
 
         private IEnumerator WeaponSwapRoutine()
         {
+            GameManager.SwitchToInGameActions();
             AudioManager.PlayFmodEvent("SFX/ModuleSwap", transform.position);
             GameManager.GetPlayer().SwapModule(C_swappingModuleTransform);
             float startTime = Time.time;

@@ -184,10 +184,10 @@ public class Combatant : MonoBehaviour
             {
                 MoveTowardAimAnimation();
             }
-        }
-        else if (b_hasAnimator && !b_isDead)
-        {
-            C_animator.SetFloat("Recoil", S_rotationVec2Direction.magnitude);
+            else if (b_hasAnimator && !b_isDead)
+            {
+                C_animator.SetFloat("Recoil", S_rotationVec2Direction.magnitude);
+            }
         }
     }
     protected virtual void FixedUpdate()

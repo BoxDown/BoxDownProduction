@@ -120,7 +120,7 @@ public class GunModuleCard : MonoBehaviour
                 //Values scale on x axis for horizontal fill, magic numbers at the start of maps are minimum and maximum
                 C_statValueBar1.transform.localScale = new Vector3(ExtraMaths.Map(8, 60, 0.1f, 0.9f, C_gunModuleReference.i_clipSize), 1, 1);
                 C_statValueBar1.color = C_statBarGradient.Evaluate(C_statValueBar1.transform.localScale.x);
-                C_statValueBar2.transform.localScale = new Vector3(ExtraMaths.Map(1 / 0.3f, 1 / 3f, 0.1f, 0.9f, 1 / C_gunModuleReference.f_reloadSpeed), 1, 1);
+                C_statValueBar2.transform.localScale = new Vector3(ExtraMaths.Map(1 / 3f, 1 / 0.3f, 0.1f, 0.9f, 1 / C_gunModuleReference.f_reloadSpeed), 1, 1);
                 C_statValueBar2.color = C_statBarGradient.Evaluate(C_statValueBar2.transform.localScale.x);
                 C_statString.text = C_gunModuleReference.S_bulletEffectInformation.e_bulletEffect.ToString();
                 switch (C_gunModuleReference.S_bulletEffectInformation.e_bulletEffect)

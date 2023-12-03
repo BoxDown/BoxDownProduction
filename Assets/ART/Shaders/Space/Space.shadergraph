@@ -56,6 +56,9 @@
         },
         {
             "m_Id": "8de36021333c4ce09e081175ffb78ff8"
+        },
+        {
+            "m_Id": "46d28f50547b44e99183da28b33a3b84"
         }
     ],
     "m_Keywords": [],
@@ -158,9 +161,6 @@
         },
         {
             "m_Id": "e25f4598e32c46d1ae566d9668acefc0"
-        },
-        {
-            "m_Id": "f6480ab4dba0468c83bb21d0705c51f9"
         },
         {
             "m_Id": "a63bb6966d7c487693cbbb1878cd236d"
@@ -368,6 +368,9 @@
         },
         {
             "m_Id": "c2d07b187bf34ba992e4ad62f4d99855"
+        },
+        {
+            "m_Id": "6a629c42314f4578951d5c251afc1d3f"
         }
     ],
     "m_GroupDatas": [],
@@ -1001,6 +1004,20 @@
                     "m_Id": "bd68740e71eb4db8b2b48d3708cbd384"
                 },
                 "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "6a629c42314f4578951d5c251afc1d3f"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "a63bb6966d7c487693cbbb1878cd236d"
+                },
+                "m_SlotId": 1
             }
         },
         {
@@ -1855,20 +1872,6 @@
                     "m_Id": "ebffecb795a74846abd35ac3d4b5f4ae"
                 },
                 "m_SlotId": 0
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "f6480ab4dba0468c83bb21d0705c51f9"
-                },
-                "m_SlotId": 0
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "a63bb6966d7c487693cbbb1878cd236d"
-                },
-                "m_SlotId": 1
             }
         },
         {
@@ -3980,6 +3983,19 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Texture2DMaterialSlot",
+    "m_ObjectId": "2b5d137de4cc4ced95c597239c22389b",
+    "m_Id": 0,
+    "m_DisplayName": "Planets",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_BareResource": false
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "2b60d0471a0b4b38aa7c2db57e40f35b",
     "m_Id": 2,
@@ -5170,6 +5186,35 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Texture2DShaderProperty",
+    "m_ObjectId": "46d28f50547b44e99183da28b33a3b84",
+    "m_Guid": {
+        "m_GuidSerialized": "96df3981-d282-47a2-96f0-486e511c87c7"
+    },
+    "m_Name": "Planets",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "Planets",
+    "m_DefaultReferenceName": "_Planets",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": {
+        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"a624a2326d7f4b344be619cb15f5055c\",\"type\":3}}",
+        "m_Guid": ""
+    },
+    "isMainTexture": false,
+    "useTilingAndOffset": false,
+    "m_Modifiable": true,
+    "m_DefaultType": 0
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.UVMaterialSlot",
     "m_ObjectId": "46e4f7f604de4fe5b9095b6cfd0646e3",
     "m_Id": 0,
@@ -5927,6 +5972,9 @@
         },
         {
             "m_Id": "8de36021333c4ce09e081175ffb78ff8"
+        },
+        {
+            "m_Id": "46d28f50547b44e99183da28b33a3b84"
         }
     ]
 }
@@ -6810,6 +6858,41 @@
         "y": 0.0,
         "z": 0.0,
         "w": 0.0
+    }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "6a629c42314f4578951d5c251afc1d3f",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -566.9998168945313,
+            "y": 290.00006103515627,
+            "width": 144.99984741210938,
+            "height": 105.9998779296875
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "2b5d137de4cc4ced95c597239c22389b"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "46d28f50547b44e99183da28b33a3b84"
     }
 }
 
@@ -11507,19 +11590,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Texture2DMaterialSlot",
-    "m_ObjectId": "cd349ae1422f44dca8b82b732657ad46",
-    "m_Id": 0,
-    "m_DisplayName": "Out",
-    "m_SlotType": 1,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Out",
-    "m_StageCapability": 3,
-    "m_BareResource": false
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "cdcdd4288f7c49658ae39b6b9b3323e7",
     "m_Id": 3,
@@ -13165,42 +13235,6 @@
         "w": 0.0
     },
     "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Texture2DAssetNode",
-    "m_ObjectId": "f6480ab4dba0468c83bb21d0705c51f9",
-    "m_Group": {
-        "m_Id": ""
-    },
-    "m_Name": "Texture 2D Asset",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": -1667.4736328125,
-            "y": -365.8591003417969,
-            "width": 0.0,
-            "height": 0.0
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "cd349ae1422f44dca8b82b732657ad46"
-        }
-    ],
-    "synonyms": [],
-    "m_Precision": 0,
-    "m_PreviewExpanded": true,
-    "m_PreviewMode": 0,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    },
-    "m_Texture": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"a624a2326d7f4b344be619cb15f5055c\",\"type\":3}}",
-        "m_Guid": ""
-    }
 }
 
 {

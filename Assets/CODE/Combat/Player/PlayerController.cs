@@ -39,6 +39,7 @@ public class PlayerController : Combatant
         InGameUI.gameUI.SetMaxHealth(f_maxHealth);
         InGameUI.gameUI.SetCurrentHealth(f_maxHealth);
         InGameUI.gameUI.UpdateHealthSlider();
+        InGameUI.gameUI.CreateUIBulletPool(C_ownedGun.aC_moduleArray[1].i_clipSize);
         if (!GameManager.gameManager.b_debugMode)
         {
             Initialise();

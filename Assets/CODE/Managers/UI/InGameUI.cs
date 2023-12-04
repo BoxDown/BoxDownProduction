@@ -33,7 +33,7 @@ namespace Managers
         [Rename("Bullet Start Position"), SerializeField] Transform C_bulletStartTransform;
         [Rename("Bullet Image "), SerializeField] Image C_ammoImage;
         [Rename("Distance Between Bullets")]
-        List<Image> lC_bulletUIPool = null;
+        List<Image> lC_bulletUIPool = new List<Image>();
         int i_currentBullet = 0;
         [Rename("Ammo Animation Curve Fire"), SerializeField] AnimationCurve C_bulletAnimationCurveFire;
         [Rename("Ammo Animation Curve Reload"), SerializeField] AnimationCurve C_bulletAnimationCurveReload;

@@ -37,6 +37,11 @@ namespace Managers
         [Rename("Sound Volume"), Range(0, 1), SerializeField] private float f_soundVolume = 0.8f;
 
         [Space(10)]
+        [Rename("Bullet Object Pool Size"), SerializeField] private int i_bulletCount = 500;
+        [Rename("Bullet Game Prefab"), SerializeField] private GameObject C_bulletPrefab;
+        private BulletObjectPool C_bulletPool;
+
+        [Space(10)]
         [Header("Plug in documents from assets folder")]
         [Rename("All Levels Document")] public TextAsset C_allLevels;
         [Rename("All Modules Document")] public TextAsset C_allGunModules;
@@ -134,6 +139,20 @@ namespace Managers
         public static void SetOutlineMaterialColour(Color color)
         {
             gameManager.C_outlineMaterial.SetColor("_OuterColor", color);
+        }
+
+        private static void CreateBulletPool()
+        {
+            GameObject bulletPool = new GameObject();
+            DontDestroyOnLoad(bulletPool);
+            bulletPool.name = "Bullet Pool";
+            gameManager.C_bulletPool = bulletPool.AddComponent<BulletObjectPool>();
+            bulletPool.GetComponent<BulletObjectPool>().CreatePool(gameManager.i_bulletCount, gameManager.C_bulletPrefab);
+        }
+
+        public static BulletObjectPool GetBulletPool()
+        {
+            return gameManager.C_bulletPool;
         }
 
         public void SpawnNextReward()
@@ -581,6 +600,7 @@ namespace Managers
             {
                 gameManager = this;
             }
+            CreateBulletPool();
             C_playerInput = GetComponent<PlayerInput>();
             C_gunModuleUI = FindObjectOfType<GunModuleUIAnimations>();
             if (b_debugMode)
@@ -748,9 +768,9 @@ namespace Managers
             {
                 SwitchOffInGameActions();
             }
-            yield return new WaitForSeconds(f_sceneTransitionTime * 2f);
+            yield return new WaitForSeconds(f_sceneTransitionTime * 1.05f);
             SceneManager.LoadScene(sceneName);
-            yield return new WaitForSeconds(f_sceneTransitionTime * 2f);
+            yield return new WaitForSeconds(f_sceneTransitionTime * 1.05f);
             AudioManager.PlayFmodEvent("SFX/DoorOpen", Vector3.zero);
             FinishTransitionAnimation();
             if (C_player != null)

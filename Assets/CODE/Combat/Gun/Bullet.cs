@@ -37,9 +37,6 @@ namespace Gun
             }
         }
 
-
-
-
         [HideInInspector] public BulletObjectPool C_poolOwner;
         [HideInInspector] private BulletBaseInfo S_baseInformation;
         private List<Combatant> lC_combatantsHit = new List<Combatant>();
@@ -80,8 +77,8 @@ namespace Gun
         BulletTraitInfo S_bulletTrait;
 
         //Visuals
-        public GameObject C_hitEffect = null;
-        [HideInInspector] public VisualEffect C_trailEffect;
+        [Rename("Hit Effect")] public GameObject C_hitEffect = null;
+        [Rename("Trail Effect")] public VisualEffect C_trailEffect;
         private BulletEffect e_lastFiredBulletEffect = BulletEffect.Count;
 
 
@@ -142,7 +139,7 @@ namespace Gun
             f_distanceTravelled += Vector3.Distance(transform.position, S_previousPosition);
         }
 
-        public void FireBullet(Vector3 originOffset, Vector3 directionOffset, BulletBaseInfo bulletInfo, GunModule.BulletTraitInfo bulletTrait, GunModule.BulletEffectInfo bulletEffect)
+        public void FireBullet(Vector3 originOffset, Vector3 directionOffset, BulletBaseInfo bulletInfo, BulletTraitInfo bulletTrait, BulletEffectInfo bulletEffect, Gun gun)
         {
             f_bulletAliveTime = 0;
             f_distanceTravelled = 0;
@@ -150,6 +147,7 @@ namespace Gun
             i_ricochetCount = 0;
             b_noEnemyTargetInRange = false;
             lC_combatantsHit.Clear();
+
 
             //move bullet to closed list
             C_poolOwner.MoveToClosed(this);
@@ -164,12 +162,9 @@ namespace Gun
 
             S_bulletEffect = bulletEffect;
             S_bulletTrait = bulletTrait;
-            if (C_trailEffect != null)
-            {
-                UpdateBulletTrail();
-                C_trailEffect.Play();
-            }
-            UpdateBulletHit();
+            UpdateBulletGraphics(gun);
+            C_trailEffect.Play();
+
             if (S_bulletTrait.e_bulletTrait == BulletTrait.Homing)
             {
                 FindHomingTarget();
@@ -200,7 +195,7 @@ namespace Gun
                     }
                 }
 
-                if(enemiesOnScreen.Count == 0)
+                if (enemiesOnScreen.Count == 0)
                 {
                     b_noEnemyTargetInRange = true;
                     return;
@@ -303,7 +298,15 @@ namespace Gun
             S_baseInformation.S_firingOrigin = origin;
         }
 
-        private void UpdateBulletTrail()
+        private void UpdateBulletGraphics(Gun gun)
+        {
+            UpdateBulletTrail(gun);
+            UpdateBulletMesh(gun);
+            UpdateBulletMaterial(gun);
+            UpdateBulletHit(gun);
+        }
+
+        private void UpdateBulletTrail(Gun gun)
         {
             if (e_lastFiredBulletEffect == S_bulletEffect.e_bulletEffect)
             {
@@ -314,46 +317,91 @@ namespace Gun
             RemoveAllTrails();
             float trailSpeedModifier = S_baseInformation.f_speed / 2.0f;
             //do update on VFX magic numbers are artists numbers, modified by speed for looks
-            switch (S_bulletEffect.e_bulletEffect)
+
+            if (gun.C_gunHolder.CompareTag("Player"))
             {
-                case BulletEffect.None:
-                    C_trailEffect.SetFloat("LeadDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
-                    C_trailEffect.SetVector2("Main", new Vector2(-0.5f, 0) * trailSpeedModifier);
-                    C_trailEffect.SetVector2("2nd", new Vector2(-1f, 0) * trailSpeedModifier);
-                    break;
-                case BulletEffect.Fire:
-                    //Set duration on current effect to be alive time of bullet
-                    C_trailEffect.SetFloat("FireDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
-                    C_trailEffect.SetVector2("Main", new Vector2(-2, 0) * trailSpeedModifier);
-                    C_trailEffect.SetVector2("2nd", new Vector2(-0.71f, 0) * trailSpeedModifier);
-                    C_trailEffect.SetVector3("Specs", new Vector3(0, 0, 1f) * trailSpeedModifier);
-                    break;
-                case BulletEffect.Ice:
-                    //Set duration on current effect to be alive time of bullet
-                    C_trailEffect.SetFloat("FrostDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
-                    C_trailEffect.SetVector2("Main", new Vector2(-0.92f, 0) * trailSpeedModifier);
-                    C_trailEffect.SetVector2("2nd", new Vector2(0.09f, 0) * trailSpeedModifier);
-                    C_trailEffect.SetVector3("Specs", new Vector3(0, 0.2f, 0.5f) * trailSpeedModifier);
-                    break;
-                case BulletEffect.Lightning:
-                    //Set duration on current effect to be alive time of bullet
-                    C_trailEffect.SetFloat("ElectricDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
-                    C_trailEffect.SetVector2("Main", new Vector2(-2, 0) * trailSpeedModifier);
-                    C_trailEffect.SetVector2("2nd", new Vector2(-1.5f, 0) * trailSpeedModifier);
-                    C_trailEffect.SetVector3("Specs", new Vector3(1.5f, 0, 1.5f) * trailSpeedModifier);
-                    C_trailEffect.SetVector3("Specs 2", new Vector3(-1.5f, 0, -1.5f) * trailSpeedModifier);
-                    break;
-                case BulletEffect.Vampire:
-                    //Set duration on current effect to be alive time of bullet
-                    C_trailEffect.SetFloat("LeachDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
-                    C_trailEffect.SetVector2("Main", new Vector2(-1.53f, 0) * trailSpeedModifier);
-                    C_trailEffect.SetVector2("2nd", new Vector2(-0.56f, 0) * trailSpeedModifier);
-                    C_trailEffect.SetVector3("Specs", new Vector3(0, 0, 0.5f) * trailSpeedModifier);
-                    break;
+
+                switch (S_bulletEffect.e_bulletEffect)
+                {
+                    case BulletEffect.None:
+                        C_trailEffect.SetFloat("LeadDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                        C_trailEffect.SetVector2("Main", new Vector2(-0.5f, 0) * trailSpeedModifier);
+                        C_trailEffect.SetVector2("2nd", new Vector2(-1f, 0) * trailSpeedModifier);
+                        break;
+                    case BulletEffect.Fire:
+                        //Set duration on current effect to be alive time of bullet
+                        C_trailEffect.SetFloat("FireDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                        C_trailEffect.SetVector2("Main", new Vector2(-2, 0) * trailSpeedModifier);
+                        C_trailEffect.SetVector2("2nd", new Vector2(-0.71f, 0) * trailSpeedModifier);
+                        C_trailEffect.SetVector3("Specs", new Vector3(0, 0, 1f) * trailSpeedModifier);
+                        break;
+                    case BulletEffect.Ice:
+                        //Set duration on current effect to be alive time of bullet
+                        C_trailEffect.SetFloat("FrostDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                        C_trailEffect.SetVector2("Main", new Vector2(-0.92f, 0) * trailSpeedModifier);
+                        C_trailEffect.SetVector2("2nd", new Vector2(0.09f, 0) * trailSpeedModifier);
+                        C_trailEffect.SetVector3("Specs", new Vector3(0, 0.2f, 0.5f) * trailSpeedModifier);
+                        break;
+                    case BulletEffect.Lightning:
+                        //Set duration on current effect to be alive time of bullet
+                        C_trailEffect.SetFloat("ElectricDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                        C_trailEffect.SetVector2("Main", new Vector2(-2, 0) * trailSpeedModifier);
+                        C_trailEffect.SetVector2("2nd", new Vector2(-1.5f, 0) * trailSpeedModifier);
+                        C_trailEffect.SetVector3("Specs", new Vector3(1.5f, 0, 1.5f) * trailSpeedModifier);
+                        C_trailEffect.SetVector3("Specs 2", new Vector3(-1.5f, 0, -1.5f) * trailSpeedModifier);
+                        break;
+                    case BulletEffect.Vampire:
+                        //Set duration on current effect to be alive time of bullet
+                        C_trailEffect.SetFloat("LeachDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                        C_trailEffect.SetVector2("Main", new Vector2(-1.53f, 0) * trailSpeedModifier);
+                        C_trailEffect.SetVector2("2nd", new Vector2(-0.56f, 0) * trailSpeedModifier);
+                        C_trailEffect.SetVector3("Specs", new Vector3(0, 0, 0.5f) * trailSpeedModifier);
+                        break;
+                }
+            }
+            else
+            {
+                switch (S_bulletEffect.e_bulletEffect)
+                {
+                    case BulletEffect.None:
+                        C_trailEffect.SetFloat("EnemyLeadDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                        C_trailEffect.SetVector2("EnemyMain", new Vector2(-0.5f, 0) * trailSpeedModifier);
+                        C_trailEffect.SetVector2("Enemy2nd", new Vector2(-1f, 0) * trailSpeedModifier);
+                        break;
+                    case BulletEffect.Fire:
+                        //Set duration on current effect to be alive time of bullet
+                        C_trailEffect.SetFloat("EnemyFireDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                        C_trailEffect.SetVector2("EnemyMain", new Vector2(-2, 0) * trailSpeedModifier);
+                        C_trailEffect.SetVector2("Enemy2nd", new Vector2(-0.71f, 0) * trailSpeedModifier);
+                        C_trailEffect.SetVector3("EnemySpecs", new Vector3(0, 0, 1f) * trailSpeedModifier);
+                        break;
+                    case BulletEffect.Ice:
+                        //Set duration on current effect to be alive time of bullet
+                        C_trailEffect.SetFloat("EnemyFrostDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                        C_trailEffect.SetVector2("EnemyMain", new Vector2(-0.92f, 0) * trailSpeedModifier);
+                        C_trailEffect.SetVector2("Enemy2nd", new Vector2(0.09f, 0) * trailSpeedModifier);
+                        C_trailEffect.SetVector3("EnemySpecs", new Vector3(0, 0.2f, 0.5f) * trailSpeedModifier);
+                        break;
+                    case BulletEffect.Lightning:
+                        //Set duration on current effect to be alive time of bullet
+                        C_trailEffect.SetFloat("EnemyElectricDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                        C_trailEffect.SetVector2("EnemyMain", new Vector2(-2, 0) * trailSpeedModifier);
+                        C_trailEffect.SetVector2("Enemy2nd", new Vector2(-1.5f, 0) * trailSpeedModifier);
+                        C_trailEffect.SetVector3("EnemySpecs", new Vector3(1.5f, 0, 1.5f) * trailSpeedModifier);
+                        C_trailEffect.SetVector3("EnemySpecs 2", new Vector3(-1.5f, 0, -1.5f) * trailSpeedModifier);
+                        break;
+                    case BulletEffect.Vampire:
+                        //Set duration on current effect to be alive time of bullet
+                        C_trailEffect.SetFloat("EnemyLeachDuration", S_baseInformation.f_range / (S_baseInformation.f_range / S_baseInformation.f_speed));
+                        C_trailEffect.SetVector2("EnemyMain", new Vector2(-1.53f, 0) * trailSpeedModifier);
+                        C_trailEffect.SetVector2("Enemy2nd", new Vector2(-0.56f, 0) * trailSpeedModifier);
+                        C_trailEffect.SetVector3("EnemySpecs", new Vector3(0, 0, 0.5f) * trailSpeedModifier);
+                        break;
+                }
             }
 
         }
-        private void UpdateBulletHit()
+        private void UpdateBulletHit(Gun gun)
         {
             if (e_lastFiredBulletEffect == S_bulletEffect.e_bulletEffect)
             {
@@ -362,22 +410,68 @@ namespace Gun
             switch (S_bulletEffect.e_bulletEffect)
             {
                 case BulletEffect.None:
-                    C_hitEffect = C_poolOwner.C_gun.C_standardBulletHit;
+                    C_hitEffect = gun.C_standardBulletHit;
                     break;
                 case BulletEffect.Fire:
-                    C_hitEffect = C_poolOwner.C_gun.C_fireBulletHit;
+                    C_hitEffect = gun.C_fireBulletHit;
                     break;
                 case BulletEffect.Ice:
-                    C_hitEffect = C_poolOwner.C_gun.C_iceBulletHit;
+                    C_hitEffect = gun.C_iceBulletHit;
                     break;
                 case BulletEffect.Lightning:
-                    C_hitEffect = C_poolOwner.C_gun.C_lightningBulletHit;
+                    C_hitEffect = gun.C_lightningBulletHit;
                     break;
                 case BulletEffect.Vampire:
-                    C_hitEffect = C_poolOwner.C_gun.C_vampireBulletHit;
+                    C_hitEffect = gun.C_vampireBulletHit;
                     break;
             }
         }
+
+        private void UpdateBulletMaterial(Gun gun)
+        {
+            switch (gun.aC_moduleArray[1].S_bulletEffectInformation.e_bulletEffect)
+            {
+                case BulletEffect.None:
+                    GetComponent<Renderer>().material = gun.C_standardBulletMaterial;
+                    break;
+                case BulletEffect.Fire:
+                    GetComponent<Renderer>().material = gun.C_fireBulletMaterial;
+                    break;
+                case BulletEffect.Ice:
+                    GetComponent<Renderer>().material = gun.C_iceBulletMaterial;
+                    break;
+                case BulletEffect.Lightning:
+                    GetComponent<Renderer>().material = gun.C_lightningBulletMaterial;
+                    break;
+                case BulletEffect.Vampire:
+                    GetComponent<Renderer>().material = gun.C_vampireBulletMaterial;
+                    break;
+            }
+        }
+
+        private void UpdateBulletMesh(Gun gun)
+        {
+            MeshFilter meshFilter = GetComponent<MeshFilter>();
+            switch (gun.aC_moduleArray[0].S_bulletTraitInformation.e_bulletTrait)
+            {
+                case BulletTrait.Standard:
+                    meshFilter.mesh = gun.C_standardMesh;
+                    break;
+                case BulletTrait.Pierce:
+                    meshFilter.mesh = gun.C_pierceMesh;
+                    break;
+                case BulletTrait.Ricochet:
+                    meshFilter.mesh = gun.C_ricochetMesh;
+                    break;
+                case BulletTrait.Explosive:
+                    meshFilter.mesh = gun.C_explosiveMesh;
+                    break;
+                case BulletTrait.Homing:
+                    meshFilter.mesh = gun.C_homingMesh;
+                    break;
+            }
+        }
+
         private void SpawnHitEffect(Vector3 position)
         {
             if (C_hitEffect == null)
@@ -404,6 +498,11 @@ namespace Gun
             C_trailEffect.SetFloat("FireDuration", 0);
             C_trailEffect.SetFloat("LeachDuration", 0);
             C_trailEffect.SetFloat("FrostDuration", 0);
+            C_trailEffect.SetFloat("EnemyLeadDuration", 0);
+            C_trailEffect.SetFloat("EnemyElectricDuration", 0);
+            C_trailEffect.SetFloat("EnemyFireDuration", 0);
+            C_trailEffect.SetFloat("EnemyLeachDuration", 0);
+            C_trailEffect.SetFloat("EnemyFrostDuration", 0);
         }
 
         private void DoBaseHit(Combatant combatant)
@@ -445,7 +544,7 @@ namespace Gun
                 }
                 if (S_bulletTrait.e_bulletTrait == BulletTrait.Ricochet && S_bulletTrait.i_ricochetCount >= i_ricochetCount)
                 {
-                    if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, S_baseInformation.f_size, ~LayerMask.GetMask("Bullet")))
+                    if (Physics.SphereCast(transform.position - (transform.forward * S_baseInformation.f_size), S_baseInformation.f_size, transform.forward, out RaycastHit hit, (S_baseInformation.f_size * 2) + (S_baseInformation.f_speed * Time.deltaTime), ~LayerMask.GetMask("Bullet")))
                     {
                         Vector3 reflection = Vector3.Reflect(transform.forward, hit.normal);
                         transform.forward = new Vector3(reflection.x, 0, reflection.z);

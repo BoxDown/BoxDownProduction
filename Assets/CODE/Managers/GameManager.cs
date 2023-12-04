@@ -569,6 +569,7 @@ namespace Managers
             ResultsUI.DeactivateResults();
             InGameUI.DeactivateInGameUI();
             CreditsMenu.Deactivate();
+            //AudioManager.StopMusicLoop();
             SceneManager.LoadScene("MainMenu");
             ActivateMainMenu();
             gameManager.SetCulling(true);
@@ -909,7 +910,6 @@ namespace Managers
             {
                 InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
                 actionMap.FindAction("Pause").performed -= gameManager.C_player.Pause;
-                DestroyImmediate(C_player.C_ownedGun.C_bulletPool.gameObject);
                 DestroyImmediate(C_player.gameObject);
                 C_player = null;
             }

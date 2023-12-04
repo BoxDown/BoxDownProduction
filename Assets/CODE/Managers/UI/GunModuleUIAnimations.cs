@@ -29,6 +29,11 @@ public class GunModuleUIAnimations : MonoBehaviour
         C_animator = GetComponent<Animator>();
     }
 
+    public void Inititalise()
+    {
+        C_animator = GetComponent<Animator>();
+    }
+
     public void PlayPauseUI()
     {
         C_animator.SetFloat("Trigger", 0.0f);
@@ -69,6 +74,10 @@ public class GunModuleUIAnimations : MonoBehaviour
         SwapTriggerMesh(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[0]);
         SwapClipMesh(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[1]);
         SwapBarrelMesh(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[2]);
+        if(C_animator == null)
+        {
+            Inititalise();
+        }
         C_animator.Play("Gun_Idle");
     }
 

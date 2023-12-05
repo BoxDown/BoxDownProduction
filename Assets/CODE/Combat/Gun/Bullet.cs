@@ -308,11 +308,6 @@ namespace Gun
 
         private void UpdateBulletTrail(Gun gun)
         {
-            if (e_lastFiredBulletEffect == S_bulletEffect.e_bulletEffect)
-            {
-                return;
-            }
-
             // remove unwanted trails by setting all durations to 0
             RemoveAllTrails();
             float trailSpeedModifier = S_baseInformation.f_speed / 2.0f;
@@ -403,10 +398,6 @@ namespace Gun
         }
         private void UpdateBulletHit(Gun gun)
         {
-            if (e_lastFiredBulletEffect == S_bulletEffect.e_bulletEffect)
-            {
-                return;
-            }
             switch (S_bulletEffect.e_bulletEffect)
             {
                 case BulletEffect.None:

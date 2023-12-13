@@ -124,6 +124,10 @@ namespace Managers
                 Destroy(gameObject);
                 return;
             }
+            int targetHeight = Screen.width * 9 / 16;
+
+            // Set the game's resolution to match the target width and height
+            Screen.SetResolution(Screen.width, targetHeight, true);
             if (!b_debugMode)
             {
                 StartCoroutine(StartUp());
@@ -564,12 +568,13 @@ namespace Managers
                 PauseMenu.pauseMenu.b_gamePaused = false;
                 Time.timeScale = 1;
             }
-            gameManager.RemoveCamera();
-            gameManager.RemovePlayer();
+            WeaponsSwapUI.swapUI.TurnOff();
             ResultsUI.DeactivateResults();
             InGameUI.DeactivateInGameUI();
             CreditsMenu.Deactivate();
+            gameManager.RemovePlayer();
             //AudioManager.StopMusicLoop();
+            gameManager.RemoveCamera();
             SceneManager.LoadScene("MainMenu");
             ActivateMainMenu();
             gameManager.SetCulling(true);
@@ -819,6 +824,10 @@ namespace Managers
 
         public static void SwitchToInGameActions()
         {
+            if (gameManager.C_player == null)
+            {
+                return;
+            }
             if (gameManager.C_playerInput.currentActionMap.name == "UI")
             {
                 SwitchOffUIActions();
@@ -843,6 +852,10 @@ namespace Managers
         }
         public static void SwitchOffInGameActions()
         {
+            if(gameManager.C_player == null)
+            {
+                return;
+            }
             gameManager.C_playerInput.SwitchCurrentActionMap("PlayerControl");
             InputActionMap actionMap = gameManager.C_playerInput.currentActionMap;
             actionMap.Disable();

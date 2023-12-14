@@ -71,6 +71,10 @@ public class GunModuleUIAnimations : MonoBehaviour
 
     public void SetGunBuiltIdle()
     {
+        if(GameManager.GetPlayer() == null)
+        {
+            return;
+        }
         SwapTriggerMesh(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[0]);
         SwapClipMesh(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[1]);
         SwapBarrelMesh(GameManager.GetPlayer().C_ownedGun.aC_moduleArray[2]);
